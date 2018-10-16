@@ -25,7 +25,7 @@ Tomatoes = (TOMATO_01, TOMATO_02, TOMATO_03)
 Chilis = (CHILI_01, CHILI_02, CHILI_03)
 
 # API Token          
-apiToken = '*********************************************'
+apiToken = '<token>'
 
 
 # time stamp
@@ -92,7 +92,7 @@ readcmd_2('kill -9 ' + PID1)
 
 # Send message to defined API with given text(msg)
 def sendmsg(msg):
-        os.system('curl -s -k https://api.telegram.org/bot' + apiToken + '/sendMessage -d text="' + msg + '" -d chat_id=*********')
+        os.system('curl -s -k https://api.telegram.org/bot' + apiToken + '/sendMessage -d text="' + msg + '" -d chat_id=<chat_id>')
         return
 
 
