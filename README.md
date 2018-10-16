@@ -2,7 +2,7 @@
 > Thanks for inspiring me [Stefan Weigert](https://www.stefan-weigert.de/php_loader/raspi.php) and [Felix Stern](https://tutorials-raspberrypi.de/automatisches-raspberry-pi-gewaechshaus-selber-bauen/)
 
 	
-##### 1. Telegram app
+#### 1. Telegram app
 install the app and create bot
 ```
 Name: 	ThK1220RealGreenhouse
@@ -14,18 +14,18 @@ ChatID:	*******************
 * [Android](https://play.google.com/store/apps/details?id=org.telegram.messenger&hl=de)
 
 
-##### 2. Raspi Linux image
+#### 2. Raspi Linux image
 recommended Raspi image stretch lite w/o desktop, use e.g. etcher for flashing sd card, prepare sd card / flash image
 * [raspbian lite latest](https://downloads.raspberrypi.org/raspbian_lite_latest)
 * [etcher](https://etcher.io/?ref=etcher_footer)
 
 
 
-##### 3. Enable ssh access for terminal
+#### 3. Enable ssh access for terminal
 e.g. mkdir ssh in dir boot on sd card
 
 			
-##### 4. Configure static IP
+#### 4. Configure static IP
 adapt /etc/[dhcpcd.conf](configs/dhcpcd.conf)
 ```
 sudo service dhcpcd status 
@@ -41,7 +41,7 @@ _**Retest and doublecheck network conection and settings before executing next s
 
 
 
-##### 5. Updates and configs
+#### 5. Updates and configs
 ```
 sudo apt-get update --yes && sudo apt-get upgrade --yes
 sudo raspi-config
@@ -53,7 +53,7 @@ sudo reboot
 ```
 
 	
-##### 6. Configure dyn dns client (ddclient)
+#### 6. Configure dyn dns client (ddclient)
 ```
 sudo apt-get update
 sudo apt-get install libio-socket-ssl-perl
@@ -71,7 +71,7 @@ other possible method could be e.g insert cron jobs as sudo
  
 
 
-##### 7. Configure remote ftp access to easier file transfer
+#### 7. Configure remote ftp access to easier file transfer
 ```
 sudo apt-get install pure-ftpd
 sudo groupadd ftpgroup
@@ -87,7 +87,7 @@ sudo service pure-ftpd restart
  
 
 
-##### 8. Configure live stream
+#### 8. Configure live stream
 install motion and update /etc/motion/[motion.conf](configs/motion.conf)
 ```	
 sudo apt-get install motion -y
@@ -102,7 +102,7 @@ sudo service motion start
 * [Raspberry live stream 2](https://www.datenreise.de/raspberry-pi-ueberwachungskamera-livestream/)
 
 
-##### 9. Configure port forwarding in router accordingly the dns and port settings
+#### 9. Configure port forwarding in router accordingly the dns and port settings
 [my live url](http://greenhouse.my.to:8082/)
 
 					
@@ -113,14 +113,14 @@ sudo pip install python-telegram-bot
 sudo pip install telepot
 ```	
 
-##### 11. Add/create Python scripts in pi user directory
+#### 11. Add/create Python scripts in pi user directory
 _**Make them executable and chown root:root!**_
 * [scripts/TelegramBot/greenhouse_telegrambot.py](scripts/greenhouse_telegrambot.py)
 * [scripts/TelegramBot/ext_greenhouse.py](scripts/ext_greenhouse.py)
 
 	
 
-##### 12. Enable autostart
+#### 12. Enable autostart
 Add the program to be run at startup to the init.d directory, insert **[telegrambot.sh](scripts/telegrambot.sh)** in **/etc/init.d** as root
 ```
 sudo chmod +x telegrambot.sh
