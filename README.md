@@ -10,9 +10,9 @@
 *   https://itunes.apple.com/de/app/telegram-messenger/id686449807?mt=8
 *   https://play.google.com/store/apps/details?id=org.telegram.messenger&hl=de
 *   Create a bot
-**   Name: 	ThK1220RealGreenhouse
-**   TOKEN: 	************************************
-**   ChatID:	*******************
+*       Name: 	ThK1220RealGreenhouse
+*       TOKEN: 	************************************
+*       ChatID:	*******************
 
 
 ## install linux image
