@@ -1,12 +1,12 @@
 # My Greenhouse
-* Thanks for inspiring me [Stefan Weigert](https://www.stefan-weigert.de/php_loader/raspi.php) and [Felix Stern](https://tutorials-raspberrypi.de/automatisches-raspberry-pi-gewaechshaus-selber-bauen/)
+Thanks for inspiring me [Stefan Weigert](https://www.stefan-weigert.de/php_loader/raspi.php) and [Felix Stern](https://tutorials-raspberrypi.de/automatisches-raspberry-pi-gewaechshaus-selber-bauen/)
 
 	
-#### Install Telegram app at mobile
+#### Telegram app
 * [Web](https://telegram.org/)
 * [Ios](https://itunes.apple.com/de/app/telegram-messenger/id686449807?mt=8)
 * [Android](https://play.google.com/store/apps/details?id=org.telegram.messenger&hl=de)
-* Create bot
+install the app and create bot
 ```
 Name: 	ThK1220RealGreenhouse
 TOKEN: 	************************************
@@ -14,21 +14,19 @@ ChatID:	*******************
 ```
 
 
-#### Linux image
+#### Raspi Linux image
 * [raspbian lite latest](https://downloads.raspberrypi.org/raspbian_lite_latest)
 * [etcher](https://etcher.io/?ref=etcher_footer)
-* recommended Raspi image stretch lite w/o desktop
-* use e.g. etcher for flashing sd card
-* prepare sd card / flash image
+recommended Raspi image stretch lite w/o desktop, use e.g. etcher for flashing sd card, prepare sd card / flash image
 
 
 #### Enable ssh access for terminal
-* e.g. mkdir ssh in dir boot on sd card
+e.g. mkdir ssh in dir boot on sd card
 
 			
 #### Configure static IP
 * [elektronik-kompendium](https://www.elektronik-kompendium.de/sites/raspberry-pi/1912151.htm) (I recommend variant 2)
-* adapt /etc/[dhcpcd.conf](https://gitlab.bekast.de/tkaulke/greenhouse/blob/master/configs/dhcpcd.conf)
+adapt /etc/[dhcpcd.conf](https://gitlab.bekast.de/tkaulke/greenhouse/blob/master/configs/dhcpcd.conf)
 ```
 sudo service dhcpcd status 
 sudo service dhcpcd start // if not yet started 
@@ -59,8 +57,7 @@ sudo apt-get update
 sudo apt-get install libio-socket-ssl-perl
 sudo apt-get install ddclient // ignore config let it empty e.g can be configured due next steps
 ```			
-* e.g. [FreeDNS](http://freedns.afraid.org)
-* update [ddclient.conf](https://gitlab.bekast.de/tkaulke/greenhouse/blob/master/configs/ddclient.conf) accordingly the dns provider
+use e.g. [FreeDNS](http://freedns.afraid.org) and update [ddclient.conf](https://gitlab.bekast.de/tkaulke/greenhouse/blob/master/configs/ddclient.conf) accordingly the dns provider
 ```
 sudo nano /etc/ddclient.conf
     
@@ -88,8 +85,7 @@ sudo service pure-ftpd restart
 #### Configure live stream
 * [Raspberry live stream 1](https://tutorials-raspberrypi.de/raspberry-pi-ueberwachungskamera-livestream-einrichten/)
 * [Raspberry live stream 2](https://www.datenreise.de/raspberry-pi-ueberwachungskamera-livestream/)
-* install motion
-* update /etc/motion/[motion.conf](https://gitlab.bekast.de/tkaulke/greenhouse/blob/master/configs/motion.conf)
+install motion and update /etc/motion/[motion.conf](https://gitlab.bekast.de/tkaulke/greenhouse/blob/master/configs/motion.conf)
 ```	
 sudo apt-get install motion -y
 sudo nano /etc/motion/motion.conf   //additional: output_pictures off
@@ -115,12 +111,12 @@ sudo pip install telepot
 #### Add/create in pi user directory
 * [scripts/TelegramBot/greenhouse_telegrambot.py](https://gitlab.bekast.de/tkaulke/greenhouse/blob/master/scripts/greenhouse_telegrambot.py)
 * [scripts/TelegramBot/ext_greenhouse.py](https://gitlab.bekast.de/tkaulke/greenhouse/blob/master/scripts/ext_greenhouse.py)
-* **make them executable and chown root:root**
+**make them executable and chown root:root**
 	
 
 #### Enable autostart
 * [how to](https://www.dexterindustries.com/howto/run-a-program-on-your-raspberry-pi-at-startup/#init)
-* Add the program to be run at startup to the init.d directory, insert **[telegrambot.sh](https://gitlab.bekast.de/tkaulke/greenhouse/blob/master/scripts/telegrambot.sh)** in **/etc/init.d** as root
+Add the program to be run at startup to the init.d directory, insert **[telegrambot.sh](https://gitlab.bekast.de/tkaulke/greenhouse/blob/master/scripts/telegrambot.sh)** in **/etc/init.d** as root
 ```
 sudo chmod +x telegrambot.sh
 sudo update-rc.d telegrambot.sh defaults
