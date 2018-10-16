@@ -35,7 +35,7 @@
 				sudo reboot
 {code}
 			
-* *retest and doublecheck network conection and settings before executing next steps!!!!!*
+* **retest and doublecheck network conection and settings before executing next steps!!!!!**
 	
 	make updates and config
 		sudo apt-get update --yes && sudo apt-get upgrade --yes //to update packages
