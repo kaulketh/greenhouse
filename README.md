@@ -2,8 +2,8 @@ inspired by 	http://www.stefan-weigert.de/php_loader/raspi.php
 				https://tutorials-raspberrypi.de/automatisches-raspberry-pi-gewaechshaus-selber-bauen/
 				
 	
-	Telegram App installieren
-	Bot erstellen 
+	Install Telegram App at mobile
+	Create a bot
 		Name: 	ThK1220RealGreenhouse
 		TOKEN: 	************************************
 		ChatID:	*******************
