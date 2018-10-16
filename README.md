@@ -1,25 +1,29 @@
-    inspired by 	
-        http://www.stefan-weigert.de/php_loader/raspi.php
-    	https://tutorials-raspberrypi.de/automatisches-raspberry-pi-gewaechshaus-selber-bauen/
+### inspired by:
+* [Stefan Weigert] (https://www.stefan-weigert.de/php_loader/raspi.php)
+* [Automatisches Raspberry Pi Gewächshaus selber bauen](https://tutorials-raspberrypi.de/automatisches-raspberry-pi-gewaechshaus-selber-bauen/)
+    	
 				
 	
-	Install Telegram App at mobile
-	Create a bot
-		Name: 	ThK1220RealGreenhouse
-		TOKEN: 	************************************
-		ChatID:	*******************
-
-	recommend Raspi image stretch lite w/o desktop
-			https://downloads.raspberrypi.org/raspbian_lite_latest
-			use e.g. etcher for flashing sd card
-				https://etcher.io/?ref=etcher_footer
-			prepare sd card / flash image
+### Install Telegram App at mobile
+### Create a bot
+	* Name: 	ThK1220RealGreenhouse
+	* TOKEN: 	************************************
+	* ChatID:	*******************
 	
-	enable ssh access for terminal
-			e.g. mkdir ssh in dir boot on sd card
+	
+### install linux image
+* recommend Raspi image stretch lite w/o desktop
+** https://downloads.raspberrypi.org/raspbian_lite_latest
+** use e.g. etcher for flashing sd card
+*** https://etcher.io/?ref=etcher_footer
+** prepare sd card / flash image
+	
+### enable ssh access for terminal
+* e.g. mkdir ssh in dir boot on sd card
 			
-	configure static IP //here 192.168.0.100
-		https://www.elektronik-kompendium.de/sites/raspberry-pi/1912151.htm (I recommend variant 2)
+### configure static IP //here 192.168.0.100
+* https://www.elektronik-kompendium.de/sites/raspberry-pi/1912151.htm (I recommend variant 2)
+{code:java}
 			sudo service dhcpcd status 
 			sudo service dhcpcd start // if not yet started 
 			sudo systemctl enable dhcpcd 
@@ -29,8 +33,9 @@
 				static routers=192.168.0.1
 				static domain_name_servers=192.168.0.254
 				sudo reboot
+{code}
 			
-	retest and doublecheck network conection and settings before executing next steps!!!!!
+* *retest and doublecheck network conection and settings before executing next steps!!!!!*
 	
 	make updates and config
 		sudo apt-get update --yes && sudo apt-get upgrade --yes //to update packages
