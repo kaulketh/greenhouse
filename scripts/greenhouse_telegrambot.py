@@ -22,7 +22,7 @@ GPIO.setmode(GPIO.BOARD)
 # uncomment if warnings not required
 #GPIO.setwarnings(False)
 
-# def board pins/channels
+# def board pins/channels, refer hardware/rspi_gpio.info
 TOMATO_01=29
 TOMATO_02=31
 TOMATO_03=33
@@ -39,7 +39,6 @@ def timestamp():
         return time.strftime('`[%d.%m.%Y %H:%M:%S]\n---------------------\n`')
 
 
-
 # switch functions
 def switch_on(pin):
         GPIO.setup(pin, GPIO.OUT)
@@ -51,14 +50,17 @@ def switch_off(pin):
         GPIO.cleanup(pin)
         return
 
-# default commands and texts
+
+# commands and descriptions
+Run_Extended_Greenhouse = 'sudo python /home/pi/scripts/TelegramBot/ext_greenhouse.py'
+Panic = 'Panic'
 Cancel = 'Abbrechen'
 All = 'Alles'
 Stop = 'Beenden'
 Group1 = ('Tomaten', 'Tomaten 1', 'Tomaten 2', 'Tomaten 3')
 Group2 = ('Chilis', 'Chili 1', 'Chili 2', 'Chili 3')
 
-# message texts
+# messages
 Msg_Welcome = '`Willkommen {}, lass uns Pflanzen bewässern!\n`'
 Msg_Stop = '`Na dann, tschüss {}!\nZum nächsten Wässern geht\'s mit /start`'
 Msg_Duration = '`Bewässerungsdauer für \'{}\' in Sekunden angeben:`'
@@ -69,6 +71,7 @@ Water_Off_All = '`Bewässerung von allen {} wurde nach {}s beendet.\n\n`'
 Msg_Choice = '`Bitte auswählen:`'
 Msg_New_Choice = '`Neue Auswahl oder Beenden?`'
 Msg_Panic='*Panic called! \nTry some special!*'
+Private_Warning = '`Hello {}, this is a private Bot!\nYour ChatID: {} has been blocked.`'
 
 
 # api and bot settings
@@ -116,21 +119,21 @@ def start(bot, update):
                                 except (NameError, AttributeError):
                                         return ConversationHandler.END
         if user_id not in LIST_OF_ADMINS:
-                update.message.reply_text('`Hello {}, this is a private Bot!\nYour ChatID: {} has been blocked.`'.format(update.message.from_user.first_name, update.message.chat_id), parse_mode=ParseMode.MARKDOWN)
+                update.message.reply_text(Private_Warning.format(update.message.from_user.first_name, update.message.chat_id), parse_mode=ParseMode.MARKDOWN)
                 return ConversationHandler.END
         else:
                 update.message.reply_text(Msg_Welcome.format(update.message.from_user.first_name) + '\n' + Msg_Choice, parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
                 return SELECT
 
 
-# set the target, plant or plants
+# set the target, member of group or group
 def selection(bot, update):
         global Target
         Target = update.message.text
 
-        if Target == 'Panic':
+        if Target == str(Panic):
                 update.message.reply_text(Msg_Panic, parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
-                os.system('sudo python /home/pi/scripts/TelegramBot/ext_greenhouse.py')
+                os.system(Run_Extended_Greenhouse)
 
         else:
                 update.message.reply_text(Msg_Duration.format(Target), parse_mode=ParseMode.MARKDOWN, reply_markup=markup2)
@@ -145,9 +148,9 @@ def duration(bot, update):
         if Water_Time == str(Cancel):
                 update.message.reply_text(Msg_New_Choice, parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
 
-        elif Water_Time == 'Panic':
+        elif Water_Time == str(Panic):
                 update.message.reply_text(Msg_Panic, parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
-                os.system('sudo python /home/pi/scripts/TelegramBot/ext_greenhouse.py')
+                os.system(Run_Extended_Greenhouse)
 
         elif Target == str(Group1[1]):
                 water(update, TOMATO_01)
@@ -231,10 +234,10 @@ def main():
         entry_points=[CommandHandler('start', start)],
 
         states={
-                SELECT:         [RegexHandler('^('+str(Group1[0])+'|'+str(Group1[1])+'|'+str(Group1[2])+'|'+str(Group1[3])+'|'+str(Group2[0])+'|'+str(Group2[1])+'|'+str(Group2[2])+'|'+str(Group2[3])+'|' + str(All) + '|Panic)$', selection),
+                SELECT:         [RegexHandler('^('+str(Group1[0])+'|'+str(Group1[1])+'|'+str(Group1[2])+'|'+str(Group1[3])+'|'+str(Group2[0])+'|'+str(Group2[1])+'|'+str(Group2[2])+'|'+str(Group2[3])+'|' + str(All) + '|'+str(Panic)+')$', selection),
                                  RegexHandler('^' + str(Stop) + '$', stop)],
 
-                DURATION:       [RegexHandler('^([0-9]+|' + str(Cancel) + '|Panic)$', duration),
+                DURATION:       [RegexHandler('^([0-9]+|' + str(Cancel) + '|'+str(Panic)+')$', duration),
                                 RegexHandler('^' + str(Stop) + '$', stop )],
         },
 
