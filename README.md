@@ -29,11 +29,12 @@ ChatID:	*******************
 			
 #### Configure static IP
 *  [elektronik-kompendium](https://www.elektronik-kompendium.de/sites/raspberry-pi/1912151.htm) (I recommend variant 2)
+*  adapt /etc/[dhcpcd.conf](https://gitlab.bekast.de/tkaulke/greenhouse/blob/master/configs/dhcpcd.conf)
 ```
 sudo service dhcpcd status 
 sudo service dhcpcd start // if not yet started 
 sudo systemctl enable dhcpcd 
-sudo nano /etc/[dhcpcd.conf](https://gitlab.bekast.de/tkaulke/greenhouse/blob/master/configs/dhcpcd.conf)
+sudo nano /etc/dhcpcd.conf
 sudo reboot
 ```
 			
