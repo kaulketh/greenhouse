@@ -26,7 +26,7 @@ e.g. mkdir ssh in dir boot on sd card
 
 			
 #### Configure static IP
-adapt /etc/[dhcpcd.conf](https://gitlab.bekast.de/tkaulke/greenhouse/blob/master/configs/dhcpcd.conf)
+adapt /etc/[dhcpcd.conf](configs/dhcpcd.conf)
 ```
 sudo service dhcpcd status 
 sudo service dhcpcd start // if not yet started 
@@ -59,7 +59,7 @@ sudo apt-get update
 sudo apt-get install libio-socket-ssl-perl
 sudo apt-get install ddclient // ignore config let it empty e.g can be configured due next steps
 ```			
-use e.g. [FreeDNS](http://freedns.afraid.org) and update [ddclient.conf](https://gitlab.bekast.de/tkaulke/greenhouse/blob/master/configs/ddclient.conf) accordingly the dns provider
+use e.g. [FreeDNS](http://freedns.afraid.org) and update [ddclient.conf](configs/ddclient.conf) accordingly the dns provider
 ```
 sudo nano /etc/ddclient.conf
     
@@ -88,7 +88,7 @@ sudo service pure-ftpd restart
 
 
 #### Configure live stream
-install motion and update /etc/motion/[motion.conf](https://gitlab.bekast.de/tkaulke/greenhouse/blob/master/configs/motion.conf)
+install motion and update /etc/motion/[motion.conf](configs/motion.conf)
 ```	
 sudo apt-get install motion -y
 sudo nano /etc/motion/motion.conf   //additional: output_pictures off
@@ -115,13 +115,13 @@ sudo pip install telepot
 
 #### Add/create Python scripts in pi user directory
 **make them executable and chown root:root**
-* [scripts/TelegramBot/greenhouse_telegrambot.py](https://gitlab.bekast.de/tkaulke/greenhouse/blob/master/scripts/greenhouse_telegrambot.py)
-* [scripts/TelegramBot/ext_greenhouse.py](https://gitlab.bekast.de/tkaulke/greenhouse/blob/master/scripts/ext_greenhouse.py)
+* [scripts/TelegramBot/greenhouse_telegrambot.py](scripts/greenhouse_telegrambot.py)
+* [scripts/TelegramBot/ext_greenhouse.py](scripts/ext_greenhouse.py)
 
 	
 
 #### Enable autostart
-Add the program to be run at startup to the init.d directory, insert **[telegrambot.sh](https://gitlab.bekast.de/tkaulke/greenhouse/blob/master/scripts/telegrambot.sh)** in **/etc/init.d** as root
+Add the program to be run at startup to the init.d directory, insert **[telegrambot.sh](scripts/telegrambot.sh)** in **/etc/init.d** as root
 ```
 sudo chmod +x telegrambot.sh
 sudo update-rc.d telegrambot.sh defaults
