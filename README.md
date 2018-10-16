@@ -15,7 +15,7 @@ ChatID:	*******************
 
 
 #### 2. Raspi Linux image
-recommended Raspi image stretch lite w/o desktop, use e.g. etcher for flashing sd card, prepare sd card / flash image and _**enable SSH access**__ (e.g. mkdir ssh in dir boot on sd card)
+recommended Raspi image stretch lite w/o desktop, use e.g. etcher for flashing sd card, prepare sd card / flash image and _**enable SSH access**_ (e.g. mkdir ssh in dir boot on sd card)
 * [raspbian lite latest](https://downloads.raspberrypi.org/raspbian_lite_latest)
 * [etcher](https://etcher.io/?ref=etcher_footer)
 
