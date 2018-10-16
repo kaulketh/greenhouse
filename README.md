@@ -3,11 +3,12 @@ Thanks for inspiring me [Stefan Weigert](https://www.stefan-weigert.de/php_loade
 
 	
 #### Telegram app
+install the app and create bot
 * [Web](https://telegram.org/)
 * [Ios](https://itunes.apple.com/de/app/telegram-messenger/id686449807?mt=8)
 * [Android](https://play.google.com/store/apps/details?id=org.telegram.messenger&hl=de)
-install the app and create bot
-```
+
+* ```
 Name: 	ThK1220RealGreenhouse
 TOKEN: 	************************************
 ChatID:	*******************
