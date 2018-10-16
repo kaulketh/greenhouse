@@ -1,4 +1,4 @@
-# Greenhouse
+# My Greenhouse
 
 ## Thanks for inspiring me [Stefan Weigert](https://www.stefan-weigert.de/php_loader/raspi.php) and [Felix Stern](https://tutorials-raspberrypi.de/automatisches-raspberry-pi-gewaechshaus-selber-bauen/)
 
