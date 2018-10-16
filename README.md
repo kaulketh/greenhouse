@@ -12,29 +12,29 @@
 	* ChatID:	*******************
 
 ## install linux image
-* recommended Raspi image stretch lite w/o desktop
-    * https://downloads.raspberrypi.org/raspbian_lite_latest
-    * use e.g. etcher for flashing sd card, https://etcher.io/?ref=etcher_footer
-    * prepare sd card / flash image
+*   recommended Raspi image stretch lite w/o desktop
+*       https://downloads.raspberrypi.org/raspbian_lite_latest
+*   use e.g. etcher for flashing sd card, https://etcher.io/?ref=etcher_footer
+*       prepare sd card / flash image
 
 ### enable ssh access for terminal
-    * e.g. mkdir ssh in dir boot on sd card
+*   e.g. mkdir ssh in dir boot on sd card
 			
 ### configure static IP //here 192.168.0.100
-* https://www.elektronik-kompendium.de/sites/raspberry-pi/1912151.htm (I recommend variant 2)
+*   https://www.elektronik-kompendium.de/sites/raspberry-pi/1912151.htm (I recommend variant 2)
 ```
 sudo service dhcpcd status 
 sudo service dhcpcd start // if not yet started 
 sudo systemctl enable dhcpcd 
 sudo nano /etc/dhcpcd.conf 
-*   interface eth0
-*   static ip_address=192.168.0.100/24
-*	static routers=192.168.0.1
-*	static domain_name_servers=192.168.0.254
+    interface eth0
+    static ip_address=192.168.0.100/24
+    static routers=192.168.0.1
+    static domain_name_servers=192.168.0.254
 sudo reboot
 ```
 			
-* **retest and doublecheck network conection and settings before executing next steps!!!!!**
+*   **retest and doublecheck network conection and settings before executing next steps!!!!!**
 
 ### make updates and config
 ```
@@ -48,8 +48,8 @@ sudo reboot
 ```
 	
 ### configure dyn dns client (ddclient)
-* https://hexaju.wordpress.com/2013/03/20/raspberry-pi-as-dyndns-client-with-ssl/
-*   ```
+*   https://hexaju.wordpress.com/2013/03/20/raspberry-pi-as-dyndns-client-with-ssl/
+```
 sudo apt-get update
 sudo apt-get install libio-socket-ssl-perl
 sudo apt-get install ddclient // ignore config let it empty e.g can be configured due next steps
@@ -86,7 +86,8 @@ sudo pure-pw useradd upload -u ftpuser -g ftpgroup -d /home/pi/FTP -m
 sudo pure-pw mkdb
 sudo ln -s /etc/pure-ftpd/conf/PureDB /etc/pure-ftpd/auth/60puredb 
 sudo service pure-ftpd restart
-```	
+```
+
 ### configure live stream
 *   https://tutorials-raspberrypi.de/raspberry-pi-ueberwachungskamera-livestream-einrichten/
 *   https://www.datenreise.de/raspberry-pi-ueberwachungskamera-livestream/
@@ -99,24 +100,27 @@ sudo chgrp motion /home/pi/Monitor
 chmod g+rwx /home/pi/Monitor
 sudo service motion start
 ```			
+
 ### configure port forwarding in router accordingly the dns and port settings
-		here http://greenhouse.my.to:8082/
+here http://greenhouse.my.to:8082/
 					
-	install required packages
-		sudo apt-get install build-essential python-dev python-pip python-smbus python-openssl git --yes //python
-		sudo pip install python-telegram-bot
-		sudo pip install telepot
+### install required packages
+```
+sudo apt-get install build-essential python-dev python-pip python-smbus python-openssl git --yes //python
+sudo pip install python-telegram-bot
+sudo pip install telepot
+```	
+	
+### add/create
+*   scripts/TelegramBot/greenhouse_telegrambot.py
+*   scripts/TelegramBot/ext_greenhouse.py
+*   **make sure it executable and chown root:root**
 	
 	
-	add scripts/TelegramBot/greenhouse_telegrambot.py and scripts/TelegramBot/ext_greenhouse.py
-	make sure it executable and chown root:root
-	
-	
-	enable autostart of custom scripts
-		https://www.dexterindustries.com/howto/run-a-program-on-your-raspberry-pi-at-startup/#init
-		Add the program to be run at startup to the init.d directory
-		insert telegrambot.sh in /etc/init.d as root
-		
+### enable autostart of custom scripts
+*   https://www.dexterindustries.com/howto/run-a-program-on-your-raspberry-pi-at-startup/#init
+*   Add the program to be run at startup to the init.d directory, insert telegrambot.sh in /etc/init.d as root
+```
 			#!/bin/sh
 			### BEGIN INIT INFO
 			# Provides:             telegrambot.sh
@@ -136,4 +140,4 @@ sudo service motion start
 		sudo chmod +x telegrambot.sh
 		sudo update-rc.d telegrambot.sh defaults
 		sudo reboot
-			
+```
