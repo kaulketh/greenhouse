@@ -33,11 +33,7 @@ ChatID:	*******************
 sudo service dhcpcd status 
 sudo service dhcpcd start // if not yet started 
 sudo systemctl enable dhcpcd 
-sudo nano /etc/dhcpcd.conf 
-    interface eth0
-    static ip_address=192.168.0.100/24
-    static routers=192.168.0.1
-    static domain_name_servers=192.168.0.254
+sudo nano /etc/[dhcpcd.conf](https://gitlab.bekast.de/tkaulke/greenhouse/blob/master/configs/dhcpcd.conf)
 sudo reboot
 ```
 			
@@ -66,18 +62,8 @@ sudo apt-get install ddclient // ignore config let it empty e.g can be configure
 *   e.g. [FreeDNS](http://freedns.afraid.org)
 *   update config accordingly the dns provider
 ```
-sudo nano /etc/ddclient.conf
-    syslog=yes
-    daemon=600
-    ssl=yes
-    protocol=freedns	
-    use=web, web=checkip.dyndns.com, web-skip='Current IP Address: '
-    server=freedns.afraid.org
-    login=--------------
-    password='*************'
-    greenhouse.my.to
-    greenhouse.chickenkiller.com
-	
+sudo nano /etc/[ddclient.conf](https://gitlab.bekast.de/tkaulke/greenhouse/blob/master/configs/ddclient.conf)
+    
 other possible method could be e.g insert cron jobs as sudo
     0,5,10,15,20,25,30,35,40,45,50,55 * * * * sleep 31 ; wget -O - http://freedns.afraid.org/dynamic/update.php?******************************************** >> /tmp/freedns_greenhouse_my_to.log 2>&1 &
     3,8,13,18,23,28,33,38,43,48,53,58 * * * * sleep 44 ; wget -O - http://freedns.afraid.org/dynamic/update.php?******************************************** >> /tmp/freedns_greenhouse_chickenkiller_com.log 2>&1 &
@@ -130,25 +116,10 @@ sudo pip install telepot
 *   **make sure they are executable and chown root:root**
 	
 
-#### Enable autostart of the scripts
+#### Enable autostart
 *   [how to](https://www.dexterindustries.com/howto/run-a-program-on-your-raspberry-pi-at-startup/#init)
 *   Add the program to be run at startup to the init.d directory, insert **[telegrambot.sh](https://gitlab.bekast.de/tkaulke/greenhouse/blob/master/scripts/telegrambot.sh)** in **/etc/init.d** as root
 ```
-		#!/bin/sh
-		### BEGIN INIT INFO
-		# Provides:             telegrambot.sh
-		# Required-Start:       $start
-		# Required-Stop:        $shutdown
-		# Default-Start:        2 3 4 5
-		# Defaulst-Stop:        0 1 6
-		# Short-Description:    TelegramBots, please refer etc/init.d/telegrambot.sh
-		# Description:          Start Telegrambot /home/pi/scripts/TelegramBot/greenhouse_telegrambot.py
-		#                       to control rapsberrypi by admins mobile via telegram app.
-		#
-		### END INIT INFO
-		sleep 5
-		sudo python /home/pi/scripts/TelegramBot/greenhouse_telegrambot.py &
-			
 sudo chmod +x telegrambot.sh
 sudo update-rc.d telegrambot.sh defaults
 sudo reboot
