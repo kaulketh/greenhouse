@@ -60,9 +60,9 @@ sudo apt-get install libio-socket-ssl-perl
 sudo apt-get install ddclient // ignore config let it empty e.g can be configured due next steps
 ```			
 *   e.g. [FreeDNS](http://freedns.afraid.org)
-*   update config accordingly the dns provider
+*   update [ddclient.conf](https://gitlab.bekast.de/tkaulke/greenhouse/blob/master/configs/ddclient.conf) accordingly the dns provider
 ```
-sudo nano /etc/[ddclient.conf](https://gitlab.bekast.de/tkaulke/greenhouse/blob/master/configs/ddclient.conf)
+sudo nano /etc/ddclient.conf
     
 other possible method could be e.g insert cron jobs as sudo
     0,5,10,15,20,25,30,35,40,45,50,55 * * * * sleep 31 ; wget -O - http://freedns.afraid.org/dynamic/update.php?******************************************** >> /tmp/freedns_greenhouse_my_to.log 2>&1 &
