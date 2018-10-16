@@ -1,8 +1,8 @@
 # Greenhouse
 
 ## inspired by:
-    * [Stefan Weigert](https://www.stefan-weigert.de/php_loader/raspi.php)
-    * [Automatisches Raspberry Pi Gewächshaus selber bauen](https://tutorials-raspberrypi.de/automatisches-raspberry-pi-gewaechshaus-selber-bauen/)
+*   [Stefan Weigert](https://www.stefan-weigert.de/php_loader/raspi.php)
+*    [Automatisches Raspberry Pi Gewächshaus selber bauen](https://tutorials-raspberrypi.de/automatisches-raspberry-pi-gewaechshaus-selber-bauen/)
 
 	
 ## Install Telegram App at mobile
