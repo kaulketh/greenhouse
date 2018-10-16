@@ -1,5 +1,6 @@
-inspired by 	http://www.stefan-weigert.de/php_loader/raspi.php
-				https://tutorials-raspberrypi.de/automatisches-raspberry-pi-gewaechshaus-selber-bauen/
+    inspired by 	
+        http://www.stefan-weigert.de/php_loader/raspi.php
+    	https://tutorials-raspberrypi.de/automatisches-raspberry-pi-gewaechshaus-selber-bauen/
 				
 	
 	Install Telegram App at mobile
