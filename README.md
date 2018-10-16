@@ -9,10 +9,12 @@
 *   https://telegram.org/
 *   https://itunes.apple.com/de/app/telegram-messenger/id686449807?mt=8
 *   https://play.google.com/store/apps/details?id=org.telegram.messenger&hl=de
-*   Create a bot
-*       Name: 	ThK1220RealGreenhouse
-*       TOKEN: 	************************************
-*       ChatID:	*******************
+*   Create bot
+```
+Name: 	ThK1220RealGreenhouse
+TOKEN: 	************************************
+ChatID:	*******************
+```
 
 
 ## install linux image
@@ -28,7 +30,7 @@ https://etcher.io/?ref=etcher_footer
 *   e.g. mkdir ssh in dir boot on sd card
 
 			
-### configure static IP //here 192.168.0.100
+### configure static IP
 *   https://www.elektronik-kompendium.de/sites/raspberry-pi/1912151.htm (I recommend variant 2)
 ```
 sudo service dhcpcd status 
