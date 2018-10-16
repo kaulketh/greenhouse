@@ -115,7 +115,7 @@ sudo pip install telepot
 #### Add/create in pi user directory
 * [scripts/TelegramBot/greenhouse_telegrambot.py](https://gitlab.bekast.de/tkaulke/greenhouse/blob/master/scripts/greenhouse_telegrambot.py)
 * [scripts/TelegramBot/ext_greenhouse.py](https://gitlab.bekast.de/tkaulke/greenhouse/blob/master/scripts/ext_greenhouse.py)
-* **make sure they are executable and chown root:root**
+* **make them executable and chown root:root**
 	
 
 #### Enable autostart
