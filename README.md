@@ -5,16 +5,14 @@
 *    [Automatisches Raspberry Pi Gewächshaus selber bauen](https://tutorials-raspberrypi.de/automatisches-raspberry-pi-gewaechshaus-selber-bauen/)
 
 	
-## Install Telegram App at mobile
+## Install Telegram app at mobile
 *   https://telegram.org/
 *   https://itunes.apple.com/de/app/telegram-messenger/id686449807?mt=8
 *   https://play.google.com/store/apps/details?id=org.telegram.messenger&hl=de
-
- 
-## Create a bot
-	* Name: 	ThK1220RealGreenhouse
-	* TOKEN: 	************************************
-	* ChatID:	*******************
+*   Create a bot
+**   Name: 	ThK1220RealGreenhouse
+**   TOKEN: 	************************************
+**   ChatID:	*******************
 
 
 ## install linux image
