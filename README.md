@@ -15,17 +15,14 @@ ChatID:	*******************
 
 
 #### 2. Raspi Linux image
-recommended Raspi image stretch lite w/o desktop, use e.g. etcher for flashing sd card, prepare sd card / flash image
+recommended Raspi image stretch lite w/o desktop, use e.g. etcher for flashing sd card, prepare sd card / flash image and _**enable SSH access**__ (e.g. mkdir ssh in dir boot on sd card)
 * [raspbian lite latest](https://downloads.raspberrypi.org/raspbian_lite_latest)
 * [etcher](https://etcher.io/?ref=etcher_footer)
 
-
-
-#### 3. Enable ssh access for terminal
-e.g. mkdir ssh in dir boot on sd card
+#### 3. Boot raspi and connect via ssh
 
 			
-#### 4. Configure static IP
+#### 4. Configure (static) IP
 adapt /etc/[dhcpcd.conf](configs/dhcpcd.conf)
 ```
 sudo service dhcpcd status 
@@ -41,7 +38,7 @@ _**Retest and doublecheck network conection and settings before executing next s
 
 
 
-#### 5. Updates and configs
+#### 5. Make updates and adapt main config
 ```
 sudo apt-get update --yes && sudo apt-get upgrade --yes
 sudo raspi-config
@@ -53,7 +50,7 @@ sudo reboot
 ```
 
 	
-#### 6. Configure dyn dns client (ddclient)
+#### 6. Install and configure dyn dns client (ddclient)
 ```
 sudo apt-get update
 sudo apt-get install libio-socket-ssl-perl
@@ -71,7 +68,7 @@ other possible method could be e.g insert cron jobs as sudo
  
 
 
-#### 7. Configure remote ftp access to easier file transfer
+#### 7. Install and configure remote ftp access to easier file transfer
 ```
 sudo apt-get install pure-ftpd
 sudo groupadd ftpgroup
@@ -87,7 +84,7 @@ sudo service pure-ftpd restart
  
 
 
-#### 8. Configure live stream
+#### 8. Configure the live stream
 install motion and update /etc/motion/[motion.conf](configs/motion.conf)
 ```	
 sudo apt-get install motion -y
@@ -106,14 +103,14 @@ sudo service motion start
 [my live url](http://greenhouse.my.to:8082/)
 
 					
-##### 10. Install required packages
+##### 10. Install required packages (python, python-telegram-bot and telepot)
 ```
 sudo apt-get install build-essential python-dev python-pip python-smbus python-openssl git --yes //python
 sudo pip install python-telegram-bot
 sudo pip install telepot
 ```	
 
-#### 11. Add/create Python scripts in pi user directory
+#### 11. Add/create python scripts in pi user directory
 _**Make them executable and chown root:root!**_
 * [scripts/TelegramBot/greenhouse_telegrambot.py](scripts/greenhouse_telegrambot.py)
 * [scripts/TelegramBot/ext_greenhouse.py](scripts/ext_greenhouse.py)
