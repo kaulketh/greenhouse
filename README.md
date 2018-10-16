@@ -12,10 +12,12 @@
 	* ChatID:	*******************
 
 ## install linux image
+https://downloads.raspberrypi.org/raspbian_lite_latest
+https://etcher.io/?ref=etcher_footer
+
 *   recommended Raspi image stretch lite w/o desktop
-*       https://downloads.raspberrypi.org/raspbian_lite_latest
-*   use e.g. etcher for flashing sd card, https://etcher.io/?ref=etcher_footer
-*       prepare sd card / flash image
+*   use e.g. etcher for flashing sd card
+*   prepare sd card / flash image
 
 ### enable ssh access for terminal
 *   e.g. mkdir ssh in dir boot on sd card
@@ -34,15 +36,15 @@ sudo nano /etc/dhcpcd.conf
 sudo reboot
 ```
 			
-*   **retest and doublecheck network conection and settings before executing next steps!!!!!**
+**retest and doublecheck network conection and settings before executing next steps!!!!!**
 
 ### make updates and config
 ```
 sudo apt-get update --yes && sudo apt-get upgrade --yes
 sudo raspi-config
-Hostname:	greenhouse
-User:		pi
-Password:	******************
+    Hostname:	greenhouse
+    User:		pi
+    Password:	******************
 sudo rpi-update //update firmware
 sudo reboot
 ```
@@ -70,7 +72,7 @@ sudo nano /etc/ddclient.conf
     greenhouse.chickenkiller.com
 	
 other possible method could be e.g insert cron jobs as sudo
-	0,5,10,15,20,25,30,35,40,45,50,55 * * * * sleep 31 ; wget -O - http://freedns.afraid.org/dynamic/update.php?******************************************** >> /tmp/freedns_greenhouse_my_to.log 2>&1 &
+    0,5,10,15,20,25,30,35,40,45,50,55 * * * * sleep 31 ; wget -O - http://freedns.afraid.org/dynamic/update.php?******************************************** >> /tmp/freedns_greenhouse_my_to.log 2>&1 &
     3,8,13,18,23,28,33,38,43,48,53,58 * * * * sleep 44 ; wget -O - http://freedns.afraid.org/dynamic/update.php?******************************************** >> /tmp/freedns_greenhouse_chickenkiller_com.log 2>&1 &
 ```				
 
@@ -111,33 +113,32 @@ sudo pip install python-telegram-bot
 sudo pip install telepot
 ```	
 	
-### add/create
+### add/create in pi user directory
 *   scripts/TelegramBot/greenhouse_telegrambot.py
 *   scripts/TelegramBot/ext_greenhouse.py
-*   **make sure it executable and chown root:root**
+*   **make sure they are executable and chown root:root**
 	
 	
 ### enable autostart of custom scripts
 *   https://www.dexterindustries.com/howto/run-a-program-on-your-raspberry-pi-at-startup/#init
-*   Add the program to be run at startup to the init.d directory, insert telegrambot.sh in /etc/init.d as root
+*   Add the program to be run at startup to the init.d directory, insert **telegrambot.sh** in **/etc/init.d** as root
 ```
-			#!/bin/sh
-			### BEGIN INIT INFO
-			# Provides:             telegrambot.sh
-			# Required-Start:       $start
-			# Required-Stop:        $shutdown
-			# Default-Start:        2 3 4 5
-			# Defaulst-Stop:        0 1 6
-			# Short-Description:    TelegramBots, please refer etc/init.d/telegrambot.sh
-			# Description:          Start Telegrambot /home/pi/scripts/TelegramBot/greenhouse_telegrambot.py
-			#                       to control rapsberrypi by admins mobile via telegram app.
-			#
-			### END INIT INFO
-
-			sleep 5
-			sudo python /home/pi/scripts/TelegramBot/greenhouse_telegrambot.py &
+		#!/bin/sh
+		### BEGIN INIT INFO
+		# Provides:             telegrambot.sh
+		# Required-Start:       $start
+		# Required-Stop:        $shutdown
+		# Default-Start:        2 3 4 5
+		# Defaulst-Stop:        0 1 6
+		# Short-Description:    TelegramBots, please refer etc/init.d/telegrambot.sh
+		# Description:          Start Telegrambot /home/pi/scripts/TelegramBot/greenhouse_telegrambot.py
+		#                       to control rapsberrypi by admins mobile via telegram app.
+		#
+		### END INIT INFO
+		sleep 5
+		sudo python /home/pi/scripts/TelegramBot/greenhouse_telegrambot.py &
 			
-		sudo chmod +x telegrambot.sh
-		sudo update-rc.d telegrambot.sh defaults
-		sudo reboot
+sudo chmod +x telegrambot.sh
+sudo update-rc.d telegrambot.sh defaults
+sudo reboot
 ```
