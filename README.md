@@ -49,26 +49,25 @@ sudo reboot
 	
 ### configure dyn dns client (ddclient)
 * https://hexaju.wordpress.com/2013/03/20/raspberry-pi-as-dyndns-client-with-ssl/
-```
+*   ```
 sudo apt-get update
 sudo apt-get install libio-socket-ssl-perl
 sudo apt-get install ddclient // ignore config let it empty e.g can be configured due next steps
 ```			
 *   e.g. http://freedns.afraid.org
 *   update config accordingly the dns provider
-*   sudo nano /etc/ddclient.conf
-*
 ```
-syslog=yes
-daemon=600
-ssl=yes
-protocol=freedns	
-use=web, web=checkip.dyndns.com, web-skip='Current IP Address: '
-server=freedns.afraid.org
-login=--------------
-password='*************'
-greenhouse.my.to
-greenhouse.chickenkiller.com
+sudo nano /etc/ddclient.conf
+    syslog=yes
+    daemon=600
+    ssl=yes
+    protocol=freedns	
+    use=web, web=checkip.dyndns.com, web-skip='Current IP Address: '
+    server=freedns.afraid.org
+    login=--------------
+    password='*************'
+    greenhouse.my.to
+    greenhouse.chickenkiller.com
 	
 other possible method could be e.g insert cron jobs as sudo
 	0,5,10,15,20,25,30,35,40,45,50,55 * * * * sleep 31 ; wget -O - http://freedns.afraid.org/dynamic/update.php?******************************************** >> /tmp/freedns_greenhouse_my_to.log 2>&1 &
