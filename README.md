@@ -1,14 +1,14 @@
 # Greenhouse
 
-## inspired by:
+#### Thanks for inspiring me to...
 *   [Stefan Weigert](https://www.stefan-weigert.de/php_loader/raspi.php)
-*    [Automatisches Raspberry Pi Gewächshaus selber bauen](https://tutorials-raspberrypi.de/automatisches-raspberry-pi-gewaechshaus-selber-bauen/)
+*   [Felix Stern](https://tutorials-raspberrypi.de/automatisches-raspberry-pi-gewaechshaus-selber-bauen/)
 
 	
 ## Install Telegram app at mobile
-*   https://telegram.org/
-*   https://itunes.apple.com/de/app/telegram-messenger/id686449807?mt=8
-*   https://play.google.com/store/apps/details?id=org.telegram.messenger&hl=de
+*   [Web](https://telegram.org/)
+*   [Ios](https://itunes.apple.com/de/app/telegram-messenger/id686449807?mt=8)
+*   [Android](https://play.google.com/store/apps/details?id=org.telegram.messenger&hl=de)
 *   Create bot
 ```
 Name: 	ThK1220RealGreenhouse
@@ -17,21 +17,21 @@ ChatID:	*******************
 ```
 
 
-## install linux image
-https://downloads.raspberrypi.org/raspbian_lite_latest
-https://etcher.io/?ref=etcher_footer
+## Linux image
+*   [raspbian lite latest](https://downloads.raspberrypi.org/raspbian_lite_latest)
+*   [etcher](https://etcher.io/?ref=etcher_footer)
 
 *   recommended Raspi image stretch lite w/o desktop
 *   use e.g. etcher for flashing sd card
 *   prepare sd card / flash image
 
 
-### enable ssh access for terminal
+### Enable ssh access for terminal
 *   e.g. mkdir ssh in dir boot on sd card
 
 			
-### configure static IP
-*   https://www.elektronik-kompendium.de/sites/raspberry-pi/1912151.htm (I recommend variant 2)
+### Configure static IP
+*  [elektronik-kompendium](https://www.elektronik-kompendium.de/sites/raspberry-pi/1912151.htm) (I recommend variant 2)
 ```
 sudo service dhcpcd status 
 sudo service dhcpcd start // if not yet started 
@@ -47,7 +47,7 @@ sudo reboot
 **retest and doublecheck network conection and settings before executing next steps!!!!!**
 
 
-### make updates and config
+### Updates and configs
 ```
 sudo apt-get update --yes && sudo apt-get upgrade --yes
 sudo raspi-config
@@ -59,14 +59,14 @@ sudo reboot
 ```
 
 	
-### configure dyn dns client (ddclient)
-*   https://hexaju.wordpress.com/2013/03/20/raspberry-pi-as-dyndns-client-with-ssl/
+### Configure dyn dns client (ddclient)
+*   [Dyn dns client with ssl](https://hexaju.wordpress.com/2013/03/20/raspberry-pi-as-dyndns-client-with-ssl/)
 ```
 sudo apt-get update
 sudo apt-get install libio-socket-ssl-perl
 sudo apt-get install ddclient // ignore config let it empty e.g can be configured due next steps
 ```			
-*   e.g. http://freedns.afraid.org
+*   e.g. [FreeDNS](http://freedns.afraid.org)
 *   update config accordingly the dns provider
 ```
 sudo nano /etc/ddclient.conf
@@ -87,8 +87,8 @@ other possible method could be e.g insert cron jobs as sudo
 ```				
 
 
-### configure remote ftp access //better to transfer files
-*   https://www.raspberrypi.org/documentation/remote-access/ftp.md
+### Configure remote ftp access to easier file transfer
+*   [Raspberry Pi remote access](https://www.raspberrypi.org/documentation/remote-access/ftp.md)
 ```
 sudo apt-get install pure-ftpd
 sudo groupadd ftpgroup
@@ -103,8 +103,8 @@ sudo service pure-ftpd restart
 
 
 ### configure live stream
-*   https://tutorials-raspberrypi.de/raspberry-pi-ueberwachungskamera-livestream-einrichten/
-*   https://www.datenreise.de/raspberry-pi-ueberwachungskamera-livestream/
+*   [Raspberry live stream 1](https://tutorials-raspberrypi.de/raspberry-pi-ueberwachungskamera-livestream-einrichten/)
+*   [Raspberry live stream 2](https://www.datenreise.de/raspberry-pi-ueberwachungskamera-livestream/)
 ```	
 sudo apt-get install motion -y
 sudo nano /etc/motion/motion.conf   //additional: output_pictures off
@@ -117,7 +117,7 @@ sudo service motion start
 
 
 ### configure port forwarding in router accordingly the dns and port settings
-here http://greenhouse.my.to:8082/
+here [my live url](http://greenhouse.my.to:8082/)
 
 					
 ### install required packages
@@ -134,7 +134,7 @@ sudo pip install telepot
 	
 
 ### enable autostart of custom scripts
-*   https://www.dexterindustries.com/howto/run-a-program-on-your-raspberry-pi-at-startup/#init
+*   [how to](https://www.dexterindustries.com/howto/run-a-program-on-your-raspberry-pi-at-startup/#init)
 *   Add the program to be run at startup to the init.d directory, insert **telegrambot.sh** in **/etc/init.d** as root
 ```
 		#!/bin/sh
