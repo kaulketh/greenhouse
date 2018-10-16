@@ -6,10 +6,16 @@
 
 	
 ## Install Telegram App at mobile
+*   https://telegram.org/
+*   https://itunes.apple.com/de/app/telegram-messenger/id686449807?mt=8
+*   https://play.google.com/store/apps/details?id=org.telegram.messenger&hl=de
+
+ 
 ## Create a bot
 	* Name: 	ThK1220RealGreenhouse
 	* TOKEN: 	************************************
 	* ChatID:	*******************
+
 
 ## install linux image
 https://downloads.raspberrypi.org/raspbian_lite_latest
@@ -19,8 +25,10 @@ https://etcher.io/?ref=etcher_footer
 *   use e.g. etcher for flashing sd card
 *   prepare sd card / flash image
 
+
 ### enable ssh access for terminal
 *   e.g. mkdir ssh in dir boot on sd card
+
 			
 ### configure static IP //here 192.168.0.100
 *   https://www.elektronik-kompendium.de/sites/raspberry-pi/1912151.htm (I recommend variant 2)
@@ -38,6 +46,7 @@ sudo reboot
 			
 **retest and doublecheck network conection and settings before executing next steps!!!!!**
 
+
 ### make updates and config
 ```
 sudo apt-get update --yes && sudo apt-get upgrade --yes
@@ -48,6 +57,7 @@ sudo raspi-config
 sudo rpi-update //update firmware
 sudo reboot
 ```
+
 	
 ### configure dyn dns client (ddclient)
 *   https://hexaju.wordpress.com/2013/03/20/raspberry-pi-as-dyndns-client-with-ssl/
@@ -76,6 +86,7 @@ other possible method could be e.g insert cron jobs as sudo
     3,8,13,18,23,28,33,38,43,48,53,58 * * * * sleep 44 ; wget -O - http://freedns.afraid.org/dynamic/update.php?******************************************** >> /tmp/freedns_greenhouse_chickenkiller_com.log 2>&1 &
 ```				
 
+
 ### configure remote ftp access //better to transfer files
 *   https://www.raspberrypi.org/documentation/remote-access/ftp.md
 ```
@@ -90,6 +101,7 @@ sudo ln -s /etc/pure-ftpd/conf/PureDB /etc/pure-ftpd/auth/60puredb
 sudo service pure-ftpd restart
 ```
 
+
 ### configure live stream
 *   https://tutorials-raspberrypi.de/raspberry-pi-ueberwachungskamera-livestream-einrichten/
 *   https://www.datenreise.de/raspberry-pi-ueberwachungskamera-livestream/
@@ -103,8 +115,10 @@ chmod g+rwx /home/pi/Monitor
 sudo service motion start
 ```			
 
+
 ### configure port forwarding in router accordingly the dns and port settings
 here http://greenhouse.my.to:8082/
+
 					
 ### install required packages
 ```
@@ -112,13 +126,13 @@ sudo apt-get install build-essential python-dev python-pip python-smbus python-o
 sudo pip install python-telegram-bot
 sudo pip install telepot
 ```	
-	
+
 ### add/create in pi user directory
 *   scripts/TelegramBot/greenhouse_telegrambot.py
 *   scripts/TelegramBot/ext_greenhouse.py
 *   **make sure they are executable and chown root:root**
 	
-	
+
 ### enable autostart of custom scripts
 *   https://www.dexterindustries.com/howto/run-a-program-on-your-raspberry-pi-at-startup/#init
 *   Add the program to be run at startup to the init.d directory, insert **telegrambot.sh** in **/etc/init.d** as root
