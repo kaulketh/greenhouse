@@ -89,6 +89,8 @@ sudo service pure-ftpd restart
 #### Configure live stream
 *   [Raspberry live stream 1](https://tutorials-raspberrypi.de/raspberry-pi-ueberwachungskamera-livestream-einrichten/)
 *   [Raspberry live stream 2](https://www.datenreise.de/raspberry-pi-ueberwachungskamera-livestream/)
+*   install motion
+*   update /etc/motion/[motion.conf](https://gitlab.bekast.de/tkaulke/greenhouse/blob/master/configs/motion.conf)
 ```	
 sudo apt-get install motion -y
 sudo nano /etc/motion/motion.conf   //additional: output_pictures off
