@@ -74,7 +74,9 @@ Msg_Panic='*Panic called! \nTry some special!*'
 # api and bot settings
 SELECT, DURATION = range(2)
 #LIST_OF_ADMINS = ['mock to test']
-LIST_OF_ADMINS = [<first_allowed_id>, <second_allowed_id>, <next_allowed_id>]
+# add here all allowed real chat Id's
+LIST_OF_ADMINS = [first_allowed_id, second_allowed_id, next_allowed_id]
+# replace with real token
 Api_Token = "<token>"
 
 Target = ' '
@@ -104,10 +106,6 @@ def start(bot, update):
 
         except (NameError, AttributeError):
                 try:
-                user_id = update.message.from_user.id
-
-        except (NameError, AttributeError):
-                try:
                         user_id = update.inline_query.from_user.id
                 except (NameError, AttributeError):
                         try:
@@ -118,7 +116,7 @@ def start(bot, update):
                                 except (NameError, AttributeError):
                                         return ConversationHandler.END
         if user_id not in LIST_OF_ADMINS:
-                update.message.reply_text('`Hello {}, this is a private Bot!\nYour ChatID: {} has been blocked.`'.format(update.message.from_user.first_name, update.message.chat_id)$
+                update.message.reply_text('`Hello {}, this is a private Bot!\nYour ChatID: {} has been blocked.`'.format(update.message.from_user.first_name, update.message.chat_id), parse_mode=ParseMode.MARKDOWN)
                 return ConversationHandler.END
         else:
                 update.message.reply_text(Msg_Welcome.format(update.message.from_user.first_name) + '\n' + Msg_Choice, parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
@@ -182,7 +180,7 @@ def duration(bot, update):
                 time.sleep(int(Water_Time))
                 for vegetable in Vegetables:
                         switch_off(vegetable)
-                update.message.reply_text(timestamp() + '`Komplettbewässerung wurde nach {}s beendet.`\n\n'.format(Water_Time) + Msg_New_Choice, parse_mode=ParseMode.MARKDOWN, reply$
+                update.message.reply_text(timestamp() + '`Komplettbewässerung wurde nach {}s beendet.`\n\n'.format(Water_Time) + Msg_New_Choice, parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
 
         else:
                 update.message.reply_text(Msg_Choice, reply_markup=markup1)
@@ -233,7 +231,7 @@ def main():
         entry_points=[CommandHandler('start', start)],
 
         states={
-                SELECT:         [RegexHandler('^('+str(Group1[0])+'|'+str(Group1[1])+'|'+str(Group1[2])+'|'+str(Group1[3])+'|'+str(Group2[0])+'|'+str(Group2[1])+'|'+str(Group2[2])+'$
+                SELECT:         [RegexHandler('^('+str(Group1[0])+'|'+str(Group1[1])+'|'+str(Group1[2])+'|'+str(Group1[3])+'|'+str(Group2[0])+'|'+str(Group2[1])+'|'+str(Group2[2])+'|'+str(Group2[3])+'|' + str(All) + '|Panic)$', selection),
                                  RegexHandler('^' + str(Stop) + '$', stop)],
 
                 DURATION:       [RegexHandler('^([0-9]+|' + str(Cancel) + '|Panic)$', duration),

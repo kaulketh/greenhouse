@@ -6,8 +6,8 @@
 install the app and create bot
 ```
 Name: 	ThK1220RealGreenhouse
-TOKEN: 	************************************
-ChatID:	*******************
+TOKEN: 	<api_token>
+ChatID:	<chat_id>
 ```
 * [Web](https://telegram.org/)
 * [Ios](https://itunes.apple.com/de/app/telegram-messenger/id686449807?mt=8)

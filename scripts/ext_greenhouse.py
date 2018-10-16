@@ -137,8 +137,7 @@ def handle(msg):
         elif command == '/live':
                 sendmsg(live)
         elif command == '/help':
-                sendmsg('Usage and possible commands in special mode:\n/help - this info\n/RESTART - restart the whole RSBPi\n/kill - break this mode and restart default bot\n/all_o$
-
+                sendmsg('Usage and possible commands in special mode:\n/help - this info\n/RESTART - restart the whole RSBPi\n/kill - break this mode and restart default bot\n/all_on - water on for all\n/all_off - all off\n/tom_on - Water on for the tomatoes\n/tom_off - For tomatoes water off\n/chi_on - Water for the chilis on\n/chi_off - Water off for chilis\n/live - Live stream')
         else:
                 sendmsg('Unknown in this mode...!\nPlease use /help for more information.')
 
