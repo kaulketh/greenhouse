@@ -125,14 +125,14 @@ sudo pip install telepot
 ```	
 
 #### Add/create in pi user directory
-*   scripts/TelegramBot/greenhouse_telegrambot.py
-*   scripts/TelegramBot/ext_greenhouse.py
+*   [scripts/TelegramBot/greenhouse_telegrambot.py](https://gitlab.bekast.de/tkaulke/greenhouse/blob/master/scripts/greenhouse_telegrambot.py)
+*   [scripts/TelegramBot/ext_greenhouse.py](https://gitlab.bekast.de/tkaulke/greenhouse/blob/master/scripts/ext_greenhouse.py)
 *   **make sure they are executable and chown root:root**
 	
 
 #### Enable autostart of the scripts
 *   [how to](https://www.dexterindustries.com/howto/run-a-program-on-your-raspberry-pi-at-startup/#init)
-*   Add the program to be run at startup to the init.d directory, insert **telegrambot.sh** in **/etc/init.d** as root
+*   Add the program to be run at startup to the init.d directory, insert **[telegrambot.sh](https://gitlab.bekast.de/tkaulke/greenhouse/blob/master/scripts/telegrambot.sh)** in **/etc/init.d** as root
 ```
 		#!/bin/sh
 		### BEGIN INIT INFO
