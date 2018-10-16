@@ -1,6 +1,6 @@
 # Greenhouse
 
-#### Thanks for inspiring me to...
+## Thanks for inspiring me to...
 [Stefan Weigert](https://www.stefan-weigert.de/php_loader/raspi.php), [Felix Stern](https://tutorials-raspberrypi.de/automatisches-raspberry-pi-gewaechshaus-selber-bauen/)
 
 	
@@ -101,7 +101,7 @@ sudo service pure-ftpd restart
 ```
 
 
-#### configure live stream
+#### Configure live stream
 *   [Raspberry live stream 1](https://tutorials-raspberrypi.de/raspberry-pi-ueberwachungskamera-livestream-einrichten/)
 *   [Raspberry live stream 2](https://www.datenreise.de/raspberry-pi-ueberwachungskamera-livestream/)
 ```	
@@ -115,24 +115,24 @@ sudo service motion start
 ```			
 
 
-#### configure port forwarding in router accordingly the dns and port settings
+#### Configure port forwarding in router accordingly the dns and port settings
 here [my live url](http://greenhouse.my.to:8082/)
 
 					
-#### install required packages
+#### Install required packages
 ```
 sudo apt-get install build-essential python-dev python-pip python-smbus python-openssl git --yes //python
 sudo pip install python-telegram-bot
 sudo pip install telepot
 ```	
 
-#### add/create in pi user directory
+#### Add/create in pi user directory
 *   scripts/TelegramBot/greenhouse_telegrambot.py
 *   scripts/TelegramBot/ext_greenhouse.py
 *   **make sure they are executable and chown root:root**
 	
 
-#### enable autostart of custom scripts
+#### Enable autostart of the scripts
 *   [how to](https://www.dexterindustries.com/howto/run-a-program-on-your-raspberry-pi-at-startup/#init)
 *   Add the program to be run at startup to the init.d directory, insert **telegrambot.sh** in **/etc/init.d** as root
 ```
