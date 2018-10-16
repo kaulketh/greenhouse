@@ -14,10 +14,11 @@ ChatID:	*******************
 * [Android](https://play.google.com/store/apps/details?id=org.telegram.messenger&hl=de)
 
 
-#### 2. Raspi Linux image
-recommended Raspi image stretch lite w/o desktop, use e.g. etcher for flashing sd card, prepare sd card / flash image and _**enable SSH access**_ (e.g. mkdir ssh in dir boot on sd card)
-* [raspbian lite latest](https://downloads.raspberrypi.org/raspbian_lite_latest)
-* [etcher](https://etcher.io/?ref=etcher_footer)
+#### 2. Raspberry Pi OS image
+* download [latest stretch lite w/o desktop](https://downloads.raspberrypi.org/raspbian_lite_latest) 
+* prepare sd card / flash image, e.g. use [Etcher](https://etcher.io/?ref=etcher_footer) 
+* _**enable SSH access**_ (e.g. mkdir ssh in dir boot on sd card)
+
 
 #### 3. Boot raspi and connect via ssh
 
