@@ -37,7 +37,7 @@ sudo reboot
 * [elektronik-kompendium](https://www.elektronik-kompendium.de/sites/raspberry-pi/1912151.htm) (I recommend variant 2)
  
 
---**Retest and doublecheck network conection and settings before executing next steps!!!!!**--
+*Retest and doublecheck network conection and settings before executing next steps!!!!!*
 
 
 
@@ -114,7 +114,7 @@ sudo pip install telepot
 ```	
 
 ###### 11. Add/create Python scripts in pi user directory
---**Make them executable and chown root:root!**--
+*Make them executable and chown root:root!*
 * [scripts/TelegramBot/greenhouse_telegrambot.py](scripts/greenhouse_telegrambot.py)
 * [scripts/TelegramBot/ext_greenhouse.py](scripts/ext_greenhouse.py)
 
