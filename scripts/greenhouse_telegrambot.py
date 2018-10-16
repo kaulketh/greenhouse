@@ -74,8 +74,8 @@ Msg_Panic='*Panic called! \nTry some special!*'
 # api and bot settings
 SELECT, DURATION = range(2)
 #LIST_OF_ADMINS = ['mock to test']
-LIST_OF_ADMINS = [*********, *********]
-Api_Token = "*****************************************"
+LIST_OF_ADMINS = [<first_allowed_id>, <second_allowed_id>, <next_allowed_id>]
+Api_Token = "<token>"
 
 Target = ' '
 Water_Time = ' '
