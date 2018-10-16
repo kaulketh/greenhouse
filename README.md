@@ -1,11 +1,10 @@
 # Greenhouse
 
 #### Thanks for inspiring me to...
-*   [Stefan Weigert](https://www.stefan-weigert.de/php_loader/raspi.php)
-*   [Felix Stern](https://tutorials-raspberrypi.de/automatisches-raspberry-pi-gewaechshaus-selber-bauen/)
+[Stefan Weigert](https://www.stefan-weigert.de/php_loader/raspi.php), [Felix Stern](https://tutorials-raspberrypi.de/automatisches-raspberry-pi-gewaechshaus-selber-bauen/)
 
 	
-## Install Telegram app at mobile
+#### Install Telegram app at mobile
 *   [Web](https://telegram.org/)
 *   [Ios](https://itunes.apple.com/de/app/telegram-messenger/id686449807?mt=8)
 *   [Android](https://play.google.com/store/apps/details?id=org.telegram.messenger&hl=de)
@@ -17,7 +16,7 @@ ChatID:	*******************
 ```
 
 
-## Linux image
+#### Linux image
 *   [raspbian lite latest](https://downloads.raspberrypi.org/raspbian_lite_latest)
 *   [etcher](https://etcher.io/?ref=etcher_footer)
 
@@ -26,11 +25,11 @@ ChatID:	*******************
 *   prepare sd card / flash image
 
 
-### Enable ssh access for terminal
+#### Enable ssh access for terminal
 *   e.g. mkdir ssh in dir boot on sd card
 
 			
-### Configure static IP
+#### Configure static IP
 *  [elektronik-kompendium](https://www.elektronik-kompendium.de/sites/raspberry-pi/1912151.htm) (I recommend variant 2)
 ```
 sudo service dhcpcd status 
@@ -47,7 +46,7 @@ sudo reboot
 **retest and doublecheck network conection and settings before executing next steps!!!!!**
 
 
-### Updates and configs
+#### Updates and configs
 ```
 sudo apt-get update --yes && sudo apt-get upgrade --yes
 sudo raspi-config
@@ -59,7 +58,7 @@ sudo reboot
 ```
 
 	
-### Configure dyn dns client (ddclient)
+#### Configure dyn dns client (ddclient)
 *   [Dyn dns client with ssl](https://hexaju.wordpress.com/2013/03/20/raspberry-pi-as-dyndns-client-with-ssl/)
 ```
 sudo apt-get update
@@ -87,7 +86,7 @@ other possible method could be e.g insert cron jobs as sudo
 ```				
 
 
-### Configure remote ftp access to easier file transfer
+#### Configure remote ftp access to easier file transfer
 *   [Raspberry Pi remote access](https://www.raspberrypi.org/documentation/remote-access/ftp.md)
 ```
 sudo apt-get install pure-ftpd
@@ -102,7 +101,7 @@ sudo service pure-ftpd restart
 ```
 
 
-### configure live stream
+#### configure live stream
 *   [Raspberry live stream 1](https://tutorials-raspberrypi.de/raspberry-pi-ueberwachungskamera-livestream-einrichten/)
 *   [Raspberry live stream 2](https://www.datenreise.de/raspberry-pi-ueberwachungskamera-livestream/)
 ```	
@@ -116,24 +115,24 @@ sudo service motion start
 ```			
 
 
-### configure port forwarding in router accordingly the dns and port settings
+#### configure port forwarding in router accordingly the dns and port settings
 here [my live url](http://greenhouse.my.to:8082/)
 
 					
-### install required packages
+#### install required packages
 ```
 sudo apt-get install build-essential python-dev python-pip python-smbus python-openssl git --yes //python
 sudo pip install python-telegram-bot
 sudo pip install telepot
 ```	
 
-### add/create in pi user directory
+#### add/create in pi user directory
 *   scripts/TelegramBot/greenhouse_telegrambot.py
 *   scripts/TelegramBot/ext_greenhouse.py
 *   **make sure they are executable and chown root:root**
 	
 
-### enable autostart of custom scripts
+#### enable autostart of custom scripts
 *   [how to](https://www.dexterindustries.com/howto/run-a-program-on-your-raspberry-pi-at-startup/#init)
 *   Add the program to be run at startup to the init.d directory, insert **telegrambot.sh** in **/etc/init.d** as root
 ```
