@@ -12,7 +12,9 @@ import sys
 import RPi.GPIO as GPIO
 import os
 import commands
+import logging
 
+logging.basicConfig(filename='./home/pi/scripts/TelegramBot/greenhouse.log', format='%(asctime)s %(levelname)-8s %(name)-25s %(message)s',datefmt='[%Y-%m-%d %H:%M:%S]', level=logging.INFO)
 
 # to use Raspberry Pi board pin numbers
 GPIO.setmode(GPIO.BOARD)
@@ -36,19 +38,21 @@ Chilis = (CHILI_01, CHILI_02, CHILI_03)
 
 # time stamp
 def timestamp():
-        return time.strftime('`[%d.%m.%Y %H:%M:%S]\n---------------------\n`')
+    return time.strftime('`[%d.%m.%Y %H:%M:%S]\n---------------------\n`')
 
 
 # switch functions
 def switch_on(pin):
-        GPIO.setup(pin, GPIO.OUT)
-        GPIO.output(pin,GPIO.LOW)
-        return
+    logging.info('switch on: ' + str(pin))
+    GPIO.setup(pin, GPIO.OUT)
+    GPIO.output(pin,GPIO.LOW)
+    return
 
 def switch_off(pin):
-        GPIO.output(pin,GPIO.HIGH)
-        GPIO.cleanup(pin)
-        return
+    logging.info('switch off: ' + str(pin))
+    GPIO.output(pin,GPIO.HIGH)
+    GPIO.cleanup(pin)
+    return
 
 
 # commands and descriptions
@@ -103,125 +107,142 @@ markup2 = ReplyKeyboardMarkup(keyboard2, resize_keyboard = True, one_time_keyboa
 
 # start bot
 def start(bot, update):
-
+    logging.info('Bot started.')
+    try:
+        user_id = update.message.from_user.id
+        
+    except (NameError, AttributeError):
         try:
-                user_id = update.message.from_user.id
-
+            user_id = update.inline_query.from_user.id
         except (NameError, AttributeError):
+            try:
+                user_id = update.chosen_inline_result.from_user.id  
+            except (NameError, AttributeError):
                 try:
-                        user_id = update.inline_query.from_user.id
+                    user_id = update.callback_query.from_user.id
                 except (NameError, AttributeError):
-                        try:
-                                user_id = update.chosen_inline_result.from_user.id
-                        except (NameError, AttributeError):
-                                try:
-                                        user_id = update.callback_query.from_user.id
-                                except (NameError, AttributeError):
-                                        return ConversationHandler.END
-        if user_id not in LIST_OF_ADMINS:
-                update.message.reply_text(Private_Warning.format(update.message.from_user.first_name, update.message.chat_id), parse_mode=ParseMode.MARKDOWN)
-                return ConversationHandler.END
-        else:
-                update.message.reply_text(Msg_Welcome.format(update.message.from_user.first_name) + '\n' + Msg_Choice, parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
-                return SELECT
+                    return ConversationHandler.END
+                
+    if user_id not in LIST_OF_ADMINS:
+        logging.info('Not allowed access by: ' + str(user_id) + ' - ' + update.message.from_user.last_name + ',' + update.message.from_user.first_name)
+        update.message.reply_text(Private_Warning.format(update.message.from_user.first_name, update.message.chat_id), parse_mode=ParseMode.MARKDOWN)
+        return ConversationHandler.END
+    else:
+        update.message.reply_text(Msg_Welcome.format(update.message.from_user.first_name) + '\n' + Msg_Choice, parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
+        logging.info('Bot is using by: ' + str(user_id) + ' - ' + update.message.from_user.last_name + ',' + update.message.from_user.first_name)
+        return SELECT
 
 
 # set the target, member of group or group
 def selection(bot, update):
-        global Target
-        Target = update.message.text
+    global Target
+    Target = update.message.text
 
-        if Target == str(Panic):
-                update.message.reply_text(Msg_Panic, parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
-                os.system(Run_Extended_Greenhouse)
+    if Target == str(Panic):
+        update.message.reply_text(Msg_Panic, parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
+        logging.info(Msg_Panic)
+        os.system(Run_Extended_Greenhouse)
 
-        else:
-                update.message.reply_text(Msg_Duration.format(Target), parse_mode=ParseMode.MARKDOWN, reply_markup=markup2)
-                return DURATION
+    else:
+        update.message.reply_text(Msg_Duration.format(Target), parse_mode=ParseMode.MARKDOWN, reply_markup=markup2)
+        logging.info('Selection: ' + str(Target))
+        return DURATION
 
 
 # set water duration
 def duration(bot, update):
-        global Water_Time
-        Water_Time = update.message.text
+    global Water_Time
+    Water_Time = update.message.text
 
-        if Water_Time == str(Cancel):
-                update.message.reply_text(Msg_New_Choice, parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
+    if Water_Time == str(Cancel):
+        update.message.reply_text(Msg_New_Choice, parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
+        logging.info(Msg_New_Choice)
 
-        elif Water_Time == str(Panic):
-                update.message.reply_text(Msg_Panic, parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
-                os.system(Run_Extended_Greenhouse)
+    elif Water_Time == str(Panic):
+        update.message.reply_text(Msg_Panic, parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove()) 
+        logging.info(Msg_Panic)
+        os.system(Run_Extended_Greenhouse)
 
-        elif Target == str(Group1[1]):
-                water(update, TOMATO_01)
+    elif Target == str(Group1[1]):
+        water(update, TOMATO_01)
 
-        elif Target == str(Group1[2]):
-                water(update, TOMATO_02)
+    elif Target == str(Group1[2]):
+        water(update, TOMATO_02)
 
-        elif Target == str(Group1[3]):
-                water(update, TOMATO_03)
+    elif Target == str(Group1[3]):
+        water(update, TOMATO_03)
 
-        elif Target == str(Group2[1]):
-                water(update, CHILI_01)
+    elif Target == str(Group2[1]):
+        water(update, CHILI_01)
 
-        elif Target == str(Group2[2]):
-                water(update, CHILI_02)
+    elif Target == str(Group2[2]):
+        water(update, CHILI_02)
 
-        elif Target == str(Group2[3]):
-                water(update, CHILI_03)
+    elif Target == str(Group2[3]):
+        water(update, CHILI_03)
 
-        elif Target == str(Group1[0]):
-                water_group(update, Tomatoes)
+    elif Target == str(Group1[0]):
+        water_group(update, Tomatoes)
 
-        elif Target == str(Group2[0]):
-                water_group(update, Chilis)
+    elif Target == str(Group2[0]):
+        water_group(update, Chilis)
 
-        elif Target == str(All):
-                update.message.reply_text('`{} wird jetzt für {}s gewässert.`'.format(Target, Water_Time), parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
-                for vegetable in Vegetables:
-                        switch_on(vegetable)
-                time.sleep(int(Water_Time))
-                for vegetable in Vegetables:
-                        switch_off(vegetable)
-                update.message.reply_text(timestamp() + '`Komplettbewässerung wurde nach {}s beendet.`\n\n'.format(Water_Time) + Msg_New_Choice, parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
+    elif Target == str(All):
+        logging.info('Duration: ' + Water_Time)
+        update.message.reply_text('`{} wird jetzt für {}s gewässert.`'.format(Target, Water_Time), parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
+        for vegetable in Vegetables:
+            switch_on(vegetable)
+            time.sleep(int(Water_Time))
+        for vegetable in Vegetables:
+            switch_off(vegetable)
+            update.message.reply_text(timestamp() + '`Komplettbewässerung wurde nach {}s beendet.`\n\n'.format(Water_Time) + Msg_New_Choice, parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
 
-        else:
-                update.message.reply_text(Msg_Choice, reply_markup=markup1)
+    else:
+        update.message.reply_text(Msg_Choice, reply_markup=markup1)
 
-        return SELECT
+    return SELECT
+
 
 # water the target
 def water(update, vegetable):
-        update.message.reply_text(Water_On.format(Target, Water_Time), parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
-        switch_on(vegetable)
-        time.sleep((int(Water_Time)))
-        switch_off(vegetable)
-        update.message.reply_text(timestamp() + Water_Off.format(Target, Water_Time) + Msg_New_Choice, parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
-        return
-
+    logging.info('Duration: ' + Water_Time)
+    logging.info('Toggle ' + str(vegetable))
+    update.message.reply_text(Water_On.format(Target, Water_Time), parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
+    switch_on(vegetable)
+    time.sleep((int(Water_Time)))
+    switch_off(vegetable)
+    update.message.reply_text(timestamp() + Water_Off.format(Target, Water_Time) + Msg_New_Choice, parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
+    return
 
 # water a group of targets
 def water_group(update, group):
-        update.message.reply_text(Water_On_All.format(Target, Water_Time), parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
-        for member in group:
-                switch_on(member)
+    logging.info('Duration: ' + Water_Time)
+    logging.info('Toggle ' + str(group))
+    update.message.reply_text(Water_On_All.format(Target, Water_Time), parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
+    for member in group:
+        switch_on(member)
         time.sleep(int(Water_Time))
-        for member in group:
-                switch_off(member)
-        update.message.reply_text(timestamp() + Water_Off_All.format(Target, Water_Time) + Msg_New_Choice, parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
-        return
+    for member in group:
+        switch_off(member)
+    update.message.reply_text(timestamp() + Water_Off_All.format(Target, Water_Time) + Msg_New_Choice, parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
+    return
 
 
 # stop bot
 def stop(bot, update):
-        update.message.reply_text(Msg_Stop.format(update.message.from_user.first_name), parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
-        return ConversationHandler.END
+    logging.info('Bot stopped.')
+    update.message.reply_text(Msg_Stop.format(update.message.from_user.first_name), parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
+    return ConversationHandler.END
+
+
+
 
 
 # error
 def error(bot, update, error):
-        GPIO.cleanup()
-        return ConversationHandler.END
+    logging.error('An error occurs! '+ str(error))
+    GPIO.cleanup()
+    return ConversationHandler.END
 
 
 # main

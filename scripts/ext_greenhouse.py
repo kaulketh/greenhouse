@@ -11,6 +11,9 @@ import os
 import commands
 import subprocess
 import tempfile,os
+import logging
+
+logging.basicConfig(filename='./home/pi/scripts/TelegramBot/greenhouse.log', format='%(asctime)s %(levelname)-8s %(name)-25s %(message)s',datefmt='[%Y-%m-%d %H:%M:%S]', level=logging.INFO)
 
 # define GPIO channels
 GPIO.setmode(GPIO.BOARD)
@@ -39,14 +42,16 @@ live = 'http://<url>'
 
 # switch functions
 def switch_on(pin):
-        GPIO.setup(pin, GPIO.OUT)
-        GPIO.output(pin,GPIO.LOW)
-        return
+    logging.info('switch on: ' + str(pin))
+    GPIO.setup(pin, GPIO.OUT)
+    GPIO.output(pin,GPIO.LOW)
+    return
 
 def switch_off(pin):
-        GPIO.output(pin,GPIO.HIGH)
-        GPIO.cleanup(pin)
-        return
+    logging.info('switch off: ' + str(pin))
+    GPIO.output(pin,GPIO.HIGH)
+    GPIO.cleanup(pin)
+    return
 
 # water a group of targets
 def water_on_group(group):
@@ -88,74 +93,75 @@ def readcmd_2(cmd):
 
 # kill the still running greenhouse bot script
 PID1 = readcmd_2('ps -o pid,args -C python | awk \'/greenhouse_telegrambot.py/ { print $1 }\'')
-sys.stdout.write('got PID of running greenhouse_telegrambot.py to kill it... %s' % PID1)
+logging.info('got PID of running greenhouse_telegrambot.py to kill it... %s' % PID1)
 readcmd_2('kill -9 ' + PID1)
 
 # Send message to defined API with given text(msg)
 def sendmsg(msg):
-        os.system('curl -s -k https://api.telegram.org/bot' + apiToken + '/sendMessage -d text="' + msg + '" -d chat_id=<chat_id>')
-        return
+    os.system('curl -s -k https://api.telegram.org/bot' + apiToken + '/sendMessage -d text="' + msg + '" -d chat_id=<chat_id>')
+    logging.info('Message send: ' + msg)
+    return
 
 
 def handle(msg):
 
-        chat_id = msg['chat']['id']
-        command = msg['text']
+    chat_id = msg['chat']['id']
+    command = msg['text']
 
-        sys.stdout.write('Got command: %s' % command)
+    logging.info('Got command: %s' % command)
 
-        # commands
-        if command == '/RESTART':
-                sendmsg(readcmd_2('sudo reboot'))
-        elif command =='/all_on':
-                sendmsg(timestamp()+'Water on for all.')
-                water_on_group(Vegetables)
-        elif command == '/all_off':
-                sendmsg('All off.')
-                water_off_group(Vegetables)
-        elif command == '/tom_on':
-                sendmsg(timestamp()+'Tomatoes on')
-                water_on_group(Tomatoes)
-        elif command == '/tom_off':
-                sendmsg('All Tomatoes off again.')
-                water_off_group(Tomatoes)
-        elif command == '/chi_on':
-                sendmsg(timestamp()+'Chilis on')
-                water_on_group(Chilis)
-        elif command == '/chi_off':
-                sendmsg('All Chilis off again.')
-                water_off_group(Chilis)
-        elif command == '/kill':
-                #clear monitor directory
-                readcmd_2('rm -r /home/pi/Monitor/*')
-                PID2 = readcmd_2('ps -o pid,args -C python | awk \'/ext_greenhouse.py/ { print $1 }\'')
-                print('got own PID to kill me by myself and also prepare the other bot for proper using: %s' % PID2)
-                readcmd_2('python /home/pi/scripts/TelegramBot/greenhouse_telegrambot.py &')
-                sendmsg('Process killed!\nEnable default bot... Run it with /start')
-                readcmd_2('kill -9 ' + PID2)
-        elif command == '/start':
-                sendmsg('External input possible, bot is ready to use!')
-        elif command == '/live':
-                sendmsg(live)
-        elif command == '/help':
-                sendmsg('Usage and possible commands in special mode:\n/help - this info\n/RESTART - restart the whole RSBPi\n/kill - break this mode and restart default bot\n/all_on - water on for all\n/all_off - all off\n/tom_on - Water on for the tomatoes\n/tom_off - For tomatoes water off\n/chi_on - Water for the chilis on\n/chi_off - Water off for chilis\n/live - Live stream')
-        else:
-                sendmsg('Unknown in this mode...!\nPlease use /help for more information.')
+    # commands
+    if command == '/RESTART':
+        sendmsg(readcmd_2('sudo reboot'))
+    elif command =='/all_on':
+        sendmsg(timestamp()+'Water on for all.')
+        water_on_group(Vegetables)
+    elif command == '/all_off':
+        sendmsg('All off.')
+        water_off_group(Vegetables)
+    elif command == '/tom_on':
+        sendmsg(timestamp()+'Tomatoes on')
+        water_on_group(Tomatoes)
+    elif command == '/tom_off':
+        sendmsg('All Tomatoes off again.')
+        water_off_group(Tomatoes)
+    elif command == '/chi_on':
+        sendmsg(timestamp()+'Chilis on')
+        water_on_group(Chilis)
+    elif command == '/chi_off':
+        sendmsg('All Chilis off again.')
+        water_off_group(Chilis)
+    elif command == '/kill':
+        #clear monitor directory
+        readcmd_2('rm -r /home/pi/Monitor/*')
+        PID2 = readcmd_2('ps -o pid,args -C python | awk \'/ext_greenhouse.py/ { print $1 }\'')
+        logging.info('got own PID to kill me by myself and also prepare the other bot for proper using: %s' % PID2)
+        readcmd_2('python /home/pi/scripts/TelegramBot/greenhouse_telegrambot.py &')
+        sendmsg('Process killed!\nEnable default bot... Run it with /start')
+        readcmd_2('kill -9 ' + PID2)
+    elif command == '/start':
+        sendmsg('External input possible, bot is ready to use!')
+    elif command == '/live':
+        sendmsg(live)
+    elif command == '/help':
+        sendmsg('Usage and possible commands in special mode:\n/help - this info\n/RESTART - restart the whole RSBPi\n/kill - break this mode and restart default bot\n/all_on - water on for all\n/all_off - all off\n/tom_on - Water on for the tomatoes\n/tom_off - For tomatoes water off\n/chi_on - Water for the chilis on\n/chi_off - Water off for chilis\n/live - Live stream')
+    else:
+        sendmsg('Unknown in this mode...!\nPlease use /help for more information.')
 
 
 bot = telepot.Bot(apiToken)
 bot.message_loop(handle)
-sys.stdout.write('I am listening...')
+logging.info('I am listening...')
 
 while 1:
     try:
         time.sleep(10)
 
     except KeyboardInterrupt:
-        sys.stdout.write('\n Program interrupted')
+        logging.warning('Program interrupted')
         exit()
 
     except:
-        sys.stdout.write('Other error or exception occured!')
+        logging.error('Other error or exception occured!')
 
 
