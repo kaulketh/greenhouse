@@ -21,8 +21,8 @@ GPIO.setmode(GPIO.BOARD)
 # to use GPIO instead board pin numbers, then please adapt pin definition
 # GPIO.setmode(GPIO.BCM)
 
-# uncomment if warnings not required
-#GPIO.setwarnings(False)
+# comment if warnings required
+GPIO.setwarnings(False)
 
 # def board pins/channels, refer hardware/rspi_gpio.info
 TOMATO_01=29

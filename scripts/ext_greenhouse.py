@@ -28,6 +28,9 @@ Vegetables = (TOMATO_01, TOMATO_02, TOMATO_03, CHILI_01, CHILI_02, CHILI_03)
 Tomatoes = (TOMATO_01, TOMATO_02, TOMATO_03)
 Chilis = (CHILI_01, CHILI_02, CHILI_03)
 
+# comment if warnings required
+GPIO.setwarnings(False)
+
 # API Token          
 apiToken = '<token>'
 
