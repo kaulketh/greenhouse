@@ -15,7 +15,7 @@ import logging
 
 logging.basicConfig(filename='./home/pi/scripts/TelegramBot/greenhouse.log', format='%(asctime)s %(levelname)-8s %(name)-25s %(message)s',datefmt='[%Y-%m-%d %H:%M:%S]', level=logging.INFO)
 
-# define GPIO channels
+# def board pins/channels, refer hardware/rspi_gpio.info
 GPIO.setmode(GPIO.BOARD)
 TOMATO_01=29
 TOMATO_02=31
