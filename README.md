@@ -61,7 +61,7 @@ use e.g. [FreeDNS](http://freedns.afraid.org) and update [ddclient.conf](configs
 ```
 sudo nano /etc/ddclient.conf
 ```	
-other possible method could be e.g insert cron jobs as sudo
+other possible method could be e.g insert crontabs
 ```	
     0,5,10,15,20,25,30,35,40,45,50,55 * * * * sleep 31 ; wget -O - http://freedns.afraid.org/dynamic/update.php?******************************************** >> /tmp/freedns_greenhouse_my_to.log 2>&1 &
     3,8,13,18,23,28,33,38,43,48,53,58 * * * * sleep 44 ; wget -O - http://freedns.afraid.org/dynamic/update.php?******************************************** >> /tmp/freedns_greenhouse_chickenkiller_com.log 2>&1 &
