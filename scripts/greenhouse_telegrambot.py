@@ -44,7 +44,7 @@ def timestamp():
 # switch functions
 def switch_on(pin):
     logging.info('switch on: ' + str(pin))
-    GPIO.setup(pin, GPIO.OUT)
+    GPIO.setup(pin,GPIO.OUT)
     GPIO.output(pin,GPIO.LOW)
     return
 
