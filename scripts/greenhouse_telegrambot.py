@@ -12,6 +12,8 @@ import sys
 import RPi.GPIO as GPIO
 import os
 import commands
+import greenhouse_config as conf
+
 import logging
 
 logging.basicConfig(filename='./home/pi/scripts/TelegramBot/greenhouse.log', format='%(asctime)s %(levelname)-8s %(name)-25s %(message)s',datefmt='[%Y-%m-%d %H:%M:%S]', level=logging.INFO)
