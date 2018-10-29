@@ -12,9 +12,9 @@ logging.basicConfig(filename='./home/pi/scripts/TelegramBot/greenhouse.log', for
 
 # API Token and Chat id          
 #LIST_OF_ADMINS = ['mock to test']
-LIST_OF_ADMINS = [0000000, 0000000] #thk1220, Annett
+LIST_OF_ADMINS = [00000000, 00000000] #thk1220, Annett
 Api_Token = "xxxxxxxxxxxxxxxxxxxxxxxxxxxx" # ThK1220RealGreenHouse
-# Api_Token = "xxxxxxxxxxxxxxxxxxxxxxxxxxx" # ThK1220GreenHouse
+# Api_Token = "xxxxxxxxxxxxxxxxxxxxxxxxxxxx" # ThK1220GreenHouse
 
 
 # to use Raspberry Pi board pin numbers
