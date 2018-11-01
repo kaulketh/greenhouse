@@ -1,4 +1,5 @@
 eclipse.preferences.version=1
+encoding//scripts/access.py=utf-8
 encoding//scripts/ext_greenhouse.py=utf-8
 encoding//scripts/greenhouse_config.py=utf-8
 encoding//scripts/greenhouse_telegrambot.py=utf-8

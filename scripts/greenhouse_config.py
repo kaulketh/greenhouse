@@ -3,18 +3,19 @@
 # configs, constants and methods
 # author: Thomas Kaulke
 
+import access as access
 import time
 import RPi.GPIO as GPIO
 import logging
 
+
 # logger
 logging.basicConfig(filename='./home/pi/scripts/TelegramBot/greenhouse.log', format='%(asctime)s %(levelname)-8s %(name)-25s %(message)s',datefmt='[%Y-%m-%d %H:%M:%S]', level=logging.INFO)
 
-# API Token and Chat id          
-#LIST_OF_ADMINS = ['mock to test']
-LIST_OF_ADMINS = [00000000, 00000000] #thk1220, Annett
-Api_Token = "xxxxxxxxxxxxxxxxxxxxxxxxxxxx" # ThK1220RealGreenHouse
-# Api_Token = "xxxxxxxxxxxxxxxxxxxxxxxxxxxx" # ThK1220GreenHouse
+# API Token and Chat Id's from external file          
+admins = [access.thk, access.annett]
+mainId=access.thk
+token = access.token
 
 
 # to use Raspberry Pi board pin numbers
@@ -35,9 +36,10 @@ RELAIS_06=36
 RELAIS_07=38
 RELAIS_08=40
 
-All_In_One = (TOMATO_01, TOMATO_02, TOMATO_03, CHILI_01, CHILI_02, CHILI_03)
-Tomatoes = (TOMATO_01, TOMATO_02, TOMATO_03)
-Chilis = (CHILI_01, CHILI_02, CHILI_03)
+GROUP_ALL = (RELAIS_01, RELAIS_02, RELAIS_03, RELAIS_04, RELAIS_05, RELAIS_06, RELAIS_07, RELAIS_08)
+GROUP_01 = (RELAIS_01, RELAIS_02, RELAIS_03)
+GROUP_02 = (RELAIS_04, RELAIS_05)
+GROUP_03 = (RELAIS_06, RELAIS_07, RELAIS_08)
 
 
 # switch functions
@@ -58,4 +60,4 @@ timestamp=time.strftime('[%d.%m.%Y %H:%M:%S] ')
 timestamp_line=time.strftime('`[%d.%m.%Y %H:%M:%S]\n---------------------\n`')
 
 # live stream address
-live = 'http://<url>'
+live = access.live

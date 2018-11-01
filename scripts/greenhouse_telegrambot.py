@@ -9,52 +9,23 @@ from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters, Rege
 import telepot
 import time
 import sys
-import RPi.GPIO as GPIO
 import os
 import commands
 import greenhouse_config as conf
-
 import logging
 
 logging.basicConfig(filename='./home/pi/scripts/TelegramBot/greenhouse.log', format='%(asctime)s %(levelname)-8s %(name)-25s %(message)s',datefmt='[%Y-%m-%d %H:%M:%S]', level=logging.INFO)
 
-# to use Raspberry Pi board pin numbers
-GPIO.setmode(GPIO.BOARD)
-# to use GPIO instead board pin numbers, then please adapt pin definition
-# GPIO.setmode(GPIO.BCM)
+# define pins
+Vegetables = conf.GROUP_ALL
+Tomatoes = conf.GROUP_01
+Reserve = const.GROUP_02
+Chilis = conf.GROUP_03
 
-# comment if warnings required
-GPIO.setwarnings(False)
-
-# def board pins/channels, refer hardware/rspi_gpio.info
-TOMATO_01=29
-TOMATO_02=31
-TOMATO_03=33
-CHILI_01=36
-CHILI_02=38
-CHILI_03=40
-
-Vegetables = (TOMATO_01, TOMATO_02, TOMATO_03, CHILI_01, CHILI_02, CHILI_03)
-Tomatoes = (TOMATO_01, TOMATO_02, TOMATO_03)
-Chilis = (CHILI_01, CHILI_02, CHILI_03)
 
 # time stamp
 def timestamp():
-    return time.strftime('`[%d.%m.%Y %H:%M:%S]\n---------------------\n`')
-
-
-# switch functions
-def switch_on(pin):
-    logging.info('switch on: ' + str(pin))
-    GPIO.setup(pin,GPIO.OUT)
-    GPIO.output(pin,GPIO.LOW)
-    return
-
-def switch_off(pin):
-    logging.info('switch off: ' + str(pin))
-    GPIO.output(pin,GPIO.HIGH)
-    GPIO.cleanup(pin)
-    return
+    return conf.timestamp_line
 
 
 # commands and descriptions
@@ -65,6 +36,7 @@ All = 'Alles'
 Stop = 'Beenden'
 Group1 = ('Tomaten', 'Tomaten 1', 'Tomaten 2', 'Tomaten 3')
 Group2 = ('Chilis', 'Chili 1', 'Chili 2', 'Chili 3')
+Group3 = ('Reserve', 'Reserve 1', 'Reserve 2')
 
 # messages
 Msg_Welcome = '`Willkommen {}, lass uns Pflanzen bewässern!\n`'
@@ -83,10 +55,8 @@ Private_Warning = '`Hello {}, this is a private Bot!\nYour ChatID: {} has been b
 # api and bot settings
 SELECT, DURATION = range(2)
 #LIST_OF_ADMINS = ['mock to test']
-# add here all allowed real chat Id's
-LIST_OF_ADMINS = [first_allowed_id, second_allowed_id, next_allowed_id]
-# replace with real token
-Api_Token = "<token>"
+LIST_OF_ADMINS = conf.admins
+Api_Token = conf.token
 
 Target = ' '
 Water_Time = ' '
@@ -97,7 +67,10 @@ keyboard1 =     [[str(Group1[0])],
                  [str(Group1[1]), str(Group1[2]), str(Group1[3])],
                  [str(Group2[0])],
                  [str(Group2[1]), str(Group2[2]), str(Group2[3])],
-                 [All,Stop]
+                 [str(Group3[1]), str(Group3[2])],
+                 [str(Group3[0])],
+                 [All,Stop],
+                 [str(Panic)]
                 ]
 markup1 = ReplyKeyboardMarkup(keyboard1, resize_keyboard = True, one_time_keyboard = False)
 
@@ -188,15 +161,18 @@ def duration(bot, update):
 
     elif Target == str(Group2[0]):
         water_group(update, Chilis)
-
+        
+    elif Target == str(Group3[0]):
+        water_group(update, Reserve)
+        
     elif Target == str(All):
         logging.info('Duration: ' + Water_Time)
         update.message.reply_text('`{} wird jetzt für {}s gewässert.`'.format(Target, Water_Time), parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
         for vegetable in Vegetables:
-            switch_on(vegetable)
+            conf.switch_on(vegetable)
             time.sleep(int(Water_Time))
         for vegetable in Vegetables:
-            switch_off(vegetable)
+            conf.switch_off(vegetable)
             update.message.reply_text(timestamp() + '`Komplettbewässerung wurde nach {}s beendet.`\n\n'.format(Water_Time) + Msg_New_Choice, parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
 
     else:
@@ -210,9 +186,9 @@ def water(update, vegetable):
     logging.info('Duration: ' + Water_Time)
     logging.info('Toggle ' + str(vegetable))
     update.message.reply_text(Water_On.format(Target, Water_Time), parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
-    switch_on(vegetable)
+    conf.switch_on(vegetable)
     time.sleep((int(Water_Time)))
-    switch_off(vegetable)
+    conf.switch_off(vegetable)
     update.message.reply_text(timestamp() + Water_Off.format(Target, Water_Time) + Msg_New_Choice, parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
     return
 
@@ -222,10 +198,10 @@ def water_group(update, group):
     logging.info('Toggle ' + str(group))
     update.message.reply_text(Water_On_All.format(Target, Water_Time), parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
     for member in group:
-        switch_on(member)
+        conf.switch_on(member)
         time.sleep(int(Water_Time))
     for member in group:
-        switch_off(member)
+        conf.switch_off(member)
     update.message.reply_text(timestamp() + Water_Off_All.format(Target, Water_Time) + Msg_New_Choice, parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
     return
 
@@ -257,7 +233,7 @@ def main():
         entry_points=[CommandHandler('start', start)],
 
         states={
-                SELECT:         [RegexHandler('^('+str(Group1[0])+'|'+str(Group1[1])+'|'+str(Group1[2])+'|'+str(Group1[3])+'|'+str(Group2[0])+'|'+str(Group2[1])+'|'+str(Group2[2])+'|'+str(Group2[3])+'|' + str(All) + '|'+str(Panic)+')$', selection),
+                SELECT:         [RegexHandler('^('+str(Group1[0])+'|'+str(Group1[1])+'|'+str(Group1[2])+'|'+str(Group1[3])+'|'+str(Group2[0])+'|'+str(Group2[1])+'|'+str(Group2[2])+'|'+str(Group2[3])+'|'+str(Group3[0])+'|'+str(Group3[1])+'|'+str(Group3[2])+'|' + str(All) + '|'+str(Panic)+')$', selection),
                                  RegexHandler('^' + str(Stop) + '$', stop)],
 
                 DURATION:       [RegexHandler('^([0-9]+|' + str(Cancel) + '|'+str(Panic)+')$', duration),

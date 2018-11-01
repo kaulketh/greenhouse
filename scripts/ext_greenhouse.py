@@ -12,6 +12,7 @@ import commands
 import subprocess
 import tempfile,os
 import logging
+import greenhouse_config as conf
 
 logging.basicConfig(filename='./home/pi/scripts/TelegramBot/greenhouse.log', format='%(asctime)s %(levelname)-8s %(name)-25s %(message)s',datefmt='[%Y-%m-%d %H:%M:%S]', level=logging.INFO)
 
@@ -31,41 +32,27 @@ Chilis = (CHILI_01, CHILI_02, CHILI_03)
 # comment if warnings required
 GPIO.setwarnings(False)
 
-# API Token          
-apiToken = '<token>'
-
+# API Token and chat Id         
+apiToken = conf.token
+Id = conf.mainId
 
 # time stamp
 def timestamp():
-        return time.strftime('[%d.%m.%Y %H:%M:%S]\n')
+        return conf.timestamp
 
 # live stream address
-live = 'http://<url>'
-
-
-# switch functions
-def switch_on(pin):
-    logging.info('switch on: ' + str(pin))
-    GPIO.setup(pin, GPIO.OUT)
-    GPIO.output(pin,GPIO.LOW)
-    return
-
-def switch_off(pin):
-    logging.info('switch off: ' + str(pin))
-    GPIO.output(pin,GPIO.HIGH)
-    GPIO.cleanup(pin)
-    return
+live = conf.live
 
 # water a group of targets
 def water_on_group(group):
         for member in group:
-                switch_on(member)
+                conf.switch_on(member)
         return
 
 # water off for a  group of targets
 def water_off_group(group):
         for member in group:
-                switch_off(member)
+                conf.switch_off(member)
         return
 
 
@@ -101,7 +88,7 @@ readcmd_2('kill -9 ' + PID1)
 
 # Send message to defined API with given text(msg)
 def sendmsg(msg):
-    os.system('curl -s -k https://api.telegram.org/bot' + apiToken + '/sendMessage -d text="' + msg + '" -d chat_id=<chat_id>')
+    os.system('curl -s -k https://api.telegram.org/bot' + apiToken + '/sendMessage -d text="' + msg + '" -d chat_id='+Id)
     logging.info('Message send: ' + msg)
     return
 
