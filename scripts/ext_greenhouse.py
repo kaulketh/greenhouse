@@ -59,26 +59,9 @@ def water_off_group(group):
         for member in group:
                 conf.switch_off(member)
         return
-
-
-
-# Assign output of os.system to a variable and prevent it from being displayed on the screen , https://stackoverflow.com/a/32433981
-def readcmd(cmd):
-    ftmp = tempfile.NamedTemporaryFile(suffix='.out', prefix='tmp', delete=False)
-    fpath = ftmp.name
-    if os.name=="nt":
-        fpath = fpath.replace("/","\\") # forwin
-    ftmp.close()
-    os.system(cmd + " > " + fpath)
-    data = ""
-    with open(fpath, 'r') as file:
-        data = file.read()
-        file.close()
-    os.remove(fpath)
-    return data
 	
 # Assign default output (stdout 1 and stderr 2) to file and read in variable and get back
-def readcmd_2(cmd):
+def readcmd(cmd):
     os.system(cmd +' > tblog.txt 2>&1')
     data = ""
     file = open('tblog.txt','r')
@@ -87,9 +70,9 @@ def readcmd_2(cmd):
     return data
 
 # kill the still running greenhouse bot script
-PID1 = readcmd_2('ps -o pid,args -C python | awk \'/greenhouse_telegrambot.py/ { print $1 }\'')
+PID1 = readcmd('ps -o pid,args -C python | awk \'/greenhouse_telegrambot.py/ { print $1 }\'')
 logging.info('got PID of running greenhouse_telegrambot.py to kill it... %s' % PID1)
-readcmd_2('kill -9 ' + PID1)
+readcmd('kill -9 ' + PID1)
 
 # Send message to defined API with given text(msg)
 def sendmsg(msg):
@@ -107,7 +90,7 @@ def handle(msg):
 
     # commands
     if command == '/RESTART':
-        sendmsg(readcmd_2('sudo reboot'))
+        sendmsg(readcmd('sudo reboot'))
     elif command =='/all_on':
         sendmsg(timestamp()+'Water on for all.')
         water_on_group(Vegetables)
@@ -128,12 +111,12 @@ def handle(msg):
         water_off_group(Chilis)
     elif command == '/kill':
         #clear monitor directory
-        readcmd_2('rm -r /home/pi/Monitor/*')
-        PID2 = readcmd_2('ps -o pid,args -C python | awk \'/ext_greenhouse.py/ { print $1 }\'')
+        readcmd('rm -r /home/pi/Monitor/*')
+        PID2 = readcmd('ps -o pid,args -C python | awk \'/ext_greenhouse.py/ { print $1 }\'')
         logging.info('got own PID to kill me by myself and also prepare the other bot for proper using: %s' % PID2)
-        readcmd_2('python /home/pi/scripts/TelegramBot/greenhouse_telegrambot.py &')
+        readcmd('python /home/pi/scripts/TelegramBot/greenhouse_telegrambot.py &')
         sendmsg('Process killed!\nEnable default bot... Run it with /start')
-        readcmd_2('kill -9 ' + PID2)
+        readcmd('kill -9 ' + PID2)
     elif command == '/start':
         sendmsg('External input possible, bot is ready to use!')
     elif command == '/live':
