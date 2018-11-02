@@ -19,7 +19,7 @@ logging.basicConfig(filename='./home/pi/scripts/TelegramBot/greenhouse.log', for
 # define pins
 Vegetables = conf.GROUP_ALL
 Tomatoes = conf.GROUP_01
-Reserve = const.GROUP_02
+Reserve = conf.GROUP_02
 Chilis = conf.GROUP_03
 
 
@@ -199,7 +199,7 @@ def water_group(update, group):
     update.message.reply_text(Water_On_All.format(Target, Water_Time), parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
     for member in group:
         conf.switch_on(member)
-        time.sleep(int(Water_Time))
+    time.sleep(int(Water_Time))
     for member in group:
         conf.switch_off(member)
     update.message.reply_text(timestamp() + Water_Off_All.format(Target, Water_Time) + Msg_New_Choice, parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
@@ -219,7 +219,7 @@ def stop(bot, update):
 # error
 def error(bot, update, error):
     logging.error('An error occurs! '+ str(error))
-    GPIO.cleanup()
+    conf.GPIO.cleanup()
     return ConversationHandler.END
 
 
