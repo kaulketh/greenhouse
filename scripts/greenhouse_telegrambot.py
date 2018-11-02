@@ -32,7 +32,7 @@ def timestamp():
 SELECT, DURATION = range(2)
 #LIST_OF_ADMINS = ['mock to test']
 LIST_OF_ADMINS = conf.admins
-Api_Token = conf.token
+API_TOKEN = conf.token
 
 Target = text.empty
 Water_Time = text.empty
@@ -201,7 +201,7 @@ def error(bot, update, error):
 
 # main
 def main():
-    updater = Updater(Api_Token)
+    updater = Updater(API_TOKEN)
 
     dp = updater.dispatcher
 
