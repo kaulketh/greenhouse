@@ -4,8 +4,7 @@
 # author: Thomas Kaulke
 
 import greenhouse_config as conf
-import greenhouse_strings_german as de
-import greenhouse_strings_english as en
+import greenhouse_strings_german as text
 import conf.GPIO as GPIO
 
 import sys
@@ -20,13 +19,16 @@ import logging
 logging.basicConfig(filename=conf.log_file, format=conf.log_format,datefmt=conf.log_date_format, level=logging.INFO)
 
 # def board pins/channels, refer hardware/rspi_gpio.info
-GPIO.setmode(GPIO.BOARD)
-TOMATO_01=29
-TOMATO_02=31
-TOMATO_03=33
-CHILI_01=36
-CHILI_02=38
-CHILI_03=40
+TOMATO_01=conf.RELAIS_01
+TOMATO_02=conf.RELAIS_02
+TOMATO_03=conf.RELAIS_03
+CHILI_01=conf.RELAIS_06
+CHILI_02=conf.RELAIS_07
+CHILI_03=conf.RELAIS_08
+
+# TODO: implement reserve
+#RELAIS_04=35
+#RELAIS_05=37
 
 Vegetables = (TOMATO_01, TOMATO_02, TOMATO_03, CHILI_01, CHILI_02, CHILI_03)
 Tomatoes = (TOMATO_01, TOMATO_02, TOMATO_03)

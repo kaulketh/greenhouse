@@ -2,6 +2,9 @@
 # -*- coding: utf-8 -*-
 # author: Thomas Kaulke, kaulketh@gmail.com
 
+empty=' '
+
+# commands and descriptions
 panic = 'Panic'
 cancel = 'Cancel'
 all = 'All'

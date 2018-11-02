@@ -2,6 +2,9 @@
 # -*- coding: utf-8 -*-
 # author: Thomas Kaulke, kaulketh@gmail.com
 
+empty=' '
+
+# commands and descriptions
 panic = 'Panik'
 cancel = 'Abbrechen'
 all = 'Alles'
@@ -23,4 +26,4 @@ water_off_all='`Komplettbewässerung wurde nach {}s beendet.`\n\n'
 msg_choice = '`Bitte auswählen:`'
 msg_new_choice = '`Neue Auswahl oder Beenden?`'
 msg_panic='*Panik-Modus! \nVersuch was Spezielles!*'
-private_warning = '`Hallo {}, dies ist ein privater Bot!\nDeine ChatID: {} ist geblockt.`'
+private_warning = '`Hallo {}, dies ist ein privater Bot!\nDeine ChatID: {} ist geblockt worden.`'
