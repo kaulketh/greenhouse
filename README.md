@@ -118,7 +118,7 @@ _**Make them executable and chown root:root!**_
 * [scripts/TelegramBot/ext_greenhouse.py](scripts/ext_greenhouse.py)
 * [scripts/TelegramBot/greenhouse_config.py](scripts/greenhouse_config.py) contains settings
 * [scripts/TelegramBot/greenhouse_strings_german.py](scripts/greenhouse_strings_german.py) contains strings for descriptions and messages
-* [scripts/TelegramBot/greenhouse_strings_english.py](scripts/greenhouse_strings_english.py) if required, same like German version, if used change import!
+* [scripts/TelegramBot/greenhouse_strings_english.py](scripts/greenhouse_strings_english.py) if required, same like German version, if used adapt imports!
 * [scripts/TelegramBot/access.py] external file, contains api token, chat IDs and other sensitive data
 
 #### 12. Enable autostart
