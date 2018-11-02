@@ -3,18 +3,21 @@
 # script for panic mode
 # author: Thomas Kaulke
 
+import greenhouse_config as conf
+import greenhouse_strings_german as de
+import greenhouse_strings_english as en
+import conf.GPIO as GPIO
+
 import sys
 import time
 import telepot
-import RPi.GPIO as GPIO
 import os
 import commands
 import subprocess
 import tempfile,os
 import logging
-import greenhouse_config as conf
 
-logging.basicConfig(filename='./home/pi/scripts/TelegramBot/greenhouse.log', format='%(asctime)s %(levelname)-8s %(name)-25s %(message)s',datefmt='[%Y-%m-%d %H:%M:%S]', level=logging.INFO)
+logging.basicConfig(filename=conf.log_file, format=conf.log_format,datefmt=conf.log_date_format, level=logging.INFO)
 
 # def board pins/channels, refer hardware/rspi_gpio.info
 GPIO.setmode(GPIO.BOARD)

@@ -3,6 +3,10 @@
 # original: author: Stefan Weigert  http://www.stefan-weigert.de/php_loader/raspi.php
 # adapted: author: Thomas Kaulke, kaulketh@gmail.com
 
+import greenhouse_config as conf
+import greenhouse_strings_german as de
+import greenhouse_strings_english as en
+
 
 from telegram import (ReplyKeyboardMarkup, ReplyKeyboardRemove, ParseMode, MessageEntity)
 from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters, RegexHandler, ConversationHandler)
@@ -11,10 +15,9 @@ import time
 import sys
 import os
 import commands
-import greenhouse_config as conf
 import logging
 
-logging.basicConfig(filename='./home/pi/scripts/TelegramBot/greenhouse.log', format='%(asctime)s %(levelname)-8s %(name)-25s %(message)s',datefmt='[%Y-%m-%d %H:%M:%S]', level=logging.INFO)
+logging.basicConfig(filename=conf.log_file, format=conf.log_format,datefmt=conf.log_date_format, level=logging.INFO)
 
 # define pins
 Vegetables = conf.GROUP_ALL
@@ -29,7 +32,7 @@ def timestamp():
 
 
 # commands and descriptions
-Run_Extended_Greenhouse = 'sudo python /home/pi/scripts/TelegramBot/ext_greenhouse.py'
+run_extended_greenhouse = conf.run_extended_greenhouse
 Panic = 'Panic'
 Cancel = 'Abbrechen'
 All = 'Alles'
@@ -43,9 +46,11 @@ Msg_Welcome = '`Willkommen {}, lass uns Pflanzen bewässern!\n`'
 Msg_Stop = '`Na dann, tschüss {}!\nZum nächsten Wässern geht\'s mit /start`'
 Msg_Duration = '`Bewässerungsdauer für \'{}\' in Sekunden angeben:`'
 Water_On = '`\'{}\' wird jetzt für {}s gewässert.`'
-Water_On_All = '`Alle {} werden jetzt für {}s gewässert.`'
+Water_On_Group = '`Alle {} werden jetzt für {}s gewässert.`'
+Water_On_All='`{} wird jetzt für {}s gewässert.`'
 Water_Off = '`Bewässerung von \'{}\' nach {}s beendet.\n\n`'
-Water_Off_All = '`Bewässerung von allen {} wurde nach {}s beendet.\n\n`'
+Water_Off_Group = '`Bewässerung von allen {} wurde nach {}s beendet.\n\n`'
+Water_Off_All='`Komplettbewässerung wurde nach {}s beendet.`\n\n'
 Msg_Choice = '`Bitte auswählen:`'
 Msg_New_Choice = '`Neue Auswahl oder Beenden?`'
 Msg_Panic='*Panic called! \nTry some special!*'
@@ -116,7 +121,7 @@ def selection(bot, update):
     if Target == str(Panic):
         update.message.reply_text(Msg_Panic, parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
         logging.info(Msg_Panic)
-        os.system(Run_Extended_Greenhouse)
+        os.system(run_extended_greenhouse)
 
     else:
         update.message.reply_text(Msg_Duration.format(Target), parse_mode=ParseMode.MARKDOWN, reply_markup=markup2)
@@ -136,7 +141,7 @@ def duration(bot, update):
     elif Water_Time == str(Panic):
         update.message.reply_text(Msg_Panic, parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove()) 
         logging.info(Msg_Panic)
-        os.system(Run_Extended_Greenhouse)
+        os.system(run_extended_greenhouse)
 
     elif Target == str(Group1[1]):
         water(update, TOMATO_01)
@@ -167,13 +172,13 @@ def duration(bot, update):
         
     elif Target == str(All):
         logging.info('Duration: ' + Water_Time)
-        update.message.reply_text('`{} wird jetzt für {}s gewässert.`'.format(Target, Water_Time), parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
+        update.message.reply_text(Water_On_All.format(Target, Water_Time), parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
         for vegetable in Vegetables:
             conf.switch_on(vegetable)
             time.sleep(int(Water_Time))
         for vegetable in Vegetables:
             conf.switch_off(vegetable)
-            update.message.reply_text(timestamp() + '`Komplettbewässerung wurde nach {}s beendet.`\n\n'.format(Water_Time) + Msg_New_Choice, parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
+            update.message.reply_text(timestamp() + Water_Off_All.format(Water_Time) + Msg_New_Choice, parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
 
     else:
         update.message.reply_text(Msg_Choice, reply_markup=markup1)
@@ -196,13 +201,13 @@ def water(update, vegetable):
 def water_group(update, group):
     logging.info('Duration: ' + Water_Time)
     logging.info('Toggle ' + str(group))
-    update.message.reply_text(Water_On_All.format(Target, Water_Time), parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
+    update.message.reply_text(Water_On_Group.format(Target, Water_Time), parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
     for member in group:
         conf.switch_on(member)
     time.sleep(int(Water_Time))
     for member in group:
         conf.switch_off(member)
-    update.message.reply_text(timestamp() + Water_Off_All.format(Target, Water_Time) + Msg_New_Choice, parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
+    update.message.reply_text(timestamp() + Water_Off_Group.format(Target, Water_Time) + Msg_New_Choice, parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
     return
 
 

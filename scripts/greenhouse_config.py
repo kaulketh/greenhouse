@@ -4,13 +4,12 @@
 # author: Thomas Kaulke
 
 import access as access
+
 import time
 import RPi.GPIO as GPIO
 import logging
 
 
-# logger
-logging.basicConfig(filename='./home/pi/scripts/TelegramBot/greenhouse.log', format='%(asctime)s %(levelname)-8s %(name)-25s %(message)s',datefmt='[%Y-%m-%d %H:%M:%S]', level=logging.INFO)
 
 # API Token and Chat Id's from external file          
 admins = [access.thk, access.annett]
@@ -55,9 +54,19 @@ def switch_off(pin):
     GPIO.cleanup(pin)
     return
 
-# time stamp
+# date time strings
 timestamp=time.strftime('[%d.%m.%Y %H:%M:%S] ')
 timestamp_line=time.strftime('`[%d.%m.%Y %H:%M:%S]\n---------------------\n`')
 
 # live stream address
 live = access.live
+
+# logging
+log_file='./home/pi/scripts/TelegramBot/greenhouse.log'
+log_format='%(asctime)s %(levelname)-8s %(name)-25s %(message)s'
+log_date_format='[%Y-%m-%d %H:%M:%S]'
+logging.basicConfig(filename=log_file, format=log_format,datefmt=log_date_format, level=logging.INFO)
+
+run_extended_greenhouse='sudo python /home/pi/scripts/TelegramBot/ext_greenhouse.py'
+
+
