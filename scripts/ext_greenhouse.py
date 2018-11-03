@@ -5,7 +5,6 @@
 
 import greenhouse_config as conf
 import greenhouse_strings_german as text
-import conf.GPIO as GPIO
 
 import sys
 import time
@@ -33,9 +32,6 @@ CHILI_03=conf.RELAIS_08
 Vegetables = (TOMATO_01, TOMATO_02, TOMATO_03, CHILI_01, CHILI_02, CHILI_03)
 Tomatoes = (TOMATO_01, TOMATO_02, TOMATO_03)
 Chilis = (CHILI_01, CHILI_02, CHILI_03)
-
-# comment if warnings required
-GPIO.setwarnings(False)
 
 # API Token and chat Id         
 apiToken = conf.token
@@ -76,7 +72,7 @@ readcmd('kill -9 ' + PID1)
 
 # Send message to defined API with given text(msg)
 def sendmsg(msg):
-    os.system('curl -s -k https://api.telegram.org/bot' + apiToken + '/sendMessage -d text="' + msg + '" -d chat_id='+Id)
+    os.system('curl -s -k https://api.telegram.org/bot' + apiToken + '/sendMessage -d text="' + msg + '" -d chat_id='+str(Id))
     logging.info('Message send: ' + msg)
     return
 

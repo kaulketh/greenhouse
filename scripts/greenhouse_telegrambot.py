@@ -109,35 +109,41 @@ def duration(bot, update):
         update.message.reply_text(text.msg_new_choice, parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
         logging.info(text.msg_new_choice)
 
-    elif Water_Time == str(Panic):
+    elif Water_Time == str(text.panic):
         update.message.reply_text(text.msg_panic, parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove()) 
         logging.info(text.msg_panic)
         os.system(conf.run_extended_greenhouse)
 
     elif Target == str(text.group1[1]):
-        water(update, TOMATO_01)
+        water(update, Tomatoes[0])
 
     elif Target == str(text.group1[2]):
-        water(update, TOMATO_02)
+        water(update, Tomatoes[1])
 
     elif Target == str(text.group1[3]):
-        water(update, TOMATO_03)
+        water(update, Tomatoes[2])
 
     elif Target == str(text.group2[1]):
-        water(update, CHILI_01)
+        water(update, Chilis[0])
 
     elif Target == str(text.group2[2]):
-        water(update, CHILI_02)
+        water(update, Chilis[1])
 
     elif Target == str(text.group2[3]):
-        water(update, CHILI_03)
+        water(update, Chilis[2])
 
     elif Target == str(text.group1[0]):
         water_group(update, Tomatoes)
 
     elif Target == str(text.group2[0]):
         water_group(update, Chilis)
+    
+    elif Target == str(text.group3[1]):
+        water(update, Reserve[0])
         
+    elif Target == str(text.group3[2]):
+        water(update, Reserve[1])
+                
     elif Target == str(text.group3[0]):
         water_group(update, Reserve)
         
@@ -146,10 +152,11 @@ def duration(bot, update):
         update.message.reply_text(text.water_on_all.format(Target, Water_Time), parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
         for vegetable in Vegetables:
             conf.switch_on(vegetable)
-            time.sleep(int(Water_Time))
+        
+        time.sleep(int(Water_Time))
         for vegetable in Vegetables:
             conf.switch_off(vegetable)
-            update.message.reply_text(timestamp() + text.water_off_all.format(Water_Time) + text.msg_new_choice, parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
+        update.message.reply_text(timestamp() + text.water_off_all.format(Water_Time) + text.msg_new_choice, parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
 
     else:
         update.message.reply_text(text.msg_choice, reply_markup=markup1)

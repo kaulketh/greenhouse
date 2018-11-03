@@ -50,6 +50,7 @@ def switch_on(pin):
 
 def switch_off(pin):
     logging.info('switch off: ' + str(pin))
+    GPIO.setup(pin,GPIO.OUT)
     GPIO.output(pin,GPIO.HIGH)
     GPIO.cleanup(pin)
     return
