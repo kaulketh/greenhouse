@@ -73,4 +73,3 @@ logging.basicConfig(filename=log_file, format=log_format,
                     datefmt=log_date_format, level=logging.INFO)
 
 run_extended_greenhouse = 'sudo python /home/pi/scripts/TelegramBot/ext_greenhouse.py '
-

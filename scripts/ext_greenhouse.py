@@ -68,8 +68,10 @@ def water_off_group(group):
 
 # Assign default output (stdout 1 and stderr 2) to file and read in
 # variable and get back
+
+
 def readcmd(cmd):
-    os.system(cmd + ' > '+text.tmp_file+' 2>&1')
+    os.system(cmd + ' > ' + text.tmp_file + ' 2>&1')
     data = ""
     file = open(text.tmp_file, 'r')
     data = file.read()
@@ -84,6 +86,8 @@ logging.info(
 readcmd('kill -9 ' + PID1)
 
 # Send message to defined API with given text(msg)
+
+
 def sendmsg(msg):
     os.system('curl -s -k https://api.telegram.org/bot' + apiToken +
               '/sendMessage -d text="' + msg + '" -d chat_id=' + str(Id))

@@ -80,7 +80,7 @@ def start(bot, update):
                     user_id = update.callback_query.from_user.id
                 except (NameError, AttributeError):
                     return ConversationHandler.END
-                
+
     if user_id not in LIST_OF_ADMINS:
         logging.info('Not allowed access by: ' + str(user_id) + ' - ' +
                      update.message.from_user.last_name + ',' + update.message.from_user.first_name)
