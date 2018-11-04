@@ -4,7 +4,7 @@
 # author: Thomas Kaulke
 
 import greenhouse_config as conf
-import ext_greenhouse_strings as text
+import ext_greenhouse_lib as text
 
 import sys
 import time
@@ -23,7 +23,6 @@ logging.basicConfig(filename=conf.log_file, format=conf.log_format,
 relais01 = conf.RELAIS_01
 relais02 = conf.RELAIS_02
 relais03 = conf.RELAIS_03
-# TODO: implement reserve
 relais04 = conf.RELAIS_04
 relais05 = conf.RELAIS_05
 relais06 = conf.RELAIS_06
@@ -39,7 +38,7 @@ group_three = (relais04, relais05)
 
 # API Token and chat Id
 apiToken = conf.token
-Id = conf.mainId
+Id = sys.argv[1]
 
 # time stamp
 
@@ -69,12 +68,10 @@ def water_off_group(group):
 
 # Assign default output (stdout 1 and stderr 2) to file and read in
 # variable and get back
-
-
 def readcmd(cmd):
-    os.system(cmd + ' > tblog.txt 2>&1')
+    os.system(cmd + ' > '+text.tmp_file+' 2>&1')
     data = ""
-    file = open('tblog.txt', 'r')
+    file = open(text.tmp_file, 'r')
     data = file.read()
     file.close()
     return data
@@ -87,8 +84,6 @@ logging.info(
 readcmd('kill -9 ' + PID1)
 
 # Send message to defined API with given text(msg)
-
-
 def sendmsg(msg):
     os.system('curl -s -k https://api.telegram.org/bot' + apiToken +
               '/sendMessage -d text="' + msg + '" -d chat_id=' + str(Id))
@@ -97,7 +92,6 @@ def sendmsg(msg):
 
 
 def handle(msg):
-
     chat_id = msg['chat']['id']
     command = msg['text']
 
@@ -129,7 +123,7 @@ def handle(msg):
         water_on_group(group_three)
     elif command == text.cmd_group3_off:
         sendmsg('group 3 off')
-        water_off_group(group_three)        
+        water_off_group(group_three)
     elif command == text.cmd_kill:
         # clear monitor directory
         readcmd(text.clear_monitor)
@@ -152,6 +146,7 @@ def handle(msg):
 bot = telepot.Bot(apiToken)
 bot.message_loop(handle)
 logging.info('I am listening...')
+
 
 while 1:
     try:

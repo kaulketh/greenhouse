@@ -4,7 +4,7 @@
 # adapted: author: Thomas Kaulke, kaulketh@gmail.com
 
 import greenhouse_config as conf
-import greenhouse_strings_german as text
+import greenhouse_lib_german as text
 
 from telegram import (ReplyKeyboardMarkup,
                       ReplyKeyboardRemove, ParseMode, MessageEntity)
@@ -40,6 +40,7 @@ API_TOKEN = conf.token
 
 Target = text.empty
 Water_Time = text.empty
+user_id = text.empty
 
 
 # keyboard config
@@ -49,14 +50,13 @@ keyboard1 = [[str(text.group1[1]), str(text.group1[2]), str(text.group1[3])],
              [str(text.group3[0])],
              [str(text.group2[1]), str(text.group2[2]), str(text.group2[3])],
              [str(text.group2[0])],
-             [text.all, text.stop, text.panic],
+             [text.all, text.stopBot, text.panic],
              ]
 
 markup1 = ReplyKeyboardMarkup(
     keyboard1, resize_keyboard=True, one_time_keyboard=False)
 
-keyboard2 = [[text.cancel],
-             [text.stop]
+keyboard2 = [[text.cancel, text.stopBot, text.panic]
              ]
 markup2 = ReplyKeyboardMarkup(
     keyboard2, resize_keyboard=True, one_time_keyboard=False)
@@ -65,6 +65,7 @@ markup2 = ReplyKeyboardMarkup(
 # start bot
 def start(bot, update):
     logging.info('Bot started.')
+    global user_id
     try:
         user_id = update.message.from_user.id
 
@@ -79,7 +80,7 @@ def start(bot, update):
                     user_id = update.callback_query.from_user.id
                 except (NameError, AttributeError):
                     return ConversationHandler.END
-
+                
     if user_id not in LIST_OF_ADMINS:
         logging.info('Not allowed access by: ' + str(user_id) + ' - ' +
                      update.message.from_user.last_name + ',' + update.message.from_user.first_name)
@@ -103,7 +104,7 @@ def selection(bot, update):
         update.message.reply_text(
             text.msg_panic, parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
         logging.info(text.msg_panic)
-        os.system(conf.run_extended_greenhouse)
+        os.system(conf.run_extended_greenhouse + str(user_id))
 
     else:
         update.message.reply_text(text.msg_duration.format(
@@ -126,7 +127,7 @@ def duration(bot, update):
         update.message.reply_text(
             text.msg_panic, parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
         logging.info(text.msg_panic)
-        os.system(conf.run_extended_greenhouse)
+        os.system(conf.run_extended_greenhouse + str(user_id))
 
     elif Target == str(text.group1[1]):
         water(update, group_one[0])
