@@ -114,18 +114,21 @@ sudo pip install telepot
 
 #### 11. Add/create python scripts in pi user directory
 _**Make them executable and chown root:root!**_
-* [scripts/TelegramBot/greenhouse_telegrambot.py](scripts/greenhouse_telegrambot.py)
-* [scripts/TelegramBot/ext_greenhouse.py](scripts/ext_greenhouse.py)
-* [scripts/TelegramBot/greenhouse_config.py](scripts/greenhouse_config.py) contains settings
-* [scripts/TelegramBot/greenhouse_strings_german.py](scripts/greenhouse_strings_german.py) contains strings for descriptions and messages
-* [scripts/TelegramBot/greenhouse_strings_english.py](scripts/greenhouse_strings_english.py) if required, same like German version, if used adapt imports!
-* [scripts/TelegramBot/access.py] external file, contains api token, chat IDs and other sensitive data
+* [access.py] external file, content will not provided, contains api token, chat IDs and other sensitive data
+* [greenhouse_config.py](scripts/greenhouse_config.py) contains settings and properties
+* [greenhouse_telegrambot.py](scripts/greenhouse_telegrambot.py) main bot
+* [greenhouse_lib_german.py](scripts/greenhouse_lib_german.py) file with constants, contains strings for descriptions and messages
+* [ext_greenhouse.py](scripts/ext_greenhouse.py) extended bot
+* [ext_greenhouse_lib.py](scripts/ext_greenhouse_lib.py) some constants, contains strings for commands and texts
+* [greenhouse_lib_english.py](scripts/greenhouse_lib_english.py) if required, same like German version, if used adapt imports!
 
 #### 12. Enable autostart
-Add the program to be run at startup to the init.d directory, insert **[telegrambot.sh](scripts/telegrambot.sh)** in **/etc/init.d** as root
+Add the program to be run at startup to the init.d directory, insert [telegrambot.sh](scripts/telegrambot.sh) in **/etc/init.d** as root
+
 ```
 sudo chmod +x telegrambot.sh
 sudo update-rc.d telegrambot.sh defaults
 sudo reboot
 ```
+
 * [how to](https://www.dexterindustries.com/howto/run-a-program-on-your-raspberry-pi-at-startup/#init)
