@@ -114,13 +114,13 @@ sudo pip install telepot
 	
 ### 11. Add/create python scripts in pi user directory
 _**Make them executable and chown root:root!**_
-* [access.py] external file, content will not provided, contains api token, chat IDs and other sensitive data
-* [greenhouse_config.py](scripts/greenhouse_config.py) contains settings and properties
-* [greenhouse_telegrambot.py](scripts/greenhouse_telegrambot.py) main bot
-* [greenhouse_lib_german.py](scripts/greenhouse_lib_german.py) file with constants, contains strings for descriptions and messages
-* [ext_greenhouse.py](scripts/ext_greenhouse.py) extended bot
-* [ext_greenhouse_lib.py](scripts/ext_greenhouse_lib.py) some constants, contains strings for commands and texts
-* [greenhouse_lib_english.py](scripts/greenhouse_lib_english.py) if required, same like German version, if used adapt imports!
+* access.py - external file, content will not provided, contains api token, chat IDs and other sensitive data
+* [greenhouse_config.py](scripts/greenhouse_config.py) - contains settings and properties
+* [greenhouse_telegrambot.py](scripts/greenhouse_telegrambot.py) - main bot
+* [greenhouse_lib_german.py](scripts/greenhouse_lib_german.py) - file with constants, contains strings for descriptions and messages
+* [ext_greenhouse.py](scripts/ext_greenhouse.py) - extended bot
+* [ext_greenhouse_lib.py](scripts/ext_greenhouse_lib.py) - some constants, contains strings for commands and texts
+* [greenhouse_lib_english.py](scripts/greenhouse_lib_english.py) - if required, same like German version, if used adapt imports!
 
 
 ### 12. Enable autostart
