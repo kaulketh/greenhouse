@@ -16,7 +16,7 @@
 * [Wago EPSITRON COMPACT Power, 24VDC 6A | 787-1226](https://www.wago.com/de/stromversorgungen/primaer-getaktete-stromversorgung/p/787-1226)
 
 ### Relay card to control valves
-* i.e. tinxi® 8 channel relay modul 5VDC
+* i.e. tinxi 8 channel relay modul 5VDC
 * https://www.amazon.de/8-Kanal-Optokoppler-8-Channel-Arduino-Raspberry/dp/B00AEIDWXK
 * https://www.amazon.de/gp/product/B01C2IN2U2/ref=oh_aui_detailpage_o00_s00?ie=UTF8&psc=1
 
