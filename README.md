@@ -17,7 +17,9 @@ ChatID:	<chat_id>
 ### 2. Raspberry Pi OS image
 * download [latest stretch lite w/o desktop](https://downloads.raspberrypi.org/raspbian_lite_latest) 
 * prepare sd card / flash image, e.g. use [Etcher](https://etcher.io/?ref=etcher_footer) 
-* _**enable SSH access**_ (e.g. mkdir ssh in dir boot on sd card)
+* _**enable SSH access**_ 
+    * As of the November 2016 release, Raspbian has the SSH server disabled by default. You will have to enable it manually. 
+    * For headless setup, SSH can be enabled by placing a file named "ssh", without any extension, onto the boot partition of the SD card.
 
 
 ### 3. Boot raspi and connect via ssh
