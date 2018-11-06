@@ -29,7 +29,7 @@ group_three = conf.GROUP_03
 
 # time stamp
 def timestamp():
-    return conf.timestamp_line
+    return conf.getTimestampLine()
 
 
 # api and bot settings
