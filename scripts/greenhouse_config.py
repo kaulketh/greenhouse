@@ -58,9 +58,12 @@ def switch_off(pin):
 
 
 # date time strings
-timestamp = time.strftime('[%d.%m.%Y %H:%M:%S] ')
-timestamp_line = time.strftime(
-    '`[%d.%m.%Y %H:%M:%S]\n---------------------\n`')
+getTimestamp():
+    return time.strftime('[%d.%m.%Y %H:%M:%S] ')
+    
+getTimestampLine()
+return time.strftime('`[%d.%m.%Y %H:%M:%S]\n---------------------\n`')
+
 
 # live stream address
 live = access.live
