@@ -21,7 +21,7 @@ if [ $# -le 1  ]
 fi
 echo "Before execute update make sure that access file with the right settings is in the current directory!"
 echo "Waiting 7 seconds, maybe u will break execution of this script..."
-sleep(7)
+sleep 7
 echo
 echo "Remove old compilation and log files..."
 sudo rm -v *.pyc
