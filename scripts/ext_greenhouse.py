@@ -42,7 +42,7 @@ Id = sys.argv[1]
 
 # time stamp
 def timestamp():
-    return conf.timestamp()
+    return conf.getTimestamp()
 
 
 # live stream address
