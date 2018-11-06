@@ -23,8 +23,9 @@ echo "Before execute update make sure that access file is still in current direc
 echo "Waiting 7 seconds, maybe u will break execution of this script..."
 sleep(7)
 echo
-echo "Remove old compilation files..."
+echo "Remove old compilation and log files..."
 sudo rm -v *.pyc
+sudo rm -v *.log
 echo
 echo "Download from repository..."
 sudo wget -O $archive https://gitlab.bekast.de/api/v4/projects/$project/repository/archive?private_token=$2
