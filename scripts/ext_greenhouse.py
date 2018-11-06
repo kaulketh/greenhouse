@@ -41,26 +41,20 @@ apiToken = conf.token
 Id = sys.argv[1]
 
 # time stamp
-
-
 def timestamp():
-    return conf.timestamp
+    return conf.timestamp()
 
 
 # live stream address
 live = conf.live
 
 # water a group of targets
-
-
 def water_on_group(group):
     for member in group:
         conf.switch_on(member)
     return
 
 # water off for a  group of targets
-
-
 def water_off_group(group):
     for member in group:
         conf.switch_off(member)
