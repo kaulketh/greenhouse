@@ -20,9 +20,8 @@ if [ $# -le 1  ]
 		exit 1
 fi
 
-echo "Remove old files..."
+echo "Remove old compilation files..."
 sudo rm -v *.pyc
-sudo rm -v *.py
 echo
 echo "Download from repository..."
 sudo wget -O $archive https://gitlab.bekast.de/api/v4/projects/$project/repository/archive?private_token=$2
@@ -40,6 +39,7 @@ echo "Removing temporary files..."
 sudo rm -r -v greenhouse-master*
 sudo rm -v *.gz
 echo
+
 echo "Change mode of new files..."
 sudo chmod -v +x *.py
 sudo chmod -v +x *.sh
