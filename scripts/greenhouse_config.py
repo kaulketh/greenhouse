@@ -58,11 +58,11 @@ def switch_off(pin):
 
 
 # date time strings
-getTimestamp():
+def getTimestamp():
     return time.strftime('[%d.%m.%Y %H:%M:%S] ')
     
-getTimestampLine()
-return time.strftime('`[%d.%m.%Y %H:%M:%S]\n---------------------\n`')
+def getTimestampLine():
+    return time.strftime('`[%d.%m.%Y %H:%M:%S]\n---------------------\n`')
 
 
 # live stream address
