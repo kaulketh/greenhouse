@@ -3,7 +3,7 @@
 # -*- coding: utf-8 -*-
 # author: Thomas Kaulke
 
-from subprocess import Popen,PIPE,STDOUT,call
+from subprocess import Popen, PIPE, STDOUT, call
 
 import greenhouse_config as config
 
@@ -20,9 +20,9 @@ gpios = (21, 22, 23, 24, 25, 27, 28, 29)
 
 
 def getState(pin):
-        proc=Popen('gpio read '+str(pin), shell=True,stdout=PIPE,)
-        output=proc.communicate()[0]
-        return output
+    proc = Popen('gpio read ' + str(pin), shell=True, stdout=PIPE,)
+    output = proc.communicate()[0]
+    return output
 
 
 while 1:
@@ -30,7 +30,8 @@ while 1:
         index = gpios.index(pin)
         state = int(getState(pin))
         if state == 0:
-                logging.info('GPIO.'+str(pin)+':'+str(state)+' -> Valve open at pin '+str(config.GROUP_ALL[index])+'!')
+            logging.info('GPIO.' + str(pin) + ':' + str(state) +
+                         ' -> Valve open at pin ' + str(config.GROUP_ALL[index]) + '!')
     try:
         time.sleep(1)
 
@@ -39,4 +40,3 @@ while 1:
         exit()
     except:
         logging.error('Other error or exception occured!')
-

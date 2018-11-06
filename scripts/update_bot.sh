@@ -1,8 +1,11 @@
 #!bin/sh
+# updates all scripts from the repository
+
 
 archive='greenhouse.tar.gz'
 project='53'
-token='pCVZRwsUDm9AWnEznkZo'
+#token='pCVZRwsUDm9AWnEznkZo'
+token='eXe4NA6xq2WQeg3DHFBd'
 
 # function display usage
 display_usage() {

@@ -13,6 +13,15 @@ group1 = ('Ventile 1 bis 3', 'Ventil 1', 'Ventil 2', 'Ventil 3')
 group2 = ('Ventile 6 bis 8', 'Ventil 6', 'Ventil 7', 'Ventil 8')
 group3 = ('Ventil 4 und 5', 'Ventil 4', 'Ventil 5')
 
+# keybord configs
+kb1 = [[group1[1], group1[2], group1[3]],
+       [group3[1], group3[2]],
+       [group2[1], group2[2], group2[3]],
+       [group1[0], group3[0], group2[0]],
+       [all, stopBot]
+       ]
+kb2 = [[cancel, stopBot]]
+
 # messages
 msg_welcome = '`Willkommen {}, lass uns Ventile öffnen!\n`'
 msg_stop = '`Na dann, tschüss {}!`'

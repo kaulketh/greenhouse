@@ -44,20 +44,11 @@ user_id = text.empty
 
 
 # keyboard config
-keyboard1 = [[str(text.group1[1]), str(text.group1[2]), str(text.group1[3])],
-             [str(text.group1[0])],
-             [str(text.group3[1]), str(text.group3[2])],
-             [str(text.group3[0])],
-             [str(text.group2[1]), str(text.group2[2]), str(text.group2[3])],
-             [str(text.group2[0])],
-             [text.all, text.stopBot, text.panic],
-             ]
-
+keyboard1 = text.kb1
 markup1 = ReplyKeyboardMarkup(
     keyboard1, resize_keyboard=True, one_time_keyboard=False)
 
-keyboard2 = [[text.cancel, text.stopBot, text.panic]
-             ]
+keyboard2 = text.kb2
 markup2 = ReplyKeyboardMarkup(
     keyboard2, resize_keyboard=True, one_time_keyboard=False)
 

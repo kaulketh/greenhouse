@@ -13,13 +13,14 @@ group1 = ('Tomatoes', 'Tomatoes 1', 'Tomatoes 2', 'Tomatoes 3')
 group2 = ('Chilis', 'Chili 1', 'Chili 2', 'Chili 3')
 group3 = ('Reserve', 'Reserve 1', 'Reserve 2')
 
+# keybord configs
 kb1 = [[group1[1], group1[2], group1[3]],
-        [group3[1], group3[2]],
-        [group2[1], group2[2], group2[3]],
-        [group1[0], group3[0], group2[0]],
-        [all, stopBot]
-        ]
-kb2 =  [[cancel,stopBot]]
+       [group3[1], group3[2]],
+       [group2[1], group2[2], group2[3]],
+       [group1[0], group3[0], group2[0]],
+       [all, stopBot]
+       ]
+kb2 = [[cancel, stopBot]]
 
 # messages
 msg_welcome = '`Welcome {}, let us water plants!\n`'
