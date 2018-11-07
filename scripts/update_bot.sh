@@ -1,5 +1,5 @@
 #!bin/sh
-#updates the scripts from the repository in current directory
+# updates the scripts from the repository in current directory
 
 
 archive='greenhouse.tar.gz'
