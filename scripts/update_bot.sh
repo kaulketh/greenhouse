@@ -5,9 +5,6 @@
 archive='greenhouse.tar.gz'
 project='53'
 
-echo "Get last commit from repository..."
-commit = curl --header "PRIVATE-TOKEN: $1" "https://gitlab.bekast.de/api/v4/projects/$project/repository/commits/master" | grep -Po '(?<="id":)(.*?)(?=,)'
-
 # function display usage
 display_usage() {
 echo
@@ -16,12 +13,16 @@ echo "ie: $BASH_SOURCE  eXe4NA6xq2WQeg3DHFBd"
 }
 
 
+
 # if less than one argument supplied, display usage
 if [ $# -le 0  ] 
 	then 
 		display_usage
 		exit 1
 fi
+echo "Get last commit from repository..."
+commit=$(curl --header "PRIVATE-TOKEN: "$1 "https://gitlab.bekast.de/api/v4/projects/"$project"/repository/commits/master" | grep -Po '(?<="id":)(.*?)(?=,)')
+echoe $commit
 echo
 echo "Before execute update make sure that access file with the right settings is in the current directory!"
 echo "Waiting 7 seconds, maybe u will break execution of this script..."
