@@ -27,9 +27,10 @@ echo "Before execute update make sure that access file with the right settings i
 echo "Waiting 7 seconds, maybe u will break execution of this script..."
 sleep 7
 echo
-echo "Remove old compilation and log files..."
+echo "Remove old compilation, tnmp and log files..."
 sudo rm -v /home/pi/scripts/TelegramBot/*.pyc
 sudo rm -v /home/pi/scripts/TelegramBot/*.log
+sudo rm -v /home/pi/scripts/TelegramBot/*.tmp
 sudo rm -v /*.log
 echo
 echo "Download from repository..."
