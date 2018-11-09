@@ -1,6 +1,9 @@
 #!bin/sh
 # updates all scripts from the repository according the lats commit
 
+timestamp="$(date +'%F %H:%M:%S')"
+exec > update.logs
+echo $timestamp
 
 archive='greenhouse.tar.gz'
 project='53'
@@ -21,19 +24,13 @@ fi
 
 echo "Get last commit from repository..."
 commit=$(curl --header "PRIVATE-TOKEN: "$1 "https://gitlab.bekast.de/api/v4/projects/"$project"/repository/commits/master" | grep -Po '(?<="id":)(.*?)(?=,)' | sed "s/\"//g")
-echo "Last commit Id: "$commit
-echo
-echo "Before execute update make sure that access file with the right settings is in the current directory!"
-echo "Waiting 7 seconds, maybe u will break execution of this script..."
-sleep 7
-echo
-echo "Remove old compilation, tnmp and log files..."
+echo "Remove old compilation, tmp and log files..."
 sudo rm -v /home/pi/scripts/TelegramBot/*.pyc
 sudo rm -v /home/pi/scripts/TelegramBot/*.log
 sudo rm -v /home/pi/scripts/TelegramBot/*.tmp
 sudo rm -v /*.log
 echo
-echo "Download from repository..."
+echo "Download last commit: "$commit
 sudo wget -O $archive https://gitlab.bekast.de/api/v4/projects/$project/repository/archive?private_token=$1
 echo
 echo "Extracting..."
@@ -55,6 +52,5 @@ sudo chmod -v +x /home/pi/scripts/TelegramBot/*.py
 sudo chmod -v +x /home/pi/scripts/TelegramBot/*.sh
 echo
 echo "Files updated!"
-echo "Restart whole system in 7 seconds! Login later again manually if required or break at this position!"
-sleep 7
+sleep 2
 sudo reboot
