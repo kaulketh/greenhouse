@@ -21,8 +21,8 @@ if [ $# -le 0  ]
 		exit 1
 fi
 echo "Get last commit from repository..."
-commit=$(curl --header "PRIVATE-TOKEN: "$1 "https://gitlab.bekast.de/api/v4/projects/"$project"/repository/commits/master" | grep -Po '(?<="id":)(.*?)(?=,)')
-echoe $commit
+commit=$(curl --header "PRIVATE-TOKEN: "$1 "https://gitlab.bekast.de/api/v4/projects/"$project"/repository/commits/master" | grep -Po '(?<="id":)(.*?)(?=,)' | sed "s/\"//g")
+echo "Last commit Id: "$commit
 echo
 echo "Before execute update make sure that access file with the right settings is in the current directory!"
 echo "Waiting 7 seconds, maybe u will break execution of this script..."
@@ -54,6 +54,6 @@ sudo chmod -v +x *.py
 sudo chmod -v +x *.sh
 echo
 echo "Bot updated!"
-echo "Restart whole system in 5 seconds! Login later manually again if required!"
-sleep 5
+echo "Restart whole system in 7 seconds! Login later manually again if required!"
+sleep 7
 sudo reboot
