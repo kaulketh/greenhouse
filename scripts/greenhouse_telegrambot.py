@@ -49,8 +49,7 @@ keyboard1 = text.kb1
 markup1 = ReplyKeyboardMarkup(
     keyboard1, resize_keyboard=True, one_time_keyboard=False)
 
-keyboard2 = keyboards.kbd2
-#keyboard2 = text.kb2
+keyboard2 = text.kb2
 markup2 = ReplyKeyboardMarkup(keyboard2, resize_keyboard=True, one_time_keyboard=False)
 
 
