@@ -5,6 +5,7 @@
 
 import greenhouse_config as conf
 import greenhouse_lib_german as text
+import keyboard_lib as keyboards
 
 from telegram import (ReplyKeyboardMarkup,
                       ReplyKeyboardRemove, ParseMode, MessageEntity)
@@ -48,9 +49,10 @@ keyboard1 = text.kb1
 markup1 = ReplyKeyboardMarkup(
     keyboard1, resize_keyboard=True, one_time_keyboard=False)
 
-keyboard2 = text.kb2
-markup2 = ReplyKeyboardMarkup(
-    keyboard2, resize_keyboard=True, one_time_keyboard=False)
+keybord2 = keyboards.kbd2
+markup2 = keyboards.keyboard2
+#keyboard2 = text.kb2
+#markup2 = ReplyKeyboardMarkup(    keyboard2, resize_keyboard=True, one_time_keyboard=False)
 
 
 # start bot
