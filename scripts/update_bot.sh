@@ -1,6 +1,6 @@
 #!bin/sh
 # updates all scripts from the repository according the lats commit
-
+echo #################################################################################################################
 timestamp="$(date +'%F %H:%M:%S')"
 exec >> update.logs
 echo $timestamp
@@ -53,6 +53,6 @@ sudo chmod -v +x /home/pi/scripts/TelegramBot/*.sh
 echo
 timestamp="$(date +'%F %H:%M:%S')"
 echo "Files updated:"$timestamp
-echo
+echo #################################################################################################################
 sleep 2
 sudo reboot
