@@ -34,7 +34,7 @@ sudo systemctl enable dhcpcd
 sudo nano /etc/dhcpcd.conf
 sudo reboot
 ```
-* [elektronik-kompendium](https://www.elektronik-kompendium.de/sites/raspberry-pi/1912151.htm) (I recommend variant 2)
+* [how-to at elektronik-kompendium](https://www.elektronik-kompendium.de/sites/raspberry-pi/1912151.htm) (I recommend variant 2)
  
 
 _**Retest and doublecheck network conection and settings before executing next steps!!!!!**_
@@ -68,7 +68,7 @@ other possible method could be e.g insert crontabs
     0,5,10,15,20,25,30,35,40,45,50,55 * * * * sleep 31 ; wget -O - http://freedns.afraid.org/dynamic/update.php?******************************************** >> /tmp/freedns_greenhouse_my_to.log 2>&1 &
     3,8,13,18,23,28,33,38,43,48,53,58 * * * * sleep 44 ; wget -O - http://freedns.afraid.org/dynamic/update.php?******************************************** >> /tmp/freedns_greenhouse_chickenkiller_com.log 2>&1 &
 ```				
-* [Dyn dns client with ssl](https://hexaju.wordpress.com/2013/03/20/raspberry-pi-as-dyndns-client-with-ssl/)
+* [how-to dyndns client with ssl](https://hexaju.wordpress.com/2013/03/20/raspberry-pi-as-dyndns-client-with-ssl/)
  
 
 
@@ -84,7 +84,7 @@ sudo pure-pw mkdb
 sudo ln -s /etc/pure-ftpd/conf/PureDB /etc/pure-ftpd/auth/60puredb 
 sudo service pure-ftpd restart
 ```
-* [Raspberry Pi remote access](https://www.raspberrypi.org/documentation/remote-access/ftp.md)
+* [how-to remote access](https://www.raspberrypi.org/documentation/remote-access/ftp.md)
  
 
 
@@ -99,8 +99,8 @@ sudo chgrp motion /home/pi/Monitor
 chmod g+rwx /home/pi/Monitor
 sudo service motion start
 ```			
-* [Raspberry live stream 1](https://tutorials-raspberrypi.de/raspberry-pi-ueberwachungskamera-livestream-einrichten/)
-* [Raspberry live stream 2](https://www.datenreise.de/raspberry-pi-ueberwachungskamera-livestream/)
+* [How-to 1 live stream](https://tutorials-raspberrypi.de/raspberry-pi-ueberwachungskamera-livestream-einrichten/)
+* [How-to 2 live stream](https://www.datenreise.de/raspberry-pi-ueberwachungskamera-livestream/)
 
 
 ### 9. Configure port forwarding in router accordingly the dns and port settings
