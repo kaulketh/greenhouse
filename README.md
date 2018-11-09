@@ -114,7 +114,7 @@ sudo pip install python-telegram-bot
 sudo pip install telepot
 ```
 	
-### 11. Add/create python scripts in pi user directory
+### 11. Add/create python scripts in pi user directory under scripts/TelegramBot
 _**Make them executable and chown root:root!**_
 * access.py - external file, content will not provided, contains api token, chat IDs and other sensitive data
 * [greenhouse_config.py](scripts/greenhouse_config.py) - contains settings and properties
@@ -123,6 +123,9 @@ _**Make them executable and chown root:root!**_
 * [ext_greenhouse.py](scripts/ext_greenhouse.py) - extended bot
 * [ext_greenhouse_lib.py](scripts/ext_greenhouse_lib.py) - some constants, contains strings for commands and texts
 * [greenhouse_lib_english.py](scripts/greenhouse_lib_english.py) - if required, same like German version, if used adapt imports!
+* [gpio_check.py](scripts/gpio_check.py) - to check state of GPIOs and logs if state == low, is added in autostart in telegrambot.sh
+* [update_bot.sh](scripts/update_bot.sh) - to updates all scripts from the repository by using last commit ID and a git access token
+   
 
 
 ### 12. Enable autostart
