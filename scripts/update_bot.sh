@@ -1,8 +1,9 @@
 #!bin/sh
 # updates all scripts from the repository according the lats commit
-echo -------------------------------------------------------------------------------------------------------
+
 timestamp="$(date +'%F %H:%M:%S')"
 exec >> update.logs
+echo -------------------------------------------------------------------------------------------------------
 echo $timestamp
 
 archive='greenhouse.tar.gz'
