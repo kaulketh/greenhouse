@@ -1,9 +1,9 @@
 #!bin/sh
 # updates all scripts from the repository according the lats commit
 
-timestamp="$(date +'%F %H:%M:%S')"
-exec > update.logs
-echo $timestamp
+#timestamp="$(date +'%F %H:%M:%S')"
+exec >> update.logs
+echo [(date +'%F %H:%M:%S')]
 
 archive='greenhouse.tar.gz'
 project='53'
@@ -51,6 +51,7 @@ echo "Change mode of new files..."
 sudo chmod -v +x /home/pi/scripts/TelegramBot/*.py
 sudo chmod -v +x /home/pi/scripts/TelegramBot/*.sh
 echo
-echo "Files updated!"
+echo "Files updated:"(date +'%F %H:%M:%S')
+echo
 sleep 2
 sudo reboot
