@@ -1,5 +1,5 @@
 #!bin/sh
-# updates the scripts from the repository in current directory
+# updates all scripts from the repository according the lats commit
 
 
 archive='greenhouse.tar.gz'
@@ -12,14 +12,13 @@ echo "Use it with your token for acces to gitlab!"
 echo "ie: $BASH_SOURCE  eXe4NA6xq2WQeg3DHFBd"
 }
 
-
-
 # if less than one argument supplied, display usage
 if [ $# -le 0  ] 
 	then 
 		display_usage
 		exit 1
 fi
+
 echo "Get last commit from repository..."
 commit=$(curl --header "PRIVATE-TOKEN: "$1 "https://gitlab.bekast.de/api/v4/projects/"$project"/repository/commits/master" | grep -Po '(?<="id":)(.*?)(?=,)' | sed "s/\"//g")
 echo "Last commit Id: "$commit
@@ -53,7 +52,7 @@ echo "Change mode of new files..."
 sudo chmod -v +x *.py
 sudo chmod -v +x *.sh
 echo
-echo "Bot updated!"
-echo "Restart whole system in 7 seconds! Login later manually again if required!"
+echo "Files updated!"
+echo "Restart whole system in 7 seconds! Login later again manually if required or break at this position!"
 sleep 7
 sudo reboot
