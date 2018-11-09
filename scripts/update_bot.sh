@@ -28,8 +28,9 @@ echo "Waiting 7 seconds, maybe u will break execution of this script..."
 sleep 7
 echo
 echo "Remove old compilation and log files..."
-sudo rm -v *.pyc
-sudo rm -v *.log
+sudo rm -v /home/pi/scripts/TelegramBot/*.pyc
+sudo rm -v /home/pi/scripts/TelegramBot/*.log
+sudo rm -v /*.log
 echo
 echo "Download from repository..."
 sudo wget -O $archive https://gitlab.bekast.de/api/v4/projects/$project/repository/archive?private_token=$1
@@ -49,8 +50,8 @@ sudo rm -v *.gz
 echo
 
 echo "Change mode of new files..."
-sudo chmod -v +x *.py
-sudo chmod -v +x *.sh
+sudo chmod -v +x /home/pi/scripts/TelegramBot/*.py
+sudo chmod -v +x /home/pi/scripts/TelegramBot/*.sh
 echo
 echo "Files updated!"
 echo "Restart whole system in 7 seconds! Login later again manually if required or break at this position!"
