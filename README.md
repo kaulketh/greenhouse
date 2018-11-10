@@ -115,16 +115,18 @@ sudo pip install telepot
 ```
 
 First check that wiringPi is not already installed.
-
 ```
 gpio -v
 ```
 
-WiringPi is maintained under GIT for ease of change tracking. If required to install do it like described as followed.
-
+If you get something, then you have it already installed. The next step is to work out if it’s installed via a standard package or from source. If you installed it from source, then you know what you’re doing – carry on – but if it’s installed as a package, you will need to remove the package first. To do this:
 ```
 sudo apt-get purge wiringpi
 hash -r
+```
+
+WiringPi is maintained under GIT for ease of change tracking. If required to install do it like described as followed.
+```
 sudo apt-get install git-core
 sudo apt-get update
 sudo apt-get upgrade
