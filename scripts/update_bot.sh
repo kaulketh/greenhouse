@@ -31,6 +31,7 @@ sudo rm -v /home/pi/scripts/TelegramBot/*.pyc
 sudo rm -v /home/pi/scripts/TelegramBot/*.log
 sudo rm -v /home/pi/scripts/TelegramBot/*.tmp
 sudo rm -v /*.log
+sudo rm -v /cmd.tmp
 echo
 echo "Download last commit: "$commit
 sudo wget -O $archive https://gitlab.bekast.de/api/v4/projects/$project/repository/archive?private_token=$1
