@@ -2,7 +2,7 @@
 # updates all scripts from the repository according the lats commit
 
 timestamp="$(date +'%F %H:%M:%S')"
-exec >> update.logs
+exec >> /home/pi/scripts/TelegramBot/update.logs
 echo -------------------------------------------------------------------------------------------------------
 echo "Start update: "$timestamp
 
