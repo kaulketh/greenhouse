@@ -33,6 +33,11 @@ def timestamp():
     return conf.getTimestampLine()
 
 
+# switch all off at first start, set all used GPIO=high
+    for member in all_groups:
+       conf.switch_off(member)
+       
+       
 # api and bot settings
 SELECT, DURATION = range(2)
 #LIST_OF_ADMINS = ['mock to test']
