@@ -1,5 +1,5 @@
 #!bin/sh
-# updates all scripts from the repository according the lats commit
+# updates all scripts from the repository according last commit
 
 timestamp="$(date +'%F %H:%M:%S')"
 exec >> /update.bot
