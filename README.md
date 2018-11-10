@@ -114,11 +114,15 @@ sudo pip install python-telegram-bot
 sudo pip install telepot
 ```
 
-WiringPi is maintained under GIT for ease of change tracking.
 First check that wiringPi is not already installed.
 
 ```
 gpio -v
+```
+
+WiringPi is maintained under GIT for ease of change tracking. If required to install do it like described as followed.
+
+```
 sudo apt-get purge wiringpi
 hash -r
 sudo apt-get install git-core
