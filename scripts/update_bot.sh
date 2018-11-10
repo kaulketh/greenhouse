@@ -2,7 +2,7 @@
 # updates all scripts from the repository according the lats commit
 
 timestamp="$(date +'%F %H:%M:%S')"
-exec >> /update_bot.log
+exec >> /update.bot
 echo -------------------------------------------------------------------------------------------------------
 echo "Start update: "$timestamp
 
