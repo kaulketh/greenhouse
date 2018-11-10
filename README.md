@@ -107,12 +107,32 @@ sudo service motion start
 [my live url](http://greenhouse.my.to:8082/)
 
 					
-### 10. Install required packages (python, python-telegram-bot and telepot)
+### 10. Install required packages (python, python-telegram-bot, telepot and wiringpi)
 ```
 sudo apt-get install build-essential python-dev python-pip python-smbus python-openssl git --yes //python
 sudo pip install python-telegram-bot
 sudo pip install telepot
 ```
+
+WiringPi is maintained under GIT for ease of change tracking.
+First check that wiringPi is not already installed.
+
+```
+gpio -v
+sudo apt-get purge wiringpi
+hash -r
+sudo apt-get install git-core
+sudo apt-get update
+sudo apt-get upgrade
+cd git
+git clone git://git.drogon.net/wiringPi
+cd ~/wiringPi
+git pull origin
+cd ~/wiringPi
+./build
+```
+
+[how to to install wiringpi](http://wiringpi.com/download-and-install/)
 	
 ### 11. Add/create python scripts in pi user directory under scripts/TelegramBot
 _**Make them executable and chown root:root!**_
