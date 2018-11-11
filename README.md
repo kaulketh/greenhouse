@@ -154,8 +154,10 @@ _**Make them executable and chown root:root!**_
    
 
 
-### 12. Enable autostart
-Add the program to be run at startup to the init.d directory, insert [telegrambot.sh](scripts/telegrambot.sh) in **/etc/init.d** as root
+### 12. Enable autostart of the bot application
+Add the program as service. 
+To enable autostart add it to the init.d directory, insert [telegrambot.sh](scripts/telegrambot.sh) in **/etc/init.d** as root
+and execute commands as followed.
 
 ```
 sudo chmod +x telegrambot.sh
