@@ -7,7 +7,7 @@ project='53'
 log='/update.bot'
 commit_id='/lastGreenhouseCommit.id'
 bot_dir='/home/pi/scripts/TelegramBot/'
-wait=5
+wait=3
 
 # get last commit id
 commit=$(curl -s --header "PRIVATE-TOKEN: "$token "https://gitlab.bekast.de/api/v4/projects/"$project"/repository/commits/master" | grep -Po '(?<="id":)(.*?)(?=,)' | sed "s/\"//g")
@@ -46,10 +46,10 @@ sudo rm -r -v greenhouse-master*
 sudo rm -v *.gz
 sudo chmod -v +x $bot_dir*.py
 sudo chmod -v +x $bot_dir*.sh
-echo "$(date +'%F %H:%M:%S') : Update finished, last commit id: $commit saved, reboot in $wait seconds."
 # save last commit id
 echo $commit > $commit_id
 sleep $wait
+echo "$(date +'%F %H:%M:%S') : Update finished, last commit id: $commit saved, whole system rebooted."
 sudo reboot
 }
 
