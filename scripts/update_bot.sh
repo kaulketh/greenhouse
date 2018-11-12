@@ -65,7 +65,7 @@ if [ $# -le 0  ]
 fi
 
 # if commit was not changed nothing will be updated
-if [$commit == $last_commit]:
+if [[$commit == $last_commit]]:
 	then
 		echo -------------------------------------------------------------------------------------------------------
 		echo "$(date +'%F %H:%M:%S') : No changes detected, nothing to update!"
