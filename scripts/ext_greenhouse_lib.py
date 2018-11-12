@@ -35,7 +35,7 @@ msg_help = 'Usage and possible commands in special mode:' + \
     newline + cmd_live + ' - Live stream'
 
 msg_unknown = 'Unknown in this mode...!\nPlease use /help for more information.'
-
+msg_update = 'Update info is available in separate log file.'
 tmp_file = 'cmd.tmp'
 del_tmp = 'rm -r ' + tmp_file
 clear_monitor = 'rm -r /home/pi/Monitor/*'
