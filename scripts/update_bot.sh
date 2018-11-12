@@ -46,7 +46,7 @@ sudo rm -r -v greenhouse-master*
 sudo rm -v *.gz
 sudo chmod -v +x $bot_dir*.py
 sudo chmod -v +x $bot_dir*.sh
-echo "$(date +'%F %H:%M:%S') : Update finished, save last commit id: $commit and reboot in $wait seconds."
+echo "$(date +'%F %H:%M:%S') : Update finished, last commit id: $commit saved, reboot in $wait seconds."
 # save last commit id
 echo $commit > $commit_id
 sleep $wait
