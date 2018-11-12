@@ -55,8 +55,7 @@ echo
 echo "$(date +'%F %H:%M:%S') : Update finished."
 # save last commit id
 echo $commit > /lastGreenhouseCommit.id
-echo "waiting to reboot..."
-sleep 20
+sleep 5
 sudo reboot
 }
 
