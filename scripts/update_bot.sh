@@ -7,10 +7,12 @@ project='53'
 
 # get last commit id
 commit=$(curl --header "PRIVATE-TOKEN: "$1 "https://gitlab.bekast.de/api/v4/projects/"$project"/repository/commits/master" | grep -Po '(?<="id":)(.*?)(?=,)' | sed "s/\"//g")
+echo "Got commit: "$commit
 # get saved commit
 last_commit=$(cat /lastGreenhouseCommit.id)
+echo "Saved commit :"$last_commit
 
-exec >> /update.bot
+#exec >> /update.bot
 
 # function display usage
 display_usage() {
@@ -54,7 +56,8 @@ echo
 echo "$(date +'%F %H:%M:%S') : Update finished."
 # save last commit id
 echo $commit > /lastGreenhouseCommit.id
-sleep 2
+echo "waiting to reboot..."
+sleep 20
 sudo reboot
 }
 
