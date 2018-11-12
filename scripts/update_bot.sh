@@ -1,10 +1,9 @@
 #!bin/sh
 # updates all scripts from the repository according to the last commit
 
-timestamp="$(date +'%F %H:%M:%S')"
 exec >> /update.bot
 echo -------------------------------------------------------------------------------------------------------
-echo "Start update: "$timestamp
+echo "Start update: $(date +'%F %H:%M:%S')"
 
 archive='greenhouse.tar.gz'
 project='53'
@@ -54,7 +53,6 @@ echo "Change mode of new files..."
 sudo chmod -v +x /home/pi/scripts/TelegramBot/*.py
 sudo chmod -v +x /home/pi/scripts/TelegramBot/*.sh
 echo
-timestamp="$(date +'%F %H:%M:%S')"
-echo "Files updated: "$timestamp
+echo "Files updated: $(date +'%F %H:%M:%S')"
 sleep 2
 sudo reboot
