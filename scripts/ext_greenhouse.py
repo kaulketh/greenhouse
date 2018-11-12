@@ -98,6 +98,8 @@ def handle(msg):
     # commands
     if command == text.cmd_restart:
         sendmsg(readcmd('sudo reboot'))
+    elif command == text.cmd_update:
+        readcmd(text.update_bot)
     elif command == text.cmd_all_on:
         sendmsg(timestamp() + ' all on')
         water_on_group(group_all)
