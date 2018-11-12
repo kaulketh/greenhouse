@@ -1,60 +1,53 @@
 #!bin/sh
 # updates all scripts from the repository according to last changes
 
-
 token=$1
 archive='greenhouse.tar.gz'
 project='53'
+log='/update.bot'
+commit_id='/lastGreenhouseCommit.id'
+bot_dir='/home/pi/scripts/TelegramBot/'
 
 # get last commit id
-commit=$(curl --header "PRIVATE-TOKEN: "$token "https://gitlab.bekast.de/api/v4/projects/"$project"/repository/commits/master" | grep -Po '(?<="id":)(.*?)(?=,)' | sed "s/\"//g")
+commit=$(curl -s --header "PRIVATE-TOKEN: "$token "https://gitlab.bekast.de/api/v4/projects/"$project"/repository/commits/master" | grep -Po '(?<="id":)(.*?)(?=,)' | sed "s/\"//g")
 # get saved commit
-last_commit=$(cat /lastGreenhouseCommit.id)
+last_commit=$(cat $commit_id)
 
-exec >> /update.bot
+# all output to log file
+exec >> $log
 
 # function display usage
 display_usage() {
 echo
-echo "Use it with your token for acces to gitlab!"
+echo "Use it with token for acces to gitlab!"
 echo "ie: $BASH_SOURCE  eXe4NA6xq2WQeg3DHFBd"
 }
-
 
 # function update
 update() {
 echo -------------------------------------------------------------------------------------------------------
 echo "$(date +'%F %H:%M:%S') : Update started."
-echo
-echo "Remove old compilation, tmp and log files..."
-sudo rm -v /home/pi/scripts/TelegramBot/*.pyc
-sudo rm -v /home/pi/scripts/TelegramBot/*.log
-sudo rm -v /home/pi/scripts/TelegramBot/*.tmp
+#remove old tmp, logs and pyc
+sudo rm -v $bot_dir*.pyc
+sudo rm -v $bot_dir*.log
+sudo rm -v $bot_dir*.tmp
 sudo rm -v /*.log
 sudo rm -v /cmd.tmp
-echo
 echo "Download last commit: "$commit
 sudo wget -q -O $archive https://gitlab.bekast.de/api/v4/projects/$project/repository/archive?private_token=$token
-echo
-echo "Extracting..."
-sudo tar -xvzf $archive --wildcards greenhouse-master-$commit/scripts/*.py -C /home/pi/scripts/TelegramBot/
-sudo tar -xvzf $archive --wildcards greenhouse-master-$commit/scripts/*.sh -C /home/pi/scripts/TelegramBot/
-echo
-echo "Moving files..."
-sudo mv -v greenhouse-master-$commit/scripts/*.py /home/pi/scripts/TelegramBot/
-sudo mv -v greenhouse-master-$commit/scripts/*.sh /home/pi/scripts/TelegramBot/
-echo
-echo "Removing temporary files..."
+# extract
+sudo tar -xvzf $archive --wildcards greenhouse-master-$commit/scripts/*.py -C $bot_dir
+sudo tar -xvzf $archive --wildcards greenhouse-master-$commit/scripts/*.sh -C $bot_dir
+sudo mv -v greenhouse-master-$commit/scripts/*.py $bot_dir
+sudo mv -v greenhouse-master-$commit/scripts/*.sh $bot_dir
+# remove tmp files and chown and chmod 
 sudo rm -r -v greenhouse-master*
 sudo rm -v *.gz
-echo
-echo "Change mode of new files..."
-sudo chmod -v +x /home/pi/scripts/TelegramBot/*.py
-sudo chmod -v +x /home/pi/scripts/TelegramBot/*.sh
-echo
+sudo chmod -v +x $bot_dir*.py
+sudo chmod -v +x $bot_dir*.sh
 echo "$(date +'%F %H:%M:%S') : Update finished."
 # save last commit id
-echo $commit > /lastGreenhouseCommit.id
+echo $commit > $commit_id
 sleep 5
 sudo reboot
 }
@@ -70,7 +63,7 @@ fi
 if [[ $commit == $last_commit ]];
 	then
 		echo -------------------------------------------------------------------------------------------------------
-		echo "$(date +'%F %H:%M:%S') : No changes detected, nothing to update!"
+		echo "$(date +'%F %H:%M:%S') : No new changes, nothing to update!"
 		exit 1
 else
 	update
