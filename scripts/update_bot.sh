@@ -1,7 +1,6 @@
 #!bin/sh
 # updates all scripts from the repository according to last changes
 
-exec >> /update.bot
 
 archive='greenhouse.tar.gz'
 project='53'
@@ -10,6 +9,8 @@ project='53'
 commit=$(curl --header "PRIVATE-TOKEN: "$1 "https://gitlab.bekast.de/api/v4/projects/"$project"/repository/commits/master" | grep -Po '(?<="id":)(.*?)(?=,)' | sed "s/\"//g")
 # get saved commit
 last_commit = $(cat /lastGreenhouseCommit.id)
+
+exec >> /update.bot
 
 # function display usage
 display_usage() {
