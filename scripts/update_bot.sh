@@ -64,7 +64,7 @@ fi
 if [[ $commit == $last_commit ]];
 	then
 		echo -------------------------------------------------------------------------------------------------------
-		echo "$(date +'%F %H:%M:%S') : No new changes, nothing to update!"
+		echo "$(date +'%F %H:%M:%S') : Current Id '$commit' equals last commit '$last_commit', so no new changes, nothing to update!"
 		exit 1
 else
 	update
