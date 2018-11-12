@@ -100,6 +100,7 @@ def handle(msg):
         sendmsg(readcmd('sudo reboot'))
     elif command == text.cmd_update:
         readcmd(text.update_bot)
+        sendmsg('Update info is availabe in separate log file.')
     elif command == text.cmd_all_on:
         sendmsg(timestamp() + ' all on')
         water_on_group(group_all)
