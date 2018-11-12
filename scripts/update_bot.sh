@@ -34,7 +34,7 @@ sudo rm -v /*.log
 sudo rm -v /cmd.tmp
 echo
 echo "Download last commit: "$commit
-sudo wget -q -O $archive https://gitlab.bekast.de/api/v4/projects/$project/repository/archive?private_token=$token
+sudo wget -O $archive https://gitlab.bekast.de/api/v4/projects/$project/repository/archive?private_token=$token
 echo
 echo "Extracting..."
 sudo tar -xvzf $archive --wildcards greenhouse-master-$commit/scripts/*.py -C /home/pi/scripts/TelegramBot/
