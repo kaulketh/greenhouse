@@ -8,12 +8,10 @@ project='53'
 
 # get last commit id
 commit=$(curl --header "PRIVATE-TOKEN: "$token "https://gitlab.bekast.de/api/v4/projects/"$project"/repository/commits/master" | grep -Po '(?<="id":)(.*?)(?=,)' | sed "s/\"//g")
-echo "Got commit: "$commit
 # get saved commit
 last_commit=$(cat /lastGreenhouseCommit.id)
-echo "Saved commit :"$last_commit
 
-#exec >> /update.bot
+exec >> /update.bot
 
 # function display usage
 display_usage() {
@@ -36,7 +34,7 @@ sudo rm -v /*.log
 sudo rm -v /cmd.tmp
 echo
 echo "Download last commit: "$commit
-sudo wget -O $archive https://gitlab.bekast.de/api/v4/projects/$project/repository/archive?private_token=$token
+sudo wget -q -O $archive https://gitlab.bekast.de/api/v4/projects/$project/repository/archive?private_token=$token
 echo
 echo "Extracting..."
 sudo tar -xvzf $archive --wildcards greenhouse-master-$commit/scripts/*.py -C /home/pi/scripts/TelegramBot/
