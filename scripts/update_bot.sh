@@ -24,6 +24,7 @@ fi
 
 echo "Get last commit from repository..."
 commit=$(curl --header "PRIVATE-TOKEN: "$1 "https://gitlab.bekast.de/api/v4/projects/"$project"/repository/commits/master" | grep -Po '(?<="id":)(.*?)(?=,)' | sed "s/\"//g")
+echo $commit > /lastGreenhouseCommit.id 
 echo
 echo "Remove old compilation, tmp and log files..."
 sudo rm -v /home/pi/scripts/TelegramBot/*.pyc
