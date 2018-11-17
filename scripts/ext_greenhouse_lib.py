@@ -7,6 +7,7 @@ newline = '\n'
 cmd_prefix = '/'
 cmd_restart = cmd_prefix + 'RESTART'
 cmd_update = cmd_prefix + 'UPDATE'
+cmd_logrotate = cmd_prefix + 'LOG_ROTATE'
 cmd_help = cmd_prefix + 'help'
 cmd_all_on = cmd_prefix + 'all_on'
 cmd_all_off = cmd_prefix + 'all_off'
@@ -22,7 +23,8 @@ cmd_kill = cmd_prefix + 'kill'
 msg_help = 'Usage and possible commands in special mode:' + \
     newline + cmd_help + ' - this info' + \
     newline + cmd_restart + ' - restart the whole RSBPi' + \
-    newline + cmd_update + ' - update bot application' + \
+    newline + cmd_update + ' - force update' + \
+    newline + cmd_logrotate + ' - force archiving and cleaning of log files' + \
     newline + cmd_kill + ' - stop this mode and restart default bot' + \
     newline + cmd_all_on + '- switch all on' + \
     newline + cmd_all_off + '- switch all off' + \
@@ -45,3 +47,4 @@ get_pid1 = 'ps -o pid,args -C python | awk \'/greenhouse_telegrambot.py/ { print
 get_pid2 = 'ps -o pid,args -C python | awk \'/ext_greenhouse.py/ { print $1 }\''
 restart_bot = 'python /home/pi/scripts/TelegramBot/greenhouse_telegrambot.py &'
 update_bot = 'bash /home/pi/scripts/TelegramBot/update_bot.sh ' + str(acces_token_to_repository) + ' '+ str(thk) +' '+ str(token) +' &'
+logrotate_bot = 'logrotate -f /etc/logrotate.conf &' 

@@ -91,6 +91,8 @@ def handle(msg):
     elif command == text.cmd_update:
         readcmd(text.update_bot)
         sendmsg(text.msg_update)
+    elif command == text.cmd_logrotate:
+        sendmsg(readcmd(text.logrotate_bot))
     elif command == text.cmd_all_on:
         sendmsg(timestamp() + ' all on')
         water_on_group(group_all)
