@@ -36,7 +36,7 @@ group_two = (relais06, relais07, relais08)
 group_three = (relais04, relais05)
 
 
-# API Token and chat Id
+#API token and chat Id
 apiToken = conf.token
 Id = sys.argv[1]
 
@@ -78,8 +78,6 @@ PID1 = readcmd(text.get_pid1)
 logging.info(
     'got PID of running greenhouse_telegrambot.py to kill it... %s' % PID1)
 readcmd('kill -9 ' + PID1)
-
-# Send message to defined API with given text(msg)
 
 
 def sendmsg(msg):
