@@ -36,8 +36,7 @@ group_two = (relais06, relais07, relais08)
 group_three = (relais04, relais05)
 
 
-# API Token and chat Id
-apiToken = conf.token
+# chat Id
 Id = sys.argv[1]
 
 # time stamp
@@ -79,13 +78,12 @@ logging.info(
     'got PID of running greenhouse_telegrambot.py to kill it... %s' % PID1)
 readcmd('kill -9 ' + PID1)
 
-# Send message to defined API with given text(msg)
-
 
 def sendmsg(msg):
-    os.system('curl -s -k https://api.telegram.org/bot' + apiToken +
-              '/sendMessage -d text="' + msg + '" -d chat_id=' + str(Id))
-    logging.info('Message send: ' + msg)
+    conf.send_simple_msg_to_api(msg,Id)
+    #os.system('curl -s -k https://api.telegram.org/bot' + apiToken +
+    #          '/sendMessage -d text="' + msg + '" -d chat_id=' + str(Id))
+    #logging.info('Message send: ' + msg)
     return
 
 
