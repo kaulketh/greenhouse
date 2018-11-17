@@ -17,7 +17,7 @@ last_commit=$(cat $commit_id)
 # function display usage
 display_usage() {
 echo "Failed! Paremeter is missing."
-echo "Use it with token for acces to gitlab!"
+echo "Use it with token for access to gitlab!"
 echo "i.e.: $BASH_SOURCE abcd12345EFGH67890"
 }
 
