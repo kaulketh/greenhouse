@@ -7,7 +7,7 @@ bot=$3
 
 archive='greenhouse.tar.gz'
 project='53'
-log='/update.bot'
+log='/update_bot.log'
 commit_id='/lastGreenhouseCommit.id'
 bot_dir='/home/pi/scripts/TelegramBot/'
 wait=3
@@ -20,12 +20,11 @@ last_commit=$(cat $commit_id)
 # function display usage
 display_usage() {
 echo "Failed! Paremeter is missing."
-echo "Use it with token for access to gitlab!"
-echo "i.e.: $BASH_SOURCE abcd12345EFGH67890"
+echo "Using only with token for access to Gitlab, chat ID for Telegram app and bot API token!"
 }
 
 # if less than one argument supplied, display usage
-if [ $# -le 0  ] 
+if [ $# -le 2  ] 
 	then 
 		display_usage
 		exit 1
@@ -38,13 +37,13 @@ exec >> $log
 # function update
 update() {
 echo -------------------------------------------------------------------------------------------------------
-echo "$(date +'%F %H:%M:%S') : Update started."
+echo "[$(date +'%F %H:%M:%S')] Update started."
 #remove old tmp, logs and pyc
 sudo rm -fv $bot_dir*.pyc
 sudo rm -fv $bot_dir*.log
 sudo rm -fv $bot_dir*.tmp
 sudo rm -fv /cmd.tmp
-echo "Download last commit: "$commit
+echo "Download last commit '$commit'"
 sudo wget -q -O $archive https://gitlab.bekast.de/api/v4/projects/$project/repository/archive?private_token=$token
 # extract
 sudo tar -xvzf $archive --wildcards greenhouse-master-$commit/scripts/*.py -C $bot_dir
@@ -60,8 +59,8 @@ sudo chmod -v +x $bot_dir*.sh
 echo $commit > $commit_id
 sleep $wait
 id=${commit:0:7}
-curl -s -k https://api.telegram.org/bot$bot/sendMessage -d text="Bot updated. Current build: $id" -d chat_id=$chat >> /dev/null
-echo "$(date +'%F %H:%M:%S') : Update finished, last commit id: $id... saved, whole system rebooted."
+curl -s -k https://api.telegram.org/bot$bot/sendMessage -d text="Bot updated, current build: $id..." -d chat_id=$chat >> /dev/null
+echo "[$(date +'%F %H:%M:%S')] Update finished, last commit ID '$id...' saved, system rebooted."
 sudo reboot
 }
 
@@ -69,7 +68,7 @@ sudo reboot
 if [[ $commit == $last_commit ]];
 	then
 		echo -------------------------------------------------------------------------------------------------------
-		echo "$(date +'%F %H:%M:%S') : Update requirement checked, current version equals last commit '$last_commit', nothing to update!"
+		echo "[$(date +'%F %H:%M:%S')] Update requirement checked, current version equals last commit '$last_commit', nothing to update!"
 		exit 1
 else
 	update
