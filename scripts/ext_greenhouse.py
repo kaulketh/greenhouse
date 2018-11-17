@@ -36,12 +36,9 @@ group_two = (relais06, relais07, relais08)
 group_three = (relais04, relais05)
 
 
-<<<<<<< HEAD
 #API token and chat Id
 apiToken = conf.token
-=======
 # chat Id
->>>>>>> branch 'master' of https://gitlab.bekast.de/tkaulke/greenhouse.git
 Id = sys.argv[1]
 
 # time stamp
@@ -85,10 +82,9 @@ readcmd('kill -9 ' + PID1)
 
 
 def sendmsg(msg):
-    conf.send_simple_msg_to_api(msg,Id)
-    #os.system('curl -s -k https://api.telegram.org/bot' + apiToken +
-    #          '/sendMessage -d text="' + msg + '" -d chat_id=' + str(Id))
-    #logging.info('Message send: ' + msg)
+    os.system('curl -s -k https://api.telegram.org/bot' + apiToken +
+              '/sendMessage -d text="' + msg + '" -d chat_id=' + str(Id))
+    logging.info('Message send: ' + msg)
     return
 
 
