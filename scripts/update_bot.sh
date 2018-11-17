@@ -14,15 +14,33 @@ commit=$(curl -s --header "PRIVATE-TOKEN: "$token "https://gitlab.bekast.de/api/
 # get saved commit
 last_commit=$(cat $commit_id)
 
-# all output to log file
-exec >> $log
-
 # function display usage
 display_usage() {
 echo
 echo "Use it with token for acces to gitlab!"
 echo "ie: $BASH_SOURCE  eXe4NA6xq2WQeg3DHFBd"
 }
+
+# if less than one argument supplied, display usage
+if [ $# -le 0  ] 
+	then 
+		display_usage
+		exit 1
+fi
+
+# all output to log file
+exec >> $log
+
+
+# if commit was not changed nothing will be updated
+if [[ $commit == $last_commit ]];
+	then
+		echo -------------------------------------------------------------------------------------------------------
+		echo "$(date +'%F %H:%M:%S') : Current Id '$commit' equals last commit '$last_commit', so no new changes, nothing to update!"
+		exit 1
+else
+	update
+fi
 
 # function update
 update() {
@@ -53,19 +71,3 @@ echo "$(date +'%F %H:%M:%S') : Update finished, last commit id: $commit saved, w
 sudo reboot
 }
 
-# if less than one argument supplied, display usage
-if [ $# -le 0  ] 
-	then 
-		display_usage
-		exit 1
-fi
-
-# if commit was not changed nothing will be updated
-if [[ $commit == $last_commit ]];
-	then
-		echo -------------------------------------------------------------------------------------------------------
-		echo "$(date +'%F %H:%M:%S') : Current Id '$commit' equals last commit '$last_commit', so no new changes, nothing to update!"
-		exit 1
-else
-	update
-fi
