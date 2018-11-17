@@ -35,16 +35,13 @@ group_one = (relais01, relais02, relais03)
 group_two = (relais06, relais07, relais08)
 group_three = (relais04, relais05)
 
-
 #API token and chat Id
 apiToken = conf.token
-# chat Id
 Id = sys.argv[1]
 
 # time stamp
 def timestamp():
     return conf.getTimestamp()
-
 
 # live stream address
 live = conf.live
@@ -63,8 +60,6 @@ def water_off_group(group):
 
 # Assign default output (stdout 1 and stderr 2) to file and read in
 # variable and get back
-
-
 def readcmd(cmd):
     os.system(cmd + ' > ' + text.tmp_file + ' 2>&1')
     data = ""
@@ -73,20 +68,17 @@ def readcmd(cmd):
     file.close()
     return data
 
-
 # kill the still running greenhouse bot script
 PID1 = readcmd(text.get_pid1)
 logging.info(
     'got PID of running greenhouse_telegrambot.py to kill it... %s' % PID1)
 readcmd('kill -9 ' + PID1)
 
-
 def sendmsg(msg):
     os.system('curl -s -k https://api.telegram.org/bot' + apiToken +
               '/sendMessage -d text="' + msg + '" -d chat_id=' + str(Id))
     logging.info('Message send: ' + msg)
     return
-
 
 def handle(msg):
     chat_id = msg['chat']['id']

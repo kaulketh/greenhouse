@@ -15,7 +15,6 @@ admins = [access.thk, access.annett]
 mainId = access.thk
 token = access.token
 
-
 # to use Raspberry Pi board pin numbers
 GPIO.setmode(GPIO.BOARD)
 # to use GPIO instead board pin numbers, then please adapt pin definition
@@ -48,7 +47,6 @@ def switch_on(pin):
     GPIO.output(pin, GPIO.LOW)
     return
 
-
 def switch_off(pin):
     logging.info('switch off: ' + str(pin))
     GPIO.setup(pin, GPIO.OUT)
@@ -63,7 +61,6 @@ def getTimestamp():
 def getTimestampLine():
     return time.strftime('`[%d.%m.%Y %H:%M:%S]\n---------------------\n`')
 
-
 # live stream address
 live = access.live
 
@@ -73,5 +70,5 @@ log_format = '%(asctime)s %(levelname)-8s %(name)-10s %(message)s'
 log_date_format = '[%Y-%m-%d %H:%M:%S]'
 logging.basicConfig(filename=log_file, format=log_format,
                     datefmt=log_date_format, level=logging.INFO)
-
+# command to run extended bot
 run_extended_greenhouse = 'sudo python /home/pi/scripts/TelegramBot/ext_greenhouse.py '
