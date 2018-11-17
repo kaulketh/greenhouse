@@ -70,7 +70,7 @@ def readcmd(cmd):
 
 # kill the still running greenhouse bot script
 PID1 = readcmd(text.get_pid1)
-logging.info('%s is PID of running default bot, use to kill.' % PID1)
+logging.info(str(PID1)+' is PID of running default bot, use to kill.')
 readcmd('kill -9 ' + PID1)
 
 def sendmsg(msg):
@@ -119,10 +119,9 @@ def handle(msg):
         # clear monitor directory
         readcmd(text.clear_monitor)
         PID2 = readcmd(text.get_pid2)
-        logging.info(
-            'got own PID to kill me by myself and also prepare the other bot for proper using: %s' % PID2)
+        logging.info('got own PID to kill me by myself and also prepare the other bot for proper using:'+str(PID2))
         readcmd(text.restart_bot)
-        sendmsg('Process killed!\nEnable default bot... Run it with /start')
+        sendmsg('Process killed! Enable default bot... Run with /start')
         readcmd('kill -9 ' + PID2)
     elif command == '/start':
         sendmsg('External input possible, bot is ready to use!')
