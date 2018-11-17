@@ -60,7 +60,7 @@ sudo chmod -v +x $bot_dir*.sh
 echo $commit > $commit_id
 sleep $wait
 id=${commit:0:7}
-curl -s -k https://api.telegram.org/bot$bot/sendMessage -d text="Bot updated. Current build:$id" -d chat_id=$chat
+curl -s -k https://api.telegram.org/bot$bot/sendMessage -d text="Bot updated. Current build: $id" -d chat_id=$chat >> /dev/null
 echo "$(date +'%F %H:%M:%S') : Update finished, last commit id: $id... saved, whole system rebooted."
 sudo reboot
 }
