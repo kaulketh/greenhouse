@@ -2,6 +2,9 @@
 # Updates all scripts from the repository according to recent changes
 
 token=$1
+bot=$2
+chat=$3
+
 archive='greenhouse.tar.gz'
 project='53'
 log='/update.bot'
@@ -57,7 +60,7 @@ sudo chmod -v +x $bot_dir*.sh
 echo $commit > $commit_id
 sleep $wait
 id=${$commit:0:7}
-curl -s -k https://api.telegram.org/bot$2/sendMessage -d text="Bot updated. Current build:$id" -d chat_id=$3
+curl -s -k https://api.telegram.org/bot$bot/sendMessage -d text="Bot updated. Current build:$id" -d chat_id=$chat
 echo "$(date +'%F %H:%M:%S') : Update finished, last commit id: $id... saved, whole system rebooted."
 sudo reboot
 }
