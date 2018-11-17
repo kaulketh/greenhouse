@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 # author: Thomas Kaulke
-from access import acces_token_to_repository
+from access import acces_token_to_repository, thk, token
 
 newline = '\n'
 cmd_prefix = '/'
@@ -44,4 +44,4 @@ clear_monitor = 'rm -r /home/pi/Monitor/*'
 get_pid1 = 'ps -o pid,args -C python | awk \'/greenhouse_telegrambot.py/ { print $1 }\''
 get_pid2 = 'ps -o pid,args -C python | awk \'/ext_greenhouse.py/ { print $1 }\''
 restart_bot = 'python /home/pi/scripts/TelegramBot/greenhouse_telegrambot.py &'
-update_bot = 'bash /home/pi/scripts/TelegramBot/update_bot.sh ' + acces_token_to_repository + ' &'
+update_bot = 'bash /home/pi/scripts/TelegramBot/update_bot.sh ' + acces_token_to_repository + ' '+ thk +' '+ token +' &'
