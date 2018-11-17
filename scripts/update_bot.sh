@@ -65,7 +65,7 @@ sudo reboot
 if [[ $commit == $last_commit ]];
 	then
 		echo -------------------------------------------------------------------------------------------------------
-		echo "$(date +'%F %H:%M:%S') : Current Id '$commit' equals last commit '$last_commit', so no new changes, nothing to update!"
+		echo "$(date +'%F %H:%M:%S') : Update requirement checked, current version equals last commit '$last_commit', nothing to update!"
 		exit 1
 else
 	update
