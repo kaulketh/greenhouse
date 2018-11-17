@@ -40,7 +40,6 @@ echo "$(date +'%F %H:%M:%S') : Update started."
 sudo rm -fv $bot_dir*.pyc
 sudo rm -fv $bot_dir*.log
 sudo rm -fv $bot_dir*.tmp
-sudo rm -fv /*.log
 sudo rm -fv /cmd.tmp
 echo "Download last commit: "$commit
 sudo wget -q -O $archive https://gitlab.bekast.de/api/v4/projects/$project/repository/archive?private_token=$token
