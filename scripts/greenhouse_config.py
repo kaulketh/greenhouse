@@ -56,6 +56,12 @@ def switch_off(pin):
     GPIO.cleanup(pin)
     return
 
+# Send message to defined API with given text(msg)
+def send_simple_msg_to_api(msg, id):
+    os.system('curl -s -k https://api.telegram.org/bot' + token +
+              '/sendMessage -d text="' + msg + '" -d chat_id=' + str(id))
+    logging.info('Message send: ' + msg)
+    return
 
 # date time strings
 def getTimestamp():
