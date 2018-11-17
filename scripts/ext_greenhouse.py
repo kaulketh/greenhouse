@@ -70,8 +70,7 @@ def readcmd(cmd):
 
 # kill the still running greenhouse bot script
 PID1 = readcmd(text.get_pid1)
-logging.info(
-    'got PID of running greenhouse_telegrambot.py to kill it... %s' % PID1)
+logging.info('got PID of running default bot, use %s to kill.' % PID1)
 readcmd('kill -9 ' + PID1)
 
 def sendmsg(msg):

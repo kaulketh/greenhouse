@@ -2,8 +2,8 @@
 # Updates all scripts from the repository according to recent changes
 
 token=$1
-bot=$2
-chat=$3
+chat=$2
+bot=$3
 
 archive='greenhouse.tar.gz'
 project='53'
