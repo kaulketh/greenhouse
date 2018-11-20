@@ -35,6 +35,7 @@ sudo nano /etc/dhcpcd.conf
 sudo reboot
 ```
 * [how-to at elektronik-kompendium](https://www.elektronik-kompendium.de/sites/raspberry-pi/1912151.htm) (I recommend variant 2)
+* [how-to for wlan](https://unix.stackexchange.com/questions/92799/connecting-to-wifi-network-through-command-line)
  
 
 _**Retest and doublecheck network conection and settings before executing next steps!!!!!**_
