@@ -34,7 +34,7 @@ def timestamp():
 
 
 # switch all off at first start, set all used GPIO=high
-    for member in all_groups:
+for member in all_groups:
        conf.switch_off(member)
        
        
