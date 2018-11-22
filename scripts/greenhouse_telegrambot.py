@@ -33,12 +33,14 @@ def timestamp():
     return conf.getTimestampLine()
 
 
-# switch all off at first start, set all used GPIO=high
+# switch all off at start, set all used GPIO=high
 logging.info('Switch all off at first start, set all used GPIO to HIGH.')
 for member in all_groups:
        conf.switch_off(member)
        
-       
+# enable camera module
+logging.info('Enable camera module.')
+modprobe bcm2835-v4l2
        
 # api and bot settings
 SELECT, DURATION = range(2)
