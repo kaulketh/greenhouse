@@ -118,6 +118,8 @@ def handle(msg):
         sendmsg('group 3 off')
         water_off_group(group_three)
     elif command == text.cmd_kill:
+        #disable camera
+        readcmd(conf.disable_camera)
         # clear monitor directory
         readcmd(text.clear_monitor)
         PID2 = readcmd(text.get_pid2)
