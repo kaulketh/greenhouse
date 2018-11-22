@@ -119,8 +119,10 @@ def handle(msg):
         water_off_group(group_three)
     elif command == text.cmd_kill:
         #disable camera
+        logging.info('Disable camera module.')
         readcmd(conf.disable_camera)
         # clear monitor directory
+        logging.info('Clear monitor folder.')
         readcmd(text.clear_monitor)
         PID2 = readcmd(text.get_pid2)
         logging.info('got own PID to kill me by myself and also prepare the other bot for proper using:'+str(PID2))
