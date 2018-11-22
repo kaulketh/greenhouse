@@ -73,5 +73,6 @@ logging.basicConfig(filename=log_file, format=log_format,
 # command to run extended bot
 run_extended_greenhouse = 'sudo python /home/pi/scripts/TelegramBot/ext_greenhouse.py '
 
-# command to enable camera
-enable_camera = 'sudo modprobe bcm2835-v4l2 &'
+# camera commands
+enable_camera = 'sudo modprobe bcm2835-v4l2 && sudo service motion start & '
+disable_camera = 'sudo service motion stop && sudo modprobe -r bcm2835-v4l2 & '
