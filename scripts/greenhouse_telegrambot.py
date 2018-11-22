@@ -40,7 +40,7 @@ for member in all_groups:
        
 # enable camera module
 logging.info('Enable camera module.')
-modprobe bcm2835-v4l2
+sudo modprobe bcm2835-v4l2
        
 # api and bot settings
 SELECT, DURATION = range(2)
