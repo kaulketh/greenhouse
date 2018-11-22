@@ -39,8 +39,17 @@ for member in all_groups:
        conf.switch_off(member)
        
 # enable camera module
-logging.info('Enable camera module.')
-os.system(conf.enable_camera)
+def camOn():
+    logging.info('Enable camera module.')
+    os.system(conf.enable_camera)
+    return
+
+# enable camera module
+def camOff():
+    logging.info('Disable camera module.')
+    os.system(conf.disable_camera)
+    return
+       
        
 # api and bot settings
 SELECT, DURATION = range(2)
@@ -65,6 +74,7 @@ markup2 = ReplyKeyboardMarkup(keyboard2, resize_keyboard=True, one_time_keyboard
 # start bot
 def start(bot, update):
     logging.info('Bot started.')
+    camOn()
     global user_id
     try:
         user_id = update.message.from_user.id
@@ -215,6 +225,7 @@ def water_group(update, group):
 # stop bot
 def stop(bot, update):
     logging.info('Bot stopped.')
+    camOff()
     update.message.reply_text(text.msg_stop.format(update.message.from_user.first_name),
                               parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
     return ConversationHandler.END
@@ -223,6 +234,7 @@ def stop(bot, update):
 # error
 def error(bot, update, error):
     logging.error('An error occurs! ' + str(error))
+    camOff()
     conf.GPIO.cleanup()
     return ConversationHandler.END
 
