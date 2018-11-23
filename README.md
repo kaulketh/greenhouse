@@ -3,7 +3,8 @@
 
 	
 ### 1. Telegram app
-install the app and create bot
+##### Install the app and create bot
+
 ```
 Name: 	ThK1220RealGreenhouse
 TOKEN: 	<api_token>
@@ -26,7 +27,8 @@ ChatID:	<chat_id>
 
 			
 ### 4. Configure (static) IP
-adapt /etc/[dhcpcd.conf](configs/dhcpcd.conf)
+##### adapt /etc/[dhcpcd.conf](configs/dhcpcd.conf)
+
 ```
 sudo service dhcpcd status 
 sudo service dhcpcd start // if not yet started 
@@ -61,11 +63,11 @@ sudo apt-get update
 sudo apt-get install libio-socket-ssl-perl
 sudo apt-get install ddclient // ignore config let it empty e.g can be configured due next steps
 ```			
-use e.g. [FreeDNS](http://freedns.afraid.org) and update [ddclient.conf](configs/ddclient.conf) accordingly the dns provider
+##### use e.g. [FreeDNS](http://freedns.afraid.org) and update [ddclient.conf](configs/ddclient.conf) accordingly the dns provider
 ```
 sudo nano /etc/ddclient.conf
 ```	
-other possible method could be e.g insert crontabs
+##### other possible method could be e.g insert crontabs
 ```	
     0,5,10,15,20,25,30,35,40,45,50,55 * * * * sleep 31 ; wget -O - http://freedns.afraid.org/dynamic/update.php?******************************************** >> /tmp/freedns_greenhouse_my_to.log 2>&1 &
     3,8,13,18,23,28,33,38,43,48,53,58 * * * * sleep 44 ; wget -O - http://freedns.afraid.org/dynamic/update.php?******************************************** >> /tmp/freedns_greenhouse_chickenkiller_com.log 2>&1 &
@@ -91,7 +93,7 @@ sudo service pure-ftpd restart
 
 
 ### 8. Configure the live stream
-install motion and update /etc/motion/[motion.conf](configs/motion.conf)
+##### install motion and update /etc/motion/[motion.conf](configs/motion.conf)
 ```	
 sudo apt-get install motion -y
 sudo nano /etc/motion/motion.conf   //additional: output_pictures off
@@ -106,7 +108,7 @@ sudo service motion start
 
 
 ### 9. Configure port forwarding in router accordingly the dns and port settings
-[my live url](http://greenhouse.my.to:8082/)
+##### [my live url](http://greenhouse.my.to:8082/)
 
 					
 ### 10. Install required packages (python, python-telegram-bot, telepot and wiringpi)
@@ -116,18 +118,18 @@ sudo pip install python-telegram-bot
 sudo pip install telepot
 ```
 
-First check that wiringPi is not already installed.
+##### First check that wiringPi is not already installed.
 ```
 gpio -v
 ```
 
-If you get something, then you have it already installed. The next step is to work out if it’s installed via a standard package or from source. If you installed it from source, then you know what you’re doing – carry on – but if it’s installed as a package, you will need to remove the package first. To do this:
+##### If you get something, then you have it already installed. The next step is to work out if it’s installed via a standard package or from source. If you installed it from source, then you know what you’re doing – carry on – but if it’s installed as a package, you will need to remove the package first. To do this:
 ```
 sudo apt-get purge wiringpi
 hash -r
 ```
 
-WiringPi is maintained under GIT for ease of change tracking. If required to install do it like described as followed.
+##### WiringPi is maintained under GIT for ease of change tracking. If required to install do it like described as followed.
 ```
 sudo apt-get install git-core
 sudo apt-get update
@@ -140,7 +142,7 @@ cd ~/wiringPi
 ./build
 ```
 
-[how to to install wiringpi](http://wiringpi.com/download-and-install/)
+* [how to to install wiringpi](http://wiringpi.com/download-and-install/)
 	
 ### 11. Add/create python scripts in pi user directory under scripts/TelegramBot
 _**Make them executable and chown root:root!**_
@@ -157,9 +159,7 @@ _**Make them executable and chown root:root!**_
 
 
 ### 12. Enable autostart of the bot application
-Add the program as service. 
-To enable autostart add it to the init.d directory, insert [telegrambot.sh](scripts/telegrambot.sh) in **/etc/init.d** as root
-and execute commands as followed.
+##### Add the program as service. To enable autostart add it to the init.d directory, insert [telegrambot.sh](scripts/telegrambot.sh) in **/etc/init.d** as root and execute commands as followed.
 
 ```
 sudo chmod +x telegrambot.sh
@@ -167,4 +167,49 @@ sudo update-rc.d telegrambot.sh defaults
 sudo reboot
 ```
 
-* [how to](https://www.dexterindustries.com/howto/run-a-program-on-your-raspberry-pi-at-startup/#init)
+* how to](https://www.dexterindustries.com/howto/run-a-program-on-your-raspberry-pi-at-startup/#init)
+
+
+### 13. Additional functionalities
+##### Add crontabs
+
+```
+# update check every 10 minutes
+0,10,20,30,40,50 * * * * bash /home/pi/scripts/TelegramBot/update_bot.sh <access token repository> <chat id> <api token>
+	
+# update check every hour
+0 * * * * bash /home/pi/scripts/TelegramBot/update_bot.sh <access token repository> <chat id> <api token>
+
+# backup bot every day at 1:30AM
+30 1 * * * tar -zcf /home/pi/backups/greenhouse.tgz --exclude='*.pyc' /home/pi/scripts/TelegramBot/
+
+# also move log backups to backup folder
+31 1 * * * mv -v /*.gz /home/pi/backups/
+```
+
+##### Add logrotate to compress and clear log files
+* see http://znil.net/index.php/Logfiles_in_Logrotate_aufnehmen_-_automatisches_packen,_rotieren_und_leeren_von_Logs 
+
+```
+sudo nano /etc/logrotate.conf
+```
+
+```
+/update_bot.log {
+	missingok
+	daily
+	rotate 1
+	compress
+	dateext
+	create 644 root root
+}
+
+/greenhouse.log {
+	missingok
+	daily
+	rotate 1
+	compress
+	dateext
+	create 644 root root
+}
+```	
