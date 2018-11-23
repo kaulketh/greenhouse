@@ -4,7 +4,7 @@
 # author: Thomas Kaulke
 
 import greenhouse_config as conf
-import ext_greenhouse_lib as text
+import ext_greenhouse_lib as lib
 
 import sys
 import time
@@ -61,22 +61,22 @@ def water_off_group(group):
 # Assign default output (stdout 1 and stderr 2) to file and read in
 # variable and get back
 def readcmd(cmd):
-    os.system(cmd + ' > ' + text.tmp_file + ' 2>&1')
+    os.system(cmd + ' > ' + lib.tmp_file + ' 2>&1')
     data = ""
-    file = open(text.tmp_file, 'r')
+    file = open(lib.tmp_file, 'r')
     data = file.read()
     file.close()
     return data
 
 # kill the still running greenhouse bot script
-PID1 = readcmd(text.get_pid1)
+PID1 = readcmd(lib.get_pid1)
 logging.info(str(PID1)+' is PID of running default bot, use to kill.')
 readcmd('kill -9 ' + PID1)
 
-def sendmsg(msg):
+def sendmsg(message):
     os.system('curl -s -k https://api.telegram.org/bot' + apiToken +
-              '/sendMessage -d text="' + msg + '" -d chat_id=' + str(Id))
-    logging.info('Message send: ' + msg)
+              '/sendMessage -d text="' + message + '" -d chat_id=' + str(Id))
+    logging.info('Message send: ' + message)
     return
 
 def handle(msg):
@@ -86,47 +86,47 @@ def handle(msg):
     logging.info('Got command: %s' % command)
 
     # commands
-    if command == text.cmd_restart:
+    if command == lib.cmd_restart:
         sendmsg(readcmd('sudo reboot'))
-    elif command == text.cmd_update:
-        readcmd(text.update_bot)
-        sendmsg(text.msg_update)
-    elif command == text.cmd_logrotate:
-        sendmsg(readcmd(text.logrotate_bot))
-    elif command == text.cmd_all_on:
+    elif command == lib.cmd_update:
+        readcmd(lib.update_bot)
+        sendmsg(lib.msg_update)
+    elif command == lib.cmd_logrotate:
+        sendmsg(readcmd(lib.logrotate_bot))
+    elif command == lib.cmd_all_on:
         sendmsg(timestamp() + ' all on')
         water_on_group(group_all)
-    elif command == text.cmd_all_off:
+    elif command == lib.cmd_all_off:
         sendmsg('all off.')
         water_off_group(group_all)
-    elif command == text.cmd_group1_on:
+    elif command == lib.cmd_group1_on:
         sendmsg(timestamp() + 'group 1 on')
         water_on_group(group_one)
-    elif command == text.cmd_group1_off:
+    elif command == lib.cmd_group1_off:
         sendmsg('group 1 off')
         water_off_group(group_one)
-    elif command == text.cmd_group2_on:
+    elif command == lib.cmd_group2_on:
         sendmsg(timestamp() + 'group 2  on')
         water_on_group(group_two)
-    elif command == text.cmd_group2_off:
+    elif command == lib.cmd_group2_off:
         sendmsg('group 2 off')
         water_off_group(group_two)
-    elif command == text.cmd_group3_on:
+    elif command == lib.cmd_group3_on:
         sendmsg(timestamp() + 'group 3 on')
         water_on_group(group_three)
-    elif command == text.cmd_group3_off:
+    elif command == lib.cmd_group3_off:
         sendmsg('group 3 off')
         water_off_group(group_three)
-    elif command == text.cmd_kill:
+    elif command == lib.cmd_kill:
         #disable camera
         logging.info('Disable camera module.')
         readcmd(conf.disable_camera)
         # clear monitor directory
         logging.info('Clear monitor folder.')
-        readcmd(text.clear_monitor)
-        PID2 = readcmd(text.get_pid2)
+        readcmd(lib.clear_monitor)
+        PID2 = readcmd(lib.get_pid2)
         logging.info('got own PID to kill me by myself and also prepare the other bot for proper using:'+str(PID2))
-        readcmd(text.restart_bot)
+        readcmd(lib.restart_bot)
         sendmsg('Process killed! Enable default bot... Run with /start')
         readcmd('kill -9 ' + PID2)
     elif command == '/start':
@@ -134,9 +134,9 @@ def handle(msg):
     elif command == '/live':
         sendmsg(live)
     elif command == '/help':
-        sendmsg(text.msg_help)
+        sendmsg(lib.msg_help)
     else:
-        sendmsg(text.msg_unknown)
+        sendmsg(lib.msg_unknown)
 
 
 bot = telepot.Bot(apiToken)
