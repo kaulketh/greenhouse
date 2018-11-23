@@ -1,6 +1,26 @@
 # My Greenhouse
+
+---
+
 > Thank you for inspiring me, [Stefan Weigert](https://www.stefan-weigert.de/php_loader/raspi.php) and [Felix Stern](https://tutorials-raspberrypi.de/automatisches-raspberry-pi-gewaechshaus-selber-bauen/)
 
+---
+
+1. [Telegram app](#1-telegram-app)
+2. [Raspberry Pi OS](#2-raspberry-pi-os-image)
+3. [First boot](#3-boot-raspi-and-connect-via-ssh)
+4. [Configure IP](#4-configure-static-ip)
+5. [Updates and main config](#5-make-updates-and-adapt-main-config)
+6. [Dyn dns client](#6-install-and-configure-dyn-dns-client-ddclient)
+7. [Remote ftp access](#7-install-and-configure-remote-ftp-if-required)
+8. [Live stream](#8-configure-the-live-stream)
+9. [Router port forwarding](#9-configure-port-forwarding-in-router-accordingly-the-dns-and-port-settings)
+10. [Required packages](#10-install-required-packages-python-python-telegram-bot-telepot-and-wiringpi)
+11. [Add/create scripts](#11-add-create-scripts-in-pi-user-directory-under-scripts-telegrambot)
+12. [Autostart](#12-enable-autostart-of-the-bot-application)
+13. [Additionals](#13-additional-functionalities)
+
+---
 	
 ### 1. Telegram app
 ##### Install the app and create bot
@@ -76,7 +96,7 @@ sudo nano /etc/ddclient.conf
  
 
 
-### 7. Install and configure remote ftp access to easier file transfer
+### 7. Install and configure remote ftp if required
 ```
 sudo apt-get install pure-ftpd
 sudo groupadd ftpgroup
@@ -144,7 +164,7 @@ cd ~/wiringPi
 
 * [how to to install wiringpi](http://wiringpi.com/download-and-install/)
 	
-### 11. Add/create python scripts in pi user directory under scripts/TelegramBot
+### 11. Add/create scripts in pi user directory under scripts/TelegramBot
 _**Make them executable and chown root:root!**_
 * access.py - external file, content will not provided, contains api token, chat IDs and other sensitive data
 * [greenhouse_config.py](scripts/greenhouse_config.py) - contains settings and properties
@@ -171,7 +191,9 @@ sudo reboot
 
 
 ### 13. Additional functionalities
-##### Add crontabs
+##### Add as required or wished
+
+##### Crontabs 
 
 ```
 # update check every 10 minutes
@@ -187,7 +209,7 @@ sudo reboot
 31 1 * * * mv -v /*.gz /home/pi/backups/
 ```
 
-##### Add logrotate to compress and clear log files
+##### Logrotate to compress and clear log files
 * see http://znil.net/index.php/Logfiles_in_Logrotate_aufnehmen_-_automatisches_packen,_rotieren_und_leeren_von_Logs 
 
 ```
