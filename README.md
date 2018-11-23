@@ -6,6 +6,8 @@
 
 ---
 
+### Main steps
+
 1. [Telegram app](#1-telegram-app)
 2. [Raspberry Pi OS](#2-raspberry-pi-os-image)
 3. [First boot](#3-boot-raspi-and-connect-via-ssh)
@@ -16,7 +18,7 @@
 8. [Live stream](#8-configure-the-live-stream)
 9. [Router port forwarding](#9-configure-port-forwarding-in-router-accordingly-the-dns-and-port-settings)
 10. [Required packages](#10-install-required-packages-python-python-telegram-bot-telepot-and-wiringpi)
-11. [Add/create scripts](#11-add-create-scripts-in-pi-user-directory-under-scripts-telegrambot)
+11. [Add/create scripts](#11-add-scripts-in-pi-user-directory)
 12. [Autostart](#12-enable-autostart-of-the-bot-application)
 13. [Additionals](#13-additional-functionalities)
 
@@ -163,8 +165,11 @@ cd ~/wiringPi
 ```
 
 * [how to to install wiringpi](http://wiringpi.com/download-and-install/)
+
 	
-### 11. Add/create scripts in pi user directory under scripts/TelegramBot
+### 11. Add scripts in pi user directory
+##### e.g in this case in scripts/TelegramBot
+
 _**Make them executable and chown root:root!**_
 * access.py - external file, content will not provided, contains api token, chat IDs and other sensitive data
 * [greenhouse_config.py](scripts/greenhouse_config.py) - contains settings and properties
