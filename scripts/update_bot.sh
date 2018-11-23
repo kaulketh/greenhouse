@@ -1,5 +1,5 @@
 #!bin/sh
-# Updates all scripts from the repository according to recent changes
+# Updates all scripts from the repository master branch according to recent changes
 
 token=$1
 chat=$2
