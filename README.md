@@ -192,7 +192,7 @@ sudo update-rc.d telegrambot.sh defaults
 sudo reboot
 ```
 
-* how to](https://www.dexterindustries.com/howto/run-a-program-on-your-raspberry-pi-at-startup/#init)
+* [how to](https://www.dexterindustries.com/howto/run-a-program-on-your-raspberry-pi-at-startup/#init)
 
 
 ### 13. Additional functionalities
