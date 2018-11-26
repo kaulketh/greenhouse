@@ -57,7 +57,7 @@ sudo mv -v greenhouse-master-$commit/scripts/*.sh $bot_dir
 	
 # remove tmp files 
 sudo rm -r -v greenhouse-master*
-sudo rm -v *.gz
+sudo rm -v $archive
 	
 # change owner and mode	
 sudo chmod -v +x $bot_dir*.py
