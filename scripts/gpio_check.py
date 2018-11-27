@@ -16,6 +16,7 @@ logging.basicConfig(filename=config.log_file, format=config.log_format,
                     datefmt=config.log_date_format, level=logging.INFO)
 
 gpios = (21, 22, 23, 24, 25, 27, 28, 29)
+go = 1
 
 
 def getState(pin):
@@ -24,14 +25,15 @@ def getState(pin):
     return output
 
 
-while 1:
+while go:
     for pin in gpios:
         index = gpios.index(pin)
         state = int(getState(pin))
         if state == 0:
             logging.info('GPIO.' + str(pin) + ':' + str(state) + ' -> Valve open at pin ' + str(config.GROUP_ALL[index]) + '!')
             continue        
-        
+    go = 0
+    
     try:
         time.sleep(1)
 
