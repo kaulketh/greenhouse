@@ -36,7 +36,7 @@ while 1:
         
     if log != '':
         logging.info(log)
-        continue
+        break
     
     
     try:
