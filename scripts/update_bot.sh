@@ -76,7 +76,7 @@ sleep $wait
 # reply message about update
 id=${commit:0:7}
 curl -s -k https://api.telegram.org/bot$bot/sendMessage -d text="[$(date +'%F %H:%M:%S')] Updated, build: $id..., branch: $branch" -d chat_id=$chat >> /dev/null
-echo "[$(date +'%F %H:%M:%S')] Updated from branch '$branch' finished, saved last commit ID '$id...', system rebooted."
+echo "[$(date +'%F %H:%M:%S')] Updated finished, branch '$branch', commit ID '$id...' saved, system rebooted."
 sudo reboot
 }
 
