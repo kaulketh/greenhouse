@@ -1,4 +1,3 @@
-
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 # author: Thomas Kaulke
@@ -32,6 +31,7 @@ while 1:
         if state == 0:
             logging.info('GPIO.' + str(pin) + ':' + str(state) +
                          ' -> Valve open at pin ' + str(config.GROUP_ALL[index]) + '!')
+            break             
     try:
         time.sleep(1)
 
