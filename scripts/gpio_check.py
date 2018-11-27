@@ -29,10 +29,10 @@ while 1:
         index = gpios.index(pin)
         state = int(getState(pin))
         if state == 0:
-            logging.info('GPIO.' + str(pin) + ':' + str(state) +
+            break
+        logging.info('GPIO.' + str(pin) + ':' + str(state) +
                          ' -> Valve open at pin ' + str(config.GROUP_ALL[index]) + '!')
-        break             
-    break             
+                     
     
     try:
         time.sleep(1)
