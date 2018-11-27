@@ -138,7 +138,7 @@ def handle(msg):
     else:
         sendmsg(lib.msg_unknown)
 
-
+conf.resetPins()
 bot = telepot.Bot(apiToken)
 bot.message_loop(handle)
 logging.info('I am listening...')
