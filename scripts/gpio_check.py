@@ -25,18 +25,14 @@ def getState(pin):
 
 
 while 1:
-    log =''
     
     for pin in gpios:
         index = gpios.index(pin)
         state = int(getState(pin))
         if state == 0:
-            log = log + ('GPIO.' + str(pin) + ':' + str(state) + ' -> Valve open at pin ' + str(config.GROUP_ALL[index]) + '!') + '\n'
+            logging.info('GPIO.' + str(pin) + ':' + str(state) + ' -> Valve open at pin ' + str(config.GROUP_ALL[index]) + '!')
             continue
         
-    if log != '':
-        logging.info(log)
-        break
     
     
     try:
