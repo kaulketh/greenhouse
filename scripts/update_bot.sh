@@ -5,15 +5,17 @@ token=$1
 chat=$2
 bot=$3
 
-archive='greenhouse.tar.gz'
+archive='update.tar.gz'
 project='53'
+branch=develop
+
 log='/update_bot.log'
 commit_id='/lastGreenhouseCommit.id'
 bot_dir='/home/pi/scripts/TelegramBot/'
 wait=3
 
 # get last commit id
-commit=$(curl -s --header "PRIVATE-TOKEN: "$token "https://gitlab.bekast.de/api/v4/projects/"$project"/repository/commits/master" | grep -Po '(?<="id":)(.*?)(?=,)' | sed "s/\"//g")
+commit=$(curl -s --header "PRIVATE-TOKEN: "$token "https://gitlab.bekast.de/api/v4/projects/"$project"/repository/commits/"$branch | grep -Po '(?<="id":)(.*?)(?=,)' | sed "s/\"//g")
 # get saved commit
 last_commit=$(cat $commit_id)
 
@@ -46,17 +48,17 @@ sudo rm -fv $bot_dir*.tmp
 sudo rm -fv /cmd.tmp
 
 # download	
-echo "Download last commit '$commit'"
+echo "Download  $branch - $commit."
 sudo wget -q -O $archive https://gitlab.bekast.de/api/v4/projects/$project/repository/archive?private_token=$token
 	
 # extract
-sudo tar -xvzf $archive --wildcards greenhouse-master-$commit/scripts/*.py -C $bot_dir
-sudo tar -xvzf $archive --wildcards greenhouse-master-$commit/scripts/*.sh -C $bot_dir
-sudo mv -v greenhouse-master-$commit/scripts/*.py $bot_dir
-sudo mv -v greenhouse-master-$commit/scripts/*.sh $bot_dir
+sudo tar -xvzf $archive --wildcards greenhouse-$branch-$commit/scripts/*.py -C $bot_dir
+sudo tar -xvzf $archive --wildcards greenhouse-$branch-$commit/scripts/*.sh -C $bot_dir
+sudo mv -v greenhouse-$branch-$commit/scripts/*.py $bot_dir
+sudo mv -v greenhouse-$branch-$commit/scripts/*.sh $bot_dir
 	
 # remove tmp files 
-sudo rm -r -v greenhouse-master*
+sudo rm -r -v greenhouse-$branch*
 sudo rm -v $archive
 	
 # change owner and mode	
@@ -73,8 +75,8 @@ sleep $wait
 
 # reply message about update
 id=${commit:0:7}
-curl -s -k https://api.telegram.org/bot$bot/sendMessage -d text="Bot updated, current build: $id..." -d chat_id=$chat >> /dev/null
-echo "[$(date +'%F %H:%M:%S')] Update finished, last commit ID '$id...' saved, system rebooted."
+curl -s -k https://api.telegram.org/bot$bot/sendMessage -d text="Bot updated, build: $id... of branch $branch" -d chat_id=$chat >> /dev/null
+echo "[$(date +'%F %H:%M:%S')] Update from branch '$branch' finished, saved last commit ID '$id...', system rebooted."
 sudo reboot
 }
 
