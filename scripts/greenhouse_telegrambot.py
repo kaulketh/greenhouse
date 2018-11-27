@@ -35,6 +35,7 @@ def timestamp():
 
 # switch all off at start, set all used GPIO=high
 logging.info('Switch all off at start, set all used GPIO to HIGH.')
+conf.resetPins()
 for member in all_groups:
        conf.switch_off(member)
        
@@ -73,7 +74,6 @@ markup2 = ReplyKeyboardMarkup(keyboard2, resize_keyboard=True, one_time_keyboard
 
 # start bot
 def start(bot, update):
-    conf.resetPins()
     logging.info('Bot started.')
     camOn()
     global user_id
