@@ -16,12 +16,14 @@ mainId = access.thk
 token = access.token
 
 # to use Raspberry Pi board pin numbers
-GPIO.setmode(GPIO.BOARD)
-# to use GPIO instead board pin numbers, then please adapt pin definition
-# GPIO.setmode(GPIO.BCM)
-
-# comment if warnings required
-GPIO.setwarnings(False)
+def resetPins():
+    GPIO.setmode(GPIO.BOARD)
+    # to use GPIO instead board pin numbers, then please adapt pin definition
+    # GPIO.setmode(GPIO.BCM)
+    # comment if warnings required
+    GPIO.setwarnings(False)
+    return
+    
 
 # def board pins/channels, refer hardware/rspi_gpio.info
 RELAIS_01 = 29
