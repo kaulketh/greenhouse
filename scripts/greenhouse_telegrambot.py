@@ -73,6 +73,7 @@ markup2 = ReplyKeyboardMarkup(keyboard2, resize_keyboard=True, one_time_keyboard
 
 # start bot
 def start(bot, update):
+    conf.restPins()
     logging.info('Bot started.')
     camOn()
     global user_id
