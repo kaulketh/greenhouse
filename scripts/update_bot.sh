@@ -23,7 +23,7 @@ echo "Failed! Paremeter is missing."
 echo "Using only with token for access to Gitlab, chat ID for Telegram app and bot API token!"
 }
 
-# if less than one argument supplied, display usage
+# if less than 3 arguments supplied, display usage
 if [ $# -le 2  ] 
 	then 
 		display_usage
