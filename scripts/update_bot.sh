@@ -75,14 +75,15 @@ sleep $wait
 
 # reply message about update
 id=${commit:0:7}
-curl -s -k https://api.telegram.org/bot$bot/sendMessage -d text="Bot updated, build: $id... of branch $branch" -d chat_id=$chat >> /dev/null
-echo "[$(date +'%F %H:%M:%S')] Update from branch '$branch' finished, saved last commit ID '$id...', system rebooted."
+curl -s -k https://api.telegram.org/bot$bot/sendMessage -d text="[$(date +'%F %H:%M:%S')] Updated, build: $id..., branch: $branch" -d chat_id=$chat >> /dev/null
+echo "[$(date +'%F %H:%M:%S')] Updated from branch '$branch' finished, saved last commit ID '$id...', system rebooted."
 sudo reboot
 }
 
 # check if an update is required
 if [[ $commit == $last_commit ]];
 	then
+		curl -s -k https://api.telegram.org/bot$bot/sendMessage -d text="[$(date +'%F %H:%M:%S')] Update not required, recent changes are included." -d chat_id=$chat >> /dev/null
 		echo -------------------------------------------------------------------------------------------------------
 		echo "[$(date +'%F %H:%M:%S')] Update not required, current version equals last commit '$last_commit'."
 		exit 1
