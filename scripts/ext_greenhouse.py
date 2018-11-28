@@ -160,7 +160,7 @@ logging.info('I am listening...')
 
 while 1:
     try:
-        time.sleep(10)
+        time.sleep(0.5)
 
     except KeyboardInterrupt:
         logging.warning('Program interrupted')
