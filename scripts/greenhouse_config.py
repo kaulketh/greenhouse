@@ -68,14 +68,14 @@ def switch_on(pin):
     logging.info('switch on: ' + str(pin))
     GPIO.setup(pin, GPIO.OUT)
     GPIO.output(pin, GPIO.LOW)
-    os.system(run_gpio_check + str(pin))
+    #os.system(run_gpio_check + str(pin))
     return
 
 def switch_off(pin):
     logging.info('switch off: ' + str(pin))
     GPIO.setup(pin, GPIO.OUT)
     GPIO.output(pin, GPIO.HIGH)
-    os.system(run_gpio_check + str(pin))
+    #os.system(run_gpio_check + str(pin))
     GPIO.cleanup(pin)
     return
 
