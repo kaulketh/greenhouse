@@ -26,13 +26,9 @@ def getState(pin):
     return output
 
 index = pins.index(int(pin_to_check))
-logging.info(int(pin_to_check))
-logging.info(str(index))
-gpio = gpios[index]
+gpio = gpios[int(index)]
 state = int(getState(gpio))
-           
-if state == 0:
-    logging.info('GPIO.' + str(gpio) + ':' + str(state) + ' -> Valve open at pin ' + str(pins[index]) + '!')
+logging.info('GPIO.' + str(gpio) + ':' + str(state) + ' -> Valve open at pin ' + str(pins[index]) + '!')
 
 
 
