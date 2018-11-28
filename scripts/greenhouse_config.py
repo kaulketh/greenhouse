@@ -65,10 +65,10 @@ run_gpio_check = 'sudo python /home/pi/scripts/TelegramBot/gpio_check.py '
 
 # switch functions
 def switch_on(pin):
+    os.system(run_gpio_check + str(pin))
     logging.info('switch on: ' + str(pin))
     GPIO.setup(pin, GPIO.OUT)
     GPIO.output(pin, GPIO.LOW)
-    os.system(run_gpio_check + str(pin))
     return
 
 def switch_off(pin):

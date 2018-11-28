@@ -18,7 +18,7 @@ logging.basicConfig(filename=config.log_file, format=config.log_format,
 
 pin_to_check = sys.argv[1]
 gpios = (21, 22, 23, 24, 25, 27, 28, 29)
-pins =  config.GROUP_ALL
+pins =  (29, 31, 33, 35, 37, 36, 38, 40)
 
 def getState(pin):
     proc = Popen('gpio read ' + str(pin), shell=True, stdout=PIPE,)
