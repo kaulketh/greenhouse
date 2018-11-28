@@ -51,15 +51,6 @@ def camOff():
     os.system(conf.disable_camera)
     return
 
-#check GPIO state and log       
-def checkGpioState():
-    os.system(conf.run_gpio_check)
-    return
-
-def stopGpioCheck():
-    os.system(conf.stop_gpio_check)
-    return
-       
 # api and bot settings
 SELECT, DURATION = range(2)
 #LIST_OF_ADMINS = ['mock to test']
@@ -202,7 +193,6 @@ def duration(bot, update):
 
 # water the target
 def water(update, member):
-    checkGpioState()
     logging.info('Duration: ' + Water_Time)
     logging.info('Toggle ' + str(member))
     update.message.reply_text(lib.water_on.format(
@@ -212,12 +202,10 @@ def water(update, member):
     conf.switch_off(member)
     update.message.reply_text(timestamp() + lib.water_off.format(Target, Water_Time) +
                               lib.msg_new_choice, parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
-    stopGpioCheck()
     return
 
 # water a group of targets
 def water_group(update, group):
-    checkGpioState()
     logging.info('Duration: ' + Water_Time)
     logging.info('Toggle ' + str(group))
     update.message.reply_text(lib.water_on_group.format(
@@ -229,7 +217,6 @@ def water_group(update, group):
         conf.switch_off(member)
     update.message.reply_text(timestamp() + lib.water_off_group.format(Target, Water_Time) +
                               lib.msg_new_choice, parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
-    stopGpioCheck()
     return
 
 

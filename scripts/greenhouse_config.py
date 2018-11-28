@@ -5,6 +5,8 @@
 
 import access as access
 
+import os
+import sys
 import time
 import RPi.GPIO as GPIO
 import logging
@@ -42,29 +44,6 @@ GROUP_01 = (RELAIS_01, RELAIS_02, RELAIS_03)
 GROUP_02 = (RELAIS_06, RELAIS_07, RELAIS_08)
 GROUP_03 = (RELAIS_04, RELAIS_05)
 
-
-# switch functions
-def switch_on(pin):
-    logging.info('switch on: ' + str(pin))
-    GPIO.setup(pin, GPIO.OUT)
-    GPIO.output(pin, GPIO.LOW)
-    return
-
-def switch_off(pin):
-    logging.info('switch off: ' + str(pin))
-    GPIO.setup(pin, GPIO.OUT)
-    GPIO.output(pin, GPIO.HIGH)
-    GPIO.cleanup(pin)
-    return
-
-# date time strings
-def getTimestamp():
-    return time.strftime('[%d.%m.%Y %H:%M:%S] ')
-    
-def getTimestampLine():
-    return time.strftime('`[%d.%m.%Y %H:%M:%S]\n---------------------\n`')
-
-
 # live stream address
 live = access.live
 
@@ -84,3 +63,26 @@ disable_camera = 'sudo service motion stop && sudo modprobe -r bcm2835-v4l2 & '
 # gpio check
 run_gpio_check = 'sudo python /home/pi/scripts/TelegramBot/gpio_check.py & '
 stop_gpio_check = 'sudo pkill -f /home/pi/scripts/TelegramBot/gpio_check.py & '
+
+# switch functions
+def switch_on(pin):
+    os.system(run_gpio_check)
+    logging.info('switch on: ' + str(pin))
+    GPIO.setup(pin, GPIO.OUT)
+    GPIO.output(pin, GPIO.LOW)
+    return
+
+def switch_off(pin):
+    logging.info('switch off: ' + str(pin))
+    GPIO.setup(pin, GPIO.OUT)
+    GPIO.output(pin, GPIO.HIGH)
+    GPIO.cleanup(pin)
+    os.system(stop_gpio_check)
+    return
+
+# date time strings
+def getTimestamp():
+    return time.strftime('[%d.%m.%Y %H:%M:%S] ')
+    
+def getTimestampLine():
+    return time.strftime('`[%d.%m.%Y %H:%M:%S]\n---------------------\n`')

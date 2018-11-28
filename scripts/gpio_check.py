@@ -24,26 +24,13 @@ def getState(pin):
     return output
 
 
-def check(): 
-    for pin in gpios:
-        index = gpios.index(pin)
-        state = int(getState(pin))
-        if state == 0:
-            logging.info('GPIO.' + str(pin) + ':' + str(state) + ' -> Valve open at pin ' + str(config.GROUP_ALL[index]) + '!')
-            continue
-    return
+for pin in gpios:
+    index = gpios.index(pin)
+    state = int(getState(pin))
+    if state == 0:
+        logging.info('GPIO.' + str(pin) + ':' + str(state) + ' -> Valve open at pin ' + str(config.GROUP_ALL[index]) + '!')
+        continue
+    time.sleep(1)
 
-
-while 1:
-    try:
-        check()
-        time.sleep(1)
-
-    except KeyboardInterrupt:
-        logging.warning('GPIO check interrupted')
-        exit()
-
-    except:
-        logging.error('Other error or exception occured!')
 
    
