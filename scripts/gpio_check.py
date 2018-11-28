@@ -30,7 +30,6 @@ for pin in gpios:
     if state == 0:
         logging.info('GPIO.' + str(pin) + ':' + str(state) + ' -> Valve open at pin ' + str(config.GROUP_ALL[index]) + '!')
         continue
-    time.sleep(1)
 
 
    
