@@ -7,6 +7,7 @@ from subprocess import Popen, PIPE, STDOUT, call
 import greenhouse_config as config
 
 import os
+import sys
 import commands
 import time
 import RPi.GPIO as GPIO
@@ -15,31 +16,22 @@ import logging
 logging.basicConfig(filename=config.log_file, format=config.log_format,
                     datefmt=config.log_date_format, level=logging.INFO)
 
+pin_to_check = int(sys.argv[1])
 gpios = (21, 22, 23, 24, 25, 27, 28, 29)
-
+# == config.GROUP_ALL 
+pins =  (29, 31, 33, 35, 37, 36, 38, 40) 
 
 def getState(pin):
     proc = Popen('gpio read ' + str(pin), shell=True, stdout=PIPE,)
     output = proc.communicate()[0]
     return output
 
+index = pins.index(pin_to_check)
+gpio = gpios[int(index)]
+state = int(getState(gpio))
 
-while 1:
-    
-    for pin in gpios:
-        index = gpios.index(pin)
-        state = int(getState(pin))
-        if state == 0:
-            logging.info('GPIO.' + str(pin) + ':' + str(state) + ' -> Valve open at pin ' + str(config.GROUP_ALL[index]) + '!')
-            continue
-        
-    
-    
-    try:
-        time.sleep(1)
+if state == 0:
+    logging.info('GPIO.' + str(gpio) + ':' + str(state) + ' -> Valve open at pin ' + str(pins[index]) + '!')
 
-    except KeyboardInterrupt:
-        logging.warning('Check interrupted')
-        exit()
-    except:
-        logging.error('Other error or exception occured!')
+if state == 1:
+    logging.info('GPIO.' + str(gpio) + ':' + str(state) + ' -> Valve closed at pin ' + str(pins[index]) + '!')

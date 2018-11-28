@@ -50,8 +50,7 @@ def camOff():
     logging.info('Disable camera module.')
     os.system(conf.disable_camera)
     return
-       
-       
+
 # api and bot settings
 SELECT, DURATION = range(2)
 #LIST_OF_ADMINS = ['mock to test']
@@ -206,8 +205,6 @@ def water(update, member):
     return
 
 # water a group of targets
-
-
 def water_group(update, group):
     logging.info('Duration: ' + Water_Time)
     logging.info('Toggle ' + str(group))

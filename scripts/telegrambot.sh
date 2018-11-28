@@ -13,5 +13,3 @@
 
 sleep 5
 sudo python /home/pi/scripts/TelegramBot/greenhouse_telegrambot.py &
-sleep 5
-sudo python /home/pi/scripts/TelegramBot/gpio_check.py &
