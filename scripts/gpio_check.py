@@ -26,6 +26,8 @@ def getState(pin):
     return output
 
 index = pins.index(pin_to_check)
+logging.debug(pin_to_check)
+logging.debug(index)
 gpio = gpios[index]
 state = int(getState(gpio))
            
