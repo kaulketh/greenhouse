@@ -66,18 +66,18 @@ stop_gpio_check = 'sudo pkill -f /home/pi/scripts/TelegramBot/gpio_check.py & '
 
 # switch functions
 def switch_on(pin):
-    os.system(run_gpio_check)
     logging.info('switch on: ' + str(pin))
+    os.system(run_gpio_check)
     GPIO.setup(pin, GPIO.OUT)
     GPIO.output(pin, GPIO.LOW)
     return
 
 def switch_off(pin):
     logging.info('switch off: ' + str(pin))
+    os.system(stop_gpio_check)
     GPIO.setup(pin, GPIO.OUT)
     GPIO.output(pin, GPIO.HIGH)
     GPIO.cleanup(pin)
-    os.system(stop_gpio_check)
     return
 
 # date time strings
