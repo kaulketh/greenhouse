@@ -25,9 +25,9 @@ def getState(pin):
     output = proc.communicate()[0]
     return output
 
-index = pins.index(pin_to_check)
-logging.info(pin_to_check)
-logging.info(index)
+index = pins.index(int(pin_to_check))
+logging.info(int(pin_to_check))
+logging.info(str(index))
 gpio = gpios[index]
 state = int(getState(gpio))
            
