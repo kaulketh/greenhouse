@@ -7,6 +7,7 @@ from subprocess import Popen, PIPE, STDOUT, call
 import greenhouse_config as config
 
 import os
+import sys
 import commands
 import time
 import RPi.GPIO as GPIO
@@ -27,7 +28,7 @@ def getState(pin):
 index = pins.index(pin_to_check)
 gpio = gpios[index]
 state = int(getState(gpio))
-            
+           
 if state == 0:
     logging.info('GPIO.' + str(gpio) + ':' + str(state) + ' -> Valve open at pin ' + str(pins[index]) + '!')
 
