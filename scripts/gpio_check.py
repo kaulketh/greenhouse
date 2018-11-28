@@ -29,7 +29,18 @@ for pin in gpios:
     state = int(getState(pin))
     if state == 0:
         logging.info('GPIO.' + str(pin) + ':' + str(state) + ' -> Valve open at pin ' + str(config.GROUP_ALL[index]) + '!')
-        break
+        continue
+
+while 1:
+    try:
+        time.sleep(1)
+
+    except KeyboardInterrupt:
+        logging.warning('GPIO check interrupted')
+        exit()
+
+    except:
+        logging.error('Other error or exception occured!')
 
 
    
