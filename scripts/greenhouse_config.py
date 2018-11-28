@@ -64,6 +64,7 @@ def getTimestamp():
 def getTimestampLine():
     return time.strftime('`[%d.%m.%Y %H:%M:%S]\n---------------------\n`')
 
+
 # live stream address
 live = access.live
 
@@ -79,3 +80,7 @@ run_extended_greenhouse = 'sudo python /home/pi/scripts/TelegramBot/ext_greenhou
 # camera commands
 enable_camera = 'sudo modprobe bcm2835-v4l2 && sudo service motion start & '
 disable_camera = 'sudo service motion stop && sudo modprobe -r bcm2835-v4l2 & '
+
+# gpio check
+run_gpio_check = 'sudo python /home/pi/scripts/TelegramBot/gpio_check.py & '
+stop_gpio_check = 'sudo pkill -f /home/pi/scripts/TelegramBot/gpio_check.py & '

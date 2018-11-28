@@ -46,16 +46,30 @@ def timestamp():
 # live stream address
 live = conf.live
 
+#check GPIO state and log       
+def checkGpioState():
+    os.system(conf.run_gpio_check)
+    return
+
+def stopGpioCheck():
+    os.system(conf.stop_gpio_check)
+    return
+
+
 # water a group of targets
 def water_on_group(group):
+    checkGpioState()
     for member in group:
         conf.switch_on(member)
+    stopGpioCheck()
     return
 
 # water off for a  group of targets
 def water_off_group(group):
+    checkGpioState()
     for member in group:
         conf.switch_off(member)
+    stopGpioCheck() 
     return
 
 # Assign default output (stdout 1 and stderr 2) to file and read in
