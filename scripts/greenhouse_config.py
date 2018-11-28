@@ -61,20 +61,18 @@ enable_camera = 'sudo modprobe bcm2835-v4l2 && sudo service motion start & '
 disable_camera = 'sudo service motion stop && sudo modprobe -r bcm2835-v4l2 & '
 
 # gpio check
-run_gpio_check = 'sudo python /home/pi/scripts/TelegramBot/gpio_check.py & '
-stop_gpio_check = 'sudo pkill -f /home/pi/scripts/TelegramBot/gpio_check.py & '
+run_gpio_check = 'sudo python /home/pi/scripts/TelegramBot/gpio_check.py '
 
 # switch functions
 def switch_on(pin):
     logging.info('switch on: ' + str(pin))
-    os.system(run_gpio_check)
     GPIO.setup(pin, GPIO.OUT)
     GPIO.output(pin, GPIO.LOW)
+    os.system(run_gpio_check + str(pin))
     return
 
 def switch_off(pin):
     logging.info('switch off: ' + str(pin))
-    os.system(stop_gpio_check)
     GPIO.setup(pin, GPIO.OUT)
     GPIO.output(pin, GPIO.HIGH)
     GPIO.cleanup(pin)

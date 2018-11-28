@@ -15,32 +15,22 @@ import logging
 logging.basicConfig(filename=config.log_file, format=config.log_format,
                     datefmt=config.log_date_format, level=logging.INFO)
 
+pin_to_check = sys.argv[1]
 gpios = (21, 22, 23, 24, 25, 27, 28, 29)
-
+pins =  config.GROUP_ALL
 
 def getState(pin):
     proc = Popen('gpio read ' + str(pin), shell=True, stdout=PIPE,)
     output = proc.communicate()[0]
     return output
 
+index = pins.index(pin_to_check)
+gpio = gpios[index]
+state = int(getState(gpio))
+            
+if state == 0:
+    logging.info('GPIO.' + str(gpio) + ':' + str(state) + ' -> Valve open at pin ' + str(pins[index]) + '!')
 
-for pin in gpios:
-    index = gpios.index(pin)
-    state = int(getState(pin))
-    if state == 0:
-        logging.info('GPIO.' + str(pin) + ':' + str(state) + ' -> Valve open at pin ' + str(config.GROUP_ALL[index]) + '!')
-        continue
-
-while 1:
-    try:
-        time.sleep(1)
-
-    except KeyboardInterrupt:
-        logging.warning('GPIO check interrupted')
-        exit()
-
-    except:
-        logging.error('Other error or exception occured!')
 
 
    
