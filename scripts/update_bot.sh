@@ -69,7 +69,6 @@ sudo rm -fv $bot_dir*.tmp
 sudo rm -fv /cmd.tmp
 
 # download	
-echo "Downloading $branch:$commit"
 # gilab
 #sudo wget -q -O $archive https://gitlab.bekast.de/api/v4/projects/$project/repository/archive?private_token=$token
 # github
@@ -83,16 +82,15 @@ sudo wget -q --no-check-certificate https://github.com/$owner/$project/archive/$
 #sudo mv -v greenhouse-$branch-$commit/scripts/*.sh $bot_dir
 
 # github
-echo "Extracting $branch.zip"
-sudo unzip -qq $branch.zip greenhouse-$branch/scripts/*.py -d $bot_dir
-sudo unzip -qq $branch.zip greenhouse-$branch/scripts/*.sh -d $bot_dir
+sudo unzip -q $branch.zip greenhouse-$branch/scripts/*.py -d $bot_dir
+sudo unzip -q $branch.zip greenhouse-$branch/scripts/*.sh -d $bot_dir
 sudo mv -vf greenhouse-$branch/scripts/*.py $bot_dir
 sudo mv -vf greenhouse-$branch/scripts/*.sh $bot_dir
 		
 # remove tmp and downloaded files
-sudo rm -r -v greenhouse-$branch*
-sudo rm -v $archive
-sudo rm -v $branch.zip
+sudo rm -r -v greenhouse-*
+sudo rm -v *.gz
+sudo rm -v *.zip
 	
 # change owner and mode	
 sudo chmod -v +x $bot_dir*.py
