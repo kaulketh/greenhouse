@@ -88,7 +88,7 @@ sudo mv -vf greenhouse-$branch/scripts/*.py $bot_dir
 sudo mv -vf greenhouse-$branch/scripts/*.sh $bot_dir
 		
 # remove tmp and downloaded files
-sudo rm -r -v greenhouse-*
+sudo rm -r -v $bot_dirgreenhouse--$branch*
 sudo rm -v *.gz
 sudo rm -v *.zip
 	
