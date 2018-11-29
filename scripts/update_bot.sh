@@ -9,6 +9,7 @@ archive='update.tar.gz'
 
 # github
 bot=$1
+chat=$2
 
 
 # gitlab
