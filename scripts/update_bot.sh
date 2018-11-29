@@ -71,7 +71,7 @@ echo "Download  $branch - $commit."
 # gilab
 #sudo wget -q -O $archive https://gitlab.bekast.de/api/v4/projects/$project/repository/archive?private_token=$token
 # github
-sudo wget -q -O $archive --no-check-certificate https://github.com/$owner/$project/archive/$commit.zip
+sudo wget -q --no-check-certificate https://github.com/$owner/$project/archive/$branch.zip
 	
 # extract
 # gilab
@@ -81,17 +81,13 @@ sudo wget -q -O $archive --no-check-certificate https://github.com/$owner/$proje
 #sudo mv -v greenhouse-$branch-$commit/scripts/*.sh $bot_dir
 
 # github
-sudo tar -xvzf $archive --wildcards greenhouse-$commit/scripts/*.py -C $bot_dir
-sudo tar -xvzf $archive --wildcards greenhouse-$commit/scripts/*.sh -C $bot_dir
-sudo mv -v greenhouse-$commit/scripts/*.py $bot_dir
-sudo mv -v greenhouse-$commit/scripts/*.sh $bot_dir
+sudo unzip $branch.zip greenhouse-$branch/scripts/*.py -C $bot_dir
+sudo unzip $branch.zip greenhouse-$branch/scripts/*.sh -C $bot_dir
+sudo mv -v greenhouse-$branch/scripts/*.py $bot_dir
+sudo mv -v greenhouse-$branch/scripts/*.sh $bot_dir
 		
 # remove tmp files
-# gitlab 
-#sudo rm -r -v greenhouse-$branch*
-# github
-sudo rm -r -v greenhouse-$commit*
-
+sudo rm -r -v greenhouse-$branch*
 sudo rm -v $archive
 	
 # change owner and mode	
@@ -124,6 +120,3 @@ else
 	curl -s -k https://api.telegram.org/bot$bot/sendMessage -d text="[$(date +'%F %H:%M:%S')] Changes detected, starting update." -d chat_id=$chat >> /dev/null
 	update
 fi
-
-
-
