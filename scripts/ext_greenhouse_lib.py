@@ -54,5 +54,5 @@ restart_bot = 'python /home/pi/scripts/TelegramBot/greenhouse_telegrambot.py &'
 # gitlab
 #update_bot = 'bash /home/pi/scripts/TelegramBot/update_bot.sh ' + str(acces_token_to_repository) + ' '+ str(thk) +' '+ str(token) +' &'
 # github
-update_bot = 'bash /home/pi/scripts/TelegramBot/update_bot.sh '+ str(token) + str(thk) +' &'
+update_bot = 'bash /home/pi/scripts/TelegramBot/update_bot.sh '+ str(token) + ' ' + str(thk) +' &'
 logrotate_bot = 'logrotate -f /etc/logrotate.conf &' 
