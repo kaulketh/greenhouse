@@ -34,11 +34,18 @@ last_commit=$(cat $commit_id)
 # function display usage
 display_usage() {
 echo "Failed! Paremeter is missing."
-echo "Using only with token for access to Gitlab, chat ID for Telegram app and bot API token!"
+# gitlab
+#echo "Using only with token for access to Gitlab, chat ID for Telegram app and bot API token!"
+# github
+echo "Using only with telegram bot API token!"
 }
 
+# gitlab
 # if less than 3 arguments supplied, display usage
-if [ $# -le 2  ] 
+#if [ $# -le 2  ]
+# github
+# if less than 1 arguments supplied, display usage
+if [ $# -le 0  ] 
 	then 
 		display_usage
 		exit 1
