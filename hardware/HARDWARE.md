@@ -1,6 +1,5 @@
 ### Casing
-* Spelsberg AK24 | 73542401
-* (https://www.spelsberg.de/nc/produkt/an/73542401/)
+* [Spelsberg AK24 | 73542401](https://www.spelsberg.de/nc/produkt/an/73542401/)
 
 ### Raspberry Pi
 * [Raspberry Pi 3 Model B ARM-Cortex-A53 4x 1,2GHz, 1GB RAM, WLAN, Bluetooth, LAN, 4x USB](https://www.amazon.de/Raspberry-Pi-Model-ARM-Cortex-A53-Bluetooth/dp/B01CD5VC92)
