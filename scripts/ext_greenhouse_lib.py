@@ -6,7 +6,7 @@
 # from access import acces_token_to_repository, thk, token
 
 # github
-from access import token
+from access import token, thk
 
 newline = '\n'
 cmd_prefix = '/'
