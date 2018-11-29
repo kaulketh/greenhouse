@@ -1,21 +1,33 @@
 #!bin/sh
-# Updates all scripts from the repository master branch according to recent changes
+# Updates all scripts of repository branch accordingly to recent changes
 
-token=$1
-chat=$2
-bot=$3
+# only for gitlab required
+#token=$1
+#chat=$2
+#bot=$3
+
+# github
+bot=$1
 
 archive='update.tar.gz'
-project='53'
-branch=develop
 
+# gitlab
+#project='53'
+# github
+project='greenhouse'
+owner='kaulketh'
+
+branch=develop
 log='/update_bot.log'
 commit_id='/lastGreenhouseCommit.id'
 bot_dir='/home/pi/scripts/TelegramBot/'
 wait=3
 
 # get last commit id
-commit=$(curl -s --header "PRIVATE-TOKEN: "$token "https://gitlab.bekast.de/api/v4/projects/"$project"/repository/commits/"$branch | grep -Po '(?<="id":)(.*?)(?=,)' | sed "s/\"//g")
+# gitlab
+#commit=$(curl -s --header "PRIVATE-TOKEN: "$token "https://gitlab.bekast.de/api/v4/projects/"$project"/repository/commits/"$branch | grep -Po '(?<="id":)(.*?)(?=,)' | sed "s/\"//g")
+# github
+commit=$(curl -s https://api.github.com/repos/$owner/$project/commits/$branch --insecure | grep -Po '(?<="sha":)(.*?)(?=,)' -m 1 | sed "s/\"//g")
 # get saved commit
 last_commit=$(cat $commit_id)
 
@@ -49,16 +61,30 @@ sudo rm -fv /cmd.tmp
 
 # download	
 echo "Download  $branch - $commit."
-sudo wget -q -O $archive https://gitlab.bekast.de/api/v4/projects/$project/repository/archive?private_token=$token
+# gilab
+#sudo wget -q -O $archive https://gitlab.bekast.de/api/v4/projects/$project/repository/archive?private_token=$token
+# github
+sudo wget -q -O $archive --no-check-certificate https://github.com/$owner/$project/archive/$commit.zip
 	
 # extract
-sudo tar -xvzf $archive --wildcards greenhouse-$branch-$commit/scripts/*.py -C $bot_dir
-sudo tar -xvzf $archive --wildcards greenhouse-$branch-$commit/scripts/*.sh -C $bot_dir
-sudo mv -v greenhouse-$branch-$commit/scripts/*.py $bot_dir
-sudo mv -v greenhouse-$branch-$commit/scripts/*.sh $bot_dir
-	
-# remove tmp files 
-sudo rm -r -v greenhouse-$branch*
+# gilab
+#sudo tar -xvzf $archive --wildcards greenhouse-$branch-$commit/scripts/*.py -C $bot_dir
+#sudo tar -xvzf $archive --wildcards greenhouse-$branch-$commit/scripts/*.sh -C $bot_dir
+#sudo mv -v greenhouse-$branch-$commit/scripts/*.py $bot_dir
+#sudo mv -v greenhouse-$branch-$commit/scripts/*.sh $bot_dir
+
+# github
+sudo tar -xvzf $archive --wildcards greenhouse-$commit/scripts/*.py -C $bot_dir
+sudo tar -xvzf $archive --wildcards greenhouse-$commit/scripts/*.sh -C $bot_dir
+sudo mv -v greenhouse-$commit/scripts/*.py $bot_dir
+sudo mv -v greenhouse-$commit/scripts/*.sh $bot_dir
+		
+# remove tmp files
+# gitlab 
+#sudo rm -r -v greenhouse-$branch*
+# github
+sudo rm -r -v greenhouse-$commit*
+
 sudo rm -v $archive
 	
 # change owner and mode	
