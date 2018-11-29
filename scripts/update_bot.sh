@@ -81,8 +81,9 @@ sudo wget -q --no-check-certificate https://github.com/$owner/$project/archive/$
 #sudo mv -v greenhouse-$branch-$commit/scripts/*.sh $bot_dir
 
 # github
-sudo unzip $branch.zip greenhouse-$branch/scripts/*.py -C $bot_dir
-sudo unzip $branch.zip greenhouse-$branch/scripts/*.sh -C $bot_dir
+archive=$branch.zip
+sudo unzip -q $archive greenhouse-$branch/scripts/*.py -d $bot_dir
+sudo unzip -q $archive greenhouse-$branch/scripts/*.sh -d $bot_dir
 sudo mv -v greenhouse-$branch/scripts/*.py $bot_dir
 sudo mv -v greenhouse-$branch/scripts/*.sh $bot_dir
 		
