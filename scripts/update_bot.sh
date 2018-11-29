@@ -5,17 +5,18 @@
 #token=$1
 #chat=$2
 #bot=$3
+archive='update.tar.gz'
 
 # github
 bot=$1
 
-archive='update.tar.gz'
 
 # gitlab
 #project='53'
+
 # github
-project='greenhouse'
-owner='kaulketh'
+project=greenhouse
+owner=kaulketh
 
 branch=develop
 log='/update_bot.log'
@@ -27,7 +28,7 @@ wait=3
 # gitlab
 #commit=$(curl -s --header "PRIVATE-TOKEN: "$token "https://gitlab.bekast.de/api/v4/projects/"$project"/repository/commits/"$branch | grep -Po '(?<="id":)(.*?)(?=,)' | sed "s/\"//g")
 # github
-commit=$(curl -s https://api.github.com/repos/$owner/$project/commits/$branch --insecure | grep -Po '(?<="sha":)(.*?)(?=,)' -m 1 | sed "s/\"//g" | sed -e 's/^[[:space:]]*//'))
+commit=$(curl -s https://api.github.com/repos/$owner/$project/commits/$branch --insecure | grep -Po '(?<="sha":)(.*?)(?=,)' -m 1 | sed "s/\"//g" | sed -e 's/^[[:space:]]*//' | sed -e 's/[.]*$//')
 # get saved commit
 last_commit=$(cat $commit_id)
 
