@@ -69,7 +69,7 @@ sudo rm -fv $bot_dir*.tmp
 sudo rm -fv /cmd.tmp
 
 # download
-echo Download $branch $commit
+echo Download: $branch $commit
 # gilab
 #sudo wget -q -O $archive https://gitlab.bekast.de/api/v4/projects/$project/repository/archive?private_token=$token
 # github
@@ -83,7 +83,7 @@ sudo wget -q --no-check-certificate https://github.com/$owner/$project/archive/$
 #sudo mv -v greenhouse-$branch-$commit/scripts/*.sh $bot_dir
 
 # github
-echo Extract $branch.zip
+echo Extract: $branch.zip
 sudo unzip $branch.zip greenhouse-$branch/scripts/*.py -d $bot_dir
 sudo unzip $branch.zip greenhouse-$branch/scripts/*.sh -d $bot_dir
 sudo mv -vf greenhouse-$branch/scripts/*.py $bot_dir
