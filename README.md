@@ -178,8 +178,8 @@ _**Make them executable and chown root:root!**_
 * [ext_greenhouse.py](scripts/ext_greenhouse.py) - extended bot
 * [ext_greenhouse_lib.py](scripts/ext_greenhouse_lib.py) - some constants, contains strings for commands and texts
 * [greenhouse_lib_english.py](scripts/greenhouse_lib_english.py) - if required, same like German version, if used adapt imports!
-* [gpio_check.py](scripts/gpio_check.py) - to check state of GPIOs and logs if state == low, is added in autostart in telegrambot.sh
-* [update_bot.sh](scripts/update_bot.sh) - to updates all scripts from the repository by using last commit ID and a git access token
+* [gpio_check.py](scripts/gpio_check.py) - to check state of GPIOs and logs state, in case it is wished
+* [update_bot.sh](scripts/update_bot.sh) - to updates all scripts from this repository by using last commit ID
    
 
 
@@ -198,7 +198,7 @@ sudo reboot
 ### 13. Additional functionalities
 ##### Add as required or wished
 
-##### Crontabs 
+##### Crontabs examples
 
 ```
 # update check every 10 minutes
