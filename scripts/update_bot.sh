@@ -51,7 +51,7 @@ git clone https://github.com/$owner/$project.git
 # update python and shell scripts
 cd $project
 mv -vf scripts/*.py $bot_dir
-mv -vf scripts/*.sh $bot_di
+mv -vf scripts/*.sh $bot_dir
 
 # update config files
 mv -vf configs/motion.conf /etc/motion/motion.conf
