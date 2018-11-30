@@ -45,8 +45,8 @@ rm -fv /cmd.tmp
 
 # clone from git
 cd $bot_dir
-echo Clone from git repository in $project folder
-git clone https://github.com/$owner/$project.git
+echo Clone from git repository in \'$project\' folder
+git clone -v https://github.com/$owner/$project.git
 
 # update python and shell scripts
 cd $project
