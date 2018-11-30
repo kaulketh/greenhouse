@@ -45,13 +45,14 @@ sudo rm -fv /cmd.tmp
 
 # download
 echo Download: $branch $commit
-sudo wget -q --no-check-certificate https://github.com/$owner/$project/archive/$branch.zip
+wget -q --no-check-certificate https://github.com/$owner/$project/archive/$branch.zip
 	
 # extract
 echo Extract: $branch.zip
+sudo unzip $branch.zip greenhouse-$branch/configs/*.conf -d $bot_dir
 sudo unzip $branch.zip greenhouse-$branch/scripts/*.py -d $bot_dir
 sudo unzip $branch.zip greenhouse-$branch/scripts/*.sh -d $bot_dir
-sudo unzip $branch.zip greenhouse-$branch/configs/*.conf -d $bot_dir
+
 
 # update python and shell scripts
 sudo mv -vf greenhouse-$branch/scripts/*.py $bot_dir
