@@ -1,6 +1,5 @@
 #!bin/sh
-# Updates all scripts of repository branch accordingly to recent changes
-# git included
+# Clone from repository if required, commits will compared before
 
 bot=$1
 chat=$2
