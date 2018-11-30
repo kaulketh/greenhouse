@@ -43,15 +43,17 @@ rm -fv $bot_dir*.pyc
 rm -fv $bot_dir*.log
 rm -fv $bot_dir*.tmp
 rm -f /cmd.tmp
+echo 
 
 # clone from github
 cd $bot_dir
-echo "[$(date +'%F %H:%M:%S')] Clone from repository to \'$project\' folder"
+echo "[$(date +'%F %H:%M:%S')] Clone from repository to '$project' folder"
 git clone -v https://github.com/$owner/$project.git
+echo  
 
 # update python and shell scripts
 cd $project
-echo "[$(date +'%F %H:%M:%S')] Moving files..."
+echo "[$(date +'%F %H:%M:%S')] Move files..."
 mv -vf scripts/*.py $bot_dir
 mv -vf scripts/*.sh $bot_dir
 
@@ -77,7 +79,7 @@ cd $bot_dir
 mv -vf telegrambot.sh /etc/init.d/	
 echo 
 # remove cloned files and folder
-echo "[$(date +'%F %H:%M:%S')] Remove ot needed files files"
+echo "[$(date +'%F %H:%M:%S')] Remove unnecessary files..."
 rm -rf greenhouse
 echo 
 # save last commit id
