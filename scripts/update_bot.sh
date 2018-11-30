@@ -53,7 +53,7 @@ cd $project
 mv -vf scripts/*.py $bot_dir
 mv -vf scripts/*.sh $bot_di
 
-# update configs
+# update config files
 mv -vf configs/motion.conf /etc/motion/motion.conf
 mv -vf configs/dhcpcd.conf /etc/dhcpcd.conf
 mv -vf configs/ddclient.conf /etc/ddclient.conf
@@ -70,7 +70,7 @@ chmod -v +x $bot_dir*.sh
 # update start script in /etc/init.d/
 mv -vf scripts/telegrambot.sh /etc/init.d/	
 
-# remove cloned files
+# remove cloned files and folder
 echo Remove cloned files
 cd $bot_dir
 rm -rf greenhouse
