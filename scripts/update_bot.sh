@@ -1,5 +1,6 @@
 #!bin/sh
 # Updates all scripts of repository branch accordingly to recent changes
+# git included
 
 bot=$1
 chat=$2
@@ -44,24 +45,34 @@ rm -fv $bot_dir*.tmp
 rm -fv /cmd.tmp
 
 # download
-echo Download: $branch $commit
-wget -q --no-check-certificate https://github.com/$owner/$project/archive/$branch.zip
+#echo Download: $branch $commit
+#wget -q --no-check-certificate https://github.com/$owner/$project/archive/$branch.zip
+cd $bot_dir
+echo Clone from git repo
+git clone https://github.com/$owner/$project.git
+
 	
 # extract
-echo Extract: $branch.zip
+#echo Extract: $branch.zip
 #unzip $branch.zip greenhouse-$branch/configs/*.sh -d $bot_dir
 #unzip $branch.zip greenhouse-$branch/scripts/*.py -d $bot_dir
 #unzip $branch.zip greenhouse-$branch/scripts/*.sh -d $bot_dir
-unzip $branch.zip greenhouse-$branch/* -d $bot_dir
+#unzip $branch.zip greenhouse-$branch/* -d $bot_dir
 
 # update python and shell scripts
-mv -vf greenhouse-$branch/scripts/*.py $bot_dir
-mv -vf greenhouse-$branch/scripts/*.sh $bot_dir
+cd $project
+mv -vf scripts/*.py $bot_dir
+mv -vf scripts/*.sh $bot_dir
+#mv -vf greenhouse-$branch/scripts/*.py $bot_dir
+#mv -vf greenhouse-$branch/scripts/*.sh $bot_dir
 
 # update configs
-mv -vf greenhous-$branch/configs/motion.conf /etc/motion/motion.conf
-mv -vf greenhous-$branch/configs/ddclient.conf /etc/ddclient.conf
-mv -vf greenhous-$branch/configs/dhcpcd.conf /etc/dhcpcd.conf
+mv -vf configs/motion.conf /etc/motion/motion.conf
+mv -vf configs/dhcpcd.conf /etc/dhcpcd.conf
+mv -vf configs/ddclient.conf /etc/ddclient.conf
+#mv -vf greenhous-$branch/configs/motion.conf /etc/motion/motion.conf
+#mv -vf greenhous-$branch/configs/ddclient.conf /etc/ddclient.conf
+#mv -vf greenhous-$branch/configs/dhcpcd.conf /etc/dhcpcd.conf
 
 # change owner and mode of files
 chown root:netdev /etc/ddclient.conf
@@ -73,12 +84,14 @@ chmod -v +x $bot_dir*.py
 chmod -v +x $bot_dir*.sh
 
 # update start script in /etc/init.d/
-mv -vf telegrambot.sh /etc/init.d/	
+mv -vf scripts/telegrambot.sh /etc/init.d/	
 
 # remove tmp and downloaded files
-rm -v *.zip
 cd $bot_dir
-rm -rf -v greenhouse-$branch*
+rm -rf -v greenhouse
+#rm -v *.zip
+#cd $bot_dir
+#rm -rf -v greenhouse-$branch*
 
 # save last commit id
 echo $commit > $commit_id
