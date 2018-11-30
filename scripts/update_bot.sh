@@ -9,7 +9,7 @@ branch=develop
 log='/update_bot.log'
 commit_id='/lastGreenhouseCommit.id'
 bot_dir='/home/pi/scripts/TelegramBot/'
-wait=4
+wait=3
 
 # get last commit id
 commit=$(curl -s https://api.github.com/repos/$owner/$project/commits/$branch --insecure | grep -Po '(?<="sha":)(.*?)(?=,)' -m 1 | sed "s/\"//g" | sed -e 's/^[[:space:]]*//' | sed -e 's/[.]*$//')
