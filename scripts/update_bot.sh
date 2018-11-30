@@ -44,35 +44,20 @@ rm -fv $bot_dir*.log
 rm -fv $bot_dir*.tmp
 rm -fv /cmd.tmp
 
-# download
-#echo Download: $branch $commit
-#wget -q --no-check-certificate https://github.com/$owner/$project/archive/$branch.zip
+# clone from git
 cd $bot_dir
 echo Clone from git repo
 git clone https://github.com/$owner/$project.git
 
-	
-# extract
-#echo Extract: $branch.zip
-#unzip $branch.zip greenhouse-$branch/configs/*.sh -d $bot_dir
-#unzip $branch.zip greenhouse-$branch/scripts/*.py -d $bot_dir
-#unzip $branch.zip greenhouse-$branch/scripts/*.sh -d $bot_dir
-#unzip $branch.zip greenhouse-$branch/* -d $bot_dir
-
 # update python and shell scripts
 cd $project
 mv -vf scripts/*.py $bot_dir
-mv -vf scripts/*.sh $bot_dir
-#mv -vf greenhouse-$branch/scripts/*.py $bot_dir
-#mv -vf greenhouse-$branch/scripts/*.sh $bot_dir
+mv -vf scripts/*.sh $bot_di
 
 # update configs
 mv -vf configs/motion.conf /etc/motion/motion.conf
 mv -vf configs/dhcpcd.conf /etc/dhcpcd.conf
 mv -vf configs/ddclient.conf /etc/ddclient.conf
-#mv -vf greenhous-$branch/configs/motion.conf /etc/motion/motion.conf
-#mv -vf greenhous-$branch/configs/ddclient.conf /etc/ddclient.conf
-#mv -vf greenhous-$branch/configs/dhcpcd.conf /etc/dhcpcd.conf
 
 # change owner and mode of files
 chown root:netdev /etc/ddclient.conf
@@ -88,10 +73,7 @@ mv -vf scripts/telegrambot.sh /etc/init.d/
 
 # remove tmp and downloaded files
 cd $bot_dir
-rm -rf -v greenhouse
-#rm -v *.zip
-#cd $bot_dir
-#rm -rf -v greenhouse-$branch*
+rm -rf greenhouse
 
 # save last commit id
 echo $commit > $commit_id
