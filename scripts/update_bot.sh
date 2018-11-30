@@ -62,7 +62,7 @@ mv -vf configs/ddclient.conf /etc/ddclient.conf
 chown -v root:netdev /etc/ddclient.conf
 chown -v root:root /etc/motion/motion.conf
 chown -v root:root /etc/dhcpcd.conf
-chown -v root:root $bot_dir/*.py
+chown -v root:root $bot_dir*.py
 
 chmod -v +x $bot_dir*.py
 chmod -v +x $bot_dir*.sh
@@ -77,7 +77,7 @@ rm -rf greenhouse
 
 # save last commit id
 echo $commit > $commit_id
-
+echo Saved:  $(cat $commit_id)
 sleep $wait
 
 # reply message about update
