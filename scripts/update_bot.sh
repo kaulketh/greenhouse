@@ -49,7 +49,7 @@ wget -q --no-check-certificate https://github.com/$owner/$project/archive/$branc
 	
 # extract
 echo Extract: $branch.zip
-sudo unzip $branch.zip greenhouse-$branch/configs/*.conf -d $bot_dir
+sudo unzip $branch.zip greenhouse-$branch/configs/* -d $bot_dir
 sudo unzip $branch.zip greenhouse-$branch/scripts/*.py -d $bot_dir
 sudo unzip $branch.zip greenhouse-$branch/scripts/*.sh -d $bot_dir
 
