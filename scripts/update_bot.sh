@@ -35,21 +35,23 @@ exec >> $log
 # function update
 update() {
 echo -------------------------------------------------------------------------------------------------------
-echo "[$(date +'%F %H:%M:%S')] Update started."
+echo "[$(date +'%F %H:%M:%S')] Starting update..."
 
 #remove old tmp, logs and pyc
+echo "[$(date +'%F %H:%M:%S')] Remove compilation files..."
 rm -fv $bot_dir*.pyc
 rm -fv $bot_dir*.log
 rm -fv $bot_dir*.tmp
-rm -fv /cmd.tmp
+rm -f /cmd.tmp
 
 # clone from github
 cd $bot_dir
-echo Clone from git repository in \'$project\' folder
+echo "[$(date +'%F %H:%M:%S')] Clone from repository to \'$project\' folder"
 git clone -v https://github.com/$owner/$project.git
 
 # update python and shell scripts
 cd $project
+echo "[$(date +'%F %H:%M:%S')] Moving files..."
 mv -vf scripts/*.py $bot_dir
 mv -vf scripts/*.sh $bot_dir
 
@@ -57,8 +59,10 @@ mv -vf scripts/*.sh $bot_dir
 mv -vf configs/motion.conf /etc/motion/motion.conf
 mv -vf configs/dhcpcd.conf /etc/dhcpcd.conf
 mv -vf configs/ddclient.conf /etc/ddclient.conf
+echo 
 
 # change owner and mode of files
+echo "[$(date +'%F %H:%M:%S')] Set owner..."
 chown -v root:netdev /etc/ddclient.conf
 chown -v root:root /etc/motion/motion.conf
 chown -v root:root /etc/dhcpcd.conf
@@ -66,18 +70,18 @@ chown -v root:root $bot_dir*.py
 
 chmod -v +x $bot_dir*.py
 chmod -v +x $bot_dir*.sh
-
+echo 
 # update start script in /etc/init.d/
+echo "[$(date +'%F %H:%M:%S')] Move start script..."
 cd $bot_dir
 mv -vf telegrambot.sh /etc/init.d/	
-
+echo 
 # remove cloned files and folder
-echo Remove cloned files
+echo "[$(date +'%F %H:%M:%S')] Remove ot needed files files"
 rm -rf greenhouse
-
+echo 
 # save last commit id
 echo $commit > $commit_id
-echo Saved:  $(cat $commit_id)
 sleep $wait
 
 # reply message about update
