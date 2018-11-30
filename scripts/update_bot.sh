@@ -43,7 +43,7 @@ rm -fv $bot_dir*.log
 rm -fv $bot_dir*.tmp
 rm -fv /cmd.tmp
 
-# clone from git
+# clone from github
 cd $bot_dir
 echo Clone from git repository in \'$project\' folder
 git clone -v https://github.com/$owner/$project.git
