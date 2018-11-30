@@ -38,10 +38,10 @@ echo ---------------------------------------------------------------------------
 echo "[$(date +'%F %H:%M:%S')] Update started."
 
 #remove old tmp, logs and pyc
-sudo rm -fv $bot_dir*.pyc
-sudo rm -fv $bot_dir*.log
-sudo rm -fv $bot_dir*.tmp
-sudo rm -fv /cmd.tmp
+rm -fv $bot_dir*.pyc
+rm -fv $bot_dir*.log
+rm -fv $bot_dir*.tmp
+rm -fv /cmd.tmp
 
 # download
 echo Download: $branch $commit
@@ -49,36 +49,36 @@ wget -q --no-check-certificate https://github.com/$owner/$project/archive/$branc
 	
 # extract
 echo Extract: $branch.zip
-sudo unzip $branch.zip greenhouse-$branch/configs/* -d $bot_dir
-sudo unzip $branch.zip greenhouse-$branch/scripts/*.py -d $bot_dir
-sudo unzip $branch.zip greenhouse-$branch/scripts/*.sh -d $bot_dir
+unzip $branch.zip greenhouse-$branch/configs/* -d $bot_dir
+unzip $branch.zip greenhouse-$branch/scripts/*.py -d $bot_dir
+unzip $branch.zip greenhouse-$branch/scripts/*.sh -d $bot_dir
 
 
 # update python and shell scripts
-sudo mv -vf greenhouse-$branch/scripts/*.py $bot_dir
-sudo mv -vf greenhouse-$branch/scripts/*.sh $bot_dir
+mv -vf greenhouse-$branch/scripts/*.py $bot_dir
+mv -vf greenhouse-$branch/scripts/*.sh $bot_dir
 
 # update configs
-sudo mv -vf greenhous-$branch/configs/motion.conf /etc/motion/motion.conf
-sudo mv -vf greenhous-$branch/configs/ddclient.conf /etc/ddclient.conf
-sudo mv -vf greenhous-$branch/configs/dhcpcd.conf /etc/dhcpcd.conf
+mv -vf greenhous-$branch/configs/motion.conf /etc/motion/motion.conf
+mv -vf greenhous-$branch/configs/ddclient.conf /etc/ddclient.conf
+mv -vf greenhous-$branch/configs/dhcpcd.conf /etc/dhcpcd.conf
 
 # change owner and mode of files
-sudo chown root:netdev /etc/ddclient.conf
-sudo chown root:root /etc/motion/motion.conf
-sudo chown root:root /etc/dhcpcd.conf
-sudo chown root:root $bot_dir/*.py
+chown root:netdev /etc/ddclient.conf
+chown root:root /etc/motion/motion.conf
+chown root:root /etc/dhcpcd.conf
+chown root:root $bot_dir/*.py
 
-sudo chmod -v +x $bot_dir*.py
-sudo chmod -v +x $bot_dir*.sh
+chmod -v +x $bot_dir*.py
+chmod -v +x $bot_dir*.sh
 
 # update start script in /etc/init.d/
-sudo mv -vf telegrambot.sh /etc/init.d/	
+mv -vf telegrambot.sh /etc/init.d/	
 
 # remove tmp and downloaded files
-sudo rm -v *.zip
+rm -v *.zip
 cd $bot_dir
-sudo rm -rf -v greenhouse-$branch*
+rm -rf -v greenhouse-$branch*
 
 # save last commit id
 echo $commit > $commit_id
@@ -89,7 +89,7 @@ sleep $wait
 id=${commit:0:7}
 curl -s -k https://api.telegram.org/bot$bot/sendMessage -d text="[$(date +'%F %H:%M:%S')] Updated, build: $id..., branch: $branch, rebooted" -d chat_id=$chat >> /dev/null
 echo "[$(date +'%F %H:%M:%S')] Updated finished, branch '$branch', commit ID '$id...' saved, system rebooted."
-sudo reboot
+reboot
 }
 
 # check if an update is required
