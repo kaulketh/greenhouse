@@ -51,10 +51,21 @@ sudo wget -q --no-check-certificate https://github.com/$owner/$project/archive/$
 echo Extract: $branch.zip
 sudo unzip $branch.zip greenhouse-$branch/scripts/*.py -d $bot_dir
 sudo unzip $branch.zip greenhouse-$branch/scripts/*.sh -d $bot_dir
+sudo unzip $branch.zip greenhouse-$branch/configs/*.conf -d $bot_dir
+
+# update python and shell scripts
 sudo mv -vf greenhouse-$branch/scripts/*.py $bot_dir
 sudo mv -vf greenhouse-$branch/scripts/*.sh $bot_dir
-		
-# change owner and mode	
+
+# update configs
+sudo mv -vf greenhous-$branch/configs/motion.conf /etc/motion/motion.conf
+sudo mv -vf greenhous-$branch/configs/ddclient.conf /etc/ddclient.conf
+sudo mv -vf greenhous-$branch/configs/dhcpcd.conf /etc/dhcpcd.conf
+
+# update start script in /etc/init.d/
+sudo mv -vf telegrambot.sh /etc/init.d/	
+
+# change owner and mode of python and shell scripts	
 sudo chmod -v +x $bot_dir*.py
 sudo chmod -v +x $bot_dir*.sh
 
@@ -62,9 +73,6 @@ sudo chmod -v +x $bot_dir*.sh
 sudo rm -v *.zip
 cd $bot_dir
 sudo rm -rf -v greenhouse-$branch*
-
-# update start script in /etc/init.d/
-sudo mv -vf telegrambot.sh /etc/init.d/	
 
 # save last commit id
 echo $commit > $commit_id
