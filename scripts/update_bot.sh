@@ -45,7 +45,7 @@ rm -fv /cmd.tmp
 
 # clone from git
 cd $bot_dir
-echo Clone from git repo
+echo Clone from git repository in $project folder
 git clone https://github.com/$owner/$project.git
 
 # update python and shell scripts
@@ -59,10 +59,10 @@ mv -vf configs/dhcpcd.conf /etc/dhcpcd.conf
 mv -vf configs/ddclient.conf /etc/ddclient.conf
 
 # change owner and mode of files
-chown root:netdev /etc/ddclient.conf
-chown root:root /etc/motion/motion.conf
-chown root:root /etc/dhcpcd.conf
-chown root:root $bot_dir/*.py
+chown -v root:netdev /etc/ddclient.conf
+chown -v root:root /etc/motion/motion.conf
+chown -v root:root /etc/dhcpcd.conf
+chown -v root:root $bot_dir/*.py
 
 chmod -v +x $bot_dir*.py
 chmod -v +x $bot_dir*.sh
@@ -70,7 +70,8 @@ chmod -v +x $bot_dir*.sh
 # update start script in /etc/init.d/
 mv -vf scripts/telegrambot.sh /etc/init.d/	
 
-# remove tmp and downloaded files
+# remove cloned files
+echo Remove cloned files
 cd $bot_dir
 rm -rf greenhouse
 
