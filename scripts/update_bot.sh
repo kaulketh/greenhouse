@@ -64,7 +64,7 @@ sudo mv -vf greenhous-$branch/configs/dhcpcd.conf /etc/dhcpcd.conf
 
 # change owner and mode of files
 sudo chown root:netdev /etc/ddclient.conf
-sudo chown root:root /etc/ddclient.conf
+sudo chown root:root /etc/motion/motion.conf
 sudo chown root:root /etc/dhcpcd.conf
 sudo chown root:root $bot_dir/*.py
 
