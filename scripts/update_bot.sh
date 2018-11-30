@@ -68,11 +68,11 @@ chmod -v +x $bot_dir*.py
 chmod -v +x $bot_dir*.sh
 
 # update start script in /etc/init.d/
-mv -vf scripts/telegrambot.sh /etc/init.d/	
+cd $bot_dir
+mv -vf telegrambot.sh /etc/init.d/	
 
 # remove cloned files and folder
 echo Remove cloned files
-cd $bot_dir
 rm -rf greenhouse
 
 # save last commit id
