@@ -19,7 +19,7 @@ last_commit=$(cat $commit_id)
 # function display usage
 display_usage() {
 echo "Failed! Paremeter is missing."
-echo "Using only with Telegram bot API token and Chat ID!"
+echo "Using only possible with Telegram bot API token and Chat ID!"
 }
 
 # if less than 2 arguments supplied, display usage
@@ -64,7 +64,7 @@ mv -vf configs/ddclient.conf /etc/ddclient.conf
 echo 
 
 # change owner and mode of files
-echo "[$(date +'%F %H:%M:%S')] Set owner..."
+echo "[$(date +'%F %H:%M:%S')] Set owner and update attributes..."
 chown -v root:netdev /etc/ddclient.conf
 chown -v root:root /etc/motion/motion.conf
 chown -v root:root /etc/dhcpcd.conf
@@ -73,15 +73,18 @@ chown -v root:root $bot_dir*.py
 chmod -v +x $bot_dir*.py
 chmod -v +x $bot_dir*.sh
 echo 
+
 # update start script in /etc/init.d/
 echo "[$(date +'%F %H:%M:%S')] Move start script..."
 cd $bot_dir
 mv -vf telegrambot.sh /etc/init.d/	
 echo 
+
 # remove cloned files and folder
 echo "[$(date +'%F %H:%M:%S')] Remove unnecessary files..."
 rm -rf greenhouse
 echo 
+
 # save last commit id
 echo $commit > $commit_id
 sleep $wait
