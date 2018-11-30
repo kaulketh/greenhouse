@@ -62,12 +62,17 @@ sudo mv -vf greenhous-$branch/configs/motion.conf /etc/motion/motion.conf
 sudo mv -vf greenhous-$branch/configs/ddclient.conf /etc/ddclient.conf
 sudo mv -vf greenhous-$branch/configs/dhcpcd.conf /etc/dhcpcd.conf
 
-# update start script in /etc/init.d/
-sudo mv -vf telegrambot.sh /etc/init.d/	
+# change owner and mode of files
+sudo chown root:netdev /etc/ddclient.conf
+sudo chown root:root /etc/ddclient.conf
+sudo chown root:root /etc/dhcpcd.conf
+sudo chown root:root $bot_dir/*.py
 
-# change owner and mode of python and shell scripts	
 sudo chmod -v +x $bot_dir*.py
 sudo chmod -v +x $bot_dir*.sh
+
+# update start script in /etc/init.d/
+sudo mv -vf telegrambot.sh /etc/init.d/	
 
 # remove tmp and downloaded files
 sudo rm -v *.zip
