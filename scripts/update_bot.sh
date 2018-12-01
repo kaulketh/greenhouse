@@ -60,12 +60,12 @@ mv -vf scripts/*.sh $bot_dir
 # update config files
 mv -vf configs/motion.conf /etc/motion/motion.conf
 mv -vf configs/dhcpcd.conf /etc/dhcpcd.conf
-mv -vf configs/ddclient.conf /etc/ddclient.conf
+#mv -vf configs/ddclient.conf /etc/ddclient.conf
 echo 
 
 # change owner and mode of files
 echo "[$(date +'%F %H:%M:%S')] Set owner and update attributes..."
-chown -v root:netdev /etc/ddclient.conf
+#chown -v root:netdev /etc/ddclient.conf
 chown -v root:root /etc/motion/motion.conf
 chown -v root:root /etc/dhcpcd.conf
 chown -v root:root $bot_dir*.py
