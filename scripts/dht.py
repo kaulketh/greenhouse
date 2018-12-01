@@ -3,9 +3,10 @@
 # [#11] Add and implement the measurement of temperature and humidity
 # author: Thomas Kaulke, kaulketh@gmail.com
 
+import Adafruit_DHT
 import greenhouse_config as conf
 
-sensor = conf.DHT
+sensor = Adafruit_DHT.DHT22
 pin = conf.DHT_PIN
 
 humidity, temperature = Adafruit_DHT.read_retry(sensor, pin)
