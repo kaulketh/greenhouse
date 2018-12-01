@@ -9,6 +9,7 @@ import os
 import sys
 import time
 import RPi.GPIO as GPIO
+import Adafruit_DHT
 import logging
 
 
@@ -26,8 +27,11 @@ def resetPins():
     # comment if warnings required
     GPIO.setwarnings(False)
     return
-    
 
+# DHT settings
+DHT = Adafriut_DHT.DHT22
+DHT_PIN = 4 
+    
 # def board pins/channels, refer hardware/rspi_gpio.info
 RELAIS_01 = 29
 RELAIS_02 = 31
