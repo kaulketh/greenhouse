@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 # configs, constants and methods
-# author: Thomas Kaulke
+# author: Thomas Kaulke, kaulketh@gmail.com
 
 import access as access
 
@@ -26,8 +26,10 @@ def resetPins():
     # comment if warnings required
     GPIO.setwarnings(False)
     return
-    
 
+# DHT settings
+DHT_PIN = 4 
+    
 # def board pins/channels, refer hardware/rspi_gpio.info
 RELAIS_01 = 29
 RELAIS_02 = 31

@@ -1,11 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# author: Thomas Kaulke
+# author: Thomas Kaulke, kaulketh@gmail.com
 
-# gitlab
-# from access import acces_token_to_repository, thk, token
-
-# github
 from access import token, thk
 
 newline = '\n'
@@ -51,8 +47,5 @@ clear_monitor = 'rm -r /home/pi/Monitor/*'
 get_pid1 = 'ps -o pid,args -C python | awk \'/greenhouse_telegrambot.py/ { print $1 }\''
 get_pid2 = 'ps -o pid,args -C python | awk \'/ext_greenhouse.py/ { print $1 }\''
 restart_bot = 'python /home/pi/scripts/TelegramBot/greenhouse_telegrambot.py &'
-# gitlab
-#update_bot = 'bash /home/pi/scripts/TelegramBot/update_bot.sh ' + str(acces_token_to_repository) + ' '+ str(thk) +' '+ str(token) +' &'
-# github
 update_bot = 'bash /home/pi/scripts/TelegramBot/update_bot.sh '+ str(token) + ' ' + str(thk) +' &'
 logrotate_bot = 'logrotate -f /etc/logrotate.conf &' 

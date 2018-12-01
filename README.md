@@ -133,7 +133,7 @@ sudo service motion start
 ##### [my live url](http://greenhouse.my.to:8082/)
 
 					
-### 10. Install required packages (python, python-telegram-bot, telepot and wiringpi)
+### 10. Install required packages (python, python-telegram-bot, python-pip, telepot and wiringpi)
 ```
 sudo apt-get install build-essential python-dev python-pip python-smbus python-openssl git --yes //python
 sudo pip install python-telegram-bot

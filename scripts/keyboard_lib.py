@@ -1,5 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+# author: Thomas Kaulke, kaulketh@gmail.com
 
 from telepot.namedtuple import InlineKeyboardMarkup, InlineKeyboardButton
 

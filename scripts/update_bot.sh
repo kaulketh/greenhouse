@@ -1,5 +1,6 @@
 #!bin/sh
-# Updates all scripts of repository branch accordingly to recent changes
+# Clone from repository if required and update all, commits will compared before
+# author: Thomas Kaulke, kaulketh@gmail.com
 
 bot=$1
 chat=$2
@@ -19,7 +20,7 @@ last_commit=$(cat $commit_id)
 # function display usage
 display_usage() {
 echo "Failed! Paremeter is missing."
-echo "Using only with Telegram bot API token and Chat ID!"
+echo "Using only possible with Telegram bot API token and Chat ID!"
 }
 
 # if less than 2 arguments supplied, display usage
@@ -35,53 +36,70 @@ exec >> $log
 # function update
 update() {
 echo -------------------------------------------------------------------------------------------------------
-echo "[$(date +'%F %H:%M:%S')] Update started."
+echo "[$(date +'%F %H:%M:%S')] Starting update..."
 
 #remove old tmp, logs and pyc
-sudo rm -fv $bot_dir*.pyc
-sudo rm -fv $bot_dir*.log
-sudo rm -fv $bot_dir*.tmp
-sudo rm -fv /cmd.tmp
+echo "[$(date +'%F %H:%M:%S')] Remove compilation files..."
+rm -fv $bot_dir*.pyc
+rm -fv $bot_dir*.log
+rm -fv $bot_dir*.tmp
+rm -f /cmd.tmp
+echo 
 
-# download
-echo Download: $branch $commit
-sudo wget -q --no-check-certificate https://github.com/$owner/$project/archive/$branch.zip
-	
-# extract
-echo Extract: $branch.zip
-sudo unzip $branch.zip greenhouse-$branch/scripts/*.py -d $bot_dir
-sudo unzip $branch.zip greenhouse-$branch/scripts/*.sh -d $bot_dir
-sudo mv -vf greenhouse-$branch/scripts/*.py $bot_dir
-sudo mv -vf greenhouse-$branch/scripts/*.sh $bot_dir
-		
-# change owner and mode	
-sudo chmod -v +x $bot_dir*.py
-sudo chmod -v +x $bot_dir*.sh
-
-# remove tmp and downloaded files
-sudo rm -v *.zip
+# clone from github
 cd $bot_dir
-sudo rm -rf -v greenhouse-$branch*
+echo "[$(date +'%F %H:%M:%S')] Clone from repository to '$project' folder"
+git clone -v https://github.com/$owner/$project.git
+echo  
+
+# update python and shell scripts
+cd $project
+echo "[$(date +'%F %H:%M:%S')] Move files..."
+mv -vf scripts/*.py $bot_dir
+mv -vf scripts/*.sh $bot_dir
+
+# update config files
+mv -vf configs/motion.conf /etc/motion/motion.conf
+mv -vf configs/dhcpcd.conf /etc/dhcpcd.conf
+#mv -vf configs/ddclient.conf /etc/ddclient.conf
+echo 
+
+# change owner and mode of files
+echo "[$(date +'%F %H:%M:%S')] Set owner and update attributes..."
+#chown -v root:netdev /etc/ddclient.conf
+chown -v root:root /etc/motion/motion.conf
+chown -v root:root /etc/dhcpcd.conf
+chown -v root:root $bot_dir*.py
+
+chmod -v +x $bot_dir*.py
+chmod -v +x $bot_dir*.sh
+echo 
 
 # update start script in /etc/init.d/
-sudo mv -vf telegrambot.sh /etc/init.d/	
+echo "[$(date +'%F %H:%M:%S')] Move start script..."
+cd $bot_dir
+mv -vf telegrambot.sh /etc/init.d/	
+echo 
+
+# remove cloned files and folder
+echo "[$(date +'%F %H:%M:%S')] Remove unnecessary files..."
+rm -rf greenhouse
+echo 
 
 # save last commit id
 echo $commit > $commit_id
-
 sleep $wait
 
 # reply message about update
-id=${commit:0:7}
-curl -s -k https://api.telegram.org/bot$bot/sendMessage -d text="[$(date +'%F %H:%M:%S')] Updated, build: $id..., branch: $branch, rebooted" -d chat_id=$chat >> /dev/null
-echo "[$(date +'%F %H:%M:%S')] Updated finished, branch '$branch', commit ID '$id...' saved, system rebooted."
-sudo reboot
+curl -s -k https://api.telegram.org/bot$bot/sendMessage -d text="[$(date +'%F %H:%M:%S')] Updated, build: ${commit:0:7}, branch: $branch, rebooted" -d chat_id=$chat >> /dev/null
+echo "[$(date +'%F %H:%M:%S')] Updated finished, branch '$branch', commit ID '${commit:0:7}' saved, system rebooted."
+reboot
 }
 
 # check if an update is required
 if [[ $commit == $last_commit ]];
 	then
-		curl -s -k https://api.telegram.org/bot$bot/sendMessage -d text="[$(date +'%F %H:%M:%S')] Update checked, not required, recent changes are included." -d chat_id=$chat >> /dev/null
+		curl -s -k https://api.telegram.org/bot$bot/sendMessage -d text="[$(date +'%F %H:%M:%S')] Update checked, not required, last commit '${commit:0:7}'." -d chat_id=$chat >> /dev/null
 		echo -------------------------------------------------------------------------------------------------------
 		echo "[$(date +'%F %H:%M:%S')] Update checked, not required, current version equals last commit '$last_commit'."
 		exit 1
