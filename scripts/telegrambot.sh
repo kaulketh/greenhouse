@@ -1,4 +1,7 @@
 #!/bin/sh
+# enable autostart
+# author: Thomas Kaulke, kaulketh@gmail.com
+
 ### BEGIN INIT INFO
 # Provides:             telegrambot.sh
 # Required-Start:       $start

@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# author: Thomas Kaulke
+# author: Thomas Kaulke, kaulketh@gmail.com
 
 from subprocess import Popen, PIPE, STDOUT, call
 

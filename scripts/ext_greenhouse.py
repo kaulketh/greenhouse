@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# script for panic mode
-# author: Thomas Kaulke
+# script for "panic" mode - extended bot
+# author: Thomas Kaulke, kaulketh@gmail.com
 
 import greenhouse_config as conf
 import ext_greenhouse_lib as lib

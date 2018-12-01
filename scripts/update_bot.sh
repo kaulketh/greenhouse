@@ -1,5 +1,6 @@
 #!bin/sh
-# Clone from repository if required, commits will compared before
+# Clone from repository if required and update all, commits will compared before
+# author: Thomas Kaulke, kaulketh@gmail.com
 
 bot=$1
 chat=$2
