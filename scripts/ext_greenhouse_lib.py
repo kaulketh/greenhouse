@@ -43,7 +43,6 @@ msg_update = 'Update possibility checked manually, info is available in separate
 tmp_file = 'cmd.tmp'
 del_tmp = 'rm -r ' + tmp_file
 
-clear_monitor = 'rm -r /home/pi/Monitor/*'
 get_pid1 = 'ps -o pid,args -C python | awk \'/greenhouse_telegrambot.py/ { print $1 }\''
 get_pid2 = 'ps -o pid,args -C python | awk \'/ext_greenhouse.py/ { print $1 }\''
 restart_bot = 'python /home/pi/scripts/TelegramBot/greenhouse_telegrambot.py &'
