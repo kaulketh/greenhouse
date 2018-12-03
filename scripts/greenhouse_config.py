@@ -60,7 +60,7 @@ run_extended_greenhouse = 'sudo python /home/pi/scripts/TelegramBot/ext_greenhou
 
 # camera commands
 enable_camera = 'sudo modprobe bcm2835-v4l2 && sudo service motion start & '
-disable_camera = 'sudo service motion stop && sudo modprobe -r bcm2835-v4l2 & '
+disable_camera = 'sudo service motion stop && sudo modprobe -r bcm2835-v4l2 && sudo rm -r /home/pi/Monitor/* &'
 
 # gpio check
 run_gpio_check = 'sudo python /home/pi/scripts/TelegramBot/gpio_check.py '
