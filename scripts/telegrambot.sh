@@ -16,3 +16,6 @@
 
 sleep 5
 sudo python /home/pi/scripts/TelegramBot/greenhouse_telegrambot.py &
+sleep 5
+sudo hddledPi -d -p 4 &
+sudo netledPi -d -p 5 &
