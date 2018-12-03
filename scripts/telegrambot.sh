@@ -20,4 +20,4 @@ sleep 5
 sudo hddledPi -d -p 4 &
 sudo netledPi -d -p 5 &
 sleep 5
-sudo modprobe bcm2835-v4l2 &
+sudo modprobe bcm2835-v4l2 && sleep 3 && sudo service motion stop &
