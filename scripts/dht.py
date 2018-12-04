@@ -5,6 +5,7 @@
 
 import Adafruit_DHT
 import time
+import sys
 import logging
 import greenhouse_config as conf
 import greenhouse_lib_german as lib
