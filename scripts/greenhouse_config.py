@@ -29,6 +29,8 @@ def resetPins():
 
 # DHT settings
 DHT_PIN = 4 
+temp_format = '{0:04.1f}°C'
+hum_format = '{1:05.2f}%'
     
 # def board pins/channels, refer hardware/rspi_gpio.info
 RELAIS_01 = 29

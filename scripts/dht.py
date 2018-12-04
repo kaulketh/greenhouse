@@ -14,27 +14,17 @@ logging.basicConfig(filename=conf.log_file, format=conf.log_format, datefmt=conf
 
 sensor = Adafruit_DHT.DHT22
 pin = conf.DHT_PIN
-interval = sys.argv[1]
 
+global temperature
+global humidity
 
 def getValues():
-    global humidity
-    global temperature
     humidity, temperature = Adafruit_DHT.read_retry(sensor, pin)
     if humidity is not None and temperature is not None:
-        logging.info ((lib.temperature + ': {0:04.1f}°C ' + lib.humidity + ': {1:05.2f}%').format(temperature,humidity))
+        logging.info ((lib.temperature + ': '+ lib.temp_format + lib.empty + lib.humidity + ': ' + lib.hum_format).format(temperature,humidity))
     else:
         logging.info ('Failed to get values. Try again!')
+        
+    return
 
 
-while 1:
-    try:
-        getValues()
-        time.sleep(int(interval))
-
-    except KeyboardInterrupt:
-        logging.warning('Humidity and temperature measurement interrupted')
-        exit()
-
-    except :
-        logging.error('Humidity and temperature measurement, error or exception occured!')
