@@ -72,7 +72,7 @@ readcmd('kill -9 ' + PID1)
 
 def sendmsg(message):
     os.system('curl -s -k https://api.telegram.org/bot' + apiToken +
-              '/sendMessage -d text="' + message + '" -d chat_id=' + str(Id) +' parse_mode= \'Markdown\'')
+              '/sendMessage -d text="' + message + '" -d chat_id=' + str(Id))
     logging.info('Message send: ' + message)
     return
 
