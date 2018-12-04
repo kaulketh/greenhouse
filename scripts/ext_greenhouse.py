@@ -43,10 +43,6 @@ Id = sys.argv[1]
 def timestamp():
     return conf.getTimestamp()
 
-# live stream address
-live = conf.live
-
-
 # water a group of targets
 def water_on_group(group):
     for member in group:
@@ -122,9 +118,6 @@ def handle(msg):
         #disable camera
         logging.info('Disable camera module.')
         readcmd(conf.disable_camera)
-        # clear monitor directory
-        logging.info('Clear monitor folder.')
-        readcmd(lib.clear_monitor)
         PID2 = readcmd(lib.get_pid2)
         logging.info('got own PID to kill me by myself and also prepare the other bot for proper using:'+str(PID2))
         readcmd(lib.restart_bot)
@@ -133,7 +126,7 @@ def handle(msg):
     elif command == '/start':
         sendmsg('External input possible, bot is ready to use!')
     elif command == '/live':
-        sendmsg(live)
+        sendmsg(conf.live)
     elif command == '/help':
         sendmsg(lib.msg_help)
     else:
@@ -147,7 +140,7 @@ logging.info('I am listening...')
 
 while 1:
     try:
-        time.sleep(0.5)
+        time.sleep(10)
 
     except KeyboardInterrupt:
         logging.warning('Program interrupted')

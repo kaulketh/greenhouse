@@ -2,7 +2,11 @@
 # -*- coding: utf-8 -*-
 # author: Thomas Kaulke, kaulketh@gmail.com
 
-empty = ' '
+empty =''
+space = ' '
+colon_space = ': '
+pipe_space = '| '
+line_break = '\n'
 
 # commands and descriptions
 panic = 'Panik'
@@ -12,6 +16,9 @@ stopBot = 'Beenden'
 group1 = ('Ventile 1 bis 3', 'Ventil 1', 'Ventil 2', 'Ventil 3')
 group2 = ('Ventile 6 bis 8', 'Ventil 6', 'Ventil 7', 'Ventil 8')
 group3 = ('Ventil 4 und 5', 'Ventil 4', 'Ventil 5')
+
+temp = 'Temperatur'
+hum = 'Luftfeuchtigkeit'
 
 # keybord configs
 kb1 = [[group1[1], group1[2], group1[3]],
@@ -23,6 +30,8 @@ kb1 = [[group1[1], group1[2], group1[3]],
 kb2 = [[cancel, stopBot]]
 
 # messages
+msg_live = '[Hier geht\'s zum live stream]({})'
+msg_temperature = '`Aktuelle Werte {}, {}`'  
 msg_welcome = '`Willkommen {}, lass uns Ventile öffnen!\n`'
 msg_stop = '`Na dann, tschüss {}!`'
 msg_duration = '`Öffnungszeit für \'{}\' in Sekunden angeben:`'

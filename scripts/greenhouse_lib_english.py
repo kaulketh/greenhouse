@@ -2,7 +2,11 @@
 # -*- coding: utf-8 -*-
 # author: Thomas Kaulke, kaulketh@gmail.com
 
-empty = ' '
+empty =''
+space = ' '
+colon_space = ': '
+pipe_space = '| '
+line_break = '\n'
 
 # commands and descriptions
 panic = 'Panic'
@@ -12,6 +16,9 @@ stopBot = 'Stop'
 group1 = ('Tomatoes', 'Tomatoes 1', 'Tomatoes 2', 'Tomatoes 3')
 group2 = ('Chilis', 'Chili 1', 'Chili 2', 'Chili 3')
 group3 = ('Reserve', 'Reserve 1', 'Reserve 2')
+
+temp = 'Temperature'
+hum = 'Humidity'
 
 # keybord configs
 kb1 = [[group1[1], group1[2], group1[3]],
@@ -23,6 +30,8 @@ kb1 = [[group1[1], group1[2], group1[3]],
 kb2 = [[cancel, stopBot]]
 
 # messages
+msg_live = '`[Look at live stream]({})`'
+msg_temperature = '`Current values {}, {}`'
 msg_welcome = '`Welcome {}, let us water plants!\n`'
 msg_stop = '`Allright, bye til next time, {}!\nStart next watering with /start`'
 msg_duration = '`Please enter duration for watering of \'{}\' in seconds:`'

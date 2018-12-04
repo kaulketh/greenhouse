@@ -6,12 +6,13 @@ bot=$1
 chat=$2
 project=greenhouse
 owner=kaulketh
-branch=develop
 log='/update_bot.log'
 commit_id='/lastGreenhouseCommit.id'
 bot_dir='/home/pi/scripts/TelegramBot/'
 wait=3
 
+# get default branch
+branch=$(curl -s https://api.github.com/repos/$owner/$project --insecure | grep -Po '(?<="default_branch":)(.*?)(?=,)'| sed "s/\"//g" | sed -e 's/^[[:space:]]*//')
 # get last commit id
 commit=$(curl -s https://api.github.com/repos/$owner/$project/commits/$branch --insecure | grep -Po '(?<="sha":)(.*?)(?=,)' -m 1 | sed "s/\"//g" | sed -e 's/^[[:space:]]*//' | sed -e 's/[.]*$//')
 # get saved commit
