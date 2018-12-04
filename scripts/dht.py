@@ -18,17 +18,19 @@ interval = sys.argv[1]
 
 
 def getValues():
-   humidity, temperature = Adafruit_DHT.read_retry(sensor, pin)
-   if humidity is not None and temperature is not None:
-        logging.info (lib.temperature + ': {0:04.1f}°C ' + lib.humidity + ': {1:05.2f}%'.format(temperature,humidity))
-   else:
+    global humidity
+    global temperature
+    humidity, temperature = Adafruit_DHT.read_retry(sensor, pin)
+    if humidity is not None and temperature is not None:
+        logging.info ((lib.temperature + ': {0:04.1f}°C ' + lib.humidity + ': {1:05.2f}%').format(temperature,humidity))
+    else:
         logging.info ('Failed to get values. Try again!')
 
 
 while 1:
     try:
         getValues()
-        time.sleep(interval)
+        time.sleep(int(interval))
 
     except KeyboardInterrupt:
         logging.warning('Humidity and temperature measurement interrupted')

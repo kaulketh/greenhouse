@@ -6,6 +6,7 @@
 import greenhouse_config as conf
 import greenhouse_lib_german as lib
 import keyboard_lib as keyboards
+import dht as dht
 
 from telegram import (ReplyKeyboardMarkup,
                       ReplyKeyboardRemove, ParseMode, MessageEntity)
@@ -98,6 +99,7 @@ def start(bot, update):
             update.message.from_user.first_name, update.message.chat_id), parse_mode=ParseMode.MARKDOWN)
         return ConversationHandler.END
     else:
+        update.message.reply_text(lib.temperature + ': ' + dht.temperature + lib.empty + lib.humidity + ': ' + dht.humidity, parse_mode=ParseMode.MARKDOWN)
         update.message.reply_text(lib.msg_welcome.format(update.message.from_user.first_name) +
                                   '\n' + lib.msg_choice, parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
         logging.info('Bot is using by: ' + str(user_id) + ' - ' +

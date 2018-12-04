@@ -14,10 +14,12 @@
 #
 ### END INIT INFO
 
-sleep 5
+sleep 3
 sudo hddledPi -d -p 4 &
 sudo netledPi -d -p 5 &
-sleep 5
+sleep 3
 sudo modprobe bcm2835-v4l2 && sleep 1.5 && sudo service motion start && sleep 1.5 && sudo service motion stop &
-sleep 5
+sleep 3	
+sudo python /home/pi/scripts/TelegramBot/dht.py 60 &	
+sleep 3
 sudo python /home/pi/scripts/TelegramBot/greenhouse_telegrambot.py &
