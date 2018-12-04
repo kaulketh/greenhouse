@@ -100,10 +100,10 @@ def start(bot, update):
         return ConversationHandler.END
     else:
         dht.getValues()
-        update.message.reply_text((lib.temp + ': '+ conf.temp_format + lib.empty + 
-                                   lib.hum + ': ' + conf.hum_format).format(dht.temperature, dht.humidity), parse_mode=ParseMode.MARKDOWN)
-        update.message.reply_text(lib.msg_welcome.format(update.message.from_user.first_name) +
-                                  '\n' + lib.msg_choice, parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
+        update.message.reply_text(('``'+ lib.temp + lib.colon_space + conf.temp_format + lib.space + lib.space + 
+                                   lib.hum + lib.colon_space + conf.hum_format + '``').format(dht.temperature, dht.humidity), parse_mode=ParseMode.MARKDOWN)
+        update.message.reply_text(lib.msg_welcome.format(update.message.from_user.first_name) + lib.line_break + 
+                                  lib.msg_choice, parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
         logging.info('Bot is using by: ' + str(user_id) + ' - ' +
                      update.message.from_user.last_name + ',' + update.message.from_user.first_name)
         return SELECT

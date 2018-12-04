@@ -2,7 +2,11 @@
 # -*- coding: utf-8 -*-
 # author: Thomas Kaulke, kaulketh@gmail.com
 
-empty = ' '
+empty =''
+space = ' '
+colon_space = ': '
+pipe_space = '| '
+line_break = '\n'
 
 # commands and descriptions
 panic = 'Panic'
