@@ -43,10 +43,6 @@ Id = sys.argv[1]
 def timestamp():
     return conf.getTimestamp()
 
-# live stream address
-live = conf.live
-
-
 # water a group of targets
 def water_on_group(group):
     for member in group:
@@ -130,7 +126,7 @@ def handle(msg):
     elif command == '/start':
         sendmsg('External input possible, bot is ready to use!')
     elif command == '/live':
-        sendmsg(live)
+        sendmsg(conf.live)
     elif command == '/help':
         sendmsg(lib.msg_help)
     else:
