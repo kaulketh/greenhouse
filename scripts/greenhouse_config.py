@@ -60,7 +60,7 @@ run_extended_greenhouse = 'sudo python /home/pi/scripts/TelegramBot/ext_greenhou
 
 # camera commands
 enable_camera = 'sudo service motion start & '
-disable_camera = 'sudo service motion stop && sudo rm -r /home/pi/Monitor/* &'
+disable_camera = 'sudo service motion stop && sudo rm -rf /home/pi/Monitor/* &'
 
 # gpio check
 run_gpio_check = 'sudo python /home/pi/scripts/TelegramBot/gpio_check.py '
