@@ -30,7 +30,7 @@ kb1 = [[group1[1], group1[2], group1[3]],
 kb2 = [[cancel, stopBot]]
 
 # messages
-msg_temperature = '`Current values - {}, {}`'
+msg_temperature = '`Current values {}, {}`'
 msg_welcome = '`Welcome {}, let us water plants!\n`'
 msg_stop = '`Allright, bye til next time, {}!\nStart next watering with /start`'
 msg_duration = '`Please enter duration for watering of \'{}\' in seconds:`'
