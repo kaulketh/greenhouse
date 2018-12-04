@@ -21,7 +21,7 @@ global humidity
 def getValues():
     humidity, temperature = Adafruit_DHT.read_retry(sensor, pin)
     if humidity is not None and temperature is not None:
-        logging.info ((lib.temperature + ': '+ conf.temp_format + lib.empty + lib.humidity + ': ' + conf.hum_format).format(temperature,humidity))
+        logging.info ((lib.temp + ': '+ conf.temp_format + lib.empty + lib.hum + ': ' + conf.hum_format).format(temperature,humidity))
     else:
         logging.info ('Failed to get values. Try again!')
         
