@@ -15,10 +15,11 @@ logging.basicConfig(filename=conf.log_file, format=conf.log_format, datefmt=conf
 sensor = Adafruit_DHT.DHT22
 pin = conf.DHT_PIN
 
-#global temperature
-#global humidity
 
 def getValues():
+    global temperature
+    global humidity
+    
     humidity, temperature = Adafruit_DHT.read_retry(sensor, pin)
     if humidity is not None and temperature is not None:
         logging.info ((lib.temp + ': '+ conf.temp_format + lib.empty + lib.hum + ': ' + conf.hum_format).format(temperature,humidity))
