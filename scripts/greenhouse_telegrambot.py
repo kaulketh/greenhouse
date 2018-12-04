@@ -103,6 +103,7 @@ def start(bot, update):
         temp = (lib.temp + lib.colon_space + conf.temp_format).format(dht.temperature)
         hum = (lib.hum + lib.colon_space + conf.hum_format).format(dht.humidity)
         update.message.reply_text(lib.msg_temperature.format(temp, hum), parse_mode=ParseMode.MARKDOWN)
+        update.message.reply_text(lib.msg_live.format(str(conf.live)), parse_mode=ParseMode.MARKDOWN)
         update.message.reply_text(lib.msg_welcome.format(update.message.from_user.first_name) + lib.line_break + 
                                   lib.msg_choice, parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
         logging.info('Bot is using by: ' + str(user_id) + ' - ' +
