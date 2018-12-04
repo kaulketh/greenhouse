@@ -49,7 +49,7 @@ GROUP_02 = (RELAIS_06, RELAIS_07, RELAIS_08)
 GROUP_03 = (RELAIS_04, RELAIS_05)
 
 # live stream address
-live = '[Live stream](access.live)'
+live = '[Live stream]'+ str(access.live)
 
 # logging
 log_file = 'greenhouse.log'
