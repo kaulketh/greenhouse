@@ -30,8 +30,8 @@ kb1 = [[group1[1], group1[2], group1[3]],
 kb2 = [[cancel, stopBot]]
 
 # messages
-msg_live = '[Hier geht\'s zum live stream]({})'
-msg_temperature = '`Aktuelle Werte {}, {}`'  
+msg_live = '[Live stream]({})'
+msg_temperature = '`Aktuelle Werte:\n{}, {}`'  
 msg_welcome = '`Willkommen {}, lass uns Ventile öffnen!\n`'
 msg_stop = '`Na dann, tschüss {}!`'
 msg_duration = '`Öffnungszeit für \'{}\' in Sekunden angeben:`'
