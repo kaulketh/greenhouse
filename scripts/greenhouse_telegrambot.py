@@ -3,21 +3,16 @@
 # original: author: Stefan Weigert  http://www.stefan-weigert.de/php_loader/raspi.php
 # adapted: author: Thomas Kaulke, kaulketh@gmail.com
 
+import logging
+import os
+import time
+
+import dht as dht
 import greenhouse_config as conf
 import greenhouse_lib_german as lib
-import keyboard_lib as keyboards
-import dht as dht
-
 from telegram import (ReplyKeyboardMarkup,
-                      ReplyKeyboardRemove, ParseMode, MessageEntity)
-from telegram.ext import (Updater, CommandHandler, MessageHandler,
-                          Filters, RegexHandler, ConversationHandler)
-import telepot
-import time
-import sys
-import os
-import commands
-import logging
+                      ReplyKeyboardRemove, ParseMode)
+from telegram.ext import (Updater, CommandHandler, RegexHandler, ConversationHandler)
 
 logging.basicConfig(filename=conf.log_file, format=conf.log_format,
                     datefmt=conf.log_date_format, level=logging.INFO)
@@ -258,11 +253,23 @@ def main():
         entry_points=[CommandHandler('start', start)],
 
         states={
-            SELECT:         [RegexHandler('^(' + str(lib.group1[0]) + '|' + str(lib.group1[1]) + '|' + str(lib.group1[2]) + '|' + str(lib.group1[3]) + '|' + str(lib.group2[0]) + '|' + str(lib.group2[1]) + '|' + str(lib.group2[2]) + '|' + str(lib.group2[3]) + '|' + str(lib.group3[0]) + '|' + str(lib.group3[1]) + '|' + str(lib.group3[2]) + '|' + str(lib.all) + '|' + str(lib.panic) + ')$', selection),
-                             RegexHandler('^' + lib.stopBot + '$', stop)],
+            SELECT:         [RegexHandler(
+                '^({0}|{1}|{2}|{3}|{4}|{5}|{6}|{7}|{8}|{9}|{10}|{11}|{12})$'.format(str(lib.group1[0]),
+                                                                                    str(lib.group1[1]),
+                                                                                    str(lib.group1[2]),
+                                                                                    str(lib.group1[3]),
+                                                                                    str(lib.group2[0]),
+                                                                                    str(lib.group2[1]),
+                                                                                    str(lib.group2[2]),
+                                                                                    str(lib.group2[3]),
+                                                                                    str(lib.group3[0]),
+                                                                                    str(lib.group3[1]),
+                                                                                    str(lib.group3[2]), str(lib.all),
+                                                                                    str(lib.panic)), selection),
+                             RegexHandler('^{0}$'.format(lib.stop_bot), stop)],
 
-            DURATION:       [RegexHandler('^([0-9]+|' + str(lib.cancel) + '|' + str(lib.panic) + ')$', duration),
-                             RegexHandler('^' + lib.stopBot + '$', stop)],
+            DURATION:       [RegexHandler('^([0-9]+|{0}|{1})$'.format(str(lib.cancel), str(lib.panic)), duration),
+                             RegexHandler('^{0}$'.format(lib.stop_bot), stop)],
         },
 
         fallbacks=[CommandHandler('stop', stop)]
