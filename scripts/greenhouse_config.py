@@ -17,6 +17,7 @@ admins = [access.thk, access.annett]
 mainId = access.thk
 token = access.token
 
+
 # to use Raspberry Pi board pin numbers
 def resetPins():
     logging.info('Setup GPIO mode.')
@@ -27,11 +28,13 @@ def resetPins():
     GPIO.setwarnings(False)
     return
 
+
 # DHT settings
 DHT_PIN = 4 
 temp_format = '{:04.1f}°C'
 hum_format = '{:05.2f}%'
-    
+
+
 # def board pins/channels, refer hardware/rspi_gpio.info
 RELAIS_01 = 29
 RELAIS_02 = 31
@@ -67,25 +70,29 @@ disable_camera = 'sudo service motion stop && sudo rm -rf /home/pi/Monitor/* &'
 # gpio check
 run_gpio_check = 'sudo python /home/pi/scripts/TelegramBot/gpio_check.py '
 
+
 # switch functions
 def switch_on(pin):
     logging.info('switch on: ' + str(pin))
     GPIO.setup(pin, GPIO.OUT)
     GPIO.output(pin, GPIO.LOW)
-    #os.system(run_gpio_check + str(pin))
+    # os.system(run_gpio_check + str(pin))
     return
+
 
 def switch_off(pin):
     logging.info('switch off: ' + str(pin))
     GPIO.setup(pin, GPIO.OUT)
     GPIO.output(pin, GPIO.HIGH)
-    #os.system(run_gpio_check + str(pin))
+    # os.system(run_gpio_check + str(pin))
     GPIO.cleanup(pin)
     return
 
+
 # date time strings
-def getTimestamp():
+def get_timestamp():
     return time.strftime('[%d.%m.%Y %H:%M:%S] ')
-    
-def getTimestampLine():
+
+
+def get_timestamp_line():
     return time.strftime('`[%d.%m.%Y %H:%M:%S]\n---------------------\n`')

@@ -20,7 +20,7 @@ group3 = ('Reserve', 'Reserve 1', 'Reserve 2')
 temp = 'Temperature'
 hum = 'Humidity'
 
-# keybord configs
+# keyboard configs
 kb1 = [[group1[1], group1[2], group1[3]],
        [group3[1], group3[2]],
        [group2[1], group2[2], group2[3]],

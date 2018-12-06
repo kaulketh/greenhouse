@@ -39,25 +39,29 @@ logging.info('Switch all off at start, set all used GPIO to HIGH.')
 conf.resetPins()
 for member in all_groups:
        conf.switch_off(member)
-       
+
+
 # enable camera module
-def camOn():
+def cam_on():
     logging.info('Enable camera module.')
     os.system(conf.enable_camera)
     return
 
+
 # enable camera module
-def camOff():
+def cam_off():
     logging.info('Disable camera module.')
     os.system(conf.disable_camera)
     return
 
+
 # api and bot settings
 SELECT, DURATION = range(2)
-#LIST_OF_ADMINS = ['mock to test']
+
+
+# LIST_OF_ADMINS = ['mock to test']
 LIST_OF_ADMINS = conf.admins
 API_TOKEN = conf.token
-
 Target = lib.empty
 Water_Time = lib.empty
 user_id = lib.empty
@@ -75,7 +79,7 @@ markup2 = ReplyKeyboardMarkup(keyboard2, resize_keyboard=True, one_time_keyboard
 # start bot
 def start(bot, update):
     logging.info('Bot started.')
-    camOn()
+    cam_on()
     global user_id
     try:
         user_id = update.message.from_user.id
@@ -99,7 +103,7 @@ def start(bot, update):
             update.message.from_user.first_name, update.message.chat_id), parse_mode=ParseMode.MARKDOWN)
         return ConversationHandler.END
     else:
-        dht.getValues()
+        dht.get_values()
         temp = (lib.temp + lib.colon_space + conf.temp_format).format(dht.temperature)
         hum = (lib.hum + lib.colon_space + conf.hum_format).format(dht.humidity)
         update.message.reply_text(lib.msg_temperature.format(temp, hum), parse_mode=ParseMode.MARKDOWN)
@@ -210,6 +214,7 @@ def water(update, member):
                               lib.msg_new_choice, parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
     return
 
+
 # water a group of targets
 def water_group(update, group):
     logging.info('Duration: ' + Water_Time)
@@ -229,7 +234,7 @@ def water_group(update, group):
 # stop bot
 def stop(bot, update):
     logging.info('Bot stopped.')
-    camOff()
+    cam_off()
     update.message.reply_text(lib.msg_stop.format(update.message.from_user.first_name),
                               parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
     return ConversationHandler.END
@@ -238,7 +243,7 @@ def stop(bot, update):
 # error
 def error(bot, update, error):
     logging.error('An error occurs! ' + str(error))
-    camOff()
+    cam_off()
     conf.GPIO.cleanup()
     return ConversationHandler.END
 
