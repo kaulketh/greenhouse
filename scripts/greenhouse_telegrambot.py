@@ -102,8 +102,8 @@ def start(bot, update):
         update.message.reply_text(lib.msg_temperature.format(temp, hum), parse_mode=ParseMode.MARKDOWN)
         update.message.reply_text(lib.msg_live.format(str(conf.live)), parse_mode=ParseMode.MARKDOWN)
         update.message.reply_text('{0}{1}{2}'.format(
-            lib.msg_welcome.format(update.message.from_user.first_name), lib.line_break, lib.msg_choice,
-            parse_mode=ParseMode.MARKDOWN, reply_markup=markup1))
+            lib.msg_welcome.format(update.message.from_user.first_name), lib.line_break, lib.msg_choice),
+            parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
         logging.info('Bot is using by: {0} - {1},{2}'.format(
             str(user_id), update.message.from_user.last_name, update.message.from_user.first_name))
         return SELECT

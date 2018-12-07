@@ -32,7 +32,7 @@ kb2 = [[cancel, stop_bot]]
 # messages
 msg_live = '[Live stream]({})'
 msg_temperature = '`Aktuelle Werte:\n{}, {}`'  
-msg_welcome = '`Willkommen {}, lass uns Ventile öffnen!\n`'
+msg_welcome = '`Willkommen {}, lass uns Ventile öffnen!`'
 msg_stop = '`Na dann, tschüss {}!`'
 msg_duration = '`Öffnungszeit für \'{}\' in Sekunden angeben:`'
 water_on = '`\'{}\' wird jetzt für {}s geöffnet.`'
