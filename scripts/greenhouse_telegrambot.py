@@ -247,7 +247,7 @@ def stop(bot, update):
     update.message.reply_text(lib.msg_stop.format(update.message.from_user.first_name),
                               parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
     get_msg_id(update)
-    delete_msgs(update)
+    delete_msgs()
     return ConversationHandler.END
 
 
@@ -274,7 +274,7 @@ def get_msg_id(update):
 
 
 # try to delete messages
-def delete_msgs(update):
+def delete_msgs():
     for msg in messages:
         logging.info('delete {}'.format(msg))
         messages.remove(msg)
