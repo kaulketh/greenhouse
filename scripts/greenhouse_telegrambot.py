@@ -279,6 +279,7 @@ def delete_msgs():
         logging.info('delete {}'.format(msg))
         messages.remove(msg)
         logging.info(tuple(messages))
+        time.sleep(1)
         # update.message.delete(chat_id=user_id, message_id=int(msg))
     return
 
