@@ -26,7 +26,7 @@ group_three = conf.GROUP_03
 
 # time stamp
 def timestamp():
-    return conf.getTimestampLine()
+    return conf.get_timestamp_line()
 
 
 # switch all off at start, set all used GPIO=high
