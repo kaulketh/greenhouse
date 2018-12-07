@@ -258,9 +258,16 @@ def error(bot, update, error):
     return ConversationHandler.END
 
 
+messages = list()
+
+
 # try to get message id
 def get_msg_id(update):
-    logging.info('Message ID: {0}'.format(update.message.message_id))
+    msg_id = int(update.message.message_id)
+    logging.info('Message ID: {0}'.format(msg_id))
+    messages.append(msg_id)
+    for msg in messages:
+        logging.info(tuple(messages))
     return
 
 
