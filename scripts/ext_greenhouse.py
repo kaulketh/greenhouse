@@ -77,9 +77,9 @@ read_cmd('kill -9 ' + pid1)
 
 
 def send_msg(message):
-    os.system('curl -s -k https://api.telegram.org/bot' + apiToken +
-              '/sendMessage -d text="' + message + '" -d chat_id=' + str(Id))
-    logging.info('Message send: ' + message)
+    os.system('curl -s -k https://api.telegram.org/bot{0}/sendMessage -d text="{1}" -d chat_id={2}'
+              .format(apiToken, message, str(Id)))
+    logging.info('Message send: {0}'.format(message))
     return
 
 
@@ -126,7 +126,8 @@ def handle(msg):
         logging.info('Disable camera module.')
         read_cmd(conf.disable_camera)
         pid2 = read_cmd(lib.get_pid2)
-        logging.info('got own PID to kill me by myself and also prepare the other bot for proper using:'+str(pid2))
+        logging.info('got own PID to kill me by myself and also prepare the other bot for proper using:{0}'
+                     .format(str(pid2)))
         read_cmd(lib.restart_bot)
         send_msg('Process killed! Enable default bot... Run with /start')
         read_cmd('kill -9 ' + pid2)

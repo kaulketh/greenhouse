@@ -35,7 +35,7 @@ ChatID:	<chat_id>
 * [Web](https://telegram.org/)
 * [Ios](https://itunes.apple.com/de/app/telegram-messenger/id686449807?mt=8)
 * [Android](https://play.google.com/store/apps/details?id=org.telegram.messenger&hl=de)
-
+---
 
 ### 2. Raspberry Pi OS image
 * download [latest stretch lite w/o desktop](https://downloads.raspberrypi.org/raspbian_lite_latest) 
@@ -44,9 +44,10 @@ ChatID:	<chat_id>
     * As of the November 2016 release, Raspbian has the SSH server disabled by default. You will have to enable it manually. 
     * For headless setup, SSH can be enabled by placing a file named "ssh", without any extension, onto the boot partition of the SD card.
 
-
+---
 ### 3. Boot raspi and connect via ssh
 
+---
 			
 ### 4. Configure (static) IP
 ##### adapt /etc/[dhcpcd.conf](configs/dhcpcd.conf)
@@ -65,9 +66,9 @@ sudo reboot
 
 _**Retest and doublecheck network conection and settings before executing next steps!!!!!**_
 
-
-
+---
 ### 5. Make updates and adapt main config
+
 ```
 sudo apt-get update --yes && sudo apt-get upgrade --yes
 sudo raspi-config
@@ -77,27 +78,32 @@ sudo raspi-config
 sudo rpi-update //update firmware
 sudo reboot
 ```
-
-	
+---
 ### 6. Install and configure dyn dns client (ddclient)
+#### ignore config let it empty e.g can be configured due next steps
 ```
 sudo apt-get update
 sudo apt-get install libio-socket-ssl-perl
-sudo apt-get install ddclient // ignore config let it empty e.g can be configured due next steps
-```			
-##### use e.g. [FreeDNS](http://freedns.afraid.org) and update [ddclient.conf](configs/ddclient.conf) accordingly the dns provider
+sudo apt-get install ddclient
 ```
+
+#### use e.g. [FreeDNS](http://freedns.afraid.org) and update [ddclient.conf](configs/ddclient.conf) accordingly the dns provider
+
+```
+
 sudo nano /etc/ddclient.conf
-```	
+
+```
+
+
 ##### other possible method could be e.g insert crontabs
-```	
-    0,5,10,15,20,25,30,35,40,45,50,55 * * * * sleep 31 ; wget -O - http://freedns.afraid.org/dynamic/update.php?******************************************** >> /tmp/freedns_greenhouse_my_to.log 2>&1 &
-    3,8,13,18,23,28,33,38,43,48,53,58 * * * * sleep 44 ; wget -O - http://freedns.afraid.org/dynamic/update.php?******************************************** >> /tmp/freedns_greenhouse_chickenkiller_com.log 2>&1 &
-```				
+```
+0,5,10,15,20,25,30,35,40,45,50,55 * * * * sleep 31 ; wget -O - http://freedns.afraid.org/dynamic/update.php?******************************************** >> /tmp/freedns_greenhouse_my_to.log 2>&1 &
+3,8,13,18,23,28,33,38,43,48,53,58 * * * * sleep 44 ; wget -O - http://freedns.afraid.org/dynamic/update.php?******************************************** >> /tmp/freedns_greenhouse_chickenkiller_com.log 2>&1 &
+```
 * [how-to dyndns client with ssl](https://hexaju.wordpress.com/2013/03/20/raspberry-pi-as-dyndns-client-with-ssl/)
  
-
-
+---
 ### 7. Install and configure remote ftp if required
 ```
 sudo apt-get install pure-ftpd
@@ -110,10 +116,10 @@ sudo pure-pw mkdb
 sudo ln -s /etc/pure-ftpd/conf/PureDB /etc/pure-ftpd/auth/60puredb 
 sudo service pure-ftpd restart
 ```
+
 * [how-to remote access](https://www.raspberrypi.org/documentation/remote-access/ftp.md)
  
-
-
+---
 ### 8. Configure the live stream
 ##### install motion and update /etc/motion/[motion.conf](configs/motion.conf)
 ```	
@@ -124,15 +130,15 @@ mkdir /home/pi/Monitor
 sudo chgrp motion /home/pi/Monitor
 chmod g+rwx /home/pi/Monitor
 sudo service motion start
-```			
+```
+
 * [How-to 1 live stream](https://tutorials-raspberrypi.de/raspberry-pi-ueberwachungskamera-livestream-einrichten/)
 * [How-to 2 live stream](https://www.datenreise.de/raspberry-pi-ueberwachungskamera-livestream/)
-
-
+---
 ### 9. Configure port forwarding in router accordingly the dns and port settings
 ##### [my live url](http://greenhouse.my.to:8082/)
 
-					
+---					
 ### 10. Install required packages (python, python-telegram-bot, python-pip, telepot and wiringpi)
 ```
 sudo apt-get install build-essential python-dev python-pip python-smbus python-openssl git --yes //python
@@ -165,8 +171,7 @@ cd ~/wiringPi
 ```
 
 * [how to to install wiringpi](http://wiringpi.com/download-and-install/)
-
-	
+---
 ### 11. Add scripts in pi user directory
 ##### e.g in this case in scripts/TelegramBot
 
@@ -181,8 +186,7 @@ _**Make them executable and chown root:root!**_
 * [gpio_check.py](scripts/gpio_check.py) - to check state of GPIOs and logs state, in case it is wished
 * [update_bot.sh](scripts/update_bot.sh) - to updates all scripts from this repository by using last commit ID
    
-
-
+---
 ### 12. Enable autostart of the bot application
 ##### Add the program as service. To enable autostart add it to the init.d directory, insert [telegrambot.sh](scripts/telegrambot.sh) in **/etc/init.d** as root and execute commands as followed.
 
@@ -193,9 +197,8 @@ sudo reboot
 ```
 
 * [how to](https://www.dexterindustries.com/howto/run-a-program-on-your-raspberry-pi-at-startup/#init)
-
-
-### 13. Additional functionalities
+---
+### 13. Additional functionality
 ##### Add as required or wished
 
 ##### Crontabs examples
