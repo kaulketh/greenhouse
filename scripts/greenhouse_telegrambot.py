@@ -266,7 +266,8 @@ messages = list()
 def get_msg_id(update):
     msg_id = int(update.message.message_id)
     logging.info('Message ID: {0}'.format(msg_id))
-    messages.append(msg_id)
+    if not messages.__contains__(msg_id):
+        messages.append(msg_id)
     for msg in messages:
         logging.info(tuple(messages))
     return
