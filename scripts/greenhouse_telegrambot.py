@@ -94,16 +94,20 @@ def start(bot, update):
             str(user_id), update.message.from_user.last_name, update.message.from_user.first_name))
         update.message.reply_text(lib.private_warning.format(
             update.message.from_user.first_name, update.message.chat_id), parse_mode=ParseMode.MARKDOWN)
+        get_msg_id(update)
         return ConversationHandler.END
     else:
         dht.get_values()
         temp = (lib.temp + lib.colon_space + conf.temp_format).format(dht.temperature)
         hum = (lib.hum + lib.colon_space + conf.hum_format).format(dht.humidity)
         update.message.reply_text(lib.msg_temperature.format(temp, hum), parse_mode=ParseMode.MARKDOWN)
+        get_msg_id(update)
         update.message.reply_text(lib.msg_live.format(str(conf.live)), parse_mode=ParseMode.MARKDOWN)
+        get_msg_id(update)
         update.message.reply_text('{0}{1}{2}'.format(
             lib.msg_welcome.format(update.message.from_user.first_name), lib.line_break, lib.msg_choice),
             parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
+        get_msg_id(update)
         logging.info('Bot is using by: {0} - {1},{2}'.format(
             str(user_id), update.message.from_user.last_name, update.message.from_user.first_name))
         return SELECT
@@ -117,12 +121,14 @@ def selection(bot, update):
     if Target == str(lib.panic):
         update.message.reply_text(lib.msg_panic,
                                   parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
+        get_msg_id(update)
         logging.info(lib.msg_panic)
         os.system(conf.run_extended_greenhouse + str(user_id))
 
     else:
         update.message.reply_text(lib.msg_duration.format(Target),
                                   parse_mode=ParseMode.MARKDOWN, reply_markup=markup2)
+        get_msg_id(update)
         logging.info('Selection: {0}'.format(str(Target)))
         return DURATION
 
@@ -180,6 +186,7 @@ def duration(bot, update):
         logging.info('Duration: {0}'.format(Water_Time))
         update.message.reply_text(lib.water_on_all.format(Target, Water_Time),
                                   parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
+        get_msg_id(update)
         for member in all_groups:
             conf.switch_on(member)
 
@@ -189,6 +196,7 @@ def duration(bot, update):
         update.message.reply_text('{0}{1}{2}'.format(
             timestamp(), lib.water_off_all.format(Water_Time), lib.msg_new_choice),
             parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
+        get_msg_id(update)
 
     else:
         update.message.reply_text(lib.msg_choice, reply_markup=markup1)
@@ -202,12 +210,14 @@ def water(update, member):
     logging.info('Toggle ' + str(member))
     update.message.reply_text(lib.water_on.format(Target, Water_Time),
                               parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
+    get_msg_id(update)
     conf.switch_on(member)
     time.sleep((int(Water_Time)))
     conf.switch_off(member)
     update.message.reply_text('{0}{1}{2}'.format(
         timestamp(), lib.water_off.format(Target, Water_Time), lib.msg_new_choice),
         parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
+    get_msg_id(update)
     return
 
 
@@ -217,6 +227,7 @@ def water_group(update, group):
     logging.info('Toggle ' + str(group))
     update.message.reply_text(lib.water_on_group.format(Target, Water_Time),
                               parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
+    get_msg_id(update)
     for member in group:
         conf.switch_on(member)
     time.sleep(int(Water_Time))
@@ -225,6 +236,7 @@ def water_group(update, group):
     update.message.reply_text('{0}{1}{2}'.format(
         timestamp(), lib.water_off_group.format(Target, Water_Time), lib.msg_new_choice),
         parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
+    get_msg_id(update)
     return
 
 
@@ -234,6 +246,7 @@ def stop(bot, update):
     cam_off()
     update.message.reply_text(lib.msg_stop.format(update.message.from_user.first_name),
                               parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
+    get_msg_id(update)
     return ConversationHandler.END
 
 
@@ -243,6 +256,12 @@ def error(bot, update, error):
     cam_off()
     conf.GPIO.cleanup()
     return ConversationHandler.END
+
+
+# try to get message id
+def get_msg_id(update):
+    logging.info('Message ID: {0}'.format(update.message.message_id))
+    return
 
 
 # main
