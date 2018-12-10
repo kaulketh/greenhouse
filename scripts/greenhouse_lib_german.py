@@ -10,7 +10,6 @@ line_break = '\n'
 
 # time unit
 time_units_index = 0
-
 time_units_name = ('Sekunden', 'Minuten')
 time_units_sign = ('s', 'm')
 time_units_conversion = (1, 60)
