@@ -9,7 +9,7 @@ pipe_space = '| '
 line_break = '\n'
 
 # time unit
-time_units_index = 0
+time_units_index = 1
 time_units_name = ('Sekunden', 'Minuten')
 time_units_sign = ('s', 'm')
 time_units_conversion = (1, 60)
@@ -20,8 +20,8 @@ panic = 'Panik'
 cancel = 'Abbrechen'
 all = 'Alles'
 stop_bot = 'Beenden'
-group1 = ('Kanäle 1 bis 3', 'Kanal 1', 'Kanal 2', 'Kanal 3')
-group2 = ('Kanäle 6 bis 8', 'Kanal 6', 'Kanal 7', 'Kanal 8')
+group1 = ('Kanal 1 bis 3', 'Kanal 1', 'Kanal 2', 'Kanal 3')
+group2 = ('Kanal 6 bis 8', 'Kanal 6', 'Kanal 7', 'Kanal 8')
 group3 = ('Kanal 4 und 5', 'Kanal 4', 'Kanal 5')
 
 temp = 'Temperatur'
