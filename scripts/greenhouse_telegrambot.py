@@ -29,6 +29,10 @@ def timestamp():
     return conf.get_timestamp_line()
 
 
+def start_time():
+    return conf.get_timestamp()
+
+
 # switch all off at start, set all used GPIO=high
 logging.info('Switch all off at start, set all used GPIO to HIGH.')
 conf.resetPins()
@@ -100,7 +104,7 @@ def start(bot, update):
         dht.get_values()
         temp = (lib.temp + lib.colon_space + conf.temp_format).format(dht.temperature)
         hum = (lib.hum + lib.colon_space + conf.hum_format).format(dht.humidity)
-        update.message.reply_text(lib.msg_temperature.format(temp, hum), parse_mode=ParseMode.MARKDOWN)
+        update.message.reply_text(lib.msg_temperature.format(start_time(), temp, hum), parse_mode=ParseMode.MARKDOWN)
         get_msg_id(update)
         update.message.reply_text(lib.msg_live.format(str(conf.live)), parse_mode=ParseMode.MARKDOWN)
         get_msg_id(update)
@@ -110,6 +114,7 @@ def start(bot, update):
         get_msg_id(update)
         logging.info('Bot is using by: {0} - {1},{2}'.format(
             str(user_id), update.message.from_user.last_name, update.message.from_user.first_name))
+        logging.info('Time unit is \'{0}\''.format(str(conf.time_units_name[conf.time_units_index])))
         return SELECT
 
 
@@ -190,7 +195,7 @@ def duration(bot, update):
         for member in all_groups:
             conf.switch_on(member)
 
-        time.sleep(int(Water_Time))
+        time.sleep((int(Water_Time)*int(conf.time_conversion)))
         for member in all_groups:
             conf.switch_off(member)
         update.message.reply_text('{0}{1}{2}'.format(
@@ -212,7 +217,7 @@ def water(update, member):
                               parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
     get_msg_id(update)
     conf.switch_on(member)
-    time.sleep((int(Water_Time)))
+    time.sleep((int(Water_Time)*int(conf.time_conversion)))
     conf.switch_off(member)
     update.message.reply_text('{0}{1}{2}'.format(
         timestamp(), lib.water_off.format(Target, Water_Time), lib.msg_new_choice),
@@ -230,7 +235,7 @@ def water_group(update, group):
     get_msg_id(update)
     for member in group:
         conf.switch_on(member)
-    time.sleep(int(Water_Time))
+    time.sleep((int(Water_Time)*int(conf.time_conversion)))
     for member in group:
         conf.switch_off(member)
     update.message.reply_text('{0}{1}{2}'.format(

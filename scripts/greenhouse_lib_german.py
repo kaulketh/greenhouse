@@ -8,14 +8,22 @@ colon_space = ': '
 pipe_space = '| '
 line_break = '\n'
 
+# time unit
+time_units_index = 0
+
+time_units_name = ('Sekunden', 'Minuten')
+time_units_sign = ('s', 'm')
+time_units_conversion = (1, 60)
+time_conversion = time_units_conversion[time_units_index]
+
 # commands and descriptions
 panic = 'Panik'
 cancel = 'Abbrechen'
 all = 'Alles'
 stop_bot = 'Beenden'
-group1 = ('Ventile 1 bis 3', 'Ventil 1', 'Ventil 2', 'Ventil 3')
-group2 = ('Ventile 6 bis 8', 'Ventil 6', 'Ventil 7', 'Ventil 8')
-group3 = ('Ventil 4 und 5', 'Ventil 4', 'Ventil 5')
+group1 = ('Kanäle 1 bis 3', 'Kanal 1', 'Kanal 2', 'Kanal 3')
+group2 = ('Kanäle 6 bis 8', 'Kanal 6', 'Kanal 7', 'Kanal 8')
+group3 = ('Kanal 4 und 5', 'Kanal 4', 'Kanal 5')
 
 temp = 'Temperatur'
 hum = 'Luftfeuchtigkeit'
@@ -31,17 +39,17 @@ kb2 = [[cancel, stop_bot]]
 
 # messages
 msg_live = '[Live stream]({})'
-msg_temperature = '`Aktuelle Werte:\n{}, {}`'  
-msg_welcome = '`Willkommen {}, lass uns Ventile öffnen!`'
+msg_temperature = '`{} Aktuelle Werte:\n{}, {}`'
+msg_welcome = '`Hallo {}!`'
 msg_stop = '`Na dann, tschüss {}!`'
-msg_duration = '`Öffnungszeit für \'{}\' in Sekunden angeben:`'
-water_on = '`\'{}\' wird jetzt für {}s geöffnet.`'
-water_on_group = '`{} werden jetzt für {}s geöffnet.`'
-water_on_all = '`\'{}\' wird jetzt für {}s geöffnet.`'
-water_off = '`\'{}\' nach {}s wieder geschlossen.\n\n`'
-water_off_group = '`\'{}\' wurden nach {}s geschlossen.\n\n`'
-water_off_all = '`Alles wurde nach {}s geschlossen.`\n\n'
+msg_duration = '`Schaltzeit für \'{}\' in ' + time_units_name[time_units_index] + ' angeben:`'
+water_on = '`\'{}\' wird jetzt für {}' + time_units_sign[time_units_index] + ' eingeschaltet.`'
+water_on_group = '`{} werden jetzt für {}' + time_units_sign[time_units_index] + ' eingeschalten.`'
+water_on_all = '`\'{}\' wird jetzt für {}' + time_units_sign[time_units_index] + ' eingeschalten.`'
+water_off = '`\'{}\' nach {}' + time_units_sign[time_units_index] + ' abgeschalten.\n\n`'
+water_off_group = '`\'{}\' wurden nach {}' + time_units_sign[time_units_index] + ' abgeschalten.\n\n`'
+water_off_all = '`Alles wurde nach {}' + time_units_sign[time_units_index] + ' wieder abgeschalten.`\n\n'
 msg_choice = '`Bitte auswählen:`'
 msg_new_choice = '`Neue Auswahl oder Beenden?`'
-msg_panic = '*Panik-Modus! Versuch was Spezielles!*'
+msg_panic = '*Panik-Modus!!!*'
 private_warning = '`Hallo {}, dies ist ein privater Bot!\nDeine ChatID: {} ist geblockt worden.`'
