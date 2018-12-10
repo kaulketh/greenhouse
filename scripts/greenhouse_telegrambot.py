@@ -114,7 +114,7 @@ def start(bot, update):
         get_msg_id(update)
         logging.info('Bot is using by: {0} - {1},{2}'.format(
             str(user_id), update.message.from_user.last_name, update.message.from_user.first_name))
-        logging.info('Time unit is \'{0}\''.format(str(conf.time_units_name[conf.time_units_index])))
+        logging.info('Time unit is \'{0}\''.format(str(lib.time_units_name[lib.time_units_index])))
         return SELECT
 
 
@@ -195,7 +195,7 @@ def duration(bot, update):
         for member in all_groups:
             conf.switch_on(member)
 
-        time.sleep((int(Water_Time)*int(conf.time_conversion)))
+        time.sleep((int(Water_Time)*int(lib.time_conversion)))
         for member in all_groups:
             conf.switch_off(member)
         update.message.reply_text('{0}{1}{2}'.format(
@@ -217,7 +217,7 @@ def water(update, member):
                               parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
     get_msg_id(update)
     conf.switch_on(member)
-    time.sleep((int(Water_Time)*int(conf.time_conversion)))
+    time.sleep((int(Water_Time)*int(lib.time_conversion)))
     conf.switch_off(member)
     update.message.reply_text('{0}{1}{2}'.format(
         timestamp(), lib.water_off.format(Target, Water_Time), lib.msg_new_choice),
@@ -235,7 +235,7 @@ def water_group(update, group):
     get_msg_id(update)
     for member in group:
         conf.switch_on(member)
-    time.sleep((int(Water_Time)*int(conf.time_conversion)))
+    time.sleep((int(Water_Time)*int(lib.time_conversion)))
     for member in group:
         conf.switch_off(member)
     update.message.reply_text('{0}{1}{2}'.format(
