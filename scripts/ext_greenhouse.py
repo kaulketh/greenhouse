@@ -40,11 +40,6 @@ apiToken = conf.token
 Id = sys.argv[1]
 
 
-# time stamp
-def timestamp():
-    return conf.get_timestamp()
-
-
 # water a group of targets
 def water_on_group(group):
     for member in group:
@@ -98,25 +93,25 @@ def handle(msg):
     elif command == lib.cmd_logrotate:
         send_msg(read_cmd(lib.logrotate_bot))
     elif command == lib.cmd_all_on:
-        send_msg(timestamp() + ' all on')
+        send_msg(conf.get_timestamp() + ' all on')
         water_on_group(group_all)
     elif command == lib.cmd_all_off:
         send_msg('all off.')
         water_off_group(group_all)
     elif command == lib.cmd_group1_on:
-        send_msg(timestamp() + 'group 1 on')
+        send_msg(conf.get_timestamp() + 'group 1 on')
         water_on_group(group_one)
     elif command == lib.cmd_group1_off:
         send_msg('group 1 off')
         water_off_group(group_one)
     elif command == lib.cmd_group2_on:
-        send_msg(timestamp() + 'group 2  on')
+        send_msg(conf.get_timestamp() + 'group 2  on')
         water_on_group(group_two)
     elif command == lib.cmd_group2_off:
         send_msg('group 2 off')
         water_off_group(group_two)
     elif command == lib.cmd_group3_on:
-        send_msg(timestamp() + 'group 3 on')
+        send_msg(conf.get_timestamp() + 'group 3 on')
         water_on_group(group_three)
     elif command == lib.cmd_group3_off:
         send_msg('group 3 off')

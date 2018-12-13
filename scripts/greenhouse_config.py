@@ -26,7 +26,7 @@ token = access.token
 
 
 # to use Raspberry Pi board pin numbers
-def resetPins():
+def reset_pins():
     logging.info('Setup GPIO mode.')
     GPIO.setmode(GPIO.BOARD)
     # to use GPIO instead board pin numbers, then please adapt pin definition

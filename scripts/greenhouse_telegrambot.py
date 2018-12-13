@@ -37,7 +37,7 @@ def start_time():
 
 # switch all off at start, set all used GPIO=high
 logging.info('Switch all off at start, set all used GPIO to HIGH.')
-conf.resetPins()
+conf.reset_pins()
 for member in all_groups:
     conf.switch_off(member)
 
