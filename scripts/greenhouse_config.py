@@ -15,6 +15,9 @@ import logging
 # import greenhouse_lib_german as lib
 import greenhouse_lib_english as lib
 
+# time units settings (0 == seconds, 1 == minutes)
+time_unit = 0
+# time_unit = 1
 
 # API Token and Chat Id's from external file
 admins = [access.thk, access.annett]
