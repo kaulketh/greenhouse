@@ -27,6 +27,8 @@ def get_values():
         logging.info(('{0}{1}{2}{3}{4}{1}{5}'.format(lib.temp, lib.colon_space, conf.temp_format, lib.space, lib.hum, conf.hum_format)).format(temperature, humidity))
     else:
         logging.info('Failed to get values. Try again!')
+        humidity = 0
+        temperature = 0 
     return
 
 
