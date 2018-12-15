@@ -40,7 +40,9 @@ kb2 = [[cancel, stop_bot]]
 
 # messages
 msg_live = '[Live stream]({})'
-msg_temperature = '`{}Current values:\n{}, {}`'
+#sensor broken, deactivated
+# msg_temperature = '`{}Current values:\n{}, {}`'
+msg_temperature = '`{0}Measurement deactivated!`'
 msg_welcome = '`Hello {}!`'
 msg_stop = '`Ok, bye {}!`'
 msg_duration = '`Specify switching time for \'{}\' in ' + time_units_name[time_units_index] + ':`'
