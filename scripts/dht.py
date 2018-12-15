@@ -8,7 +8,9 @@ import time
 import sys
 import logging
 import greenhouse_config as conf
-import greenhouse_lib_german as lib
+
+# language library selection
+lib = conf.lib
 
 logging.basicConfig(filename=conf.log_file, format=conf.log_format, datefmt=conf.log_date_format, level=logging.INFO)
 
