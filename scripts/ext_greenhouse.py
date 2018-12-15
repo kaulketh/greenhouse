@@ -127,7 +127,7 @@ def handle(msg):
         send_msg('Process killed! Enable default bot... Run with /start')
         read_cmd('kill -9 ' + pid2)
     elif command == '/start':
-        send_msg('External input possible, bot is ready to use!')
+        send_msg('Extended input possible, bot is ready to use!')
     elif command == '/live':
         send_msg(conf.live)
     elif command == '/help':
