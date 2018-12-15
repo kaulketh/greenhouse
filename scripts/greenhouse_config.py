@@ -14,12 +14,12 @@ import logging
 
 # time units settings (0 == seconds, 1 == minutes)
 # has to be set before lib import
-time_unit = 0
-# time_unit = 1
+# time_unit = 0
+time_unit = 1
 
 # language selection
-# import greenhouse_lib_german as lib
-import greenhouse_lib_english as lib
+import greenhouse_lib_german as lib
+# import greenhouse_lib_english as lib
 
 
 # API Token and Chat Id's from external file
