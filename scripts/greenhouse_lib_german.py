@@ -9,6 +9,7 @@ space = ' '
 colon_space = ': '
 pipe_space = '| '
 line_break = '\n'
+decimal = ','
 
 # time unit
 time_units_index = conf.time_unit
@@ -40,7 +41,7 @@ kb2 = [[cancel, stop_bot]]
 
 # messages
 msg_live = '[Live stream]({})'
-#sensor broken, deactivated
+# TODO: sensor broken, deactivated
 # msg_temperature = '`{}Aktuelle Werte:\n{}, {}`'
 msg_temperature = '`{0}Messung deaktiviert!`'
 msg_welcome = '`Hallo {}!`'
