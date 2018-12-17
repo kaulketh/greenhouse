@@ -36,3 +36,14 @@ def get_values():
         temperature = 0 
     return
 
+
+def test():
+    humidity, temperature = Adafruit_DHT.read_retry(sensor, pin)
+    print humidity
+    print temperature
+    return
+
+
+#test()
+
+
