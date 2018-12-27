@@ -4,7 +4,7 @@
 
 import greenhouse_config as conf
 
-empty =''
+empty = ''
 space = ' '
 colon_space = ': '
 pipe_space = '| '
@@ -21,7 +21,7 @@ time_conversion = time_units_conversion[time_units_index]
 # commands and descriptions
 panic = 'Panik'
 cancel = 'Abbrechen'
-all = 'Alles'
+all_channels = 'Alles'
 stop_bot = 'Beenden'
 group1 = ('Kanal 1 bis 3', 'Kanal 1', 'Kanal 2', 'Kanal 3')
 group2 = ('Kanal 6 bis 8', 'Kanal 6', 'Kanal 7', 'Kanal 8')
@@ -35,7 +35,7 @@ kb1 = [[group1[1], group1[2], group1[3]],
        [group3[1], group3[2]],
        [group2[1], group2[2], group2[3]],
        [group1[0], group3[0], group2[0]],
-       [all, stop_bot]
+       [all_channels, stop_bot]
        ]
 kb2 = [[cancel, stop_bot]]
 

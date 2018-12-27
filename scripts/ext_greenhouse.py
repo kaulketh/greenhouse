@@ -19,7 +19,7 @@ import logging
 logging.basicConfig(filename=conf.log_file, format=conf.log_format,
                     datefmt=conf.log_date_format, level=logging.INFO)
 
-# def board pins/channels, refer hardware/rspi_gpio.info
+# def board pins/channels, refer hardware/rsspi_gpio.info
 relais01 = conf.RELAIS_01
 relais02 = conf.RELAIS_02
 relais03 = conf.RELAIS_03
@@ -58,7 +58,6 @@ def water_off_group(group):
 # variable and get back
 def read_cmd(cmd):
     os.system(cmd + ' > ' + lib.tmp_file + ' 2>&1')
-    data = ""
     file = open(lib.tmp_file, 'r')
     data = file.read()
     file.close()
@@ -79,7 +78,6 @@ def send_msg(message):
 
 
 def handle(msg):
-    chat_id = msg['chat']['id']
     command = msg['text']
 
     logging.info('Got command: %s' % command)
@@ -149,6 +147,3 @@ while 1:
     except KeyboardInterrupt:
         logging.warning('Program interrupted')
         exit()
-
-    except:
-        logging.error('Other error or exception occurred!')

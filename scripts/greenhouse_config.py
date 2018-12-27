@@ -3,23 +3,21 @@
 # configs, constants and methods
 # author: Thomas Kaulke, kaulketh@gmail.com
 
-import access as access
-
 import os
 import sys
 import time
 import RPi.GPIO as GPIO
 import logging
 
+import access as access
+# language selection
+import greenhouse_lib_german as lib
+# import greenhouse_lib_english as lib
 
 # time units settings (0 == seconds, 1 == minutes)
 # has to be set before lib import
 time_unit = 0
 # time_unit = 1
-
-# language selection
-import greenhouse_lib_german as lib
-# import greenhouse_lib_english as lib
 
 
 # API Token and Chat Id's from external file
@@ -40,7 +38,7 @@ def reset_pins():
 
 
 # DHT settings
-DHT_PIN = 4 
+DHT_PIN = 4
 temp_format = '{:04.1f}°C'
 hum_format = '{:05.2f}%'
 
@@ -55,8 +53,7 @@ RELAIS_06 = 36
 RELAIS_07 = 38
 RELAIS_08 = 40
 
-GROUP_ALL = (RELAIS_01, RELAIS_02, RELAIS_03, RELAIS_04,
-             RELAIS_05, RELAIS_06, RELAIS_07, RELAIS_08)
+GROUP_ALL = (RELAIS_01, RELAIS_02, RELAIS_03, RELAIS_04, RELAIS_05, RELAIS_06, RELAIS_07, RELAIS_08)
 GROUP_01 = (RELAIS_01, RELAIS_02, RELAIS_03)
 GROUP_02 = (RELAIS_06, RELAIS_07, RELAIS_08)
 GROUP_03 = (RELAIS_04, RELAIS_05)
@@ -68,8 +65,7 @@ live = access.live
 log_file = 'greenhouse.log'
 log_format = '%(asctime)s %(levelname)-8s %(name)-10s %(message)s'
 log_date_format = '[%Y-%m-%d %H:%M:%S]'
-logging.basicConfig(filename=log_file, format=log_format,
-                    datefmt=log_date_format, level=logging.INFO)
+logging.basicConfig(filename=log_file, format=log_format, datefmt=log_date_format, level=logging.INFO)
 # command to run extended bot
 run_extended_greenhouse = 'sudo python /home/pi/scripts/TelegramBot/ext_greenhouse.py '
 
