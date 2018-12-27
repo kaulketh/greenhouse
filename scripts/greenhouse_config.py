@@ -43,7 +43,7 @@ temp_format = '{:04.1f}°C'
 hum_format = '{:05.2f}%'
 
 
-# def board pins/channels, refer hardware/rspi_gpio.info
+# def board pins/channels, refer hardware/raspi_gpio.info
 RELAIS_01 = 29
 RELAIS_02 = 31
 RELAIS_03 = 33

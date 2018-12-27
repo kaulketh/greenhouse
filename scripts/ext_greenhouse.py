@@ -19,7 +19,7 @@ import logging
 logging.basicConfig(filename=conf.log_file, format=conf.log_format,
                     datefmt=conf.log_date_format, level=logging.INFO)
 
-# def board pins/channels, refer hardware/rsspi_gpio.info
+# def board pins/channels, refer hardware/raspi_gpio.info
 relais01 = conf.RELAIS_01
 relais02 = conf.RELAIS_02
 relais03 = conf.RELAIS_03
