@@ -183,7 +183,7 @@ def duration(bot, update):
     elif Target == str(lib.group3[0]):
         water_group(update, group_three)
 
-    elif Target == str(lib.all):
+    elif Target == str(lib.all_channels):
         logging.info('Duration: {0}'.format(Water_Time))
         update.message.reply_text(lib.water_on_all.format(Target, Water_Time),
                                   parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
@@ -273,7 +273,8 @@ def main():
                                                                                     str(lib.group2[3]),
                                                                                     str(lib.group3[0]),
                                                                                     str(lib.group3[1]),
-                                                                                    str(lib.group3[2]), str(lib.all),
+                                                                                    str(lib.group3[2]),
+                                                                                    str(lib.all_channels),
                                                                                     str(lib.panic)), selection),
                 RegexHandler('^{0}$'.format(lib.stop_bot), stop)],
 

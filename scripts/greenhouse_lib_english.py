@@ -2,8 +2,6 @@
 # -*- coding: utf-8 -*-
 # author: Thomas Kaulke, kaulketh@gmail.com
 
-from greenhouse_config import time_unit
-
 empty = ''
 space = ' '
 colon_space = ': '
@@ -12,7 +10,8 @@ line_break = '\n'
 decimal = '.'
 
 # time unit
-time_units_index = time_unit
+# time units settings (0 == seconds, 1 == minutes)
+time_units_index = 0
 time_units_name = ('seconds', 'minutes')
 time_units_sign = ('s', 'm')
 time_units_conversion = (1, 60)
