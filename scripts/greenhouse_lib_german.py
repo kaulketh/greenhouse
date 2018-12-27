@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # author: Thomas Kaulke, kaulketh@gmail.com
 
-import greenhouse_config as conf
+from greenhouse_config import time_unit
 
 empty = ''
 space = ' '
@@ -12,7 +12,7 @@ line_break = '\n'
 decimal = ','
 
 # time unit
-time_units_index = conf.time_unit
+time_units_index = time_unit
 time_units_name = ('Sekunden', 'Minuten')
 time_units_sign = ('s', 'm')
 time_units_conversion = (1, 60)
