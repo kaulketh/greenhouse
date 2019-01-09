@@ -4,6 +4,7 @@
 
 import greenhouse_config as conf
 
+
 def get_digit(integer, digit):
         return int(str(integer).__getitem__(digit))
 
@@ -16,5 +17,9 @@ three = get_digit(temp, 2)
 four = get_digit(temp, 3)
 # five = get_digit(temp, 4)
 
-temp_str = '{0}{1}{4}{2}{3}°C'.format(one, two, three, four, conf.lib.decimal)
-print temp_str
+
+def get_temperature():
+        return '{0}{1}{4}{2}{3}°C'.format(one, two, three, four, conf.lib.decimal)
+
+
+get_temperature()
