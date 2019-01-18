@@ -9,11 +9,11 @@ import sys
 import time
 import RPi.GPIO as GPIO
 import logging
-import access as access
+import conf.access as access
 
 # language selection
 """ for English import greenhouse_lib_english as lib """
-import greenhouse_lib_german as lib
+import conf.greenhouse_lib_german as lib
 
 # API Token and Chat Id's from external file
 admins = [access.thk, access.annett]

@@ -3,7 +3,7 @@
 # author: Thomas Kaulke, kaulketh@gmail.com
 
 from __future__ import absolute_import
-from access import token, thk
+from conf.access import token, thk
 
 newline = '\n'
 cmd_prefix = '/'
