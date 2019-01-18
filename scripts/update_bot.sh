@@ -40,7 +40,7 @@ echo ---------------------------------------------------------------------------
 echo "[$(date +'%F %H:%M:%S')] Starting update..."
 
 #remove old tmp, logs and pyc
-echo "[$(date +'%F %H:%M:%S')] Remove files..."
+echo "[$(date +'%F %H:%M:%S')] Removing files..."
 rm -fv ${bot_dir}*.pyc
 rm -fv ${bot_dir}*.log
 rm -fv ${bot_dir}*.tmp
