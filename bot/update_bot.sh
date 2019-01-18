@@ -55,8 +55,8 @@ echo
 
 # update python and shell scripts
 cd ${project}
-echo "[$(date +'%F %H:%M:%S')] Moving files..."
-mv -vf bot/* ${bot_dir}
+echo "[$(date +'%F %H:%M:%S')] Updating files..."
+cp -rv bot/* ${bot_dir}
 
 # update config files
 mv -vf configs/motion.conf /etc/motion/motion.conf
@@ -70,7 +70,6 @@ echo "[$(date +'%F %H:%M:%S')] Setting owner and update attributes..."
 chown -v root:root /etc/motion/motion.conf
 chown -v root:root /etc/dhcpcd.conf
 chown -Rv root:root ${bot_dir}
-
 chmod -Rv +x ${bot_dir}
 echo 
 
@@ -82,7 +81,7 @@ echo
 
 # remove cloned files and folder
 echo "[$(date +'%F %H:%M:%S')] Removing unnecessary files..."
-rm -rf greenhouse
+rm -rfv greenhouse
 echo 
 
 # save last commit id
