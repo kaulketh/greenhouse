@@ -39,12 +39,13 @@ update() {
 echo -------------------------------------------------------------------------------------------------------
 echo "[$(date +'%F %H:%M:%S')] Starting update..."
 
-#remove old tmp, logs and pyc
+#remove subfolders, old tmp, logs and pyc
 echo "[$(date +'%F %H:%M:%S')] Remove compilation files..."
 rm -fv ${bot_dir}*.pyc
 rm -fv ${bot_dir}*.log
 rm -fv ${bot_dir}*.tmp
 rm -f /cmd.tmp
+rm -rfv ${bot_dir}/*
 echo
 
 # clone from github
