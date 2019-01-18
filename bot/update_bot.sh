@@ -71,7 +71,7 @@ chown -v root:root /etc/motion/motion.conf
 chown -v root:root /etc/dhcpcd.conf
 chown -Rv root:root ${bot_dir}
 
-chmod +R -v +x ${bot_dir}
+chmod -Rv +x ${bot_dir}
 echo 
 
 # update start script in /etc/init.d/
