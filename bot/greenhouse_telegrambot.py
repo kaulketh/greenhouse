@@ -3,24 +3,22 @@
 # original: author: Stefan Weigert  http://www.stefan-weigert.de/php_loader/raspi.php
 # adapted: author: Thomas Kaulke, kaulketh@gmail.com
 
-import greenhouse_config as conf
-import greenhouse_lib_german as lib
-import keyboard_lib as keyboards
-import dht as dht
 
-from telegram import (ReplyKeyboardMarkup,
-                      ReplyKeyboardRemove, ParseMode, MessageEntity)
-from telegram.ext import (Updater, CommandHandler, MessageHandler,
-                          Filters, RegexHandler, ConversationHandler)
-import telepot
-import time
-import sys
-import os
-import commands
+from __future__ import absolute_import
 import logging
+import os
+import time
+import dht as dht
+import conf.greenhouse_config as conf
+from telegram import (ReplyKeyboardMarkup,
+                      ReplyKeyboardRemove, ParseMode)
+from telegram.ext import (Updater, CommandHandler, RegexHandler, ConversationHandler)
 
 logging.basicConfig(filename=conf.log_file, format=conf.log_format,
                     datefmt=conf.log_date_format, level=logging.INFO)
+
+# language library selection
+lib = conf.lib
 
 # define pins
 all_groups = conf.GROUP_ALL
@@ -31,37 +29,43 @@ group_three = conf.GROUP_03
 
 # time stamp
 def timestamp():
-    return conf.getTimestampLine()
+    return conf.get_timestamp_line()
+
+
+def start_time():
+    return conf.get_timestamp()
 
 
 # switch all off at start, set all used GPIO=high
-logging.info('Switch all off at start, set all used GPIO to HIGH.')
-conf.resetPins()
+logging.info('Starting... set all used GPIO to HIGH.')
+conf.reset_pins()
 for member in all_groups:
-       conf.switch_off(member)
-       
+    conf.switch_off(member)
+
+
 # enable camera module
-def camOn():
+def cam_on():
     logging.info('Enable camera module.')
     os.system(conf.enable_camera)
     return
 
+
 # enable camera module
-def camOff():
+def cam_off():
     logging.info('Disable camera module.')
     os.system(conf.disable_camera)
     return
 
+
 # api and bot settings
 SELECT, DURATION = range(2)
-#LIST_OF_ADMINS = ['mock to test']
+
+# LIST_OF_ADMINS = ['mock to test']
 LIST_OF_ADMINS = conf.admins
 API_TOKEN = conf.token
-
 Target = lib.empty
 Water_Time = lib.empty
 user_id = lib.empty
-
 
 # keyboard config
 keyboard1 = lib.kb1
@@ -75,7 +79,7 @@ markup2 = ReplyKeyboardMarkup(keyboard2, resize_keyboard=True, one_time_keyboard
 # start bot
 def start(bot, update):
     logging.info('Bot started.')
-    camOn()
+    cam_on()
     global user_id
     try:
         user_id = update.message.from_user.id
@@ -93,21 +97,23 @@ def start(bot, update):
                     return ConversationHandler.END
 
     if user_id not in LIST_OF_ADMINS:
-        logging.info('Not allowed access by: ' + str(user_id) + ' - ' +
-                     update.message.from_user.last_name + ',' + update.message.from_user.first_name)
+        logging.info('Not allowed access by: {0} - {1},{2}'.format(
+            str(user_id), update.message.from_user.last_name, update.message.from_user.first_name))
         update.message.reply_text(lib.private_warning.format(
             update.message.from_user.first_name, update.message.chat_id), parse_mode=ParseMode.MARKDOWN)
         return ConversationHandler.END
     else:
-        dht.getValues()
+        dht.get_values()
         temp = (lib.temp + lib.colon_space + conf.temp_format).format(dht.temperature)
         hum = (lib.hum + lib.colon_space + conf.hum_format).format(dht.humidity)
-        update.message.reply_text(lib.msg_temperature.format(temp, hum), parse_mode=ParseMode.MARKDOWN)
+        update.message.reply_text(lib.msg_temperature.format(start_time(), temp, hum), parse_mode=ParseMode.MARKDOWN)
         update.message.reply_text(lib.msg_live.format(str(conf.live)), parse_mode=ParseMode.MARKDOWN)
-        update.message.reply_text(lib.msg_welcome.format(update.message.from_user.first_name) + lib.line_break + 
-                                  lib.msg_choice, parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
-        logging.info('Bot is using by: ' + str(user_id) + ' - ' +
-                     update.message.from_user.last_name + ',' + update.message.from_user.first_name)
+        update.message.reply_text('{0}{1}{2}'.format(
+            lib.msg_welcome.format(update.message.from_user.first_name), lib.line_break, lib.msg_choice),
+            parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
+        logging.info('Bot is using by: {0} - {1},{2}'.format(
+            str(user_id), update.message.from_user.last_name, update.message.from_user.first_name))
+        logging.info('Time unit is \'{0}\''.format(str(lib.time_units_name[lib.time_units_index])))
         return SELECT
 
 
@@ -117,15 +123,15 @@ def selection(bot, update):
     Target = update.message.text
 
     if Target == str(lib.panic):
-        update.message.reply_text(
-            lib.msg_panic, parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
+        update.message.reply_text(lib.msg_panic,
+                                  parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
         logging.info(lib.msg_panic)
         os.system(conf.run_extended_greenhouse + str(user_id))
 
     else:
-        update.message.reply_text(lib.msg_duration.format(
-            Target), parse_mode=ParseMode.MARKDOWN, reply_markup=markup2)
-        logging.info('Selection: ' + str(Target))
+        update.message.reply_text(lib.msg_duration.format(Target),
+                                  parse_mode=ParseMode.MARKDOWN, reply_markup=markup2)
+        logging.info('Selection: {0}'.format(str(Target)))
         return DURATION
 
 
@@ -135,13 +141,13 @@ def duration(bot, update):
     Water_Time = update.message.text
 
     if Water_Time == str(lib.cancel):
-        update.message.reply_text(
-            lib.msg_new_choice, parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
+        update.message.reply_text(lib.msg_new_choice,
+                                  parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
         logging.info(lib.msg_new_choice)
 
     elif Water_Time == str(lib.panic):
-        update.message.reply_text(
-            lib.msg_panic, parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
+        update.message.reply_text(lib.msg_panic,
+                                  parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
         logging.info(lib.msg_panic)
         os.system(conf.run_extended_greenhouse + str(user_id))
 
@@ -178,18 +184,19 @@ def duration(bot, update):
     elif Target == str(lib.group3[0]):
         water_group(update, group_three)
 
-    elif Target == str(lib.all):
-        logging.info('Duration: ' + Water_Time)
-        update.message.reply_text(lib.water_on_all.format(
-            Target, Water_Time), parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
+    elif Target == str(lib.all_channels):
+        logging.info('Duration: {0}'.format(Water_Time))
+        update.message.reply_text(lib.water_on_all.format(Target, Water_Time),
+                                  parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
         for member in all_groups:
             conf.switch_on(member)
 
-        time.sleep(int(Water_Time))
+        time.sleep((int(Water_Time)*int(lib.time_conversion)))
         for member in all_groups:
             conf.switch_off(member)
-        update.message.reply_text(timestamp() + lib.water_off_all.format(
-            Water_Time) + lib.msg_new_choice, parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
+        update.message.reply_text('{0}{1}{2}'.format(
+            timestamp(), lib.water_off_all.format(Water_Time), lib.msg_new_choice),
+            parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
 
     else:
         update.message.reply_text(lib.msg_choice, reply_markup=markup1)
@@ -201,35 +208,38 @@ def duration(bot, update):
 def water(update, member):
     logging.info('Duration: ' + Water_Time)
     logging.info('Toggle ' + str(member))
-    update.message.reply_text(lib.water_on.format(
-        Target, Water_Time), parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
+    update.message.reply_text(lib.water_on.format(Target, Water_Time),
+                              parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
     conf.switch_on(member)
-    time.sleep((int(Water_Time)))
+    time.sleep((int(Water_Time)*int(lib.time_conversion)))
     conf.switch_off(member)
-    update.message.reply_text(timestamp() + lib.water_off.format(Target, Water_Time) +
-                              lib.msg_new_choice, parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
+    update.message.reply_text('{0}{1}{2}'.format(
+        timestamp(), lib.water_off.format(Target, Water_Time), lib.msg_new_choice),
+        parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
     return
+
 
 # water a group of targets
 def water_group(update, group):
     logging.info('Duration: ' + Water_Time)
     logging.info('Toggle ' + str(group))
-    update.message.reply_text(lib.water_on_group.format(
-        Target, Water_Time), parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
+    update.message.reply_text(lib.water_on_group.format(Target, Water_Time),
+                              parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
     for member in group:
         conf.switch_on(member)
-    time.sleep(int(Water_Time))
+    time.sleep((int(Water_Time)*int(lib.time_conversion)))
     for member in group:
         conf.switch_off(member)
-    update.message.reply_text(timestamp() + lib.water_off_group.format(Target, Water_Time) +
-                              lib.msg_new_choice, parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
+    update.message.reply_text('{0}{1}{2}'.format(
+        timestamp(), lib.water_off_group.format(Target, Water_Time), lib.msg_new_choice),
+        parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
     return
 
 
 # stop bot
 def stop(bot, update):
     logging.info('Bot stopped.')
-    camOff()
+    cam_off()
     update.message.reply_text(lib.msg_stop.format(update.message.from_user.first_name),
                               parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
     return ConversationHandler.END
@@ -238,7 +248,7 @@ def stop(bot, update):
 # error
 def error(bot, update, error):
     logging.error('An error occurs! ' + str(error))
-    camOff()
+    cam_off()
     conf.GPIO.cleanup()
     return ConversationHandler.END
 
@@ -253,11 +263,24 @@ def main():
         entry_points=[CommandHandler('start', start)],
 
         states={
-            SELECT:         [RegexHandler('^(' + str(lib.group1[0]) + '|' + str(lib.group1[1]) + '|' + str(lib.group1[2]) + '|' + str(lib.group1[3]) + '|' + str(lib.group2[0]) + '|' + str(lib.group2[1]) + '|' + str(lib.group2[2]) + '|' + str(lib.group2[3]) + '|' + str(lib.group3[0]) + '|' + str(lib.group3[1]) + '|' + str(lib.group3[2]) + '|' + str(lib.all) + '|' + str(lib.panic) + ')$', selection),
-                             RegexHandler('^' + lib.stopBot + '$', stop)],
+            SELECT: [RegexHandler(
+                '^({0}|{1}|{2}|{3}|{4}|{5}|{6}|{7}|{8}|{9}|{10}|{11}|{12})$'.format(str(lib.group1[0]),
+                                                                                    str(lib.group1[1]),
+                                                                                    str(lib.group1[2]),
+                                                                                    str(lib.group1[3]),
+                                                                                    str(lib.group2[0]),
+                                                                                    str(lib.group2[1]),
+                                                                                    str(lib.group2[2]),
+                                                                                    str(lib.group2[3]),
+                                                                                    str(lib.group3[0]),
+                                                                                    str(lib.group3[1]),
+                                                                                    str(lib.group3[2]),
+                                                                                    str(lib.all_channels),
+                                                                                    str(lib.panic)), selection),
+                RegexHandler('^{0}$'.format(lib.stop_bot), stop)],
 
-            DURATION:       [RegexHandler('^([0-9]+|' + str(lib.cancel) + '|' + str(lib.panic) + ')$', duration),
-                             RegexHandler('^' + lib.stopBot + '$', stop)],
+            DURATION: [RegexHandler('^([0-9]+|{0}|{1})$'.format(str(lib.cancel), str(lib.panic)), duration),
+                       RegexHandler('^{0}$'.format(lib.stop_bot), stop)],
         },
 
         fallbacks=[CommandHandler('stop', stop)]

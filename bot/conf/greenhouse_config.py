@@ -3,22 +3,26 @@
 # configs, constants and methods
 # author: Thomas Kaulke, kaulketh@gmail.com
 
-import access as access
-
+from __future__ import absolute_import
 import os
 import sys
 import time
 import RPi.GPIO as GPIO
 import logging
+import conf.access as access
 
+# language selection
+""" for English import greenhouse_lib_english as lib """
+import conf.greenhouse_lib_german as lib
 
 # API Token and Chat Id's from external file
 admins = [access.thk, access.annett]
 mainId = access.thk
 token = access.token
 
+
 # to use Raspberry Pi board pin numbers
-def resetPins():
+def reset_pins():
     logging.info('Setup GPIO mode.')
     GPIO.setmode(GPIO.BOARD)
     # to use GPIO instead board pin numbers, then please adapt pin definition
@@ -27,12 +31,14 @@ def resetPins():
     GPIO.setwarnings(False)
     return
 
+
 # DHT settings
-DHT_PIN = 4 
+DHT_PIN = 4
 temp_format = '{:04.1f}°C'
 hum_format = '{:05.2f}%'
-    
-# def board pins/channels, refer hardware/rspi_gpio.info
+
+
+# def board pins/channels, refer hardware/raspi_gpio.info
 RELAIS_01 = 29
 RELAIS_02 = 31
 RELAIS_03 = 33
@@ -42,8 +48,7 @@ RELAIS_06 = 36
 RELAIS_07 = 38
 RELAIS_08 = 40
 
-GROUP_ALL = (RELAIS_01, RELAIS_02, RELAIS_03, RELAIS_04,
-             RELAIS_05, RELAIS_06, RELAIS_07, RELAIS_08)
+GROUP_ALL = (RELAIS_01, RELAIS_02, RELAIS_03, RELAIS_04, RELAIS_05, RELAIS_06, RELAIS_07, RELAIS_08)
 GROUP_01 = (RELAIS_01, RELAIS_02, RELAIS_03)
 GROUP_02 = (RELAIS_06, RELAIS_07, RELAIS_08)
 GROUP_03 = (RELAIS_04, RELAIS_05)
@@ -55,8 +60,7 @@ live = access.live
 log_file = 'greenhouse.log'
 log_format = '%(asctime)s %(levelname)-8s %(name)-10s %(message)s'
 log_date_format = '[%Y-%m-%d %H:%M:%S]'
-logging.basicConfig(filename=log_file, format=log_format,
-                    datefmt=log_date_format, level=logging.INFO)
+logging.basicConfig(filename=log_file, format=log_format, datefmt=log_date_format, level=logging.INFO)
 # command to run extended bot
 run_extended_greenhouse = 'sudo python /home/pi/scripts/TelegramBot/ext_greenhouse.py '
 
@@ -67,25 +71,29 @@ disable_camera = 'sudo service motion stop && sudo rm -rf /home/pi/Monitor/* &'
 # gpio check
 run_gpio_check = 'sudo python /home/pi/scripts/TelegramBot/gpio_check.py '
 
+
 # switch functions
 def switch_on(pin):
     logging.info('switch on: ' + str(pin))
     GPIO.setup(pin, GPIO.OUT)
     GPIO.output(pin, GPIO.LOW)
-    #os.system(run_gpio_check + str(pin))
+    # os.system(run_gpio_check + str(pin))
     return
+
 
 def switch_off(pin):
     logging.info('switch off: ' + str(pin))
     GPIO.setup(pin, GPIO.OUT)
     GPIO.output(pin, GPIO.HIGH)
-    #os.system(run_gpio_check + str(pin))
+    # os.system(run_gpio_check + str(pin))
     GPIO.cleanup(pin)
     return
 
+
 # date time strings
-def getTimestamp():
+def get_timestamp():
     return time.strftime('[%d.%m.%Y %H:%M:%S] ')
-    
-def getTimestampLine():
+
+
+def get_timestamp_line():
     return time.strftime('`[%d.%m.%Y %H:%M:%S]\n---------------------\n`')
