@@ -56,8 +56,8 @@ echo
 # update python and shell scripts
 cd ${project}
 echo "[$(date +'%F %H:%M:%S')] Move files..."
-mv -vf scripts/*.py ${bot_dir}
-mv -vf scripts/*.sh ${bot_dir}
+mv -vf bot/*.py ${bot_dir}
+mv -vf bot/*.sh ${bot_dir}
 
 # update config files
 mv -vf configs/motion.conf /etc/motion/motion.conf

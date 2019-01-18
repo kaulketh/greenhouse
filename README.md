@@ -177,18 +177,18 @@ cd ~/wiringPi
 
 _**Make them executable and chown root:root!**_
 * access.py - external file, content will not provided, contains api token, chat IDs and other sensitive data
-* [greenhouse_config.py](scripts/greenhouse_config.py) - contains settings and properties
-* [greenhouse_telegrambot.py](scripts/greenhouse_telegrambot.py) - main bot
-* [greenhouse_lib_german.py](scripts/greenhouse_lib_german.py) - file with constants, contains strings for descriptions and messages
-* [ext_greenhouse.py](scripts/ext_greenhouse.py) - extended bot
-* [ext_greenhouse_lib.py](scripts/ext_greenhouse_lib.py) - some constants, contains strings for commands and texts
-* [greenhouse_lib_english.py](scripts/greenhouse_lib_english.py) - if required, same like German version, if used adapt imports!
-* [gpio_check.py](scripts/gpio_check.py) - to check state of GPIOs and logs state, in case it is wished
-* [update_bot.sh](scripts/update_bot.sh) - to updates all scripts from this repository by using last commit ID
+* [greenhouse_config.py](bot/greenhouse_config.py) - contains settings and properties
+* [greenhouse_telegrambot.py](bot/greenhouse_telegrambot.py) - main bot
+* [greenhouse_lib_german.py](bot/greenhouse_lib_german.py) - file with constants, contains strings for descriptions and messages
+* [ext_greenhouse.py](bot/ext_greenhouse.py) - extended bot
+* [ext_greenhouse_lib.py](bot/ext_greenhouse_lib.py) - some constants, contains strings for commands and texts
+* [greenhouse_lib_english.py](bot/greenhouse_lib_english.py) - if required, same like German version, if used adapt imports!
+* [gpio_check.py](bot/gpio_check.py) - to check state of GPIOs and logs state, in case it is wished
+* [update_bot.sh](bot/update_bot.sh) - to updates all scripts from this repository by using last commit ID
    
 ---
 ### 12. Enable autostart of the bot application
-##### Add the program as service. To enable autostart add it to the init.d directory, insert [telegrambot.sh](scripts/telegrambot.sh) in **/etc/init.d** as root and execute commands as followed.
+##### Add the program as service. To enable autostart add it to the init.d directory, insert [telegrambot.sh](bot/telegrambot.sh) in **/etc/init.d** as root and execute commands as followed.
 
 ```
 sudo chmod +x telegrambot.sh
