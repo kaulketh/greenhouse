@@ -39,13 +39,14 @@ update() {
 echo -------------------------------------------------------------------------------------------------------
 echo "[$(date +'%F %H:%M:%S')] Starting update..."
 
-#remove old tmp, logs and pyc
+#remove subfolders, old tmp, logs and pyc
 echo "[$(date +'%F %H:%M:%S')] Remove compilation files..."
 rm -fv ${bot_dir}*.pyc
 rm -fv ${bot_dir}*.log
 rm -fv ${bot_dir}*.tmp
 rm -f /cmd.tmp
-echo 
+find ! -type d ! \( -iname '${bot_dir}/access.py' \) -print | xargs rm
+echo
 
 # clone from github
 cd ${bot_dir}
@@ -56,8 +57,8 @@ echo
 # update python and shell scripts
 cd ${project}
 echo "[$(date +'%F %H:%M:%S')] Move files..."
-mv -vf scripts/*.py ${bot_dir}
-mv -vf scripts/*.sh ${bot_dir}
+mv -vf bot/* ${bot_dir}
+mv -vf bot/* ${bot_dir}
 
 # update config files
 mv -vf configs/motion.conf /etc/motion/motion.conf
@@ -71,8 +72,10 @@ echo "[$(date +'%F %H:%M:%S')] Set owner and update attributes..."
 chown -v root:root /etc/motion/motion.conf
 chown -v root:root /etc/dhcpcd.conf
 chown -v root:root ${bot_dir}*.py
+chown -v root:root ${bot_dir}/*
 
 chmod -v +x ${bot_dir}*.py
+chmod -v +x ${bot_dir}/*
 chmod -v +x ${bot_dir}*.sh
 echo 
 
