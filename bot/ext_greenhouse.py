@@ -3,9 +3,9 @@
 # script for "panic" mode - extended bot
 # author: Thomas Kaulke, kaulketh@gmail.com
 
-import greenhouse_config as conf
-import ext_greenhouse_lib as lib
-
+from __future__ import absolute_import
+import conf.greenhouse_config as conf
+import conf.ext_greenhouse_lib as lib
 import sys
 import time
 import telepot

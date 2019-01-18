@@ -3,12 +3,13 @@
 # original: author: Stefan Weigert  http://www.stefan-weigert.de/php_loader/raspi.php
 # adapted: author: Thomas Kaulke, kaulketh@gmail.com
 
+
+from __future__ import absolute_import
 import logging
 import os
 import time
-
 import dht as dht
-import greenhouse_config as conf
+import conf.greenhouse_config as conf
 from telegram import (ReplyKeyboardMarkup,
                       ReplyKeyboardRemove, ParseMode)
 from telegram.ext import (Updater, CommandHandler, RegexHandler, ConversationHandler)
@@ -36,7 +37,7 @@ def start_time():
 
 
 # switch all off at start, set all used GPIO=high
-logging.info('Switch all off at start, set all used GPIO to HIGH.')
+logging.info('Starting... set all used GPIO to HIGH.')
 conf.reset_pins()
 for member in all_groups:
     conf.switch_off(member)

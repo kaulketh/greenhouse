@@ -3,11 +3,12 @@
 # [#11] Add and implement the measurement of temperature and humidity
 # author: Thomas Kaulke, kaulketh@gmail.com
 
+from __future__ import absolute_import
 import Adafruit_DHT
 import time
 import sys
 import logging
-import greenhouse_config as conf
+import conf.greenhouse_config as conf
 
 
 lib = conf.lib

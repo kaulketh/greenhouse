@@ -2,12 +2,11 @@
 # -*- coding: utf-8 -*-
 # author: Thomas Kaulke, kaulketh@gmail.com
 
-import greenhouse_config as conf
-
+from __future__ import absolute_import
+import conf.greenhouse_config as conf
 
 def get_digit(integer, digit):
         return int(str(integer).__getitem__(digit))
-
 
 temp = int(open('/sys/class/thermal/thermal_zone0/temp').read())
 
@@ -20,6 +19,5 @@ four = get_digit(temp, 3)
 
 def get_temperature():
         return '{0}{1}{4}{2}{3}°C'.format(one, two, three, four, conf.lib.decimal)
-
 
 get_temperature()

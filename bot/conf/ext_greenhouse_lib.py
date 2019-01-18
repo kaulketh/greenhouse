@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 # author: Thomas Kaulke, kaulketh@gmail.com
 
-from access import token, thk
+from __future__ import absolute_import
+from conf.access import token, thk
 
 newline = '\n'
 cmd_prefix = '/'

@@ -2,16 +2,15 @@
 # -*- coding: utf-8 -*-
 # author: Thomas Kaulke, kaulketh@gmail.com
 
+from __future__ import absolute_import
 from subprocess import Popen, PIPE, STDOUT, call
-
-import greenhouse_config as config
-
 import os
 import sys
 import commands
 import time
 import RPi.GPIO as GPIO
 import logging
+import conf.greenhouse_config as config
 
 logging.basicConfig(filename=config.log_file, format=config.log_format,
                     datefmt=config.log_date_format, level=logging.INFO)
