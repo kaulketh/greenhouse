@@ -49,13 +49,13 @@ echo
 
 # clone from github
 cd ${bot_dir}
-echo "[$(date +'%F %H:%M:%S')] Clone from repository to '$project' folder"
+echo "[$(date +'%F %H:%M:%S')] Cloning from repository to '$project' folder"
 git clone -v https://github.com/${owner}/${project}.git
 echo  
 
 # update python and shell scripts
 cd ${project}
-echo "[$(date +'%F %H:%M:%S')] Move files..."
+echo "[$(date +'%F %H:%M:%S')] Moving files..."
 mv -vf bot/*.py ${bot_dir}
 mv -vf bot/*.sh ${bot_dir}
 
@@ -66,7 +66,7 @@ mv -vf configs/dhcpcd.conf /etc/dhcpcd.conf
 echo 
 
 # change owner and mode of files
-echo "[$(date +'%F %H:%M:%S')] Set owner and update attributes..."
+echo "[$(date +'%F %H:%M:%S')] Setting owner and update attributes..."
 #chown -v root:netdev /etc/ddclient.conf
 chown -v root:root /etc/motion/motion.conf
 chown -v root:root /etc/dhcpcd.conf
@@ -77,13 +77,13 @@ chmod -v +x ${bot_dir}*.sh
 echo 
 
 # update start script in /etc/init.d/
-echo "[$(date +'%F %H:%M:%S')] Move start script..."
+echo "[$(date +'%F %H:%M:%S')] Updating start script..."
 cd ${bot_dir}
 mv -vf telegrambot.sh /etc/init.d/	
 echo 
 
 # remove cloned files and folder
-echo "[$(date +'%F %H:%M:%S')] Remove unnecessary files..."
+echo "[$(date +'%F %H:%M:%S')] Removing unnecessary files..."
 rm -rf greenhouse
 echo 
 
