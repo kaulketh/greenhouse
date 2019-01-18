@@ -45,7 +45,7 @@ rm -fv ${bot_dir}*.pyc
 rm -fv ${bot_dir}*.log
 rm -fv ${bot_dir}*.tmp
 rm -f /cmd.tmp
-echo 
+echo
 
 # clone from github
 cd ${bot_dir}
@@ -56,8 +56,8 @@ echo
 # update python and shell scripts
 cd ${project}
 echo "[$(date +'%F %H:%M:%S')] Move files..."
-mv -vf scripts/*.py ${bot_dir}
-mv -vf scripts/*.sh ${bot_dir}
+mv -vf scripts/* ${bot_dir}
+mv -vf scripts/* ${bot_dir}
 
 # update config files
 mv -vf configs/motion.conf /etc/motion/motion.conf
@@ -71,8 +71,10 @@ echo "[$(date +'%F %H:%M:%S')] Set owner and update attributes..."
 chown -v root:root /etc/motion/motion.conf
 chown -v root:root /etc/dhcpcd.conf
 chown -v root:root ${bot_dir}*.py
+chown -v root:root ${bot_dir}/*/*.py
 
 chmod -v +x ${bot_dir}*.py
+chmod -v +x ${bot_dir}/*/*.py
 chmod -v +x ${bot_dir}*.sh
 echo 
 
