@@ -1,8 +1,8 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 # author: Thomas Kaulke, kaulketh@gmail.com
-
-import greenhouse_config as conf
+from __future__ import absolute_import
+import conf.greenhouse_config as conf
 
 
 def get_digit(integer, digit):

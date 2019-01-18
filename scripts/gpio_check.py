@@ -2,9 +2,10 @@
 # -*- coding: utf-8 -*-
 # author: Thomas Kaulke, kaulketh@gmail.com
 
+from __future__ import absolute_import
 from subprocess import Popen, PIPE, STDOUT, call
 
-import greenhouse_config as config
+import conf.greenhouse_config as config
 
 import os
 import sys
