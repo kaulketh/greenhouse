@@ -56,8 +56,7 @@ echo
 # update python and shell scripts
 cd ${project}
 echo "[$(date +'%F %H:%M:%S')] Moving files..."
-mv -vf bot/*.py ${bot_dir}
-mv -vf bot/*.sh ${bot_dir}
+mv -vf bot/* ${bot_dir}
 
 # update config files
 mv -vf configs/motion.conf /etc/motion/motion.conf
@@ -70,10 +69,9 @@ echo "[$(date +'%F %H:%M:%S')] Setting owner and update attributes..."
 #chown -v root:netdev /etc/ddclient.conf
 chown -v root:root /etc/motion/motion.conf
 chown -v root:root /etc/dhcpcd.conf
-chown -v root:root ${bot_dir}*.py
+chown -Rv root:root ${bot_dir}
 
-chmod -v +x ${bot_dir}*.py
-chmod -v +x ${bot_dir}*.sh
+chmod +R -v +x ${bot_dir}
 echo 
 
 # update start script in /etc/init.d/
@@ -108,4 +106,3 @@ else
 	curl -s -k https://api.telegram.org/bot${bot}/sendMessage -d text="[$(date +'%F %H:%M:%S')] Changes detected, starting update." -d chat_id=${chat} >> /dev/null
 	update
 fi
-
