@@ -45,7 +45,7 @@ rm -fv ${bot_dir}*.pyc
 rm -fv ${bot_dir}*.log
 rm -fv ${bot_dir}*.tmp
 rm -f /cmd.tmp
-rm -rfv ${bot_dir}/*
+find ! -type d ! \( -iname '${bot_dir}/access.py' \) -print | xargs rm
 echo
 
 # clone from github
