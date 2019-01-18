@@ -71,10 +71,10 @@ echo "[$(date +'%F %H:%M:%S')] Set owner and update attributes..."
 chown -v root:root /etc/motion/motion.conf
 chown -v root:root /etc/dhcpcd.conf
 chown -v root:root ${bot_dir}*.py
-chown -v root:root ${bot_dir}/*/*.py
+chown -v root:root ${bot_dir}/*
 
 chmod -v +x ${bot_dir}*.py
-chmod -v +x ${bot_dir}/*/*.py
+chmod -v +x ${bot_dir}/*
 chmod -v +x ${bot_dir}*.sh
 echo 
 
