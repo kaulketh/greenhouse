@@ -39,33 +39,45 @@ update() {
 echo -------------------------------------------------------------------------------------------------------
 echo "[$(date +'%F %H:%M:%S')] Starting update..."
 
+# go into bot directory
+cd ${bot_dir}
+
 #remove old tmp, logs and pyc
-echo "[$(date +'%F %H:%M:%S')] Removing files..."
+echo "[$(date +'%F %H:%M:%S')] Removing some files..."
 rm -fv ${bot_dir}*.pyc
+rm -fv ${bot_dir}conf/*.pyc
 rm -fv ${bot_dir}*.log
 rm -fv ${bot_dir}*.tmp
 rm -f /cmd.tmp
 echo 
 
 # clone from github
-cd ${bot_dir}
-echo "[$(date +'%F %H:%M:%S')] Cloning from repository to '$project' folder"
+echo "[$(date +'%F %H:%M:%S')] Cloning from repository to '$project' folder..."
 git clone -v https://github.com/${owner}/${project}.git
 echo  
 
-# update python and shell scripts
+#change to cloned project folder
 cd ${project}
+
+# update python and shell scripts
 echo "[$(date +'%F %H:%M:%S')] Updating files..."
 cp -rv bot/* ${bot_dir}
-
 # update config files
-mv -vf configs/motion.conf /etc/motion/motion.conf
-mv -vf configs/dhcpcd.conf /etc/dhcpcd.conf
-#mv -vf configs/ddclient.conf /etc/ddclient.conf
+cp -v configs/motion.conf /etc/motion/motion.conf
+cp -v configs/dhcpcd.conf /etc/dhcpcd.conf
+#cp -v configs/ddclient.conf /etc/ddclient.conf
 echo 
 
-# change owner and mode of files
-echo "[$(date +'%F %H:%M:%S')] Setting owner and update attributes..."
+# back to bot directory
+cd ${bot_dir}
+
+# remove cloned not needed files and folders
+echo "[$(date +'%F %H:%M:%S')] Removing unnecessary files..."
+rm -rfv ${project}
+echo
+
+# change owner and mode of new files
+echo "[$(date +'%F %H:%M:%S')] Setting owner and permissions..."
 #chown -v root:netdev /etc/ddclient.conf
 chown -v root:root /etc/motion/motion.conf
 chown -v root:root /etc/dhcpcd.conf
@@ -75,13 +87,7 @@ echo
 
 # update start script in /etc/init.d/
 echo "[$(date +'%F %H:%M:%S')] Updating start script..."
-cd ${bot_dir}
 mv -vf telegrambot.sh /etc/init.d/	
-echo 
-
-# remove cloned files and folder
-echo "[$(date +'%F %H:%M:%S')] Removing unnecessary files..."
-rm -rfv greenhouse
 echo 
 
 # save last commit id
