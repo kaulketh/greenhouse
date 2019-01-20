@@ -31,7 +31,7 @@ msg_help = 'Usage and possible commands in special mode:{0}{1} - this info{0}{2}
             cmd_group1_off, cmd_group2_on, cmd_group2_off, cmd_group3_on, cmd_group3_off, cmd_live)
 
 msg_unknown = 'Unknown in this mode...!\nPlease use /help for more information.'
-msg_update = 'Update possibility checked manually, info is available in separate log file.'
+msg_update = 'Update forced manually, info is available in separate log file.'
 
 tmp_file = 'cmd.tmp'
 del_tmp = 'rm -r ' + tmp_file
