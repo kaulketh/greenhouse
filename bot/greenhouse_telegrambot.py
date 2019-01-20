@@ -128,8 +128,8 @@ def selection(bot, update):
         return SELECT
 
     elif Target == str(lib.reload):
+        logging.info('Refresh values requested.')
         message_values(update)
-        logging.info(lib.reload)
         return SELECT
 
     else:
