@@ -22,4 +22,5 @@ four = get_digit(temp, 3)
 def get_temperature():
         return '{0}{1}{4}{2}{3}°C'.format(one, two, three, four, conf.lib.decimal)
 
+
 get_temperature()

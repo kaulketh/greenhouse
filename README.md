@@ -183,7 +183,7 @@ _**Make them executable and chown root:root!**_
 * [ext_greenhouse.py](bot/ext_greenhouse.py) - extended bot
 * [ext_greenhouse_lib.py](bot/conf/ext_greenhouse_lib.py) - some constants, contains strings for commands and texts
 * [greenhouse_lib_english.py](bot/conf/greenhouse_lib_english.py) - if required, same like German version, if used adapt imports!
-* [gpio_check.py](bot/gpio_check.py) - to check state of GPIOs and logs state, in case it is wished
+* [gpio_check.py](bot/peripherals/gpio_check.py) - to check state of GPIOs and logs state, in case it is wished
 * [update_bot.sh](bot/update_bot.sh) - to updates all scripts from this repository by using last commit ID
    
 ---

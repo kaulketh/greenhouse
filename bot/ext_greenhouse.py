@@ -10,10 +10,6 @@ import sys
 import time
 import telepot
 import os
-import commands
-import subprocess
-import tempfile
-import os
 import logging
 
 logging.basicConfig(filename=conf.log_file, format=conf.log_format,

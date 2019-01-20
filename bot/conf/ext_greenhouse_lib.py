@@ -33,12 +33,13 @@ msg_help = 'Usage and possible commands in special mode:{0}{1} - this info{0}{2}
 msg_unknown = 'Unknown in this mode...!\nPlease use /help for more information.'
 msg_update = 'Update forced manually, info is available in separate log file.'
 
+
 tmp_file = 'cmd.tmp'
 del_tmp = 'rm -r ' + tmp_file
 
-get_pid1 = 'ps -o pid,args -C python | awk \'/greenhouse_telegrambot.py/ { print $1 }\''
+get_pid1 = 'ps -o pid,args -C python | awk \'/greenhouse.py/ { print $1 }\''
 get_pid2 = 'ps -o pid,args -C python | awk \'/ext_greenhouse.py/ { print $1 }\''
-restart_bot = 'python /home/pi/scripts/TelegramBot/greenhouse_telegrambot.py &'
+restart_bot = 'python /home/pi/scripts/TelegramBot/greenhouse.py &'
 update_bot = 'rm /lastGreenhouseCommit.id && bash /home/pi/scripts/TelegramBot/update_bot.sh ' + str(token) + ' ' + str(thk) + ' &'
 backup_all = 'tar -zcf /home/pi/backups/greenhouse.tgz --exclude=\'*.pyc\' /home/pi/scripts/TelegramBot/ &'
 logrotate_bot = 'logrotate -f /etc/logrotate.conf &' 

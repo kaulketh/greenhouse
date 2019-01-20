@@ -8,7 +8,7 @@ from __future__ import absolute_import
 import logging
 import os
 import time
-import dht as dht
+import peripherals.dht as dht
 import conf.greenhouse_config as conf
 from telegram import (ReplyKeyboardMarkup,
                       ReplyKeyboardRemove, ParseMode)
