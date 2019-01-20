@@ -293,7 +293,7 @@ def main():
                                                                                     str(lib.all_channels),
                                                                                     str(lib.panic),
                                                                                     str(lib.live_stream),
-                                                                                    str(lib.refresh)), selection),
+                                                                                    str(lib.reload)), selection),
                      RegexHandler('^{0}$'.format(lib.stop_bot), stop)],
 
             DURATION: [RegexHandler('^([0-9]+|{0}|{1})$'.format(str(lib.cancel), str(lib.panic)), duration),
