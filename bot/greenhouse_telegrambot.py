@@ -107,7 +107,7 @@ def start(bot, update):
         temp = (lib.temp + lib.colon_space + conf.temp_format).format(dht.temperature)
         hum = (lib.hum + lib.colon_space + conf.hum_format).format(dht.humidity)
         update.message.reply_text(lib.msg_temperature.format(start_time(), temp, hum), parse_mode=ParseMode.MARKDOWN)
-        update.message.reply_text(lib.msg_live.format(str(conf.live)), parse_mode=ParseMode.MARKDOWN)
+        # update.message.reply_text(lib.msg_live.format(str(conf.live)), parse_mode=ParseMode.MARKDOWN)
         update.message.reply_text('{0}{1}{2}'.format(
             lib.msg_welcome.format(update.message.from_user.first_name), lib.line_break, lib.msg_choice),
             parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
@@ -127,6 +127,10 @@ def selection(bot, update):
                                   parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
         logging.info(lib.msg_panic)
         os.system(conf.run_extended_greenhouse + str(user_id))
+
+    elif Target == str(lib.live_stream):
+        update.message.reply_text(lib.msg_live.format(str(conf.live)), parse_mode=ParseMode.MARKDOWN)
+        return SELECT
 
     else:
         update.message.reply_text(lib.msg_duration.format(Target),
@@ -276,7 +280,8 @@ def main():
                                                                                     str(lib.group3[1]),
                                                                                     str(lib.group3[2]),
                                                                                     str(lib.all_channels),
-                                                                                    str(lib.panic)), selection),
+                                                                                    str(lib.panic),
+                                                                                    str(lib.live_stream)), selection),
                 RegexHandler('^{0}$'.format(lib.stop_bot), stop)],
 
             DURATION: [RegexHandler('^([0-9]+|{0}|{1})$'.format(str(lib.cancel), str(lib.panic)), duration),
