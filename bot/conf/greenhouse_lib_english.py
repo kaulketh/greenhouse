@@ -22,7 +22,8 @@ panic = 'Panic'
 cancel = 'Cancel'
 all_channels = 'All'
 stop_bot = 'End'
-live_stream = 'Live view'
+live_stream = 'Take a look!'
+reload = 'Reload'
 group1 = ('Channel 1 to 3', 'Channel 1', 'Channel 2', 'Channel 3')
 group2 = ('Channel 6 to 8', 'Channel 6', 'Channel 7', 'Channel 8')
 group3 = ('Channel 4 and 5', 'Channel 4', 'Channel 5')
@@ -30,18 +31,10 @@ group3 = ('Channel 4 and 5', 'Channel 4', 'Channel 5')
 temp = 'Temperature'
 hum = 'Humidity'
 
-# keyboard configs
-kb1 = [[group1[1], group1[2], group1[3], group3[1]],
-       [group3[2], group2[1], group2[2], group2[3]],
-       [group1[0], group3[0], group2[0]],
-       [all_channels, stop_bot, live_stream]
-       ]
-kb2 = [[cancel, stop_bot]]
 
 # messages
-msg_live = '[Live stream]({})'
+msg_live = '[Click here for the live stream]({})'
 msg_temperature = '`{}Current values:\n{}, {}`'
-# msg_temperature = '`{0}Measurement deactivated!`'
 msg_welcome = '`Hello {}!`'
 msg_stop = '`Ok, bye {}!`'
 msg_duration = '`Specify switching time for \'{}\' in ' + time_units_name[time_units_index] + ':`'
@@ -54,4 +47,5 @@ water_off_all = '`All was switched off after {}' + time_units_sign[time_units_in
 msg_choice = '`Please select:`'
 msg_new_choice = '`New choice or end?`'
 msg_panic = '*Panic mode!!!*'
+msg_live = 'Live URL called...'
 private_warning = '`Hello {}, this is a private bot!\nYour chat id: {} has been blocked.`'

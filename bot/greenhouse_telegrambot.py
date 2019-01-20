@@ -17,7 +17,7 @@ from telegram.ext import (Updater, CommandHandler, RegexHandler, ConversationHan
 logging.basicConfig(filename=conf.log_file, format=conf.log_format,
                     datefmt=conf.log_date_format, level=logging.INFO)
 
-# language library selection
+# language library
 lib = conf.lib
 
 # define pins
@@ -103,11 +103,7 @@ def start(bot, update):
             update.message.from_user.first_name, update.message.chat_id), parse_mode=ParseMode.MARKDOWN)
         return ConversationHandler.END
     else:
-        dht.get_values()
-        temp = (lib.temp + lib.colon_space + conf.temp_format).format(dht.temperature)
-        hum = (lib.hum + lib.colon_space + conf.hum_format).format(dht.humidity)
-        update.message.reply_text(lib.msg_temperature.format(start_time(), temp, hum), parse_mode=ParseMode.MARKDOWN)
-        update.message.reply_text(lib.msg_live.format(str(conf.live)), parse_mode=ParseMode.MARKDOWN)
+        message_values(update)
         update.message.reply_text('{0}{1}{2}'.format(
             lib.msg_welcome.format(update.message.from_user.first_name), lib.line_break, lib.msg_choice),
             parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
@@ -130,6 +126,12 @@ def selection(bot, update):
 
     elif Target == str(lib.live_stream):
         update.message.reply_text(lib.msg_live.format(str(conf.live)), parse_mode=ParseMode.MARKDOWN)
+        logging.info(lib.msg_live)
+        return SELECT
+
+    elif Target == str(lib.reload):
+        message_values(update)
+        logging.info(lib.reload)
         return SELECT
 
     else:
@@ -240,6 +242,16 @@ def water_group(update, group):
     return
 
 
+# humidity and temperature
+def message_values(update):
+    time.sleep(3)
+    dht.get_values()
+    temp = (lib.temp + lib.colon_space + conf.temp_format).format(dht.temperature)
+    hum = (lib.hum + lib.colon_space + conf.hum_format).format(dht.humidity)
+    update.message.reply_text(lib.msg_temperature.format(start_time(), temp, hum), parse_mode=ParseMode.MARKDOWN)
+    return
+
+
 # stop bot
 def stop(bot, update):
     logging.info('Bot stopped.')
@@ -268,7 +280,8 @@ def main():
 
         states={
             SELECT: [RegexHandler(
-                '^({0}|{1}|{2}|{3}|{4}|{5}|{6}|{7}|{8}|{9}|{10}|{11}|{12})$'.format(str(lib.group1[0]),
+                '^({0}|{1}|{2}|{3}|{4}|{5}|{6}|{7}|{8}|{9}|{10}|{11}|{12})|{13}|{14})$'.format(
+                                                                                    str(lib.group1[0]),
                                                                                     str(lib.group1[1]),
                                                                                     str(lib.group1[2]),
                                                                                     str(lib.group1[3]),
@@ -281,11 +294,14 @@ def main():
                                                                                     str(lib.group3[2]),
                                                                                     str(lib.all_channels),
                                                                                     str(lib.panic),
-                                                                                    str(lib.live_stream)), selection),
-                RegexHandler('^{0}$'.format(lib.stop_bot), stop)],
+                                                                                    str(lib.live_stream),
+                                                                                    str(lib.reload)), selection),
+                     RegexHandler('^{0}$'.format(lib.stop_bot), stop)
+                     ],
 
             DURATION: [RegexHandler('^([0-9]+|{0}|{1})$'.format(str(lib.cancel), str(lib.panic)), duration),
-                       RegexHandler('^{0}$'.format(lib.stop_bot), stop)],
+                       RegexHandler('^{0}$'.format(lib.stop_bot), stop)
+                       ],
         },
 
         fallbacks=[CommandHandler('stop', stop)]

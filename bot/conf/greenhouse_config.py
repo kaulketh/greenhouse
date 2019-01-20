@@ -4,8 +4,6 @@
 # author: Thomas Kaulke, kaulketh@gmail.com
 
 from __future__ import absolute_import
-import os
-import sys
 import time
 import RPi.GPIO as GPIO
 import logging
@@ -19,6 +17,16 @@ import conf.greenhouse_lib_german as lib
 admins = [access.thk, access.annett]
 mainId = access.thk
 token = access.token
+
+
+# keyboard configs
+kb1 = [[lib.group1[1], lib.group1[2], lib.group1[3], lib.group3[1]],
+       [lib.group3[2], lib.group2[1], lib.group2[2], lib.group2[3]],
+       [lib.group1[0], lib.group3[0], lib.group2[0]],
+       [lib.all_channels],
+       [lib.stop_bot, lib.live_stream, lib.reload]
+       ]
+kb2 = [[lib.cancel, lib.stop_bot]]
 
 
 # to use Raspberry Pi board pin numbers
