@@ -45,6 +45,5 @@ water_off_group = '`\'{}\' wurden nach {}' + time_units_sign[time_units_index] +
 water_off_all = '`Alles wurde nach {}' + time_units_sign[time_units_index] + ' wieder abgeschalten.`\n\n'
 msg_choice = '`Bitte auswählen:`'
 msg_new_choice = '`Neue Auswahl oder Beenden?`'
-msg_panic = '*Panik-Modus!!!*'
-msg_live = 'Live URL called...'
+msg_panic = 'PANIK-MODUS!'
 private_warning = '`Hallo {}, dies ist ein privater Bot!\nDeine ChatID: {} ist geblockt worden.`'

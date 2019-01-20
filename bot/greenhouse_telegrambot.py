@@ -124,7 +124,7 @@ def selection(bot, update):
 
     elif Target == str(lib.live_stream):
         update.message.reply_text(lib.msg_live.format(str(conf.live)), parse_mode=ParseMode.MARKDOWN)
-        logging.info(lib.msg_live)
+        logging.info('Live URL requested.')
         return SELECT
 
     elif Target == str(lib.reload):
