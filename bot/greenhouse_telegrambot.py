@@ -60,6 +60,7 @@ def cam_off():
 # api and bot settings
 SELECT, DURATION = range(2)
 
+
 # LIST_OF_ADMINS = ['mock to test']
 LIST_OF_ADMINS = conf.admins
 API_TOKEN = conf.token
@@ -67,13 +68,10 @@ Target = lib.empty
 Water_Time = lib.empty
 user_id = lib.empty
 
-# keyboard config
-keyboard1 = lib.kb1
-markup1 = ReplyKeyboardMarkup(
-    keyboard1, resize_keyboard=True, one_time_keyboard=False)
 
-keyboard2 = lib.kb2
-markup2 = ReplyKeyboardMarkup(keyboard2, resize_keyboard=True, one_time_keyboard=False)
+# keyboard config
+markup1 = ReplyKeyboardMarkup(conf.kb1, resize_keyboard=True, one_time_keyboard=False)
+markup2 = ReplyKeyboardMarkup(conf.kb2, resize_keyboard=True, one_time_keyboard=False)
 
 
 # start bot
@@ -295,13 +293,11 @@ def main():
                                                                                     str(lib.all_channels),
                                                                                     str(lib.panic),
                                                                                     str(lib.live_stream),
-                                                                                    str(lib.reload)), selection),
-                     RegexHandler('^{0}$'.format(lib.stop_bot), stop)
-                     ],
+                                                                                    str(lib.refresh)), selection),
+                     RegexHandler('^{0}$'.format(lib.stop_bot), stop)],
 
             DURATION: [RegexHandler('^([0-9]+|{0}|{1})$'.format(str(lib.cancel), str(lib.panic)), duration),
-                       RegexHandler('^{0}$'.format(lib.stop_bot), stop)
-                       ],
+                       RegexHandler('^{0}$'.format(lib.stop_bot), stop)],
         },
 
         fallbacks=[CommandHandler('stop', stop)]
