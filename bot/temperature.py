@@ -5,8 +5,10 @@
 from __future__ import absolute_import
 import conf.greenhouse_config as conf
 
+
 def get_digit(integer, digit):
         return int(str(integer).__getitem__(digit))
+
 
 temp = int(open('/sys/class/thermal/thermal_zone0/temp').read())
 

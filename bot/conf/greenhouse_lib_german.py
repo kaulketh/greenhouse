@@ -22,6 +22,7 @@ panic = 'Panik'
 cancel = 'Abbrechen'
 all_channels = 'Alles'
 stop_bot = 'Beenden'
+live_stream = 'Live view'
 group1 = ('Kanal 1 bis 3', 'Kanal 1', 'Kanal 2', 'Kanal 3')
 group2 = ('Kanal 6 bis 8', 'Kanal 6', 'Kanal 7', 'Kanal 8')
 group3 = ('Kanal 4 und 5', 'Kanal 4', 'Kanal 5')
@@ -30,11 +31,10 @@ temp = 'Temperatur'
 hum = 'Luftfeuchtigkeit'
 
 # keyboard configs
-kb1 = [[group1[1], group1[2], group1[3]],
-       [group3[1], group3[2]],
-       [group2[1], group2[2], group2[3]],
+kb1 = [[group1[1], group1[2], group1[3], group3[1]],
+       [group3[2], group2[1], group2[2], group2[3]],
        [group1[0], group3[0], group2[0]],
-       [all_channels, stop_bot]
+       [all_channels, stop_bot, live_stream]
        ]
 kb2 = [[cancel, stop_bot]]
 
