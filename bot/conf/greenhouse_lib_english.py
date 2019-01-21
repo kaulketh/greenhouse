@@ -34,7 +34,7 @@ core = 'Core temperature'
 
 
 # messages
-msg_live = '[Click here for the live stream]({})'
+msg_live = '`[Click here for the live stream]({})`'
 msg_temperature = '`{}Current values\n{}, {}\n{}`'
 msg_welcome = '`Hello {}!`'
 msg_stop = '`Ok, bye {}!`'
@@ -47,5 +47,5 @@ water_off_group = '`\'{}\' were switched off after {}' + time_units_sign[time_un
 water_off_all = '`All was switched off after {}' + time_units_sign[time_units_index] + '.`\n\n'
 msg_choice = '`Please select:`'
 msg_new_choice = '`New choice or end?`'
-msg_panic = 'PANIC MODE!'
+msg_panic = '`PANIC MODE!`'
 private_warning = '`Hello {}, this is a private bot!\nYour chat id: {} has been blocked.`'

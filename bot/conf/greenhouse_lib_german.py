@@ -33,8 +33,8 @@ hum = 'Luftfeuchtigkeit'
 core = 'Kern-Temperatur'
 
 # messages
-msg_live = '[Hier gehts zum Live Stream]({})'
-msg_temperature = '*`{}Aktuelle Werte`*`\n{}, {}\n{}`'
+msg_live = '`[Hier gehts zum Live Stream]({})`'
+msg_temperature = '`{}Aktuelle Werte\n{}, {}\n{}`'
 msg_welcome = '`Hallo {}!`'
 msg_stop = '`Na dann, tschüss {}!`'
 msg_duration = '`Schaltzeit für \'{}\' in ' + time_units_name[time_units_index] + ' angeben:`'
@@ -46,5 +46,5 @@ water_off_group = '`\'{}\' wurden nach {}' + time_units_sign[time_units_index] +
 water_off_all = '`Alles wurde nach {}' + time_units_sign[time_units_index] + ' wieder abgeschalten.`\n\n'
 msg_choice = '`Bitte auswählen:`'
 msg_new_choice = '`Neue Auswahl oder Beenden?`'
-msg_panic = 'PANIK-MODUS!'
+msg_panic = '`PANIK-MODUS!`'
 private_warning = '`Hallo {}, dies ist ein privater Bot!\nDeine ChatID: {} ist geblockt worden.`'
