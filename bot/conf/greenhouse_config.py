@@ -41,6 +41,12 @@ def reset_pins():
     return
 
 
+# 7-segment display settings
+# TODO: setup 7-segment display pins!
+clk_pin = 99
+dio_pin = 99
+brightness = 0.5
+
 # DHT settings
 DHT_PIN = 4
 temp_format = '{:04.1f}°C'
