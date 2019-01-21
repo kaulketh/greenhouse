@@ -34,7 +34,7 @@ core = 'Kern-Temperatur'
 
 # messages
 msg_live = '[Hier gehts zum Live Stream]({})'
-msg_temperature = '`*{}Aktuelle Werte*\n{}, {}\n{}`'
+msg_temperature = '**`{}Aktuelle Werte`**`\n{}, {}\n{}`'
 msg_welcome = '`Hallo {}!`'
 msg_stop = '`Na dann, tschüss {}!`'
 msg_duration = '`Schaltzeit für \'{}\' in ' + time_units_name[time_units_index] + ' angeben:`'
