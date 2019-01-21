@@ -20,7 +20,4 @@ four = get_digit(temp, 3)
 
 
 def get_temperature():
-        return conf.lib.core_temp_format.format(one, two, three, four, conf.lib.decimal)
-
-
-print get_temperature()
+        return conf.core_temp_format.format(one, two, three, four, conf.lib.decimal)

@@ -30,11 +30,12 @@ group3 = ('Channel 4 and 5', 'Channel 4', 'Channel 5')
 
 temp = 'Temperature'
 hum = 'Humidity'
+core = 'Core temperature'
 
 
 # messages
 msg_live = '[Click here for the live stream]({})'
-msg_temperature = '`{}Current values:\n{}, {}`'
+msg_temperature = '`{}Current values\n{}, {}\n{}`'
 msg_welcome = '`Hello {}!`'
 msg_stop = '`Ok, bye {}!`'
 msg_duration = '`Specify switching time for \'{}\' in ' + time_units_name[time_units_index] + ':`'

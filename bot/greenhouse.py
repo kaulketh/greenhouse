@@ -80,7 +80,6 @@ markup2 = ReplyKeyboardMarkup(conf.kb2, resize_keyboard=True, one_time_keyboard=
 def start(bot, update):
     logging.info('Bot started.')
     cam_on()
-    update.message.reply_text(core.get_temperature(), parse_mode=ParseMode.MARKDOWN)
     global user_id
     try:
         user_id = update.message.from_user.id
@@ -249,7 +248,9 @@ def message_values(update):
     dht.get_values()
     temp = (lib.temp + lib.colon_space + conf.temp_format).format(dht.temperature)
     hum = (lib.hum + lib.colon_space + conf.hum_format).format(dht.humidity)
-    update.message.reply_text(lib.msg_temperature.format(start_time(), temp, hum), parse_mode=ParseMode.MARKDOWN)
+    core_temp = (lib.core + lib.colon_space + core.get_temperature())
+    update.message.reply_text(lib.msg_temperature.format(
+        start_time(), temp, hum, core_temp), parse_mode=ParseMode.MARKDOWN)
     return
 
 
