@@ -11,13 +11,11 @@ import peripherals.temperature as core_temp
 
 display = tm1637.TM1637(CLK=clk_pin, DIO=dio_pin, brightness=brightness)
 
-channels = (1, 2, 3, 4, 5, 6, 7, 8)
 group1 = [12, 1, 34, 3]
 group2 = [12, 4, 34, 5]
 group3 = [12, 6, 34, 8]
 all_channels = [38, 10, 22, 22]
 off = [38, 0, 15, 15]
-groups = (group1, group2, group3, all_channels)
 boot = [11, 26, 26, 39]
 
 
@@ -55,7 +53,7 @@ def show_group(group):
         display.show(group2)
     elif group == 3:
         display.show(group3)
-    elif group == 'all':
+    elif group == 0:
         display.show(all_channels)
     else:
         display.clear()

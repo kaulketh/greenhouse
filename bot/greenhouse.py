@@ -10,7 +10,7 @@ import os
 import time
 import peripherals.dht as dht
 import peripherals.temperature as core
-
+import peripherals.display as display
 import conf.greenhouse_config as conf
 from telegram import (ReplyKeyboardMarkup,
                       ReplyKeyboardRemove, ParseMode)
@@ -43,6 +43,9 @@ logging.info('Enable bot, set all used GPIO to HIGH.')
 conf.reset_pins()
 for member in all_groups:
     conf.switch_off(member)
+
+# as first show raspi temperature
+display.show_core_temp()
 
 
 # enable camera module
@@ -80,6 +83,7 @@ markup2 = ReplyKeyboardMarkup(conf.kb2, resize_keyboard=True, one_time_keyboard=
 def start(bot, update):
     logging.info('Bot started.')
     cam_on()
+    display.show_off()
     global user_id
     try:
         user_id = update.message.from_user.id
@@ -158,42 +162,54 @@ def duration(bot, update):
         os.system(conf.run_extended_greenhouse + str(user_id))
 
     elif Target == str(lib.group1[1]):
+        display.show_channel(1)
         water(update, group_one[0])
 
     elif Target == str(lib.group1[2]):
+        display.show_channel(2)
         water(update, group_one[1])
 
     elif Target == str(lib.group1[3]):
+        display.show_channel(3)
         water(update, group_one[2])
 
     elif Target == str(lib.group2[1]):
+        display.show_channel(6)
         water(update, group_two[0])
 
     elif Target == str(lib.group2[2]):
+        display.show_channel(7)
         water(update, group_two[1])
 
     elif Target == str(lib.group2[3]):
+        display.show_channel(8)
         water(update, group_two[2])
 
     elif Target == str(lib.group1[0]):
+        display.show_group(1)
         water_group(update, group_one)
 
     elif Target == str(lib.group2[0]):
+        display.show_group(2)
         water_group(update, group_two)
 
     elif Target == str(lib.group3[1]):
+        display.show_channel(4)
         water(update, group_three[0])
 
     elif Target == str(lib.group3[2]):
+        display.show_channel(5)
         water(update, group_three[1])
 
     elif Target == str(lib.group3[0]):
+        display.show_group(3)
         water_group(update, group_three)
 
     elif Target == str(lib.all_channels):
         logging.info('Duration: {0}'.format(Water_Time))
         update.message.reply_text(lib.water_on_all.format(Target, Water_Time),
                                   parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
+        display.show_group(0)
         for member in all_groups:
             conf.switch_on(member)
 
@@ -203,6 +219,7 @@ def duration(bot, update):
         update.message.reply_text('{0}{1}{2}'.format(
             timestamp(), lib.water_off_all.format(Water_Time), lib.msg_new_choice),
             parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
+        display.show_off()
 
     else:
         update.message.reply_text(lib.msg_choice, reply_markup=markup1)
@@ -222,6 +239,7 @@ def water(update, member):
     update.message.reply_text('{0}{1}{2}'.format(
         timestamp(), lib.water_off.format(Target, Water_Time), lib.msg_new_choice),
         parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
+    display.show_off()
     return
 
 
@@ -239,6 +257,7 @@ def water_group(update, group):
     update.message.reply_text('{0}{1}{2}'.format(
         timestamp(), lib.water_off_group.format(Target, Water_Time), lib.msg_new_choice),
         parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
+    display.show_off()
     return
 
 
@@ -258,6 +277,8 @@ def message_values(update):
 def stop(bot, update):
     logging.info('Bot stopped.')
     cam_off()
+    display.show_off()
+    display.show_core_temp()
     update.message.reply_text(lib.msg_stop.format(update.message.from_user.first_name),
                               parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
     return ConversationHandler.END
@@ -267,6 +288,7 @@ def stop(bot, update):
 def error(bot, update, error):
     logging.error('An error occurs! ' + str(error))
     cam_off()
+    display.show_off()
     conf.GPIO.cleanup()
     return ConversationHandler.END
 
