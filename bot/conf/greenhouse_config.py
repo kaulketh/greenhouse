@@ -46,6 +46,8 @@ DHT_PIN = 4
 temp_format = '{:04.1f}°C'
 hum_format = '{:05.2f}%'
 
+# core temperature
+core_temp_format = '{0}{1}{4}{2}{3}°C'
 
 # def board pins/channels, refer hardware/raspi_gpio.info
 RELAIS_01 = 29

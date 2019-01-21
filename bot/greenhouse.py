@@ -9,6 +9,8 @@ import logging
 import os
 import time
 import peripherals.dht as dht
+import peripherals.temperature as core
+
 import conf.greenhouse_config as conf
 from telegram import (ReplyKeyboardMarkup,
                       ReplyKeyboardRemove, ParseMode)
@@ -78,6 +80,7 @@ markup2 = ReplyKeyboardMarkup(conf.kb2, resize_keyboard=True, one_time_keyboard=
 def start(bot, update):
     logging.info('Bot started.')
     cam_on()
+    update.message.reply_text(core.get_temperature(), parse_mode=ParseMode.MARKDOWN)
     global user_id
     try:
         user_id = update.message.from_user.id

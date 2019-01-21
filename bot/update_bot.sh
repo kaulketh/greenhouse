@@ -108,6 +108,6 @@ if [[ ${commit} == ${last_commit} ]];
 		echo "[$(date +'%F %H:%M:%S')] Update checked, not required, current version equals last commit '$last_commit'."
 		exit 1
 else
-	curl -s -k https://api.telegram.org/bot${bot}/sendMessage -d text="[$(date +'%F %H:%M:%S')] Changes detected, starting update." -d chat_id=${chat} >> /dev/null
+	curl -s -k https://api.telegram.org/bot${bot}/sendMessage -d text="[$(date +'%F %H:%M:%S')] Changes detected or update was forced, starting update." -d chat_id=${chat} >> /dev/null
 	update
 fi
