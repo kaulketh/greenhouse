@@ -270,6 +270,7 @@ def message_values(update):
     core_temp = (lib.core + lib.colon_space + core.get_temperature())
     update.message.reply_text(lib.msg_temperature.format(
         start_time(), temp, hum, core_temp), parse_mode=ParseMode.MARKDOWN)
+    display.show_core_temp()
     return
 
 
@@ -278,6 +279,7 @@ def stop(bot, update):
     logging.info('Bot stopped.')
     cam_off()
     display.show_off()
+    time.sleep(2)
     display.show_core_temp()
     update.message.reply_text(lib.msg_stop.format(update.message.from_user.first_name),
                               parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
