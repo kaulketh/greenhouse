@@ -17,10 +17,31 @@ group3 = [12, 4, 34, 5]
 all_channels = [38, 10, 22, 22]
 off = [38, 0, 15, 15]
 boot = [11, 26, 26, 39]
+error = [38, 14, 28, 28]
+stop = [29, 39, 26, 27]
+run = [38, 14, 40, 24]
 
 
 def disable_colon(on):
     display.show_doublepoint(not on)
+    return
+
+
+def show_run():
+    disable_colon(True)
+    display.show(run)
+    return
+
+
+def show_stop():
+    disable_colon(True)
+    display.show(stop)
+    return
+
+
+def show_error():
+    disable_colon(True)
+    display.show(error)
     return
 
 

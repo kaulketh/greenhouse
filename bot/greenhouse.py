@@ -83,7 +83,7 @@ markup2 = ReplyKeyboardMarkup(conf.kb2, resize_keyboard=True, one_time_keyboard=
 def start(bot, update):
     logging.info('Bot started.')
     cam_on()
-    display.show_off()
+    display.show_run()
     global user_id
     try:
         user_id = update.message.from_user.id
@@ -270,7 +270,6 @@ def message_values(update):
     core_temp = (lib.core + lib.colon_space + core.get_temperature())
     update.message.reply_text(lib.msg_temperature.format(
         start_time(), temp, hum, core_temp), parse_mode=ParseMode.MARKDOWN)
-    display.show_core_temp()
     return
 
 
@@ -278,9 +277,7 @@ def message_values(update):
 def stop(bot, update):
     logging.info('Bot stopped.')
     cam_off()
-    display.show_off()
-    time.sleep(2)
-    display.show_core_temp()
+    display.show_stop()
     update.message.reply_text(lib.msg_stop.format(update.message.from_user.first_name),
                               parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
     return ConversationHandler.END
@@ -289,8 +286,8 @@ def stop(bot, update):
 # error
 def error(bot, update, error):
     logging.error('An error occurs! ' + str(error))
+    display.show_error()
     cam_off()
-    display.show_off()
     conf.GPIO.cleanup()
     return ConversationHandler.END
 
