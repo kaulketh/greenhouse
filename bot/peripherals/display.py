@@ -27,7 +27,7 @@ def disable_colon(on):
 def show_core_temp():
     disable_colon(True)
     # display.show(core_temp.get_temp_as_digits())
-    scroll(core_temp.get_temp_as_digits(),2)
+    scroll(core_temp.get_temp_as_digits(), 0.2)
     return
 
 
