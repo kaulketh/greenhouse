@@ -42,10 +42,10 @@ def reset_pins():
 
 
 # 7-segment display settings
-# TODO: setup 7-segment display pins!
 clk_pin = 32
 dio_pin = 22
-brightness = 0.5
+""" 1 to 7 """
+brightness = 1
 
 # DHT sensor settings
 DHT_PIN = 4
