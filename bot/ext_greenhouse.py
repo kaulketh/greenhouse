@@ -137,7 +137,7 @@ conf.reset_pins()
 bot = telepot.Bot(apiToken)
 bot.message_loop(handle)
 logging.info('I am listening...')
-display.display.clear()
+display.show_extended()
 
 
 while 1:
@@ -146,4 +146,9 @@ while 1:
 
     except KeyboardInterrupt:
         logging.warning('Program interrupted')
+        display.show_error()
         exit()
+
+    except Exception:
+        logging.warning('Any error occurs - ' + Exception.__qualname__)
+        display.show_error()

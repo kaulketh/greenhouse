@@ -21,10 +21,17 @@ stop = [29, 39, 26, 27]
 run = [38, 28, 40, 24]
 standby = [29, 39, 11, 32]
 update = [30, 27, 13, 39]
+extended = [41, 41, 41, 41]
 
 
 def disable_colon(on):
     display.show_doublepoint(not on)
+    return
+
+
+def show_extended():
+    disable_colon(True)
+    display.show(extended)
     return
 
 
