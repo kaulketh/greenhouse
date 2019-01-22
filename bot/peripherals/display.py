@@ -19,11 +19,18 @@ off = [38, 0, 15, 15]
 boot = [11, 26, 26, 39]
 error = [38, 14, 28, 28]
 stop = [29, 39, 26, 27]
-run = [38, 14, 40, 24]
+run = [38, 28, 40, 24]
+standby = [29, 39, 11, 32]
 
 
 def disable_colon(on):
     display.show_doublepoint(not on)
+    return
+
+
+def show_standby():
+    disable_colon(True)
+    display.show(standby)
     return
 
 

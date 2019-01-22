@@ -44,8 +44,8 @@ conf.reset_pins()
 for member in all_groups:
     conf.switch_off(member)
 
-# as first show raspi temperature
-display.show_core_temp()
+
+display.show_standby()
 
 
 # enable camera module
@@ -280,6 +280,8 @@ def stop(bot, update):
     display.show_stop()
     update.message.reply_text(lib.msg_stop.format(update.message.from_user.first_name),
                               parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
+    time.sleep(2)
+    display.show_standby()
     return ConversationHandler.END
 
 
