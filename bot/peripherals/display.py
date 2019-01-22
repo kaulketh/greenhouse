@@ -8,7 +8,6 @@ from conf.greenhouse_config import clk_pin, dio_pin, brightness
 import peripherals.seven_segment_display as tm1637
 import peripherals.temperature as core_temp
 
-
 display = tm1637.TM1637(clk=clk_pin, dio=dio_pin, brightness=brightness)
 
 group1 = [12, 1, 34, 3]
@@ -21,10 +20,17 @@ error = [38, 14, 28, 28]
 stop = [29, 39, 26, 27]
 run = [38, 28, 40, 24]
 standby = [29, 39, 11, 32]
+update = [30, 27, 13, 39]
 
 
 def disable_colon(on):
     display.show_doublepoint(not on)
+    return
+
+
+def show_update():
+    disable_colon(True)
+    display.show(update)
     return
 
 
