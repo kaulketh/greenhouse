@@ -12,8 +12,8 @@ import math
 import RPi.GPIO as IO
 from time import sleep
 
-# IO.setwarnings(False)
-IO.setmode(IO.BCM)
+IO.setwarnings(False)
+IO.setmode(IO.BOARD)
 
 """ http://www.uize.com/examples/seven-segment-display.html """
 #               0    1     2     3     4     5     6     7     8     9

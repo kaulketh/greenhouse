@@ -9,11 +9,11 @@ import peripherals.seven_segment_display as tm1637
 import peripherals.temperature as core_temp
 
 
-display = tm1637.TM1637(CLK=clk_pin, DIO=dio_pin, brightness=brightness)
+display = tm1637.TM1637(clk=clk_pin, dio=dio_pin, brightness=brightness)
 
 group1 = [12, 1, 34, 3]
-group2 = [12, 4, 34, 5]
-group3 = [12, 6, 34, 8]
+group2 = [12, 6, 34, 8]
+group3 = [12, 4, 34, 5]
 all_channels = [38, 10, 22, 22]
 off = [38, 0, 15, 15]
 boot = [11, 26, 26, 39]
