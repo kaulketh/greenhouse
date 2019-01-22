@@ -114,6 +114,7 @@ def start(bot, update):
         logging.info('Bot is using by: {0} - {1},{2}'.format(
             str(user_id), update.message.from_user.last_name, update.message.from_user.first_name))
         logging.info('Time unit is \'{0}\''.format(str(lib.time_units_name[lib.time_units_index])))
+        display.show_off()
         return SELECT
 
 
