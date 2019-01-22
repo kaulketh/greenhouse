@@ -5,7 +5,8 @@
 from __future__ import absolute_import
 import conf.greenhouse_config as conf
 
-temp, one, two, three, four = conf.lib.empty
+
+temp, one, two, three, four = 0
 
 
 def get_digit(integer, digit):
@@ -32,3 +33,4 @@ def get_temp_as_digits():
     result = str(int(round(round_temp)))
     """ 1.digit,  2.digit and '°' and 'C' """
     return [int(get_digit(int(result), 0)), int(get_digit(int(result), 1)), 36, 12]
+
