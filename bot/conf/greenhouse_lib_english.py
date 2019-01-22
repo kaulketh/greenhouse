@@ -34,7 +34,7 @@ core = 'Core temperature'
 
 
 # messages
-msg_live = '`[Click here for the live stream]({})`'
+msg_live = '[Click here for the live stream]({})'
 msg_temperature = '`{}Current values\n{}, {}\n{}`'
 msg_welcome = '`Hello {}!`'
 msg_stop = '`Ok, bye {}!`'
