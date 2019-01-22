@@ -6,7 +6,11 @@ from __future__ import absolute_import
 import conf.greenhouse_config as conf
 
 
-temp, one, two, three, four = 0
+temp = 0
+one = 0
+two = 0
+three = 0
+four = 0
 
 
 def get_digit(integer, digit):
