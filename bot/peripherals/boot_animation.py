@@ -24,15 +24,19 @@ def show(sign, digit):
     return
 
 
-while 1:
-    try:
-        for i in animation:
-            show(i, 0)
-            show(i, 1)
-            show(i, 2)
-            show(i, 3)
+def run():
+    while 1:
+        try:
+            for i in animation:
+                show(i, 0)
+                show(i, 1)
+                show(i, 2)
+                show(i, 3)
 
-    except Exception:
-        logging.warning('Any error occurs - ' + Exception.__qualname__)
-        display.show_error()
+        except Exception:
+            logging.warning('Any error occurs - ' + Exception.__qualname__)
+            display.show_error()
 
+
+if __name__ == '__main__':
+    run()

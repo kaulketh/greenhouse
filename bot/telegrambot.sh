@@ -14,8 +14,6 @@
 #
 ### END INIT INFO
 
-sudo python /home/pi/scripts/TelegramBot/peripherals/boot_animation.py &
-sleep 3
 sudo hddledPi -d -p 4 &
 sudo netledPi -d -p 5 &
 sleep 3

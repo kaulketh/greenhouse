@@ -8,6 +8,7 @@ from __future__ import absolute_import
 import logging
 import os
 import time
+import peripherals.boot_animation as animation
 import peripherals.dht as dht
 import peripherals.temperature as core
 import peripherals.display as display
@@ -37,6 +38,8 @@ def timestamp():
 def start_time():
     return conf.get_timestamp()
 
+
+animation
 
 # switch all off at start, set all used GPIO=high
 logging.info('Enable bot, set all used GPIO to HIGH.')
