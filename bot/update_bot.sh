@@ -44,11 +44,10 @@ cd ${bot_dir}
 
 #remove old tmp, logs and pyc
 echo "[$(date +'%F %H:%M:%S')] Removing some files..."
-rm -fv ${bot_dir}*.pyc
-rm -fv ${bot_dir}conf/*.pyc
-rm -fv ${bot_dir}*.log
-rm -fv ${bot_dir}*.tmp
-rm -f /cmd.tmp
+find ${bot_dir} -name *.pyc -type f -exec rm -fv {} \;
+find ${bot_dir} -name *.log -type f -exec rm -fv {} \;
+find ${bot_dir} -name *.tmp -type f -exec rm -fv {} \;
+rm -fv /cmd.tmp
 echo 
 
 # clone from github
