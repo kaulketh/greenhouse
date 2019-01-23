@@ -5,6 +5,7 @@
 
 from __future__ import absolute_import
 import logging
+import thread
 import conf.greenhouse_config as conf
 import peripherals.display as display
 from time import sleep
@@ -30,10 +31,14 @@ def animate(digit):
     return
 
 
+def thread_func(digit):
+    thread.start_new_thread(animate(digit), ())
+
+
 def run():
         try:
             for d in digits:
-                animate(d)
+                thread_func(d)
                 if d == 3:
                     pass
 
