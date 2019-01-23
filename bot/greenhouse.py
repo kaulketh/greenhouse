@@ -39,7 +39,7 @@ def start_time():
     return conf.get_timestamp()
 
 
-animation
+animation.run()
 
 # switch all off at start, set all used GPIO=high
 logging.info('Enable bot, set all used GPIO to HIGH.')
