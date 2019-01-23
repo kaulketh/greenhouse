@@ -150,5 +150,5 @@ while 1:
         exit()
 
     except Exception:
-        logging.warning('Any error occurs - ' + Exception.__qualname__)
+        logging.warning('Any error occurs')
         display.show_error()

@@ -32,18 +32,16 @@ def animate(digit):
 
 
 def thread_func(digit):
-    thread.start_new_thread(animate(digit), ())
+    thread.start_new_thread(animate, digit)
 
 
 def run():
         try:
             for d in digits:
                 thread_func(d)
-                if d == 3:
-                    pass
 
         except Exception:
-            logging.warning('Any error occurs - ' + Exception.__qualname__)
+            logging.warning('Any error occurs')
             display.show_error()
 
 

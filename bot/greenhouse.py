@@ -20,6 +20,9 @@ from telegram.ext import (Updater, CommandHandler, RegexHandler, ConversationHan
 logging.basicConfig(filename=conf.log_file, format=conf.log_format,
                     datefmt=conf.log_date_format, level=logging.INFO)
 
+# start animation
+animation.run()
+
 # language library
 lib = conf.lib
 
@@ -38,8 +41,6 @@ def timestamp():
 def start_time():
     return conf.get_timestamp()
 
-
-animation.run()
 
 # switch all off at start, set all used GPIO=high
 logging.info('Enable bot, set all used GPIO to HIGH.')
