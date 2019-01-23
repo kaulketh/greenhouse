@@ -36,6 +36,8 @@ def thread_func(digit):
 
 
 def run():
+    pass
+    """
         try:
             for d in digits:
                 thread_func(d)
@@ -43,6 +45,7 @@ def run():
         except Exception:
             logging.warning('Any error occurs')
             display.show_error()
+    """
 
 
 if __name__ == '__main__':
