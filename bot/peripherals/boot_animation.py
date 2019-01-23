@@ -18,20 +18,23 @@ sleep_time = 0.1
 
 
 def show(sign, digit):
-    display.display.show1(sign, digit)
+    display.display.show1(digit, sign)
     sleep(sleep_time)
     display.display.clear()
+    return
+
+
+def animate(digit):
+    for a in animation:
+        show(a, digit)
     return
 
 
 def run():
     while 1:
         try:
-            for i in animation:
-                show(i, 0)
-                show(i, 1)
-                show(i, 2)
-                show(i, 3)
+            for d in digits:
+                animate(d)
 
         except Exception:
             logging.warning('Any error occurs - ' + Exception.__qualname__)
