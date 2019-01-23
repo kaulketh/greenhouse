@@ -14,7 +14,7 @@ logging.basicConfig(filename=conf.log_file, format=conf.log_format,
 
 animation = (42, 43, 44, 45, 46, 47, 48)
 digits = (0, 1, 2, 3)
-sleep_time = 0.1
+sleep_time = 0.2
 
 
 def show(sign, digit):
@@ -31,10 +31,11 @@ def animate(digit):
 
 
 def run():
-    while 1:
         try:
             for d in digits:
                 animate(d)
+                if d == 3:
+                    pass
 
         except Exception:
             logging.warning('Any error occurs - ' + Exception.__qualname__)
