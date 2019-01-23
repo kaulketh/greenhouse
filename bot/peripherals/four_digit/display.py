@@ -5,7 +5,7 @@
 from __future__ import absolute_import
 from time import sleep
 from conf.greenhouse_config import clk_pin, dio_pin, brightness
-import peripherals.seven_segment_display as tm1637
+import peripherals.four_digits as tm1637
 import peripherals.temperature as core_temp
 
 display = tm1637.TM1637(clk=clk_pin, dio=dio_pin, brightness=brightness)
@@ -123,53 +123,4 @@ def show_off():
 def show_boot():
     disable_colon(True)
     display.show(boot)
-    return
-
-
-def scroll(values, scroll_time):
-    # values = [values[0], values[1], values[2], values[3]]
-    values_3 = [values[1], values[2], values[3], values[0]]
-    values_2 = [values[2], values[3], values[0], values[1]]
-    values_1 = [values[3], values[0], values[1], values[2]]
-
-    display.show(values)
-    sleep(scroll_time * 5)
-
-    display.clear()
-    for i in range(3):
-        display.show1(i, values_3[i])
-    sleep(scroll_time)
-
-    display.clear()
-    for i in range(2):
-        display.show1(i, values_2[i])
-    sleep(scroll_time)
-
-    display.clear()
-    for i in range(1):
-        display.show1(i, values_1[i])
-    sleep(scroll_time)
-
-    display.clear()
-    sleep(scroll_time * 5)
-    display.show(values)
-    sleep(scroll_time * 5)
-
-    display.clear()
-    for i in range(1, 4):
-        display.show1(i, values_1[i])
-    sleep(scroll_time)
-
-    display.clear()
-    for i in range(2, 4):
-        display.show1(i, values_2[i])
-    sleep(scroll_time)
-
-    display.clear()
-    for i in range(3, 4):
-        display.show1(i, values_3[i])
-    sleep(scroll_time)
-
-    display.clear()
-    sleep(scroll_time * 5)
     return

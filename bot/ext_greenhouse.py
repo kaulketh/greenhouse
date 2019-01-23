@@ -6,7 +6,7 @@
 from __future__ import absolute_import
 import conf.greenhouse_config as conf
 import conf.ext_greenhouse_lib as lib
-import peripherals.display as display
+import peripherals.four_digit.display as display
 import sys
 import time
 import telepot

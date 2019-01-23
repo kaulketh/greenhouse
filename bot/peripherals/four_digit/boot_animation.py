@@ -7,7 +7,7 @@ from __future__ import absolute_import
 import logging
 import thread
 import conf.greenhouse_config as conf
-import peripherals.display as display
+import peripherals.four_digit.display as display
 from time import sleep
 
 logging.basicConfig(filename=conf.log_file, format=conf.log_format,

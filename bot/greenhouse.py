@@ -8,11 +8,9 @@ from __future__ import absolute_import
 import logging
 import os
 import time
-import thread
-import peripherals.boot_animation as animation
-import peripherals.dht as dht
+import peripherals.dht.dht as dht
 import peripherals.temperature as core
-import peripherals.display as display
+import peripherals.four_digit.display as display
 import conf.greenhouse_config as conf
 from telegram import (ReplyKeyboardMarkup,
                       ReplyKeyboardRemove, ParseMode)
