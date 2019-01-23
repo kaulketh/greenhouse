@@ -22,10 +22,23 @@ run = [38, 28, 40, 24]
 standby = [29, 39, 11, 32]
 update = [30, 27, 13, 39]
 extended = [41, 41, 41, 41]
+ready = [38, 28, 13, 32]
 
 
 def disable_colon(on):
     display.show_doublepoint(not on)
+    return
+
+
+def show_duration(duration):
+    disable_colon(True)
+    display.show_int(duration)
+    return
+
+
+def show_ready():
+    disable_colon(True)
+    display.show(ready)
     return
 
 

@@ -105,12 +105,14 @@ def start(bot, update):
                     return ConversationHandler.END
 
     if user_id not in LIST_OF_ADMINS:
+        display.show_off()
         logging.info('Not allowed access by: {0} - {1},{2}'.format(
             str(user_id), update.message.from_user.last_name, update.message.from_user.first_name))
         update.message.reply_text(lib.private_warning.format(
             update.message.from_user.first_name, update.message.chat_id), parse_mode=ParseMode.MARKDOWN)
         return ConversationHandler.END
     else:
+        display.show_ready()
         message_values(update)
         update.message.reply_text('{0}{1}{2}'.format(
             lib.msg_welcome.format(update.message.from_user.first_name), lib.line_break, lib.msg_choice),
@@ -228,7 +230,6 @@ def duration(bot, update):
 
     else:
         update.message.reply_text(lib.msg_choice, reply_markup=markup1)
-
     return SELECT
 
 
