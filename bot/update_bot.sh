@@ -30,10 +30,10 @@ if [[ $# -eq 3  ]]
         branch=$3
 else
     # get default branch from repository
-    branch=$(curl -s https://api.github.com/repos/${owner}/${project} --insecure | grep -Po '(?<="default_branch":)(.*?)(?=,)'| sed "s/\"//g" | sed -e 's/^[[:space:]]*//')
+    branch=$(curl -s https://api.github.com/repos/${owner}/${project} --insecure | grep -Po '(?<="default_branch":)(.*?)(?=,)' | sed "s/\"//g" | sed -e 's/^[[:space:]]*//')
 fi
 
-# get last commit id
+# get last commit id of branch
 commit=$(curl -s https://api.github.com/repos/${owner}/${project}/commits/${branch} --insecure | grep -Po '(?<="sha":)(.*?)(?=,)' -m 1 | sed "s/\"//g" | sed -e 's/^[[:space:]]*//' | sed -e 's/[.]*$//')
 # get saved commit
 last_commit=$(cat ${commit_id})
@@ -59,7 +59,7 @@ rm -fv /cmd.tmp
 echo 
 
 # clone from github
-echo "[$(date +'%F %H:%M:%S')] Cloning branch ${branch} from repository to '${project}' folder..."
+echo "[$(date +'%F %H:%M:%S')] Cloning branch '${branch}' from repository to '${project}' folder..."
 git clone -v https://github.com/${owner}/${project}.git -b ${branch}
 echo  
 
