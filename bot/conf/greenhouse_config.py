@@ -38,7 +38,7 @@ def set_pins():
     # GPIO.setmode(GPIO.BCM)
     # comment if warnings required
     GPIO.setwarnings(False)
-    return
+    return GPIO
 
 
 # 7-segment display settings

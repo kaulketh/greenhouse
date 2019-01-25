@@ -10,9 +10,11 @@
 
 from __future__ import absolute_import
 import math
-from conf.greenhouse_config import GPIO as IO
+import conf.greenhouse_config as conf
 from time import sleep
 
+
+IO = conf.set_pins()
 # IO.setwarnings(False)
 # IO.setmode(IO.BOARD)
 

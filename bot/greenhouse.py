@@ -43,6 +43,7 @@ logging.info('Enable bot, setup GPIO pins.')
 conf.set_pins()
 
 for member in all_groups:
+    logging.info('Switch all off at start.')
     conf.switch_off(member)
 
 
