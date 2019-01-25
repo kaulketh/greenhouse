@@ -39,8 +39,9 @@ def start_time():
 
 
 # switch all off at start, set all used GPIO=high
-logging.info('Enable bot, set all used GPIO to HIGH.')
-conf.reset_pins()
+logging.info('Enable bot, setup GPIO pins.')
+conf.set_pins()
+
 for member in all_groups:
     conf.switch_off(member)
 

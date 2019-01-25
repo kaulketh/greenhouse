@@ -31,9 +31,9 @@ kb2 = [[lib.cancel, lib.stop_bot]]
 
 
 # to use Raspberry Pi board pin numbers
-def reset_pins():
-    logging.info('Setup GPIO mode.')
+def set_pins():
     GPIO.setmode(GPIO.BOARD)
+    logging.info('Set GPIO mode: GPIO.BOARD')
     # to use GPIO instead board pin numbers, then please adapt pin definition
     # GPIO.setmode(GPIO.BCM)
     # comment if warnings required
