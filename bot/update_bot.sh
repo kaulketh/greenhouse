@@ -24,17 +24,14 @@ if [[ $# -le 1  ]]
 		exit 1
 fi
 
-
-# if third  arguments supplied then will set as branch
+# if third arguments supplied then will set as branch
 if [[ $# -eq 3  ]]
     then
         branch=$3
 else
-    # get default branch, is set on github in this case
+    # get default branch from repository
     branch=$(curl -s https://api.github.com/repos/${owner}/${project} --insecure | grep -Po '(?<="default_branch":)(.*?)(?=,)'| sed "s/\"//g" | sed -e 's/^[[:space:]]*//')
 fi
-
-
 
 # get last commit id
 commit=$(curl -s https://api.github.com/repos/${owner}/${project}/commits/${branch} --insecure | grep -Po '(?<="sha":)(.*?)(?=,)' -m 1 | sed "s/\"//g" | sed -e 's/^[[:space:]]*//' | sed -e 's/[.]*$//')
