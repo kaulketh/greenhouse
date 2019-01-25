@@ -11,17 +11,10 @@ commit_id='/lastGreenhouseCommit.id'
 bot_dir='/home/pi/scripts/TelegramBot/'
 wait=3
 
-# get default branch
-branch=$(curl -s https://api.github.com/repos/${owner}/${project} --insecure | grep -Po '(?<="default_branch":)(.*?)(?=,)'| sed "s/\"//g" | sed -e 's/^[[:space:]]*//')
-# get last commit id
-commit=$(curl -s https://api.github.com/repos/${owner}/${project}/commits/${branch} --insecure | grep -Po '(?<="sha":)(.*?)(?=,)' -m 1 | sed "s/\"//g" | sed -e 's/^[[:space:]]*//' | sed -e 's/[.]*$//')
-# get saved commit
-last_commit=$(cat ${commit_id})
-
 # function display usage
 display_usage() {
 echo "Failed! Paremeter is missing."
-echo "Using only possible with Telegram bot API token and Chat ID!"
+echo "Usage only possible at least with Telegram bot API token and Chat ID!"
 }
 
 # if less than 2 arguments supplied, display usage
@@ -30,6 +23,25 @@ if [[ $# -le 1  ]]
 		display_usage
 		exit 1
 fi
+
+
+# if at least 3 arguments supplied, third argument set as branch
+if [[ $# -le 2  ]]
+	then
+	    branch=$3
+		exit 1
+else
+    # get default branch, is set on github in this case
+    branch=$(curl -s https://api.github.com/repos/${owner}/${project} --insecure | grep -Po '(?<="default_branch":)(.*?)(?=,)'| sed "s/\"//g" | sed -e 's/^[[:space:]]*//')
+fi
+
+
+
+# get last commit id
+commit=$(curl -s https://api.github.com/repos/${owner}/${project}/commits/${branch} --insecure | grep -Po '(?<="sha":)(.*?)(?=,)' -m 1 | sed "s/\"//g" | sed -e 's/^[[:space:]]*//' | sed -e 's/[.]*$//')
+# get saved commit
+last_commit=$(cat ${commit_id})
+
 
 # all output to log file
 exec >> ${log}
