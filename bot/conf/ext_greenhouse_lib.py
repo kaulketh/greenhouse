@@ -37,7 +37,7 @@ msg_update = 'Update forced manually, info is available in separate log file.'
 tmp_file = 'cmd.tmp'
 del_tmp = 'rm -r ' + tmp_file
 
-get_pid2 = 'pgrep -lfn greenhouse.py | awk \'{print $1}\''
+get_pid1 = 'pgrep -lfn greenhouse.py | awk \'{print $1}\''
 # get_pid1 = 'ps -o pid,args -C python | awk \'/greenhouse.py/ { print $1 }\''
 get_pid2 = 'pgrep -lfn ext_greenhouse.py | awk \'{print $1}\''
 # get_pid2 = 'ps -o pid,args -C python | awk \'/ext_greenhouse.py/ { print $1 }\''
