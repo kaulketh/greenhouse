@@ -25,11 +25,10 @@ if [[ $# -le 1  ]]
 fi
 
 
-# if at least 3 arguments supplied, third argument set as branch
-if [[ $# -le 2  ]]
-	then
-	    branch=$3
-		exit 1
+# if third  arguments supplied then will set as branch
+if [[ $# -eq 3  ]]
+    then
+        branch=$3
 else
     # get default branch, is set on github in this case
     branch=$(curl -s https://api.github.com/repos/${owner}/${project} --insecure | grep -Po '(?<="default_branch":)(.*?)(?=,)'| sed "s/\"//g" | sed -e 's/^[[:space:]]*//')
@@ -114,9 +113,9 @@ reboot
 # check if an update is required
 if [[ ${commit} == ${last_commit} ]];
 	then
-		curl -s -k https://api.telegram.org/bot${bot}/sendMessage -d text="[$(date +'%F %H:%M:%S')] Update checked, not required, last commit '${commit:0:7}'." -d chat_id=${chat} >> /dev/null
+		curl -s -k https://api.telegram.org/bot${bot}/sendMessage -d text="[$(date +'%F %H:%M:%S')] Update checked, not required, last commit '${commit:0:7}' of branch '$branch'." -d chat_id=${chat} >> /dev/null
 		echo -------------------------------------------------------------------------------------------------------
-		echo "[$(date +'%F %H:%M:%S')] Update checked, not required, current version equals last commit '$last_commit'."
+		echo "[$(date +'%F %H:%M:%S')] Update checked, not required, current version equals last commit '$last_commit' of branch '$branch'."
 		exit 1
 else
 	curl -s -k https://api.telegram.org/bot${bot}/sendMessage -d text="[$(date +'%F %H:%M:%S')] Changes detected or update was forced, starting update." -d chat_id=${chat} >> /dev/null
