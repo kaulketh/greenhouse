@@ -8,12 +8,14 @@
 # https://github.com/timwaizenegger/raspberrypi-examples/blob/master/actor-led-7segment-4numbers/tm1637.py
 # adaptions: Thomas Kaulke, kaulketh@gmail.com
 
+from __future__ import absolute_import
 import math
-import RPi.GPIO as IO
+from conf.greenhouse_config import conf.GPIO as IO
 from time import sleep
 
-IO.setwarnings(False)
-IO.setmode(IO.BOARD)
+# IO.setwarnings(False)
+# IO.setmode(IO.BOARD)
+
 
 """ http://www.uize.com/examples/seven-segment-display.html """
 #               0    1     2     3     4     5     6     7     8     9
