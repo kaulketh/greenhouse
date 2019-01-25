@@ -13,10 +13,7 @@ import math
 import conf.greenhouse_config as conf
 from time import sleep
 
-
 IO = conf.set_pins()
-# IO.setwarnings(False)
-# IO.setmode(IO.BOARD)
 
 
 """ http://www.uize.com/examples/seven-segment-display.html """
