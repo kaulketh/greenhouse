@@ -59,8 +59,8 @@ rm -fv /cmd.tmp
 echo 
 
 # clone from github
-echo "[$(date +'%F %H:%M:%S')] Cloning from repository to '$project' folder..."
-git clone -v https://github.com/${owner}/${project}.git
+echo "[$(date +'%F %H:%M:%S')] Cloning branch ${branch} from repository to '${project}' folder..."
+git clone -v https://github.com/${owner}/${project}.git -b ${branch}
 echo  
 
 #change to cloned project folder
