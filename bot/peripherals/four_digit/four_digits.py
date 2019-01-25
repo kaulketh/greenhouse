@@ -13,8 +13,7 @@ import math
 import conf.greenhouse_config as conf
 from time import sleep
 
-# IO = conf.set_pins()
-IO = conf.GPIO
+IO = conf.set_pins()
 
 
 """ http://www.uize.com/examples/seven-segment-display.html """
