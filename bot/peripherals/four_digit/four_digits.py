@@ -10,7 +10,6 @@
 
 from __future__ import absolute_import
 import math
-# import conf.greenhouse_config as conf
 from conf.greenhouse_config import GPIO as IO
 from time import sleep
 
