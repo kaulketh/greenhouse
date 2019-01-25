@@ -4,21 +4,30 @@
 # author: Thomas Kaulke, kaulketh@gmail.com
 
 from __future__ import absolute_import
-import os
-import sys
 import time
 import RPi.GPIO as GPIO
 import logging
 import conf.access as access
 
 # language selection
-""" for English import greenhouse_lib_english as lib """
+""" for English import greenhouse_lib_english """
 import conf.greenhouse_lib_german as lib
+
 
 # API Token and Chat Id's from external file
 admins = [access.thk, access.annett]
 mainId = access.thk
 token = access.token
+
+
+# keyboard configs
+kb1 = [[lib.group1[1], lib.group1[2], lib.group1[3], lib.group3[1]],
+       [lib.group3[2], lib.group2[1], lib.group2[2], lib.group2[3]],
+       [lib.group1[0], lib.group3[0], lib.group2[0]],
+       [lib.all_channels],
+       [lib.stop_bot, lib.live_stream, lib.reload]
+       ]
+kb2 = [[lib.cancel, lib.stop_bot]]
 
 
 # to use Raspberry Pi board pin numbers
@@ -32,11 +41,19 @@ def reset_pins():
     return
 
 
-# DHT settings
+# 7-segment display settings
+clk_pin = 32
+dio_pin = 22
+""" 1 to 7 """
+brightness = 1
+
+# DHT sensor settings
 DHT_PIN = 4
 temp_format = '{:04.1f}°C'
 hum_format = '{:05.2f}%'
 
+# Raspi core temperature
+core_temp_format = '{0}{1}{4}{2}{3}°C'
 
 # def board pins/channels, refer hardware/raspi_gpio.info
 RELAIS_01 = 29

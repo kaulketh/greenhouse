@@ -5,8 +5,6 @@
 
 from __future__ import absolute_import
 import Adafruit_DHT
-import time
-import sys
 import logging
 import conf.greenhouse_config as conf
 

@@ -44,11 +44,10 @@ cd ${bot_dir}
 
 #remove old tmp, logs and pyc
 echo "[$(date +'%F %H:%M:%S')] Removing some files..."
-rm -fv ${bot_dir}*.pyc
-rm -fv ${bot_dir}conf/*.pyc
-rm -fv ${bot_dir}*.log
-rm -fv ${bot_dir}*.tmp
-rm -f /cmd.tmp
+find ${bot_dir} -name *.pyc -type f -exec rm -fv {} \;
+find ${bot_dir} -name *.log -type f -exec rm -fv {} \;
+find ${bot_dir} -name *.tmp -type f -exec rm -fv {} \;
+rm -fv /cmd.tmp
 echo 
 
 # clone from github
@@ -96,7 +95,7 @@ sleep ${wait}
 
 # reply message about update
 curl -s -k https://api.telegram.org/bot${bot}/sendMessage -d text="[$(date +'%F %H:%M:%S')] Updated, build: ${commit:0:7}, branch: $branch, rebooted" -d chat_id=${chat} >> /dev/null
-echo "[$(date +'%F %H:%M:%S')] Updated finished, branch '$branch', commit ID '${commit:0:7}' saved, system rebooted."
+echo "[$(date +'%F %H:%M:%S')] Update finished, branch '$branch', commit ID '${commit:0:7}' saved, system rebooted."
 reboot
 }
 
@@ -108,6 +107,6 @@ if [[ ${commit} == ${last_commit} ]];
 		echo "[$(date +'%F %H:%M:%S')] Update checked, not required, current version equals last commit '$last_commit'."
 		exit 1
 else
-	curl -s -k https://api.telegram.org/bot${bot}/sendMessage -d text="[$(date +'%F %H:%M:%S')] Changes detected, starting update." -d chat_id=${chat} >> /dev/null
+	curl -s -k https://api.telegram.org/bot${bot}/sendMessage -d text="[$(date +'%F %H:%M:%S')] Changes detected or update was forced, starting update." -d chat_id=${chat} >> /dev/null
 	update
 fi

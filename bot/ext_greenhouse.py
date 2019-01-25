@@ -6,13 +6,10 @@
 from __future__ import absolute_import
 import conf.greenhouse_config as conf
 import conf.ext_greenhouse_lib as lib
+import peripherals.four_digit.display as display
 import sys
 import time
 import telepot
-import os
-import commands
-import subprocess
-import tempfile
 import os
 import logging
 
@@ -85,9 +82,11 @@ def handle(msg):
     # commands
     if command == lib.cmd_restart:
         send_msg(read_cmd('sudo reboot'))
+        display.show_boot()
     elif command == lib.cmd_update:
         read_cmd(lib.update_bot)
         send_msg(lib.msg_update)
+        display.show_update()
     elif command == lib.cmd_logrotate:
         send_msg(read_cmd(lib.logrotate_bot))
     elif command == lib.cmd_all_on:
@@ -138,6 +137,7 @@ conf.reset_pins()
 bot = telepot.Bot(apiToken)
 bot.message_loop(handle)
 logging.info('I am listening...')
+display.show_extended()
 
 
 while 1:
@@ -146,4 +146,9 @@ while 1:
 
     except KeyboardInterrupt:
         logging.warning('Program interrupted')
+        display.show_error()
         exit()
+
+    except Exception:
+        logging.warning('Any error occurs')
+        display.show_error()

@@ -3,12 +3,8 @@
 # author: Thomas Kaulke, kaulketh@gmail.com
 
 from __future__ import absolute_import
-from subprocess import Popen, PIPE, STDOUT, call
-import os
+from subprocess import Popen, PIPE
 import sys
-import commands
-import time
-import RPi.GPIO as GPIO
 import logging
 import conf.greenhouse_config as config
 
