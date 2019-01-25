@@ -63,7 +63,7 @@ def read_cmd(cmd):
 
 # kill the still running greenhouse bot script
 pid1 = read_cmd(lib.get_pid1)
-logging.info('{0} is PID of running default bot, used to kill.'.format(str(pid1)))
+# logging.info('{0} is PID of running default bot, used to kill.'.format(str(pid1)))
 read_cmd('kill -9 {0}'.format(str(pid1)))
 
 
@@ -118,10 +118,9 @@ def handle(msg):
         logging.info('Disable camera module.')
         read_cmd(conf.disable_camera)
         pid2 = read_cmd(lib.get_pid2)
-        logging.info('got own PID to kill me by myself and also prepare the other bot for proper using:{0}'
-                     .format(str(pid2)))
+        # logging.info('Got own PID to kill me and prepare the other bot for proper using: {0}'.format(str(pid2)))
         read_cmd(lib.restart_bot)
-        send_msg('Process killed! Enable default bot... Run with /start')
+        send_msg('Enabled default bot... Run with /start')
         read_cmd('kill -9 ' + pid2)
     elif command == '/start':
         send_msg('Extended input possible, bot is ready to use!')
