@@ -109,35 +109,27 @@ def handle(msg):
     elif command == lib.cmd_all_on:
         send_msg(conf.get_timestamp() + ' all on')
         water_on_group(group_all)
-        check_pins_state()
     elif command == lib.cmd_all_off:
         send_msg('all off.')
         water_off_group(group_all)
-        check_pins_state()
     elif command == lib.cmd_group1_on:
         send_msg(conf.get_timestamp() + 'group 1 on')
         water_on_group(group_one)
-        check_pins_state()
     elif command == lib.cmd_group1_off:
         send_msg('group 1 off')
         water_off_group(group_one)
-        check_pins_state()
     elif command == lib.cmd_group2_on:
         send_msg(conf.get_timestamp() + 'group 2  on')
         water_on_group(group_two)
-        check_pins_state()
     elif command == lib.cmd_group2_off:
         send_msg('group 2 off')
         water_off_group(group_two)
-        check_pins_state()
     elif command == lib.cmd_group3_on:
         send_msg(conf.get_timestamp() + 'group 3 on')
         water_on_group(group_three)
-        check_pins_state()
     elif command == lib.cmd_group3_off:
         send_msg('group 3 off')
         water_off_group(group_three)
-        check_pins_state()
     elif command == lib.cmd_kill:
         # disable camera
         logging.info('Disable camera module.')
@@ -155,6 +147,7 @@ def handle(msg):
         send_msg(lib.msg_help)
     else:
         send_msg(lib.msg_unknown)
+    check_pins_state()
 
 
 conf.set_pins()
