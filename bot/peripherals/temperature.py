@@ -4,7 +4,9 @@
 
 from __future__ import absolute_import
 import conf.greenhouse_config as conf
+import logging
 
+logging.basicConfig(filename=conf.log_file, format=conf.log_format, datefmt=conf.log_date_format, level=logging.INFO)
 
 temp = 0
 one = 0
@@ -28,7 +30,9 @@ def get_temperature():
     two = get_digit(temp, 1)
     three = get_digit(temp, 2)
     four = get_digit(temp, 3)
-    return conf.core_temp_format.format(one, two, three, four, conf.lib.decimal)
+    temp_str = conf.core_temp_format.format(one, two, three, four, conf.lib.decimal)
+    logging.info('Formatted core temperature value to message: ' + temp_str)
+    return temp_str
 
 
 def get_temp_as_digits():
@@ -36,5 +40,6 @@ def get_temp_as_digits():
     round_temp = float('{1}{2}{0}{3}{4}'.format('.', one, two, three, four))
     result = str(int(round(round_temp)))
     """ 1.digit,  2.digit and '°' and 'C' """
+    logging.info('Rounded core temperature value for 4-digit display: ' + result)
     return [int(get_digit(int(result), 0)), int(get_digit(int(result), 1)), 36, 12]
 

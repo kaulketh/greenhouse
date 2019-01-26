@@ -268,8 +268,16 @@ def water_group(update, group):
 def message_values(update):
     time.sleep(3)
     dht.get_values()
-    temp = (lib.temp + lib.colon_space + conf.temp_format).format(dht.temperature)
-    hum = (lib.hum + lib.colon_space + conf.hum_format).format(dht.humidity)
+    if dht.temperature == 0:
+        temp = (lib.temp + lib.colon_space + '------')
+    else:
+        temp = (lib.temp + lib.colon_space + conf.temp_format).format(dht.temperature)
+
+    if dht.humidity == 0:
+        hum = (lib.hum + lib.colon_space + '------')
+    else:
+        hum = (lib.hum + lib.colon_space + conf.hum_format).format(dht.humidity)
+
     core_temp = (lib.core + lib.colon_space + core.get_temperature())
     update.message.reply_text(lib.msg_temperature.format(
         start_time(), temp, hum, core_temp), parse_mode=ParseMode.MARKDOWN)
