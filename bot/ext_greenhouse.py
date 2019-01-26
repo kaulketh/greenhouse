@@ -81,9 +81,9 @@ def check_pins_state():
     for pin in group_all:
         pins_state = conf.get_pin_state(pin)
         if pins_state:
-            display.show_off
+            display.show_off()
         else:
-            display.show_on
+            display.show_on()
     return
 
 
