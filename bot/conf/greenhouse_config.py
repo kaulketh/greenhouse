@@ -114,3 +114,9 @@ def get_timestamp():
 
 def get_timestamp_line():
     return time.strftime('`[%d.%m.%Y %H:%M:%S]\n---------------------\n`')
+
+
+# gets the state of pin, if 0 is switched on
+def get_pin_state(pin):
+    GPIO.setup(pin, GPIO.OUT)
+    return GPIO.input(pin)

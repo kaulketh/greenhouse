@@ -17,6 +17,8 @@ logging.basicConfig(filename=conf.log_file, format=conf.log_format,
                     datefmt=conf.log_date_format, level=logging.INFO)
 
 # def board pins/channels, refer hardware/raspi_gpio.info
+pins_state = True
+
 relais01 = conf.RELAIS_01
 relais02 = conf.RELAIS_02
 relais03 = conf.RELAIS_03
@@ -74,6 +76,17 @@ def send_msg(message):
     return
 
 
+def check_pins_state():
+    global pins_state
+    for pin in group_all:
+        pins_state = conf.get_pin_state(pin)
+        if pins_state:
+            display.show_off
+        else:
+            display.show_on
+    return
+
+
 def handle(msg):
     command = msg['text']
 
@@ -92,27 +105,35 @@ def handle(msg):
     elif command == lib.cmd_all_on:
         send_msg(conf.get_timestamp() + ' all on')
         water_on_group(group_all)
+        check_pins_state()
     elif command == lib.cmd_all_off:
         send_msg('all off.')
         water_off_group(group_all)
+        check_pins_state()
     elif command == lib.cmd_group1_on:
         send_msg(conf.get_timestamp() + 'group 1 on')
         water_on_group(group_one)
+        check_pins_state()
     elif command == lib.cmd_group1_off:
         send_msg('group 1 off')
         water_off_group(group_one)
+        check_pins_state()
     elif command == lib.cmd_group2_on:
         send_msg(conf.get_timestamp() + 'group 2  on')
         water_on_group(group_two)
+        check_pins_state()
     elif command == lib.cmd_group2_off:
         send_msg('group 2 off')
         water_off_group(group_two)
+        check_pins_state()
     elif command == lib.cmd_group3_on:
         send_msg(conf.get_timestamp() + 'group 3 on')
         water_on_group(group_three)
+        check_pins_state()
     elif command == lib.cmd_group3_off:
         send_msg('group 3 off')
         water_off_group(group_three)
+        check_pins_state()
     elif command == lib.cmd_kill:
         # disable camera
         logging.info('Disable camera module.')

@@ -14,6 +14,7 @@ group1 = [12, 1, 34, 3]
 group2 = [12, 6, 34, 8]
 group3 = [12, 4, 34, 5]
 all_channels = [38, 10, 22, 22]
+on = [38, 0, 24, 38]
 off = [38, 0, 15, 15]
 boot = [11, 26, 26, 39]
 error = [38, 14, 28, 28]
@@ -118,6 +119,12 @@ def show_group(group):
 def show_off():
     disable_colon(True)
     display.show(off)
+    return
+
+
+def show_on():
+    disable_colon(True)
+    display.show(on)
     return
 
 
