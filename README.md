@@ -178,7 +178,9 @@ cd ~/wiringPi
 ```
 
 * [how to to install wiringpi](http://wiringpi.com/download-and-install/)
+
 ---
+
 ### 11. Add scripts in pi user directory
 ##### e.g in this case in scripts/TelegramBot
 
@@ -204,7 +206,9 @@ sudo reboot
 ```
 
 * [how to](https://www.dexterindustries.com/howto/run-a-program-on-your-raspberry-pi-at-startup/#init)
+
 ---
+
 ### 13. Additional functionality
 ##### Add as required or wished
 
