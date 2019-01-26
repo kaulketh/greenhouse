@@ -80,12 +80,13 @@ def check_pins_state():
     for pin in group_all:
         pins_state = conf.get_pin_state(pin)
         logging.warning(str(pin) + ': ' + str(pins_state))
-        if pins_state:
-            display.show_off()
-            logging.warning('Display Off')
-        else:
+        if not pins_state:
             display.show_on()
             logging.warning('Display On')
+            break
+        else:
+            display.show_off()
+            logging.warning('Display Off')
     return
 
 
