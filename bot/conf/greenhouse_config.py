@@ -15,7 +15,8 @@ import conf.greenhouse_lib_german as lib
 
 
 # API Token and Chat Id's from external file
-admins = [access.thk]  # , access.annett]
+# admins = [access.thk, access.annett]
+admins = []
 mainId = access.thk
 token = access.token
 

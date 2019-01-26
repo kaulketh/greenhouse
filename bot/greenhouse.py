@@ -82,13 +82,9 @@ markup2 = ReplyKeyboardMarkup(conf.kb2, resize_keyboard=True, one_time_keyboard=
 
 # start bot
 def start(bot, update):
-    logging.info('Bot started.')
-    cam_on()
-    display.show_run()
     global user_id
     try:
         user_id = update.message.from_user.id
-
     except (NameError, AttributeError):
         try:
             user_id = update.inline_query.from_user.id
@@ -109,8 +105,10 @@ def start(bot, update):
             update.message.from_user.first_name, update.message.chat_id), parse_mode=ParseMode.MARKDOWN)
         return ConversationHandler.END
     else:
-        display.show_ready()
-        message_values(update)
+        display.show_run()
+        logging.info('Bot started.')
+        cam_on()
+        message_values(update) & display.show_ready()
         update.message.reply_text('{0}{1}{2}'.format(
             lib.msg_welcome.format(update.message.from_user.first_name), lib.line_break, lib.msg_choice),
             parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
