@@ -102,7 +102,7 @@ def start(bot, update):
                     return ConversationHandler.END
 
     if user_id not in LIST_OF_ADMINS:
-        display.show_off()
+        display.show_stop()
         logging.info('Not allowed access by: {0} - {1},{2}'.format(
             str(user_id), update.message.from_user.last_name, update.message.from_user.first_name))
         update.message.reply_text(lib.private_warning.format(
@@ -266,6 +266,7 @@ def water_group(update, group):
 
 # humidity and temperature
 def message_values(update):
+    """to avoid refresh intervals shorter than 3 seconds"""
     time.sleep(3)
     dht.get_values()
     if dht.temperature == 0:
