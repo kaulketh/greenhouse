@@ -32,9 +32,11 @@ Name: 	ThK1220RealGreenhouse
 TOKEN: 	<api_token>
 ChatID:	<chat_id>
 ```
+
 * [Web](https://telegram.org/)
 * [Ios](https://itunes.apple.com/de/app/telegram-messenger/id686449807?mt=8)
 * [Android](https://play.google.com/store/apps/details?id=org.telegram.messenger&hl=de)
+
 ---
 
 ### 2. Raspberry Pi OS image
@@ -45,6 +47,7 @@ ChatID:	<chat_id>
     * For headless setup, SSH can be enabled by placing a file named "ssh", without any extension, onto the boot partition of the SD card.
 
 ---
+
 ### 3. Boot raspi and connect via ssh
 
 ---
@@ -67,6 +70,7 @@ sudo reboot
 _**Retest and doublecheck network conection and settings before executing next steps!!!!!**_
 
 ---
+
 ### 5. Make updates and adapt main config
 
 ```
@@ -104,6 +108,7 @@ sudo nano /etc/ddclient.conf
 * [how-to dyndns client with ssl](https://hexaju.wordpress.com/2013/03/20/raspberry-pi-as-dyndns-client-with-ssl/)
  
 ---
+
 ### 7. Install and configure remote ftp if required
 ```
 sudo apt-get install pure-ftpd
@@ -134,7 +139,9 @@ sudo service motion start
 
 * [How-to 1 live stream](https://tutorials-raspberrypi.de/raspberry-pi-ueberwachungskamera-livestream-einrichten/)
 * [How-to 2 live stream](https://www.datenreise.de/raspberry-pi-ueberwachungskamera-livestream/)
+
 ---
+
 ### 9. Configure port forwarding in router accordingly the dns and port settings
 ##### [my live url](http://greenhouse.my.to:8082/)
 
@@ -171,7 +178,9 @@ cd ~/wiringPi
 ```
 
 * [how to to install wiringpi](http://wiringpi.com/download-and-install/)
+
 ---
+
 ### 11. Add scripts in pi user directory
 ##### e.g in this case in scripts/TelegramBot
 
@@ -197,7 +206,9 @@ sudo reboot
 ```
 
 * [how to](https://www.dexterindustries.com/howto/run-a-program-on-your-raspberry-pi-at-startup/#init)
+
 ---
+
 ### 13. Additional functionality
 ##### Add as required or wished
 
