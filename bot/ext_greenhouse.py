@@ -17,6 +17,8 @@ logging.basicConfig(filename=conf.log_file, format=conf.log_format,
                     datefmt=conf.log_date_format, level=logging.INFO)
 
 # def board pins/channels, refer hardware/raspi_gpio.info
+pins_state = False
+
 relais01 = conf.RELAIS_01
 relais02 = conf.RELAIS_02
 relais03 = conf.RELAIS_03
@@ -76,23 +78,22 @@ def send_msg(message):
 
 def check_pins_state():
     global pins_state
-    pins_state = False
     for pin in group_all:
-        pins_state = conf.get_pin_state(pin)
-        logging.warning(str(pin) + ': ' + str(pins_state))
-        if not pins_state:
+        if not conf.get_pin_state(pin):
             display.show_on()
-            logging.warning('Display On')
+            pins_state = False
             break
         else:
             display.show_off()
-            logging.warning('Display Off')
+            pins_state = True
     return
 
 
 def handle(msg):
-    command = msg['text']
+    if pins_state:
+        display.show_extended()
 
+    command = msg['text']
     logging.info('Got command: %s' % command)
 
     # commands
