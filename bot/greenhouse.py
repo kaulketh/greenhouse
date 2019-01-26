@@ -107,8 +107,9 @@ def start(bot, update):
     else:
         display.show_run()
         logging.info('Bot started.')
+        message_values(update)
         cam_on()
-        message_values(update) & display.show_ready()
+        display.show_ready()
         update.message.reply_text('{0}{1}{2}'.format(
             lib.msg_welcome.format(update.message.from_user.first_name), lib.line_break, lib.msg_choice),
             parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
