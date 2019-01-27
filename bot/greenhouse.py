@@ -11,6 +11,7 @@ import time
 import peripherals.dht.dht as dht
 import peripherals.temperature as core
 import peripherals.four_digit.display as display
+import peripherals.oled.display as oled
 import conf.greenhouse_config as conf
 from telegram import (ReplyKeyboardMarkup,
                       ReplyKeyboardRemove, ParseMode)
@@ -46,6 +47,8 @@ for member in all_groups:
     conf.switch_off(member)
 
 display.show_standby()
+logging.info('Start oled display.')
+oled.start_animation()
 
 
 # enable camera module

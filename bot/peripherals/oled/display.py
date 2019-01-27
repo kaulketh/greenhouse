@@ -72,7 +72,7 @@ def animate():
     oled.cls()
 
 
-if __name__ == '__main__':
+def start_animation():
     while 1:
 
         try:
