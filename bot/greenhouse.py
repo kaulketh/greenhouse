@@ -45,7 +45,6 @@ logging.info('Switch all off at start.')
 for member in all_groups:
     conf.switch_off(member)
 
-
 display.show_standby()
 
 
