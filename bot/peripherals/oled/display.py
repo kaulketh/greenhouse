@@ -25,11 +25,12 @@ c2 = u'\xb0'
 
 
 def get_last_commit():
-    return open("/lastGreenhouseCommit.id").read()[0:6]
+    commit = open("/lastGreenhouseCommit.id").read()
+    return commit[0:6]
 
 
 def get_temp():
-    temp_str = core.get_temperature
+    temp_str = core.get_temperature()
     one = temp_str.__getitem__(0)
     two = temp_str.__getitem__(1)
     temp_str = '{0}{1}{2}{3}'.format(one, two, c0, 'C')
