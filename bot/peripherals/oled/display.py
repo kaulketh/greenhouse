@@ -3,6 +3,7 @@
 # author: Thomas Kaulke, kaulketh@gmail.com
 
 # from __future__ import absolute_import
+import sys
 import thread
 from time import sleep
 from PIL import Image, ImageFont
@@ -39,7 +40,7 @@ def get_core_temp():
 
 # Fonts
 # font = ImageFont.load_default()
-font = ImageFont.truetype('arial.ttf', 12)
+# font = ImageFont.truetype('arial.ttf', 12)
 font2 = ImageFont.truetype('FreeSans.ttf', 12)
 
 
@@ -48,7 +49,7 @@ def animate():
     oled.cls()
     oled.display()
     # header
-    draw.text((18, 0), "GREENHOUSE", font=font, fill=1)
+    draw.text((18, 0), "GREENHOUSE", font=font2, fill=1)
     oled.display()
     sleep(1)
     # line
