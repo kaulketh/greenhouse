@@ -49,16 +49,16 @@ def animate():
     oled.display()
     # header
     draw.text((18, 0), "GREENHOUSE", font=font, fill=1)
-    # oled.display()
-    # sleep(1)
+    oled.display()
+    sleep(1)
     # line
     draw.line((oled.width+1, 1, oled.width-1, 1), fill=1)
-    # oled.display()
-    # sleep(1)
+    oled.display()
+    sleep(1)
     # core temp
     draw.text((0, 18), "Core temperature: " + get_core_temp(), font=font2, fill=1)
-    # oled.display()
-    # sleep(1)
+    oled.display()
+    sleep(1)
     # build
     draw.text((0, 36), "Build : " + get_last_commit(), font=font2, fill=1)
     oled.display()
