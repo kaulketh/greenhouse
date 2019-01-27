@@ -89,9 +89,7 @@ echo "[$(date +'%F %H:%M:%S')] Setting owner and permissions..."
 chown -v root:root /etc/motion/motion.conf
 chown -v root:root /etc/dhcpcd.conf
 chown -Rv root:root ${bot_dir}
-find ${bot_dir} -name *.py -type f -exec chmod -v +x {} \;
-find ${bot_dir} -name *.sh -type f -exec chmod -v +x {} \;
-# chmod -Rv +x ${bot_dir}
+chmod -Rv +x ${bot_dir}
 echo 
 
 # update start script in /etc/init.d/
