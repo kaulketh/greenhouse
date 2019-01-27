@@ -13,8 +13,6 @@ import math
 import conf.greenhouse_config as conf
 from time import sleep
 
-IO = conf.set_pins()
-
 
 """ http://www.uize.com/examples/seven-segment-display.html """
 #               0    1     2     3     4     5     6     7     8     9
@@ -36,6 +34,8 @@ STARTADDR = 0xC0
 
 
 class TM1637:
+    global IO
+    IO = conf.set_pins()
     __double_point = False
     __clk_pin = 0
     __data_pin = 0
