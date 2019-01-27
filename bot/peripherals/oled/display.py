@@ -40,8 +40,8 @@ def get_core_temp():
 
 # Fonts
 # font = ImageFont.load_default()
-# font = ImageFont.truetype('arial.ttf', 12)
-font2 = ImageFont.truetype('FreeSans.ttf', 12)
+font = ImageFont.truetype('fonts/arial.ttf', 14)
+font2 = ImageFont.truetype('fonts/FreeSans.ttf', 10)
 
 
 def animate():
@@ -49,7 +49,7 @@ def animate():
     oled.cls()
     oled.display()
     # header
-    draw.text((18, 0), "GREENHOUSE", font=font2, fill=1)
+    draw.text((18, 0), "GREENHOUSE", font=font, fill=1)
     oled.display()
     sleep(1)
     # line
