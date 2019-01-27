@@ -3,6 +3,7 @@
 # author: Thomas Kaulke, kaulketh@gmail.com
 
 from __future__ import absolute_import
+import thread
 from time import sleep
 from PIL import Image, ImageFont
 from peripherals.oled.lib_oled96 import Ssd1306
@@ -42,7 +43,7 @@ font = ImageFont.truetype('arial.ttf', 12)
 font2 = ImageFont.truetype('FreeSans.ttf', 12)
 
 
-def animate():  # (temp, temp_value, hum, hum_value, time):
+def animate():
     # Display clear
     oled.cls()
     oled.display()
@@ -75,13 +76,13 @@ if __name__ == '__main__':
     while 1:
 
         try:
-            animate()
+            thread.start_new_thread(animate, ())
 
         except KeyboardInterrupt:
-            logging.error('Oled interrupted.')
+            logging.error('Oled thread interrupted.')
             oled.cls()
             exit()
 
         except:
-            logging.error('Oled: Any error or exception occurred!')
-            oled.cls()
+            logging.error('Oled thread: Any error or exception occurred!')
+            oled.cls
