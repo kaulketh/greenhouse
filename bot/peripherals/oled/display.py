@@ -38,9 +38,9 @@ def get_temp():
 
 
 # Fonts
-font = ImageFont.load_default()
-# font = ImageFont.truetype('arial.ttf', 12)
-# font2 = ImageFont.truetype('FreeSans.ttf', 12)
+# font = ImageFont.load_default()
+font = ImageFont.truetype('arial.ttf', 12)
+font2 = ImageFont.truetype('FreeSans.ttf', 12)
 
 
 def animate():
@@ -60,7 +60,7 @@ def animate():
     # oled.display()
     # sleep(1)
     # build
-    draw.text((0, 36), "Build : " + get_last_commit(), font=font, fill=1)
+    draw.text((0, 36), "Build : " + get_last_commit(), font=font2, fill=1)
     oled.display()
     sleep(10)
     # oled.cls()
@@ -72,11 +72,15 @@ def animate():
     # oled.cls()
 
 
+def run():
+    thread.start_new_thread(animate, ())
+
+
 def start_animation():
     while 1:
 
         try:
-            thread.start_new_thread(animate, ())
+            run()
 
         except KeyboardInterrupt:
             logging.error('Oled thread interrupted.')
@@ -85,4 +89,3 @@ def start_animation():
 
         except:
             logging.error('Oled thread: Any error or exception occurred!')
-            oled.cls
