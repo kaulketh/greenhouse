@@ -72,15 +72,15 @@ def animate():
     # oled.cls()
 
 
-def run():
+def run_in_separate_thread():
     thread.start_new_thread(animate, ())
 
 
-def start_animation():
+if __name__ == '__main__':
     while 1:
 
         try:
-            run()
+            animate()
 
         except KeyboardInterrupt:
             logging.error('Oled thread interrupted.')
