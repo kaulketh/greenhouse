@@ -38,9 +38,9 @@ def get_temp():
 
 
 # Fonts
-# font = ImageFont.load_default()
-font = ImageFont.truetype('arial.ttf', 12)
-font2 = ImageFont.truetype('FreeSans.ttf', 12)
+font = ImageFont.load_default()
+# font = ImageFont.truetype('arial.ttf', 12)
+# font2 = ImageFont.truetype('FreeSans.ttf', 12)
 
 
 def animate():
@@ -48,11 +48,11 @@ def animate():
     oled.cls()
     oled.display()
     # header
-    draw.text((18, 0), "GREENHOUSE", font=font2, fill=1)
+    draw.text((18, 0), "GREENHOUSE", font=font, fill=1)
     oled.display()
     sleep(1)
     # line
-    draw.line((oled.width+1, oled.height+1, oled.width-1, oled.height-1), fill=1)
+    draw.line((oled.width+1, 1, oled.width-1, 1), fill=1)
     oled.display()
     sleep(1)
     # core temp
@@ -63,13 +63,13 @@ def animate():
     draw.text((0, 36), "Build : " + get_last_commit(), font=font, fill=1)
     oled.display()
     sleep(10)
-    oled.cls()
+    # oled.cls()
     # image inverted
-    draw.rectangle((32, 0, 95, 63), outline=1, fill=1)
-    draw.bitmap((32, 0), Image.open('pi_logo.png'), fill=0)
-    oled.display()
-    sleep(3)
-    oled.cls()
+    # draw.rectangle((32, 0, 95, 63), outline=1, fill=1)
+    # draw.bitmap((32, 0), Image.open('pi_logo.png'), fill=0)
+    # oled.display()
+    # sleep(3)
+    # oled.cls()
 
 
 def start_animation():
