@@ -28,9 +28,9 @@ def get_last_commit():
 
 
 def get_core_temp():
-    temp_str = int(open('/sys/class/thermal/thermal_zone0/temp').read())
-    one = temp_str.__getitem__(0)
-    two = temp_str.__getitem__(1)
+    temp = int(open('/sys/class/thermal/thermal_zone0/temp').read())
+    one = str(temp).__getitem__(0)
+    two = str(temp).__getitem__(1)
     temp_str = '{0}{1}{2}{3}'.format(one, two, c0, 'C')
     return temp_str
 
