@@ -14,7 +14,7 @@ i2cbus = SMBus(1)
 oled = Ssd1306(i2cbus)
 draw = oled.canvas
 c = '\''
-left = 3
+left = 5
 top = 7
 switch_time = 30
 
