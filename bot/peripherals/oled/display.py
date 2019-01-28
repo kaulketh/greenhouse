@@ -23,9 +23,7 @@ switch_time = 30
 
 def get_last_commit():
     commit = open("/lastGreenhouseCommit.id").read()
-    for c in range(0, 6):
-        commit[c] += ' '
-    return commit
+    return commit[0:10].replace("", " ")[1: -1]
 
 
 def get_core_temp():
