@@ -13,7 +13,7 @@ from smbus import SMBus
 i2cbus = SMBus(1)
 oled = Ssd1306(i2cbus)
 draw = oled.canvas
-c0 = '\''
+c0 = ' \''
 c1 = u'°'
 c2 = u'\xb0'
 padding = 7
@@ -23,7 +23,9 @@ switch_time = 30
 
 def get_last_commit():
     commit = open("/lastGreenhouseCommit.id").read()
-    return '       ' + commit[0:7]
+    for c in range(0, 6):
+        commit[c] += ' '
+    return commit
 
 
 def get_core_temp():
