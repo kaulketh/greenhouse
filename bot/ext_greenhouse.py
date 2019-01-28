@@ -104,6 +104,7 @@ def handle(msg):
         read_cmd(lib.update_bot)
         send_msg(lib.msg_update)
         display.show_update()
+        time.sleep(3)
     elif command == lib.cmd_logrotate:
         send_msg(read_cmd(lib.logrotate_bot))
     elif command == lib.cmd_all_on:
