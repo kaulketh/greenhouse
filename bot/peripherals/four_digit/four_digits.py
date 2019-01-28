@@ -8,12 +8,11 @@
 # https://github.com/timwaizenegger/raspberrypi-examples/blob/master/actor-led-7segment-4numbers/tm1637.py
 # adaptions: Thomas Kaulke, kaulketh@gmail.com
 
+from __future__ import absolute_import
 import math
-import RPi.GPIO as IO
+import conf.greenhouse_config as conf
 from time import sleep
 
-IO.setwarnings(False)
-IO.setmode(IO.BOARD)
 
 """ http://www.uize.com/examples/seven-segment-display.html """
 #               0    1     2     3     4     5     6     7     8     9
@@ -24,8 +23,8 @@ hex_digits = [0x3f, 0x06, 0x5b, 0x4f, 0x66, 0x6d, 0x7d, 0x07, 0x7f, 0x6f,
               0x1f, 0x76, 0x38, 0x06, 0x54, 0x3f, 0x5c, 0x73, 0x50, 0x6d,
               # U    V     Y     Z     -     _     °     '    empty  t
               0x3e, 0x3e, 0x6e, 0x5b, 0x40, 0x08, 0x63, 0x02, 0x00, 0x78,
-              # u     /    ---------animation clockwise-----------
-              0x1c, 0x52, 0x40, 0x20, 0x01, 0x02, 0x04, 0x08, 0x10]
+              # u     /    ---------animation clockwise-----------   c
+              0x1c, 0x52, 0x40, 0x20, 0x01, 0x02, 0x04, 0x08, 0x10, 0x58]
 
 
 ADDR_AUTO = 0x40
@@ -35,6 +34,8 @@ STARTADDR = 0xC0
 
 
 class TM1637:
+    global IO
+    IO = conf.set_pins()
     __double_point = False
     __clk_pin = 0
     __data_pin = 0

@@ -39,11 +39,11 @@ def start_time():
 
 
 # switch all off at start, set all used GPIO=high
-logging.info('Enable bot, set all used GPIO to HIGH.')
-conf.reset_pins()
+logging.info('Enable bot, setup GPIO pins.')
+conf.set_pins()
+logging.info('Switch all off at start.')
 for member in all_groups:
     conf.switch_off(member)
-
 
 display.show_standby()
 
@@ -81,13 +81,9 @@ markup2 = ReplyKeyboardMarkup(conf.kb2, resize_keyboard=True, one_time_keyboard=
 
 # start bot
 def start(bot, update):
-    logging.info('Bot started.')
-    cam_on()
-    display.show_run()
     global user_id
     try:
         user_id = update.message.from_user.id
-
     except (NameError, AttributeError):
         try:
             user_id = update.inline_query.from_user.id
@@ -101,15 +97,18 @@ def start(bot, update):
                     return ConversationHandler.END
 
     if user_id not in LIST_OF_ADMINS:
-        display.show_off()
+        display.show_stop()
         logging.info('Not allowed access by: {0} - {1},{2}'.format(
             str(user_id), update.message.from_user.last_name, update.message.from_user.first_name))
         update.message.reply_text(lib.private_warning.format(
             update.message.from_user.first_name, update.message.chat_id), parse_mode=ParseMode.MARKDOWN)
         return ConversationHandler.END
     else:
-        display.show_ready()
+        display.show_run()
+        logging.info('Bot started.')
         message_values(update)
+        cam_on()
+        display.show_ready()
         update.message.reply_text('{0}{1}{2}'.format(
             lib.msg_welcome.format(update.message.from_user.first_name), lib.line_break, lib.msg_choice),
             parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
@@ -265,10 +264,19 @@ def water_group(update, group):
 
 # humidity and temperature
 def message_values(update):
+    """to avoid refresh intervals shorter than 3 seconds"""
     time.sleep(3)
     dht.get_values()
-    temp = (lib.temp + lib.colon_space + conf.temp_format).format(dht.temperature)
-    hum = (lib.hum + lib.colon_space + conf.hum_format).format(dht.humidity)
+    if dht.temperature == 0:
+        temp = (lib.temp + lib.colon_space + '------')
+    else:
+        temp = (lib.temp + lib.colon_space + conf.temp_format).format(dht.temperature)
+
+    if dht.humidity == 0:
+        hum = (lib.hum + lib.colon_space + '------')
+    else:
+        hum = (lib.hum + lib.colon_space + conf.hum_format).format(dht.humidity)
+
     core_temp = (lib.core + lib.colon_space + core.get_temperature())
     update.message.reply_text(lib.msg_temperature.format(
         start_time(), temp, hum, core_temp), parse_mode=ParseMode.MARKDOWN)

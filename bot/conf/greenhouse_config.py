@@ -31,14 +31,14 @@ kb2 = [[lib.cancel, lib.stop_bot]]
 
 
 # to use Raspberry Pi board pin numbers
-def reset_pins():
-    logging.info('Setup GPIO mode.')
+def set_pins():
     GPIO.setmode(GPIO.BOARD)
+    logging.info('Set GPIO mode: GPIO.BOARD')
     # to use GPIO instead board pin numbers, then please adapt pin definition
     # GPIO.setmode(GPIO.BCM)
     # comment if warnings required
     GPIO.setwarnings(False)
-    return
+    return GPIO
 
 
 # 7-segment display settings
@@ -114,3 +114,9 @@ def get_timestamp():
 
 def get_timestamp_line():
     return time.strftime('`[%d.%m.%Y %H:%M:%S]\n---------------------\n`')
+
+
+# gets the state of pin, if 0 is switched on
+def get_pin_state(pin):
+    GPIO.setup(pin, GPIO.OUT)
+    return GPIO.input(pin)

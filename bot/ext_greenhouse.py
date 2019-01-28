@@ -17,6 +17,8 @@ logging.basicConfig(filename=conf.log_file, format=conf.log_format,
                     datefmt=conf.log_date_format, level=logging.INFO)
 
 # def board pins/channels, refer hardware/raspi_gpio.info
+pins_state = False
+
 relais01 = conf.RELAIS_01
 relais02 = conf.RELAIS_02
 relais03 = conf.RELAIS_03
@@ -63,7 +65,7 @@ def read_cmd(cmd):
 
 # kill the still running greenhouse bot script
 pid1 = read_cmd(lib.get_pid1)
-logging.info('{0} is PID of running default bot, use to kill.'.format(str(pid1)))
+# logging.info('{0} is PID of running default bot, used to kill.'.format(str(pid1)))
 read_cmd('kill -9 {0}'.format(str(pid1)))
 
 
@@ -74,9 +76,24 @@ def send_msg(message):
     return
 
 
-def handle(msg):
-    command = msg['text']
+def check_pins_state():
+    global pins_state
+    for pin in group_all:
+        if not conf.get_pin_state(pin):
+            display.show_on()
+            pins_state = False
+            break
+        else:
+            display.show_off()
+            pins_state = True
+    return
 
+
+def handle(msg):
+    if pins_state:
+        display.show_extended()
+
+    command = msg['text']
     logging.info('Got command: %s' % command)
 
     # commands
@@ -87,6 +104,7 @@ def handle(msg):
         read_cmd(lib.update_bot)
         send_msg(lib.msg_update)
         display.show_update()
+        time.sleep(3)
     elif command == lib.cmd_logrotate:
         send_msg(read_cmd(lib.logrotate_bot))
     elif command == lib.cmd_all_on:
@@ -118,10 +136,9 @@ def handle(msg):
         logging.info('Disable camera module.')
         read_cmd(conf.disable_camera)
         pid2 = read_cmd(lib.get_pid2)
-        logging.info('got own PID to kill me by myself and also prepare the other bot for proper using:{0}'
-                     .format(str(pid2)))
+        # logging.info('Got own PID to kill me and prepare the other bot for proper using: {0}'.format(str(pid2)))
         read_cmd(lib.restart_bot)
-        send_msg('Process killed! Enable default bot... Run with /start')
+        send_msg('Enabled default bot... Run with /start')
         read_cmd('kill -9 ' + pid2)
     elif command == '/start':
         send_msg('Extended input possible, bot is ready to use!')
@@ -131,9 +148,10 @@ def handle(msg):
         send_msg(lib.msg_help)
     else:
         send_msg(lib.msg_unknown)
+    check_pins_state()
 
 
-conf.reset_pins()
+conf.set_pins()
 bot = telepot.Bot(apiToken)
 bot.message_loop(handle)
 logging.info('I am listening...')

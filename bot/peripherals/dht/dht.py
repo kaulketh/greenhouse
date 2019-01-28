@@ -18,7 +18,7 @@ logging.basicConfig(filename=conf.log_file, format=conf.log_format, datefmt=conf
 def get_values():
     global temperature
     global humidity
-
+    logging.info('Try to get temperature and humidity values.')
     humidity, temperature = Adafruit_DHT.read_retry(sensor, pin)
 
     if humidity is not None and temperature is not None:
@@ -26,7 +26,7 @@ def get_values():
             lib.temp, lib.colon_space, conf.temp_format, lib.space, lib.hum, conf.hum_format))
                      .format(temperature, humidity))
     else:
-        logging.info('Failed to get temperature and humidity values. Set to \'0\'!')
+        logging.warning('Failed to get temperature and humidity values. Set to \'0\'!')
         humidity = 0
         temperature = 0 
     return
