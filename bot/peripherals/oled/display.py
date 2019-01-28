@@ -24,7 +24,7 @@ top = padding
 
 def get_last_commit():
     commit = open("/lastGreenhouseCommit.id").read()
-    return commit[0:15]
+    return '       ' + commit[0:7]
 
 
 def get_core_temp():
@@ -53,13 +53,13 @@ def animate():
     # core temp
     draw.text((0, top + 45), "Core temperature : " + get_core_temp(), font=font2, fill=1)
     oled.display()
-    sleep(10)
+    sleep(15)
     oled.cls()
     # image inverted
     draw.rectangle((32, 0, 95, 63), outline=1, fill=1)
     draw.bitmap((32, 0), Image.open('/home/pi/scripts/TelegramBot/peripherals/oled/pi_logo.png'), fill=0)
     oled.display()
-    sleep(2)
+    sleep(3)
 
 
 def show_state():
@@ -72,11 +72,11 @@ def show_state():
     """
     cmd = "hostname -I | cut -d\' \' -f1"
     ip = subprocess.check_output(cmd, shell=True)
-    cmd = "top -bn1 | grep load | awk '{printf \"CPU Load: %.2f\", $(NF-2)}'"
+    cmd = "top -bn1 | grep load | awk '{printf \"CPU Load : %.2f\", $(NF-2)}'"
     cpu = subprocess.check_output(cmd, shell=True)
-    cmd = "free -m | awk 'NR==2{printf \"Mem: %s/%sMB %.0f%%\", $3,$2,$3*100/$2 }'"
+    cmd = "free -m | awk 'NR==2{printf \"Mem : %s / %s MB %.0f%%\", $3,$2,$3*100/$2 }'"
     mem_usage = subprocess.check_output(cmd, shell=True)
-    cmd = "df -h | awk '$NF==\"/\"{printf \"Disk: %d/%dGB %s\", $3,$2,$5}'"
+    cmd = "df -h | awk '$NF==\"/\"{printf \"Disk : %d / %d GB %s\", $3,$2,$5}'"
     disk = subprocess.check_output(cmd, shell=True)
 
     # Write the lines of text.
@@ -85,7 +85,7 @@ def show_state():
     draw.text((x, top + 30), str(mem_usage), font=font2, fill=255)
     draw.text((x, top + 45), str(disk), font=font2, fill=255)
     oled.display()
-    sleep(10)
+    sleep(15)
 
 
 def run_in_separate_thread():
