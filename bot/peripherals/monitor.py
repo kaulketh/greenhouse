@@ -9,9 +9,7 @@ import sys
 bot = sys.argv[1]
 chat = sys.argv[2]
 temp_limit = 75
-temp = 0
-message = 'Warning, you RaspberryPi reaches a temperature over {}°C! ' \
-          'Current temperature is about {}°C!'.format(str(temp_limit), temp)
+message = 'Warning, you Greenhouse Raspi reaches a temperature over {}°C! Current temperature is about {}°C!'
 
 
 def measure_temp():
@@ -30,5 +28,5 @@ def send_msg(msg):
 
 while True:
     if int(measure_temp()) > temp_limit:
-        send_msg(message)
+        send_msg(message.format(str(temp_limit), str(temp)))
     time.sleep(10)
