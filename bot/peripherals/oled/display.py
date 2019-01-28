@@ -8,12 +8,7 @@ import subprocess
 from time import sleep
 from PIL import Image, ImageFont, ImageDraw
 from lib_oled96 import Ssd1306
-import conf.greenhouse_config as conf
-# import peripherals.temperature as core
 from smbus import SMBus
-import logging
-
-logging.basicConfig(filename=conf.log_file, format=conf.log_format, datefmt=conf.log_date_format, level=logging.INFO)
 
 # Display setup, methods and members
 """ 0 = Raspberry Pi 1, 1 = Raspberry Pi > 1 """
@@ -23,11 +18,13 @@ draw = oled.canvas
 c0 = '\''
 c1 = u'°'
 c2 = u'\xb0'
+padding = 7
+top = padding
 
 
 def get_last_commit():
     commit = open("/lastGreenhouseCommit.id").read()
-    return commit[0:6]
+    return commit[0:15]
 
 
 def get_core_temp():
@@ -39,7 +36,6 @@ def get_core_temp():
 
 
 # Fonts
-# font = ImageFont.load_default()
 font = ImageFont.truetype('/home/pi/scripts/TelegramBot/peripherals/oled/fonts/arial.ttf', 12)
 font2 = ImageFont.truetype('/home/pi/scripts/TelegramBot/peripherals/oled/fonts/FreeSans.ttf', 12)
 
@@ -49,75 +45,61 @@ def animate():
     oled.cls()
     oled.display()
     # header
-    draw.text((18, 0), "GREENHOUSE", font=font, fill=1)
+    draw.text((18, top), "GREENHOUSE", font=font, fill=1)
     oled.display()
-    sleep(1)
-    # line
-    draw.line((oled.width+1, 1, oled.width-1, 1), fill=1)
-    oled.display()
-    sleep(1)
-    # core temp
-    draw.text((0, 18), "Core temperature: " + get_core_temp(), font=font2, fill=1)
-    oled.display()
-    sleep(1)
+    sleep(0.3)
     # build
-    draw.text((0, 36), "Build : " + get_last_commit(), font=font2, fill=1)
+    draw.text((0, top + 20), "Build : " + get_last_commit(), font=font2, fill=1)
+    oled.display()
+    sleep(0.3)
+    # line
+    draw.line((1, top + 25, 131, top + 20), fill=1)
+    oled.display()
+    sleep(0.3)
+    # core temp
+    draw.text((0, top + 45), "Core temperature : " + get_core_temp(), font=font2, fill=1)
     oled.display()
     sleep(10)
     oled.cls()
     # image inverted
     draw.rectangle((32, 0, 95, 63), outline=1, fill=1)
-    draw.bitmap((32, 0), Image.open('pi_logo.png'), fill=0)
+    draw.bitmap((32, 0), Image.open('/home/pi/scripts/TelegramBot/peripherals/oled/pi_logo.png'), fill=0)
     oled.display()
-    sleep(3)
+    sleep(2)
 
 
 def show_state():
     width = oled.width
     height = oled.height
-    # Create blank image for drawing.
-    # Make sure to create image with mode '1' for 1-bit color.
-    image = Image.new('1', (width, height))
-
-    # Get drawing object to draw on image.
-    draw_image = ImageDraw.Draw(image)
-
-    # Draw a black filled box to clear the image.
-    draw_image.rectangle((0, 0, width, height), outline=0, fill=0)
-
-    # Draw some shapes.
-    # First define some constants to allow easy resizing of shapes.
-    padding = -2
-    top = padding
-    bottom = height - padding
-    # Move left to right keeping track of the current x position for drawing shapes.
     x = 0
 
     # Draw a black filled box to clear the image.
-    draw_image.rectangle((0, 0, width, height), outline=0, fill=0)
+    draw.rectangle((0, 0, width, height), outline=0, fill=0)
 
     """
-    Shell scripts for system monitoring from here : 
+    Shell scripts for system monitoring from here :
     https://unix.stackexchange.com/questions/119126/command-to-display-memory-usage-disk-usage-and-cpu-load
     """
     cmd = "hostname -I | cut -d\' \' -f1"
     ip = subprocess.check_output(cmd, shell=True)
     cmd = "top -bn1 | grep load | awk '{printf \"CPU Load: %.2f\", $(NF-2)}'"
     cpu = subprocess.check_output(cmd, shell=True)
-    cmd = "free -m | awk 'NR==2{printf \"Mem: %s/%sMB %.2f%%\", $3,$2,$3*100/$2 }'"
+    cmd = "free -m | awk 'NR==2{printf \"Mem: %s/%sMB %.0f%%\", $3,$2,$3*100/$2 }'"
     mem_usage = subprocess.check_output(cmd, shell=True)
     cmd = "df -h | awk '$NF==\"/\"{printf \"Disk: %d/%dGB %s\", $3,$2,$5}'"
     disk = subprocess.check_output(cmd, shell=True)
 
-    # Write two lines of text.
-
-    draw_image.text((x, top), "ip: " + str(ip), font=font, fill=255)
-    draw_image.text((x, top + 8), str(cpu), font=font, fill=255)
-    draw_image.text((x, top + 16), str(mem_usage), font=font, fill=255)
-    draw_image.text((x, top + 25), str(disk), font=font, fill=255)
-
-    # Display image.
-    oled.image(image)
+    # Write tthe lines of text.
+    draw.text((x, top), "IP: " + str(ip), font=font2, fill=255)
+    oled.display()
+    sleep(0.2)
+    draw.text((x, top + 15), str(cpu), font=font2, fill=255)
+    oled.display()
+    sleep(0.2)
+    draw.text((x, top + 30), str(mem_usage), font=font2, fill=255)
+    oled.display()
+    sleep(0.2)
+    draw.text((x, top + 45), str(disk), font=font2, fill=255)
     oled.display()
     sleep(10)
 
@@ -134,9 +116,9 @@ if __name__ == '__main__':
             show_state()
 
         except KeyboardInterrupt:
-            logging.error('Oled thread interrupted.')
+            print('Oled interrupted.')
             oled.cls()
             exit()
 
         except:
-            logging.error('Oled thread: Any error or exception occurred!')
+            print('Oled: Any error or exception occurred!')
