@@ -46,16 +46,10 @@ def animate():
     oled.display()
     # header
     draw.text((18, top), "GREENHOUSE", font=font, fill=1)
-    oled.display()
-    sleep(0.3)
     # build
-    draw.text((0, top + 20), "Build : " + get_last_commit(), font=font2, fill=1)
-    oled.display()
-    sleep(0.3)
+    draw.text((0, top + 18), "Build : " + get_last_commit(), font=font2, fill=1)
     # line
-    draw.line((1, top + 25, 131, top + 20), fill=1)
-    oled.display()
-    sleep(0.3)
+    draw.line((1, top + 35, 131, top + 35), fill=1)
     # core temp
     draw.text((0, top + 45), "Core temperature : " + get_core_temp(), font=font2, fill=1)
     oled.display()
@@ -69,13 +63,9 @@ def animate():
 
 
 def show_state():
-    width = oled.width
-    height = oled.height
     x = 0
-
-    # Draw a black filled box to clear the image.
-    draw.rectangle((0, 0, width, height), outline=0, fill=0)
-
+    oled.cls()
+    oled.display()
     """
     Shell scripts for system monitoring from here :
     https://unix.stackexchange.com/questions/119126/command-to-display-memory-usage-disk-usage-and-cpu-load
@@ -89,16 +79,10 @@ def show_state():
     cmd = "df -h | awk '$NF==\"/\"{printf \"Disk: %d/%dGB %s\", $3,$2,$5}'"
     disk = subprocess.check_output(cmd, shell=True)
 
-    # Write tthe lines of text.
+    # Write the lines of text.
     draw.text((x, top), "IP: " + str(ip), font=font2, fill=255)
-    oled.display()
-    sleep(0.2)
     draw.text((x, top + 15), str(cpu), font=font2, fill=255)
-    oled.display()
-    sleep(0.2)
     draw.text((x, top + 30), str(mem_usage), font=font2, fill=255)
-    oled.display()
-    sleep(0.2)
     draw.text((x, top + 45), str(disk), font=font2, fill=255)
     oled.display()
     sleep(10)
