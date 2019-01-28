@@ -13,9 +13,7 @@ from smbus import SMBus
 i2cbus = SMBus(1)
 oled = Ssd1306(i2cbus)
 draw = oled.canvas
-c0 = ' \''
-c1 = u'°'
-c2 = u'\xb0'
+c = '\''
 left = 3
 top = 7
 switch_time = 30
@@ -32,7 +30,7 @@ def get_core_temp():
     temp = int(open('/sys/class/thermal/thermal_zone0/temp').read())
     one = str(temp).__getitem__(0)
     two = str(temp).__getitem__(1)
-    temp_str = '{0}{1}{2}{3}'.format(one, two, c0, 'C')
+    temp_str = '{0}{1}{2}{3}'.format(one, two, c, 'C')
     return temp_str
 
 
@@ -60,8 +58,8 @@ def animate(time):
 def show_pi(time):
     oled.cls()
     # image inverted
-    draw.rectangle((32, 0, 95, 63), outline=1, fill=1)
-    draw.bitmap((32, 0), Image.open('/home/pi/scripts/TelegramBot/peripherals/oled/pi_logo.png'), fill=0)
+    draw.rectangle((32, top, 95, 63), outline=1, fill=1)
+    draw.bitmap((32, top), Image.open('/home/pi/scripts/TelegramBot/peripherals/oled/pi_logo.png'), fill=0)
     oled.display()
     sleep(time)
 
