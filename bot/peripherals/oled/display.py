@@ -2,8 +2,6 @@
 # -*- coding: utf-8 -*-
 # author: Thomas Kaulke, kaulketh@gmail.com
 
-from __future__ import absolute_import
-import thread
 import subprocess
 from time import sleep
 from PIL import Image, ImageFont, ImageDraw
@@ -20,6 +18,7 @@ c1 = u'°'
 c2 = u'\xb0'
 padding = 7
 top = padding
+switch_time = 30
 
 
 def get_last_commit():
@@ -40,7 +39,7 @@ font = ImageFont.truetype('/home/pi/scripts/TelegramBot/peripherals/oled/fonts/a
 font2 = ImageFont.truetype('/home/pi/scripts/TelegramBot/peripherals/oled/fonts/FreeSans.ttf', 12)
 
 
-def animate():
+def animate(time):
     # Display clear
     oled.cls()
     oled.display()
@@ -53,16 +52,19 @@ def animate():
     # core temp
     draw.text((0, top + 45), "Core temperature : " + get_core_temp(), font=font2, fill=1)
     oled.display()
-    sleep(15)
+    sleep(time)
+
+
+def show_pi(time):
     oled.cls()
     # image inverted
     draw.rectangle((32, 0, 95, 63), outline=1, fill=1)
     draw.bitmap((32, 0), Image.open('/home/pi/scripts/TelegramBot/peripherals/oled/pi_logo.png'), fill=0)
     oled.display()
-    sleep(3)
+    sleep(time)
 
 
-def show_state():
+def show_state(time):
     x = 0
     oled.cls()
     oled.display()
@@ -80,24 +82,21 @@ def show_state():
     disk = subprocess.check_output(cmd, shell=True)
 
     # Write the lines of text.
-    draw.text((x, top), "IP: " + str(ip), font=font2, fill=255)
+    draw.text((x, top), "IP : " + str(ip), font=font2, fill=255)
     draw.text((x, top + 15), str(cpu), font=font2, fill=255)
     draw.text((x, top + 30), str(mem_usage), font=font2, fill=255)
     draw.text((x, top + 45), str(disk), font=font2, fill=255)
     oled.display()
-    sleep(15)
-
-
-def run_in_separate_thread():
-    thread.start_new_thread(animate, ())
+    sleep(time)
 
 
 if __name__ == '__main__':
     while 1:
 
         try:
-            animate()
-            show_state()
+            animate(switch_time)
+            show_pi(3)
+            show_state(switch_time)
 
         except KeyboardInterrupt:
             print('Oled interrupted.')
