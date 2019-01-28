@@ -2,18 +2,18 @@
 # -*- coding: utf-8 -*-
 # author: Thomas Kaulke, kaulketh@gmail.com
 
-# from __future__ import absolute_import
-import sys
+from __future__ import absolute_import
 import thread
+import subprocess
 from time import sleep
-from PIL import Image, ImageFont
+from PIL import Image, ImageFont, ImageDraw
 from lib_oled96 import Ssd1306
-# import conf.greenhouse_config as conf
+import conf.greenhouse_config as conf
 # import peripherals.temperature as core
 from smbus import SMBus
 import logging
 
-# logging.basicConfig(filename=conf.log_file, format=conf.log_format, datefmt=conf.log_date_format, level=logging.INFO)
+logging.basicConfig(filename=conf.log_file, format=conf.log_format, datefmt=conf.log_date_format, level=logging.INFO)
 
 # Display setup, methods and members
 """ 0 = Raspberry Pi 1, 1 = Raspberry Pi > 1 """
@@ -40,8 +40,8 @@ def get_core_temp():
 
 # Fonts
 # font = ImageFont.load_default()
-font = ImageFont.truetype('fonts/arial.ttf', 14)
-font2 = ImageFont.truetype('fonts/FreeSans.ttf', 10)
+font = ImageFont.truetype('/home/pi/scripts/TelegramBot/peripherals/oled/fonts/arial.ttf', 12)
+font2 = ImageFont.truetype('/home/pi/scripts/TelegramBot/peripherals/oled/fonts/FreeSans.ttf', 12)
 
 
 def animate():
@@ -72,6 +72,56 @@ def animate():
     sleep(3)
 
 
+def show_state():
+    width = oled.width
+    height = oled.height
+    # Create blank image for drawing.
+    # Make sure to create image with mode '1' for 1-bit color.
+    image = Image.new('1', (width, height))
+
+    # Get drawing object to draw on image.
+    draw_image = ImageDraw.Draw(image)
+
+    # Draw a black filled box to clear the image.
+    draw_image.rectangle((0, 0, width, height), outline=0, fill=0)
+
+    # Draw some shapes.
+    # First define some constants to allow easy resizing of shapes.
+    padding = -2
+    top = padding
+    bottom = height - padding
+    # Move left to right keeping track of the current x position for drawing shapes.
+    x = 0
+
+    # Draw a black filled box to clear the image.
+    draw_image.rectangle((0, 0, width, height), outline=0, fill=0)
+
+    """
+    Shell scripts for system monitoring from here : 
+    https://unix.stackexchange.com/questions/119126/command-to-display-memory-usage-disk-usage-and-cpu-load
+    """
+    cmd = "hostname -I | cut -d\' \' -f1"
+    ip = subprocess.check_output(cmd, shell=True)
+    cmd = "top -bn1 | grep load | awk '{printf \"CPU Load: %.2f\", $(NF-2)}'"
+    cpu = subprocess.check_output(cmd, shell=True)
+    cmd = "free -m | awk 'NR==2{printf \"Mem: %s/%sMB %.2f%%\", $3,$2,$3*100/$2 }'"
+    mem_usage = subprocess.check_output(cmd, shell=True)
+    cmd = "df -h | awk '$NF==\"/\"{printf \"Disk: %d/%dGB %s\", $3,$2,$5}'"
+    disk = subprocess.check_output(cmd, shell=True)
+
+    # Write two lines of text.
+
+    draw_image.text((x, top), "ip: " + str(ip), font=font, fill=255)
+    draw_image.text((x, top + 8), str(cpu), font=font, fill=255)
+    draw_image.text((x, top + 16), str(mem_usage), font=font, fill=255)
+    draw_image.text((x, top + 25), str(disk), font=font, fill=255)
+
+    # Display image.
+    oled.image(image)
+    oled.display()
+    sleep(10)
+
+
 def run_in_separate_thread():
     thread.start_new_thread(animate, ())
 
@@ -81,13 +131,12 @@ if __name__ == '__main__':
 
         try:
             animate()
+            show_state()
 
         except KeyboardInterrupt:
-            # logging.error
-            print ('Oled thread interrupted.')
+            logging.error('Oled thread interrupted.')
             oled.cls()
             exit()
 
         except:
-            # logging.error
-            print('Oled thread: Any error or exception occurred!')
+            logging.error('Oled thread: Any error or exception occurred!')
