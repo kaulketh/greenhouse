@@ -58,8 +58,8 @@ def animate(time):
 def show_pi(time):
     oled.cls()
     # image inverted
-    draw.rectangle((32, top, 95, 63), outline=1, fill=1)
-    draw.bitmap((32, top), Image.open('/home/pi/scripts/TelegramBot/peripherals/oled/pi_logo.png'), fill=0)
+    draw.rectangle((32, top - 3, 95, 63), outline=1, fill=1)
+    draw.bitmap((32, top - 3), Image.open('/home/pi/scripts/TelegramBot/peripherals/oled/pi_logo.png'), fill=0)
     oled.display()
     sleep(time)
 
