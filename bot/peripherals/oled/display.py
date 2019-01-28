@@ -23,7 +23,9 @@ switch_time = 30
 
 def get_last_commit():
     commit = open("/lastGreenhouseCommit.id").read()
-    return commit[0:10].replace("", " ")[1: -1]
+    commit = commit[0:10].replace("", " ")[1: -1]
+    commit = commit.upper()
+    return commit
 
 
 def get_core_temp():
@@ -50,7 +52,7 @@ def animate(time):
     # line
     draw.line((1, top + 35, 131, top + 35), fill=1)
     # core temp
-    draw.text((0, top + 45), "Core temperature : " + get_core_temp(), font=font2, fill=1)
+    draw.text((0, top + 45), "Core Temperature : " + get_core_temp(), font=font2, fill=1)
     oled.display()
     sleep(time)
 
