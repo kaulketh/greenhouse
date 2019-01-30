@@ -8,6 +8,7 @@ project=greenhouse
 owner=kaulketh
 log='/update_bot.log'
 commit_id='/lastGreenhouseCommit.id'
+default_branch='/defaultGreenhouseBranch.name'
 bot_dir='/home/pi/scripts/TelegramBot/'
 wait=3
 
