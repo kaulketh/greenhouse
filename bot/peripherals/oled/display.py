@@ -22,8 +22,8 @@ switch_time = 30
 def get_last_commit():
     commit = open("/lastGreenhouseCommit.id").read()
     branch = open("/defaultGreenhouseBranch.name").read()
-    commit = commit[0:6]
-    commit = branch.upper() + " " + commit.upper()
+    commit = commit[0:7]
+    commit = branch.replace("\n","") + " " + commit
     return commit
 
 
