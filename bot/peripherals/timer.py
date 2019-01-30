@@ -3,55 +3,38 @@
 # author: Thomas Kaulke, kaulketh@gmail.com
 
 from __future__ import absolute_import
-# import conf.greenhouse_config as config
+import conf.greenhouse_config as config
+import peripherals.four_digit.display as display
+from greenhouse import Water_Time
 import threading
-import time
-# import sys
-# import logging
+import logging
 
-# logging.basicConfig(filename=config.log_file, format=config.log_format,
-#                    datefmt=config.log_date_format, level=logging.INFO)
+logging.basicConfig(filename=config.log_file, format=config.log_format,
+                    datefmt=config.log_date_format, level=logging.INFO)
 
-count = 5
-i = count
-seconds_steps = 1
-# count = sys.argv[1]
-# seconds_steps = sys.argv[2]
+count = Water_Time
+seconds_steps = config.lib.time_units_conversion
+t = None
 
 
-def downwards():
+def display_count(number):
+    display.show_duration(number)
+    return
+
+
+def countdown():
     global t
     global count
-    global seconds_steps
-    # logging.info("counter :" + str(count))
-    print(time.strftime('[%d.%m.%Y %H:%M:%S]') + " counter : " + str(count))
+    logging.info("counter : " + str(count))
     count -= 1
     if count > 0:
-        t = threading.Timer(seconds_steps, downwards)
+        t = threading.Timer(seconds_steps, display_count(count))
         t.start()
     else:
         t.cancel()
-        print("finished")
+        logging.info("counter finished: " + str(count))
 
 
-
-
-
-def upwards():
-    global t
-    global count
-    global seconds_steps
-    # logging.info("counter :" + str(count))
-    count -= 1
-    if count >= 0:
-        print(time.strftime('[%d.%m.%Y %H:%M:%S]') + " counter : " + str(i-count))
-        t = threading.Timer(seconds_steps, upwards)
-        t.start()
-    else:
-        t.cancel()
-        print("finished")
-
-
-#downwards()
-upwards()
+if __name__ == '__main__':
+    countdown()
 
