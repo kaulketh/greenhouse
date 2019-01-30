@@ -213,6 +213,7 @@ def duration(bot, update):
         update.message.reply_text(lib.water_on_all.format(Target, Water_Time),
                                   parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
         display.show_group(0)
+        # timer.countdown(int(Water_Time))
         for member in all_groups:
             conf.switch_on(member)
 
@@ -235,7 +236,7 @@ def water(update, member):
     logging.info('Toggle ' + str(member))
     update.message.reply_text(lib.water_on.format(Target, Water_Time),
                               parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
-    timer.countdown(int(Water_Time))
+    # timer.countdown(int(Water_Time))
     conf.switch_on(member)
     time.sleep((int(Water_Time)*int(lib.time_conversion)))
     conf.switch_off(member)
@@ -252,7 +253,7 @@ def water_group(update, group):
     logging.info('Toggle ' + str(group))
     update.message.reply_text(lib.water_on_group.format(Target, Water_Time),
                               parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
-    timer.countdown(int(Water_Time))
+    # timer.countdown(int(Water_Time))
     for member in group:
         conf.switch_on(member)
     time.sleep((int(Water_Time)*int(lib.time_conversion)))
