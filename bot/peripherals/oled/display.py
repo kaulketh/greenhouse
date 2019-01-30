@@ -23,7 +23,7 @@ def get_last_commit():
         commit = open("/lastGreenhouseCommit.id").read()
         branch = open("/defaultGreenhouseBranch.name").read()
         commit = commit[0:6]
-        commit = commit + " (" + branch.replace("\n", "") + ")"
+        commit = commit + " " + branch.replace("\n", "")
         return commit
 
 

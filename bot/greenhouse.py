@@ -29,6 +29,9 @@ group_one = conf.GROUP_01
 group_two = conf.GROUP_02
 group_three = conf.GROUP_03
 
+# TODO: test standby
+standby_after = 60
+
 
 # time stamp
 def timestamp():
@@ -146,7 +149,7 @@ def selection(bot, update):
                                   parse_mode=ParseMode.MARKDOWN, reply_markup=markup2)
         logging.info('Selection: {0}'.format(str(Target)))
         # TODO: test standby
-        timer.switch_to_standby(10)
+        timer.switch_to_standby(standby_after)
         return DURATION
 
 
@@ -226,12 +229,12 @@ def duration(bot, update):
             parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
         display.show_off()
         # TODO: test standby
-        timer.switch_to_standby(10)
+        timer.switch_to_standby(standby_after)
 
     else:
         update.message.reply_text(lib.msg_choice, reply_markup=markup1)
         # TODO: test standby
-        timer.switch_to_standby(10)
+        timer.switch_to_standby(standby_after)
     return SELECT
 
 
@@ -249,7 +252,7 @@ def water(update, member):
         parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
     display.show_off()
     # TODO: test standby
-    timer.switch_to_standby(10)
+    timer.switch_to_standby(standby_after)
     return
 
 
@@ -269,7 +272,7 @@ def water_group(update, group):
         parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
     display.show_off()
     # TODO: test standby
-    timer.switch_to_standby(10)
+    timer.switch_to_standby(standby_after)
     return
 
 
