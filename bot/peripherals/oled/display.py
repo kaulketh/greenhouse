@@ -23,7 +23,7 @@ def get_last_commit():
         commit = open("/lastGreenhouseCommit.id").read()
         branch = open("/defaultGreenhouseBranch.name").read()
         commit = commit[0:6]
-        commit = commit + "(" + branch.replace("\n", "") + ")"
+        commit = commit + " (" + branch.replace("\n", "") + ")"
         return commit
 
 
@@ -47,7 +47,7 @@ def animate(time):
     # header
     draw.text((18, top), "GREENHOUSE", font=font, fill=1)
     # build
-    draw.text((left, top + 18), "Build:" + get_last_commit(), font=font2, fill=1)
+    draw.text((left, top + 18), "Build: " + get_last_commit(), font=font2, fill=1)
     # line
     draw.line((left, top + 35, oled.width - left + 128, top + 35), fill=1)
     # core temp
