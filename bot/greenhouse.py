@@ -8,7 +8,7 @@ from __future__ import absolute_import
 import logging
 import os
 import time
-import peripherals.timer as start_countdown
+import peripherals.timer as timer
 import peripherals.dht.dht as dht
 import peripherals.temperature as core
 import peripherals.four_digit.display as display
@@ -235,7 +235,7 @@ def water(update, member):
     logging.info('Toggle ' + str(member))
     update.message.reply_text(lib.water_on.format(Target, Water_Time),
                               parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
-    start_countdown
+    timer.countdown()
     conf.switch_on(member)
     time.sleep((int(Water_Time)*int(lib.time_conversion)))
     conf.switch_off(member)
@@ -252,7 +252,7 @@ def water_group(update, group):
     logging.info('Toggle ' + str(group))
     update.message.reply_text(lib.water_on_group.format(Target, Water_Time),
                               parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
-    start_countdown
+    timer.countdown()
     for member in group:
         conf.switch_on(member)
     time.sleep((int(Water_Time)*int(lib.time_conversion)))

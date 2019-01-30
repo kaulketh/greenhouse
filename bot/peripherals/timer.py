@@ -35,6 +35,4 @@ def countdown():
         logging.info("counter finished: " + str(count))
 
 
-if __name__ == '__main__':
-    countdown()
 

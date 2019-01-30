@@ -29,9 +29,11 @@ fi
 if [[ $# -eq 3  ]]
     then
         branch=$3
+        echo ${branch} > ${default_branch}
 else
     # get default branch from repository
     branch=$(curl -s https://api.github.com/repos/${owner}/${project} --insecure | grep -Po '(?<="default_branch":)(.*?)(?=,)' | sed "s/\"//g" | sed -e 's/^[[:space:]]*//')
+    echo ${branch} > ${default_branch}
 fi
 
 # get last commit id of branch
