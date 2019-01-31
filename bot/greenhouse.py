@@ -29,17 +29,9 @@ group_one = conf.GROUP_01
 group_two = conf.GROUP_02
 group_three = conf.GROUP_03
 
-# standby timer
+# for standby timer
 t = None
 wait = 15
-
-
-def wait_for_standby():
-    global t
-    global wait
-    t = threading.Timer(wait, stop)
-    t.start()
-    logging.info("switched to standby automatically")
 
 
 # time stamp
@@ -319,7 +311,16 @@ def error(bot, update, error):
     return ConversationHandler.END
 
 
-# main
+# standby timer
+def wait_for_standby():
+    global t
+    global wait
+    t = threading.Timer(wait, stop)
+    t.start()
+    logging.info("switched to standby automatically")
+    return
+
+
 def main():
     updater = Updater(API_TOKEN)
 
