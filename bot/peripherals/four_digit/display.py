@@ -7,6 +7,7 @@ from time import sleep
 from conf.greenhouse_config import clk_pin, dio_pin, brightness
 import peripherals.four_digit.four_digits as tm1637
 import peripherals.temperature as core_temp
+import peripherals.timer as timer
 
 display = tm1637.TM1637(clk=clk_pin, dio=dio_pin, brightness=brightness)
 
@@ -116,9 +117,12 @@ def show_group(group):
     return
 
 
-def show_off():
+# TODO: timer added, ensure functionality
+def show_off(bot):
     disable_colon(True)
     display.show(off)
+    if bot is not None:
+        timer.switch_to_standby(bot)
     return
 
 
