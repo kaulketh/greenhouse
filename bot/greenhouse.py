@@ -115,7 +115,7 @@ def start(bot, update):
         logging.info('Bot is using by: {0} - {1},{2}'.format(
             str(user_id), update.message.from_user.last_name, update.message.from_user.first_name))
         logging.info('Time unit is \'{0}\''.format(str(lib.time_units_name[lib.time_units_index])))
-        display.show_off(bot)
+        display.show_off()
         return SELECT
 
 
@@ -165,47 +165,47 @@ def duration(bot, update):
 
     elif Target == str(lib.group1[1]):
         display.show_channel(1)
-        water(update, group_one[0], bot)
+        water(update, group_one[0])
 
     elif Target == str(lib.group1[2]):
         display.show_channel(2)
-        water(update, group_one[1], bot)
+        water(update, group_one[1])
 
     elif Target == str(lib.group1[3]):
         display.show_channel(3)
-        water(update, group_one[2], bot)
+        water(update, group_one[2])
 
     elif Target == str(lib.group2[1]):
         display.show_channel(6)
-        water(update, group_two[0], bot)
+        water(update, group_two[0])
 
     elif Target == str(lib.group2[2]):
         display.show_channel(7)
-        water(update, group_two[1], bot)
+        water(update, group_two[1])
 
     elif Target == str(lib.group2[3]):
         display.show_channel(8)
-        water(update, group_two[2], bot)
+        water(update, group_two[2])
 
     elif Target == str(lib.group1[0]):
         display.show_group(1)
-        water_group(update, group_one, bot)
+        water_group(update, group_one)
 
     elif Target == str(lib.group2[0]):
         display.show_group(2)
-        water_group(update, group_two, bot)
+        water_group(update, group_two)
 
     elif Target == str(lib.group3[1]):
         display.show_channel(4)
-        water(update, group_three[0], bot)
+        water(update, group_three[0])
 
     elif Target == str(lib.group3[2]):
         display.show_channel(5)
-        water(update, group_three[1], bot)
+        water(update, group_three[1])
 
     elif Target == str(lib.group3[0]):
         display.show_group(3)
-        water_group(update, group_three, bot)
+        water_group(update, group_three)
 
     elif Target == str(lib.all_channels):
         logging.info('Duration: {0}'.format(Water_Time))
@@ -221,7 +221,7 @@ def duration(bot, update):
         update.message.reply_text('{0}{1}{2}'.format(
             timestamp(), lib.water_off_all.format(Water_Time), lib.msg_new_choice),
             parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
-        display.show_off(bot)
+        display.show_off()
 
     else:
         update.message.reply_text(lib.msg_choice, reply_markup=markup1)
@@ -230,7 +230,7 @@ def duration(bot, update):
 
 
 # water the target
-def water(update, member, bot):
+def water(update, member):
     logging.info('Duration: ' + Water_Time)
     logging.info('Toggle ' + str(member))
     update.message.reply_text(lib.water_on.format(Target, Water_Time),
@@ -241,12 +241,12 @@ def water(update, member, bot):
     update.message.reply_text('{0}{1}{2}'.format(
         timestamp(), lib.water_off.format(Target, Water_Time), lib.msg_new_choice),
         parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
-    display.show_off(bot)
+    display.show_off()
     return
 
 
 # water a group of targets
-def water_group(update, group, bot):
+def water_group(update, group):
     logging.info('Duration: ' + Water_Time)
     logging.info('Toggle ' + str(group))
     update.message.reply_text(lib.water_on_group.format(Target, Water_Time),
@@ -259,7 +259,7 @@ def water_group(update, group, bot):
     update.message.reply_text('{0}{1}{2}'.format(
         timestamp(), lib.water_off_group.format(Target, Water_Time), lib.msg_new_choice),
         parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
-    display.show_off(bot)
+    display.show_off()
     return
 
 
