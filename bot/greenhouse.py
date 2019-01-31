@@ -5,6 +5,7 @@
 
 
 from __future__ import absolute_import
+import threading
 import logging
 import os
 import time
@@ -27,6 +28,18 @@ all_groups = conf.GROUP_ALL
 group_one = conf.GROUP_01
 group_two = conf.GROUP_02
 group_three = conf.GROUP_03
+
+# standby timer
+t = None
+wait = 15
+
+
+def wait_for_standby():
+    global t
+    global wait
+    t = threading.Timer(wait, stop)
+    t.start()
+    logging.info("switched to standby automatically")
 
 
 # time stamp
@@ -222,6 +235,7 @@ def duration(bot, update):
             timestamp(), lib.water_off_all.format(Water_Time), lib.msg_new_choice),
             parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
         display.show_off()
+        wait_for_standby()
 
     else:
         update.message.reply_text(lib.msg_choice, reply_markup=markup1)
