@@ -17,7 +17,7 @@ c = '\''
 left = 5
 top = 7
 switch_time = 30
-refresh = 0.5
+refresh = 0.01
 
 
 def get_last_commit():
@@ -70,7 +70,7 @@ def show_state(time):
     counter = time / refresh
     while counter > 0:
         oled.cls()
-        oled.display()
+        # oled.display()
         """
         Shell scripts for system monitoring from here :
         https://unix.stackexchange.com/questions/119126/command-to-display-memory-usage-disk-usage-and-cpu-load
