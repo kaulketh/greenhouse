@@ -8,7 +8,6 @@ from __future__ import absolute_import
 import logging
 import os
 import time
-import conf.set_up_paths as setup
 import conf.greenhouse_config as conf
 import peripherals.dht.dht as dht
 import peripherals.temperature as core
@@ -20,9 +19,6 @@ from telegram.ext import (Updater, CommandHandler, RegexHandler, ConversationHan
 
 logging.basicConfig(filename=conf.log_file, format=conf.log_format,
                     datefmt=conf.log_date_format, level=logging.INFO)
-
-# add bot paths to system paths
-setup
 
 # language library
 lib = conf.lib

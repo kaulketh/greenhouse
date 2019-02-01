@@ -15,5 +15,6 @@ paths = (
 
 if __name__ == '__main__':
     for path in paths:
-        sys.path.append('r' + '\'' + str(paths) + '\'')
+        sys.path.append(path)
 
+#print(sys.path)
