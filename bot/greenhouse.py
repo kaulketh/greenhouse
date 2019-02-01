@@ -5,7 +5,6 @@
 
 
 from __future__ import absolute_import
-import threading
 import logging
 import os
 import time
@@ -29,8 +28,9 @@ group_one = conf.GROUP_01
 group_two = conf.GROUP_02
 group_three = conf.GROUP_03
 
-# for conversation time out
+# time out
 time_out = 15
+start_timer = False
 
 
 # time stamp
@@ -291,14 +291,14 @@ def message_values(update):
 
 # timeout timer
 def set_timer(update):
-    start_timer
+    global start_timer
+
+    if start_timer:
+        start_timer = False
+    else:
+        start_timer = True
+
     update.message.reply_text('Timer successfully set!')
-    return
-
-
-def start_timer(bot, update, job):
-    job.start
-    update.message.reply_text('Timer started!')
     return
 
 
@@ -327,8 +327,6 @@ def main():
     updater = Updater(API_TOKEN)
 
     dp = updater.dispatcher
-    job = dp.job_queue
-    job.run_once(start_timer, time_out)
 
     conv_handler = ConversationHandler(
         entry_points=[CommandHandler('start', start)],
