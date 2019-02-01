@@ -29,9 +29,8 @@ group_one = conf.GROUP_01
 group_two = conf.GROUP_02
 group_three = conf.GROUP_03
 
-# for standby timer
-t = None
-wait = 15
+# for conversation time out
+time_out = 15
 
 
 # time stamp
@@ -68,7 +67,7 @@ def cam_off():
 
 
 # api and bot settings
-SELECT, DURATION = range(2)
+SELECT, DURATION, TIMER = range(3)
 
 
 # LIST_OF_ADMINS = ['mock to test']
@@ -227,7 +226,7 @@ def duration(bot, update):
             timestamp(), lib.water_off_all.format(Water_Time), lib.msg_new_choice),
             parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
         display.show_off()
-        wait_for_standby()
+        set_timer()
 
     else:
         update.message.reply_text(lib.msg_choice, reply_markup=markup1)
@@ -290,6 +289,21 @@ def message_values(update):
     return
 
 
+# timeout timer
+def set_timer():
+    global Water_Time
+    global Target
+    Water_Time = 'timer'
+    Target = 'timer'
+    return TIMER
+
+
+def timer(bot, update, job_queue, chat_data):
+    job = job_queue.run_once(stop, time_out)
+    chat_data['job'] = job
+    update.message.reply_text('Timer successfully set!')
+
+
 # stop bot
 def stop(bot, update):
     logging.info('Bot stopped.')
@@ -309,16 +323,6 @@ def error(bot, update, error):
     cam_off()
     conf.GPIO.cleanup()
     return ConversationHandler.END
-
-
-# standby timer
-def wait_for_standby():
-    global t
-    global wait
-    t = threading.Timer(wait, stop)
-    t.start()
-    logging.info("switched to standby automatically")
-    return
 
 
 def main():
@@ -351,9 +355,11 @@ def main():
 
             DURATION: [RegexHandler('^([0-9]+|{0}|{1})$'.format(str(lib.cancel), str(lib.panic)), duration),
                        RegexHandler('^{0}$'.format(lib.stop_bot), stop)],
-        },
+            TIMER: [RegexHandler('timer', timer)],
 
-        fallbacks=[CommandHandler('stop', stop)]
+        },
+        fallbacks=[CommandHandler('stop', stop)],
+        pass_job_queue=True, pass_chat_data=True
     )
 
     dp.add_handler(conv_handler)
