@@ -3,13 +3,11 @@
 # original: author: Stefan Weigert  http://www.stefan-weigert.de/php_loader/raspi.php
 # adapted: author: Thomas Kaulke, kaulketh@gmail.com
 
-
 from __future__ import absolute_import
 import logging
 import os
 import time
 import conf.greenhouse_config as conf
-import peripherals.timer as run_standby_timer
 import peripherals.dht.dht as dht
 import peripherals.temperature as core
 import peripherals.four_digit.display as display
@@ -29,11 +27,6 @@ all_groups = conf.GROUP_ALL
 group_one = conf.GROUP_01
 group_two = conf.GROUP_02
 group_three = conf.GROUP_03
-
-# time out
-time_out = 15
-start_timer = False
-run_standby_timer
 
 
 # time stamp
@@ -229,7 +222,6 @@ def duration(bot, update):
             timestamp(), lib.water_off_all.format(Water_Time), lib.msg_new_choice),
             parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
         display.show_off()
-        set_timer
 
     else:
         update.message.reply_text(lib.msg_choice, reply_markup=markup1)
@@ -289,19 +281,6 @@ def message_values(update):
     core_temp = (lib.core + lib.colon_space + core.get_temperature())
     update.message.reply_text(lib.msg_temperature.format(
         start_time(), temp, hum, core_temp), parse_mode=ParseMode.MARKDOWN)
-    return
-
-
-# timeout timer
-def set_timer(update):
-    global start_timer
-
-    if start_timer:
-        start_timer = False
-    else:
-        start_timer = True
-
-    update.message.reply_text('Timer successfully set!')
     return
 
 
