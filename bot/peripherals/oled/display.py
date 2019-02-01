@@ -17,7 +17,7 @@ c = '\''
 left = 5
 top = 7
 switch_time = 30
-refresh = 0.1
+refresh = 0.5
 
 
 def get_last_commit():
@@ -68,9 +68,9 @@ def show_pi(time):
 
 def show_state(time):
     counter = time / refresh
-    oled.cls()
-    oled.display()
     while True:
+        oled.cls()
+        oled.display()
         if counter <= 0:
             break
         """
