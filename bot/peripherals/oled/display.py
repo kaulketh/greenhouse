@@ -66,37 +66,43 @@ def show_pi(time):
 
 
 def show_state(time):
+    refresh = 0.1
+    counter = time / refresh
     oled.cls()
     oled.display()
-    """
-    Shell scripts for system monitoring from here :
-    https://unix.stackexchange.com/questions/119126/command-to-display-memory-usage-disk-usage-and-cpu-load
-    """
-    cmd = "hostname -I | cut -d\' \' -f1"
-    ip = subprocess.check_output(cmd, shell=True)
-    cmd = "top - bn1 | grep \"Cpu(s)\" | sed \"s/.*, *\\([0-9.]*\\)%* id.*/\\1/\" | " \
-          "awk '{print \"CPU Load : \"100 - $1\"%\"}'"
-    # cmd = "top -bn1 | grep load | awk '{printf \"CPU Load : %.2f\", $(NF-2)}'"
-    cpu = subprocess.check_output(cmd, shell=True)
-    cmd = "free -m | awk 'NR==2{printf \"Mem : %s / %s MB %.0f%%\", $3,$2,$3*100/$2 }'"
-    mem_usage = subprocess.check_output(cmd, shell=True)
-    cmd = "df -h | awk '$NF==\"/\"{printf \"Disk : %d / %d GB %s\", $3,$2,$5}'"
-    disk = subprocess.check_output(cmd, shell=True)
+    while True:
+        if counter == 0:
+            break
+        """
+        Shell scripts for system monitoring from here :
+        https://unix.stackexchange.com/questions/119126/command-to-display-memory-usage-disk-usage-and-cpu-load
+        """
+        cmd = "hostname -I | cut -d\' \' -f1"
+        ip = subprocess.check_output(cmd, shell=True)
+        cmd = "top - bn1 | grep \"Cpu(s)\" | sed \"s/.*, *\\([0-9.]*\\)%* id.*/\\1/\" | " \
+              "awk '{print \"CPU Load : \"100 - $1\"%\"}'"
+        # cmd = "top -bn1 | grep load | awk '{printf \"CPU Load : %.2f\", $(NF-2)}'"
+        cpu = subprocess.check_output(cmd, shell=True)
+        cmd = "free -m | awk 'NR==2{printf \"Mem : %s / %s MB %.0f%%\", $3,$2,$3*100/$2 }'"
+        mem_usage = subprocess.check_output(cmd, shell=True)
+        cmd = "df -h | awk '$NF==\"/\"{printf \"Disk : %d / %d GB %s\", $3,$2,$5}'"
+        disk = subprocess.check_output(cmd, shell=True)
 
-    # Write the lines of text.
-    draw.text((left, top), "IP : " + str(ip), font=font2, fill=255)
-    draw.text((left, top + 15), str(cpu), font=font2, fill=255)
-    draw.text((left, top + 30), str(mem_usage), font=font2, fill=255)
-    draw.text((left, top + 45), str(disk), font=font2, fill=255)
-    oled.display()
-    sleep(time)
+        # Write the lines of text.
+        draw.text((left, top), "IP : " + str(ip), font=font2, fill=255)
+        draw.text((left, top + 15), str(cpu), font=font2, fill=255)
+        draw.text((left, top + 30), str(mem_usage), font=font2, fill=255)
+        draw.text((left, top + 45), str(disk), font=font2, fill=255)
+        oled.display()
+        counter -= 1
+        sleep(refresh)
 
 
 if __name__ == '__main__':
-    while 1:
+    while True:
 
         try:
-            animate(switch_time)
+            animate(switch_time/3)
             show_pi(3)
             show_state(switch_time)
 
