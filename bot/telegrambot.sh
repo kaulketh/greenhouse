@@ -19,7 +19,7 @@ sudo netledPi -d -p 5 &
 sleep 2
 sudo modprobe bcm2835-v4l2 && sleep 1.5 && sudo service motion start && sleep 1.5 && sudo service motion stop &
 sleep 2
-sudo python /home/pi/scripts/TelegramBot/con/set_up_paths.py &
-sudo python /home/pi/scripts/TelegramBot/peripherals/timer.py &
+# sudo python /home/pi/scripts/TelegramBot/con/set_up_paths.py &
+# sudo python /home/pi/scripts/TelegramBot/peripherals/timer.py &
 sudo python /home/pi/scripts/TelegramBot/greenhouse.py &
 sudo python /home/pi/scripts/TelegramBot/peripherals/oled/display.py &
