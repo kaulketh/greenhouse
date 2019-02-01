@@ -68,11 +68,9 @@ def show_pi(time):
 
 def show_state(time):
     counter = time / refresh
-    while True:
+    while counter > 0:
         oled.cls()
         oled.display()
-        if counter <= 0:
-            break
         """
         Shell scripts for system monitoring from here :
         https://unix.stackexchange.com/questions/119126/command-to-display-memory-usage-disk-usage-and-cpu-load
@@ -94,8 +92,8 @@ def show_state(time):
         draw.text((left, top + 30), str(mem_usage), font=font2, fill=255)
         draw.text((left, top + 45), str(disk), font=font2, fill=255)
         oled.display()
-        counter -= 1
         sleep(refresh)
+        counter -= 1
 
 
 if __name__ == '__main__':
