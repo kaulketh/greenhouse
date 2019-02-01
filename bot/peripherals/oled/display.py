@@ -17,6 +17,7 @@ c = '\''
 left = 5
 top = 7
 switch_time = 30
+refresh = 0.1
 
 
 def get_last_commit():
@@ -66,12 +67,11 @@ def show_pi(time):
 
 
 def show_state(time):
-    refresh = 0.1
     counter = time / refresh
     oled.cls()
     oled.display()
     while True:
-        if counter == 0:
+        if counter <= 0:
             break
         """
         Shell scripts for system monitoring from here :
