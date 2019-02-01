@@ -290,10 +290,16 @@ def message_values(update):
 
 
 # timeout timer
-def set_timer(bot, update, job_queue):
-    job = job_queue.run_once(stop, time_out)
-    job.start
+def set_timer(update):
+    start_timer
     update.message.reply_text('Timer successfully set!')
+    return
+
+
+def start_timer(bot, update, job):
+    job.start
+    update.message.reply_text('Timer started!')
+    return
 
 
 # stop bot
@@ -321,6 +327,8 @@ def main():
     updater = Updater(API_TOKEN)
 
     dp = updater.dispatcher
+    job = dp.job_queue
+    job.run_once(start_timer, time_out)
 
     conv_handler = ConversationHandler(
         entry_points=[CommandHandler('start', start)],
@@ -349,7 +357,7 @@ def main():
                        RegexHandler('^{0}$'.format(lib.stop_bot), stop)]
 
         },
-        fallbacks=[CommandHandler('stop', stop, pass_job_queue=True, pass_chat_data=True)],
+        fallbacks=[CommandHandler('stop', stop)],
 
     )
 
