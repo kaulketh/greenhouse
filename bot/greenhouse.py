@@ -331,7 +331,7 @@ def main():
     dp = updater.dispatcher
 
     conv_handler = ConversationHandler(
-        entry_points=[CommandHandler('start', start)],
+        entry_points=[CommandHandler('start', start, pass_job_queue=True, pass_chat_data=True)],
 
         states={
             SELECT: [RegexHandler(
@@ -350,16 +350,21 @@ def main():
                                                                                     str(lib.all_channels),
                                                                                     str(lib.panic),
                                                                                     str(lib.live_stream),
-                                                                                    str(lib.reload)), selection),
-                     RegexHandler('^{0}$'.format(lib.stop_bot), stop)],
+                                                                                    str(lib.reload)), selection,
+                pass_job_queue=True, pass_chat_data=True),
+                     RegexHandler('^{0}$'.format(lib.stop_bot), stop,
+                                  pass_job_queue=True, pass_chat_data=True)],
 
-            DURATION: [RegexHandler('^([0-9]+|{0}|{1})$'.format(str(lib.cancel), str(lib.panic)), duration),
-                       RegexHandler('^{0}$'.format(lib.stop_bot), stop)],
-            TIMER: [RegexHandler('timer', timer)],
+            DURATION: [RegexHandler('^([0-9]+|{0}|{1})$'.format(str(lib.cancel), str(lib.panic)), duration,
+                                    pass_job_queue=True, pass_chat_data=True),
+                       RegexHandler('^{0}$'.format(lib.stop_bot), stop,
+                                    pass_job_queue=True, pass_chat_data=True)],
+            TIMER: [RegexHandler('timer', timer,
+                                 pass_job_queue=True, pass_chat_data=True)],
 
         },
-        fallbacks=[CommandHandler('stop', stop)],
-        pass_job_queue=True, pass_chat_data=True
+        fallbacks=[CommandHandler('stop', stop, pass_job_queue=True, pass_chat_data=True)],
+
     )
 
     dp.add_handler(conv_handler)
