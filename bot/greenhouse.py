@@ -9,7 +9,7 @@ import logging
 import os
 import time
 import conf.greenhouse_config as conf
-import peripherals.timer as standby
+import peripherals.timer as run_standby_timer
 import peripherals.dht.dht as dht
 import peripherals.temperature as core
 import peripherals.four_digit.display as display
@@ -33,7 +33,8 @@ group_three = conf.GROUP_03
 # time out
 time_out = 15
 start_timer = False
-standby.timer(time_out)
+run_standby_timer
+
 
 # time stamp
 def timestamp():

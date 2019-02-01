@@ -15,19 +15,10 @@ def mach_los(wait):
     return
 
 
-def timer(wait):
-    while True:
-        print('Check, ob ich soll...')
-        soll_ich = greenhouse.start_timer
-        if soll_ich:
-            #time.sleep(wait)
-            mach_los(wait)
-            #greenhouse.stop
-        else:
-            print('Nichts zu tun...')
-        time.sleep(1)
-
-
-if __name__ == '__main__':
-    pass
-
+while True:
+    print('Check, ob ich soll...')
+    if greenhouse.start_timer:
+        mach_los(greenhouse.wait)
+    else:
+        print('Nichts zu tun...')
+    time.sleep(1)
