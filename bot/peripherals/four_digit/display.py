@@ -110,9 +110,10 @@ def switch_once_channel_duration(channel, duration):
     g_display.show_doublepoint(False)
     g_display.show([12, 17, 38, channel])
     sleep(1)
+    g_duration -= 1
     g_display.show_int(duration)
     sleep(1)
-    g_duration -= 2
+    g_duration -= 1
     return
 
 
@@ -126,6 +127,7 @@ def show_switch_channel_duration(channel, duration):
     for c in range(count):
         thread = threading.Thread(target=switch_once_channel_duration, args=(g_channel, g_duration))
         thread.start()
+
 
 
 def show_group(group):
