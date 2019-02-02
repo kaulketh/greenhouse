@@ -124,7 +124,7 @@ def show_switch_channel_duration(channel, duration):
     while g_duration > 0:
         thread = threading.Thread(switch_once_channel_duration(g_channel, g_duration))
         thread.start()
-        g_duration -= 2;
+        g_duration -= 2
     return
 
 

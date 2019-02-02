@@ -7,6 +7,7 @@ from __future__ import absolute_import
 import logging
 import os
 import time
+import threading
 import conf.greenhouse_config as conf
 import peripherals.dht.dht as dht
 import peripherals.temperature as core
@@ -165,7 +166,7 @@ def duration(bot, update):
 
     elif Target == str(lib.group1[1]):
         # TODO: thread timer
-        display.show_switch_channel_duration(1, int(Water_Time))
+        threading.Thread(display.show_switch_channel_duration(1, int(Water_Time))).start()
         # display.show_channel(1)
         water(update, group_one[0])
 
