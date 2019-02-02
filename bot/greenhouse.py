@@ -164,7 +164,9 @@ def duration(bot, update):
         os.system(conf.run_extended_greenhouse + str(user_id))
 
     elif Target == str(lib.group1[1]):
-        display.show_channel(1)
+        # TODO: thread timer
+        display.show_switch_channel_duration(1, int(Water_Time))
+        # display.show_channel(1)
         water(update, group_one[0])
 
     elif Target == str(lib.group1[2]):

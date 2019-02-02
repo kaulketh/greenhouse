@@ -3,12 +3,14 @@
 # author: Thomas Kaulke, kaulketh@gmail.com
 
 from __future__ import absolute_import
+import threading
 from time import sleep
 from conf.greenhouse_config import clk_pin, dio_pin, brightness
 import peripherals.four_digit.four_digits as tm1637
 import peripherals.temperature as core_temp
 
 display = tm1637.TM1637(clk=clk_pin, dio=dio_pin, brightness=brightness)
+thread = None
 
 group1 = [12, 1, 34, 3]
 group2 = [12, 6, 34, 8]
@@ -27,61 +29,61 @@ extended = [27, 24, 1, 49]
 ready = [38, 28, 13, 32]
 
 
-def disable_colon(on):
+def __disable_colon(on):
     display.show_doublepoint(not on)
     return
 
 
 def show_duration(duration):
-    disable_colon(True)
+    __disable_colon(True)
     display.show_int(duration)
     return
 
 
 def show_ready():
-    disable_colon(True)
+    __disable_colon(True)
     display.show(ready)
     return
 
 
 def show_extended():
-    disable_colon(True)
+    __disable_colon(True)
     display.show(extended)
     return
 
 
 def show_update():
-    disable_colon(True)
+    __disable_colon(True)
     display.show(update)
     return
 
 
 def show_standby():
-    disable_colon(True)
+    __disable_colon(True)
     display.show(standby)
     return
 
 
 def show_run():
-    disable_colon(True)
+    __disable_colon(True)
     display.show(run)
     return
 
 
 def show_stop():
-    disable_colon(True)
+    __disable_colon(True)
     display.show(stop)
     return
 
 
 def show_error():
-    disable_colon(True)
+    __disable_colon(True)
     display.show(error)
     return
 
 
 def show_core_temp():
-    disable_colon(True)
+    __disable_colon(True)
     display.show(core_temp.get_temp_as_digits())
     return
 
@@ -96,13 +98,35 @@ def blink(values, pulse):
 
 
 def show_channel(channel):
-    disable_colon(True)
+    __disable_colon(True)
     display.show([12, 17, 38, channel])
     return
 
 
+# TODO: thread timer
+def switch_once_channel_duration(channel, duration):
+    show_channel(channel)
+    sleep(1)
+    show_duration(duration)
+    sleep(1)
+    return
+
+
+def show_switch_channel_duration(channel, duration):
+    global thread
+    global g_duration
+    global g_channel
+    g_duration = duration
+    g_channel = channel
+    while g_duration > 0:
+        thread = threading.Thread(switch_once_channel_duration(g_channel, g_duration))
+        thread.start()
+        g_duration -= 2;
+    return
+
+
 def show_group(group):
-    disable_colon(True)
+    __disable_colon(True)
     if group == 1:
         display.show(group1)
     elif group == 2:
@@ -116,19 +140,29 @@ def show_group(group):
     return
 
 
+def show_switch_channel_duration(group, duration):
+    while duration > 0:
+        show_group(group)
+        sleep(1)
+        show_duration(duration)
+        sleep(1)
+        duration -=1;
+        return
+
+
 def show_off():
-    disable_colon(True)
+    __disable_colon(True)
     display.show(off)
     return
 
 
 def show_on():
-    disable_colon(True)
+    __disable_colon(True)
     display.show(on)
     return
 
 
 def show_boot():
-    disable_colon(True)
+    __disable_colon(True)
     display.show(boot)
     return
