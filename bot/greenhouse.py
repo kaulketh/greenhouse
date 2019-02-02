@@ -166,7 +166,7 @@ def duration(bot, update):
 
     elif Target == str(lib.group1[1]):
         # TODO: thread timer
-        threading.Thread(display.show_switch_channel_duration(1, int(Water_Time))).start()
+        display.show_switch_channel_duration(1, int(Water_Time))
         # display.show_channel(1)
         water(update, group_one[0])
 

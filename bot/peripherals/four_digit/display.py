@@ -121,11 +121,11 @@ def show_switch_channel_duration(channel, duration):
     global g_channel
     g_duration = duration
     g_channel = channel
-    while g_duration > 0:
-        thread = threading.Thread(switch_once_channel_duration(g_channel, g_duration))
+    count = duration/2
+    for c in range(count):
+        thread = threading.Thread(target=switch_once_channel_duration, args=(g_channel, g_duration))
         thread.start()
         g_duration -= 2
-    return
 
 
 def show_group(group):
