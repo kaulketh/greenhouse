@@ -103,18 +103,17 @@ def show_channel(channel):
 
 
 # TODO: thread timer
-def __switch_once_channel_duration(channel, duration):
+def __switch_channel_duration(channel, duration):
     global g_display
-    global g_duration
     g_display = tm1637.TM1637(clk=clk_pin, dio=dio_pin, brightness=brightness)
     g_display.show_doublepoint(False)
-    g_display.show([12, 17, 38, channel])
-    sleep(1)
-    duration -= 1
-    g_display.show_int(duration)
-    sleep(1)
-    duration -= 1
-    g_duration = duration
+    while duration > 0:
+        g_display.show([12, 17, 38, channel])
+        sleep(1)
+        duration -= 1
+        g_display.show_int(duration)
+        sleep(1)
+        duration -= 1
     return
 
 
@@ -124,10 +123,8 @@ def show_switch_channel_duration(channel, duration):
     global g_duration
     g_duration = duration
     g_channel = channel
-    count = duration/2
-    for c in range(count):
-        thread = threading.Thread(target=__switch_once_channel_duration, args=(g_channel, g_duration))
-        thread.start()
+    thread = threading.Thread(target=__switch_channel_duration, args=(g_channel, g_duration))
+    thread.start()
 
 
 def show_group(group):
