@@ -34,6 +34,7 @@ else
     # get default branch from repository
     branch=$(curl -s https://api.github.com/repos/${owner}/${project} --insecure | grep -Po '(?<="default_branch":)(.*?)(?=,)' | sed "s/\"//g" | sed -e 's/^[[:space:]]*//')
     echo ${branch} > ${cloned_branch}
+
 fi
 
 # get last commit id of branch

@@ -45,5 +45,6 @@ get_pid2 = 'ps -o pid,args -C python | awk \'/ext_greenhouse.py/ { print $1 }\''
 restart_bot = 'python /home/pi/scripts/TelegramBot/greenhouse.py &'
 update_bot = 'rm /lastGreenhouseCommit.id && bash /home/pi/scripts/TelegramBot/update_bot.sh ' \
              + str(token) + ' ' + str(thk) + ' &'
+
 backup_all = 'tar -zcf /home/pi/backups/greenhouse.tgz --exclude=\'*.pyc\' /home/pi/scripts/TelegramBot/ &'
 logrotate_bot = 'logrotate -f /etc/logrotate.conf &' 
