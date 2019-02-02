@@ -112,6 +112,7 @@ def switch_once_channel_duration(channel, duration):
     sleep(1)
     g_display.show_int(duration)
     sleep(1)
+    g_duration -= 2
     return
 
 
@@ -125,7 +126,6 @@ def show_switch_channel_duration(channel, duration):
     for c in range(count):
         thread = threading.Thread(target=switch_once_channel_duration, args=(g_channel, g_duration))
         thread.start()
-        g_duration -= 2
 
 
 def show_group(group):
