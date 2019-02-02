@@ -8,7 +8,7 @@ project=greenhouse
 owner=kaulketh
 log='/update_bot.log'
 commit_id='/lastGreenhouseCommit.id'
-default_branch='/defaultGreenhouseBranch.name'
+cloned_branch='/defaultGreenhouseBranch.name'
 bot_dir='/home/pi/scripts/TelegramBot/'
 wait=3
 
@@ -29,12 +29,12 @@ fi
 if [[ $# -eq 3  ]]
     then
         branch=$3
-	echo ${branch} > ${default_branch}
+        echo ${branch} > ${cloned_branch}
 else
     # get default branch from repository
     branch=$(curl -s https://api.github.com/repos/${owner}/${project} --insecure | grep -Po '(?<="default_branch":)(.*?)(?=,)' | sed "s/\"//g" | sed -e 's/^[[:space:]]*//')
-    # save name of default branch
-    echo ${branch} > ${default_branch}
+    echo ${branch} > ${cloned_branch}
+
 fi
 
 # get last commit id of branch

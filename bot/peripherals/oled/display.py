@@ -16,15 +16,15 @@ draw = oled.canvas
 c = '\''
 left = 5
 top = 7
-switch_time = 30
+switch_time = 15
 
 
 def get_last_commit():
-    commit = open("/lastGreenhouseCommit.id").read()
-    branch = open("/defaultGreenhouseBranch.name").read()
-    commit = commit[0:6]
-    commit = commit + " " + branch.replace("\n", "")
-    return commit
+        commit = open("/lastGreenhouseCommit.id").read()
+        branch = open("/defaultGreenhouseBranch.name").read()
+        commit = commit[0:6]
+        commit = commit + " " + branch.replace("\n", "")
+        return commit
 
 
 def get_core_temp():
@@ -74,7 +74,9 @@ def show_state(time):
     """
     cmd = "hostname -I | cut -d\' \' -f1"
     ip = subprocess.check_output(cmd, shell=True)
-    cmd = "top -bn1 | grep load | awk '{printf \"CPU Load : %.2f\", $(NF-2)}'"
+    cmd = "top - bn1 | grep \"Cpu(s)\" | sed \"s/.*, *\\([0-9.]*\\)%* id.*/\\1/\" | " \
+          "awk '{print \"CPU Load : \"100 - $1\"%\"}'"
+    # cmd = "top -bn1 | grep load | awk '{printf \"CPU Load : %.2f\", $(NF-2)}'"
     cpu = subprocess.check_output(cmd, shell=True)
     cmd = "free -m | awk 'NR==2{printf \"Mem : %s / %s MB %.0f%%\", $3,$2,$3*100/$2 }'"
     mem_usage = subprocess.check_output(cmd, shell=True)
@@ -91,7 +93,7 @@ def show_state(time):
 
 
 if __name__ == '__main__':
-    while 1:
+    while True:
 
         try:
             animate(switch_time)

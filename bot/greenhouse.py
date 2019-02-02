@@ -3,15 +3,15 @@
 # original: author: Stefan Weigert  http://www.stefan-weigert.de/php_loader/raspi.php
 # adapted: author: Thomas Kaulke, kaulketh@gmail.com
 
-
 from __future__ import absolute_import
 import logging
 import os
 import time
+import conf.greenhouse_config as conf
 import peripherals.dht.dht as dht
 import peripherals.temperature as core
 import peripherals.four_digit.display as display
-import conf.greenhouse_config as conf
+
 from telegram import (ReplyKeyboardMarkup,
                       ReplyKeyboardRemove, ParseMode)
 from telegram.ext import (Updater, CommandHandler, RegexHandler, ConversationHandler)
@@ -63,7 +63,7 @@ def cam_off():
 
 
 # api and bot settings
-SELECT, DURATION = range(2)
+SELECT, DURATION, TIMER = range(3)
 
 
 # LIST_OF_ADMINS = ['mock to test']
@@ -225,6 +225,7 @@ def duration(bot, update):
 
     else:
         update.message.reply_text(lib.msg_choice, reply_markup=markup1)
+
     return SELECT
 
 
@@ -304,7 +305,6 @@ def error(bot, update, error):
     return ConversationHandler.END
 
 
-# main
 def main():
     updater = Updater(API_TOKEN)
 
@@ -334,10 +334,11 @@ def main():
                      RegexHandler('^{0}$'.format(lib.stop_bot), stop)],
 
             DURATION: [RegexHandler('^([0-9]+|{0}|{1})$'.format(str(lib.cancel), str(lib.panic)), duration),
-                       RegexHandler('^{0}$'.format(lib.stop_bot), stop)],
-        },
+                       RegexHandler('^{0}$'.format(lib.stop_bot), stop)]
 
-        fallbacks=[CommandHandler('stop', stop)]
+        },
+        fallbacks=[CommandHandler('stop', stop)],
+
     )
 
     dp.add_handler(conv_handler)
