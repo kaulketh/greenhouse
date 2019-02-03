@@ -326,16 +326,16 @@ def start_standby_timer(bot, update):
     global g_update
     g_bot = bot
     g_update = update
-    thread = threading.Thread(target=__standby_timer, args=(g_bot, g_update))
+    thread = threading.Thread(target=__standby_timer, args=(g_bot, g_update, thread))
     thread.start()
 
 
-def __standby_timer(bot, update):
+def __standby_timer(bot, update, this_thread):
     print('warte...')
     time.sleep(15)
     print('genug gewartet!')
     stop(bot, update)
-    return
+    this_thread.cancel()
 
 
 def main():
