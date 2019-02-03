@@ -234,8 +234,6 @@ def duration(bot, update):
         update.message.reply_text('{0}{1}{2}'.format(
             timestamp(), lib.water_off_all.format(Water_Time), lib.msg_new_choice),
             parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
-        """ starts separate thread"""
-        start_standby_timer(bot, update)
         display.show_off()
 
     else:
@@ -320,22 +318,22 @@ def error(bot, update, e):
     return ConversationHandler.END
 
 
-def start_standby_timer(bot, update):
-    global thread
-    global g_bot
-    global g_update
-    g_bot = bot
-    g_update = update
-    thread = threading.Thread(target=__standby_timer, args=(g_bot, g_update, thread))
-    thread.start()
-
-
-def __standby_timer(bot, update, this_thread):
-    print('warte...')
-    time.sleep(15)
-    print('genug gewartet!')
-    stop(bot, update)
-    this_thread.cancel()
+# def start_standby_timer(bot, update):
+#     global thread
+#     global g_bot
+#     global g_update
+#     g_bot = bot
+#     g_update = update
+#     thread = threading.Thread(target=__standby_timer, args=(g_bot, g_update, thread))
+#     thread.start()
+#
+#
+# def __standby_timer(bot, update, this_thread):
+#     print('warte...')
+#     time.sleep(15)
+#     print('genug gewartet!')
+#     stop(bot, update)
+#     this_thread.cancel()
 
 
 def main():
