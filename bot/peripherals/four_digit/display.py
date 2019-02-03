@@ -28,11 +28,6 @@ extended = [27, 24, 1, 49]
 ready = [38, 28, 13, 32]
 
 
-def __disable_colon(on):
-    display.show_doublepoint(not on)
-    return
-
-
 def show_duration(duration):
     __disable_colon(True)
     display.show_int(duration)
@@ -102,21 +97,6 @@ def show_channel(channel):
     return
 
 
-# TODO: thread timer
-def __switch_channel_duration(channel, duration):
-    global g_display
-    g_display = tm1637.TM1637(clk=clk_pin, dio=dio_pin, brightness=brightness)
-    g_display.show_doublepoint(False)
-    while duration > 0:
-        g_display.show([12, 17, 38, channel])
-        sleep(1)
-        duration -= 1
-        g_display.show_int(duration)
-        sleep(1)
-        duration -= 1
-    return
-
-
 def show_switch_channel_duration(channel, duration):
     global thread
     global g_channel
@@ -143,13 +123,13 @@ def show_group(group):
 
 
 def show_switch_group_duration(group, duration):
-    while duration > 0:
-        show_group(group)
-        sleep(1)
-        show_duration(duration)
-        sleep(1)
-        duration -=1;
-        return
+    global thread
+    global g_group
+    global g_duration
+    g_duration = duration
+    g_group = group
+    thread = threading.Thread(target=__switch_group_duration, args=(g_group, g_duration))
+    thread.start()
 
 
 def show_off():
@@ -168,3 +148,48 @@ def show_boot():
     __disable_colon(True)
     display.show(boot)
     return
+
+
+def __disable_colon(on):
+    display.show_doublepoint(not on)
+    return
+
+
+# TODO: improve countdown display
+def __switch_channel_duration(channel, duration):
+    global g_display
+    g_display = tm1637.TM1637(clk=clk_pin, dio=dio_pin, brightness=brightness)
+    g_display.show_doublepoint(False)
+    while duration > 0:
+        g_display.show([12, 17, 38, channel])
+        sleep(1)
+        duration -= 1
+        g_display.show_int(duration)
+        sleep(1)
+        duration -= 1
+    return
+
+
+# TODO: improve countdown display
+def __switch_group_duration(group, duration):
+    global g_display
+    g_display = tm1637.TM1637(clk=clk_pin, dio=dio_pin, brightness=brightness)
+    g_display.show_doublepoint(False)
+    while duration > 0:
+        if group == 1:
+            display.show(group1)
+        elif group == 2:
+            display.show(group2)
+        elif group == 3:
+            display.show(group3)
+        elif group == 0:
+            display.show(all_channels)
+        else:
+            display.clear()
+        sleep(1)
+        duration -= 1
+        g_display.show_int(duration)
+        sleep(1)
+        duration -= 1
+    return
+

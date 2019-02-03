@@ -7,7 +7,6 @@ from __future__ import absolute_import
 import logging
 import os
 import time
-import threading
 import conf.greenhouse_config as conf
 import peripherals.dht.dht as dht
 import peripherals.temperature as core
@@ -40,7 +39,7 @@ def start_time():
 
 
 # switch all off at start, set all used GPIO=high
-logging.info('Enable bot, setup GPIO pins.')
+logging.info('\nInitialize bot, setup GPIO pins.')
 conf.set_pins()
 logging.info('Switch all off at start.')
 for member in all_groups:
@@ -165,56 +164,67 @@ def duration(bot, update):
         os.system(conf.run_extended_greenhouse + str(user_id))
 
     elif Target == str(lib.group1[1]):
-        # TODO: thread timer
+        # TODO: improve code, remove comments
         display.show_switch_channel_duration(1, int(Water_Time))
         # display.show_channel(1)
         water(update, group_one[0])
 
     elif Target == str(lib.group1[2]):
-        display.show_channel(2)
+        display.show_switch_channel_duration(2, int(Water_Time))
+        # display.show_channel(2)
         water(update, group_one[1])
 
     elif Target == str(lib.group1[3]):
-        display.show_channel(3)
+        display.show_switch_channel_duration(3, int(Water_Time))
+        # display.show_channel(3)
         water(update, group_one[2])
 
     elif Target == str(lib.group2[1]):
-        display.show_channel(6)
+        display.show_switch_channel_duration(6, int(Water_Time))
+        # display.show_channel(6)
         water(update, group_two[0])
 
     elif Target == str(lib.group2[2]):
-        display.show_channel(7)
+        display.show_switch_channel_duration(7, int(Water_Time))
+        # display.show_channel(7)
         water(update, group_two[1])
 
     elif Target == str(lib.group2[3]):
-        display.show_channel(8)
+        display.show_switch_channel_duration(8, int(Water_Time))
+        # display.show_channel(8)
         water(update, group_two[2])
 
     elif Target == str(lib.group1[0]):
-        display.show_group(1)
+        display.show_switch_group_duration(1, int(Water_Time))
+        # display.show_group(1)
         water_group(update, group_one)
 
     elif Target == str(lib.group2[0]):
-        display.show_group(2)
+        display.show_switch_group_duration(2, int(Water_Time))
+        # display.show_group(2)
         water_group(update, group_two)
 
     elif Target == str(lib.group3[1]):
-        display.show_channel(4)
+        display.show_switch_channel_duration(4, int(Water_Time))
+        # display.show_channel(4)
         water(update, group_three[0])
 
     elif Target == str(lib.group3[2]):
-        display.show_channel(5)
+        display.show_switch_channel_duration(5, int(Water_Time))
+        # display.show_channel(5)
         water(update, group_three[1])
 
     elif Target == str(lib.group3[0]):
-        display.show_group(3)
+        display.show_switch_group_duration(3, int(Water_Time))
+        # display.show_group(3)
         water_group(update, group_three)
 
     elif Target == str(lib.all_channels):
         logging.info('Duration: {0}'.format(Water_Time))
         update.message.reply_text(lib.water_on_all.format(Target, Water_Time),
                                   parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
-        display.show_group(0)
+        # display.show_group(0)
+        display.show_switch_group_duration(0, int(Water_Time))
         for member in all_groups:
             conf.switch_on(member)
 
