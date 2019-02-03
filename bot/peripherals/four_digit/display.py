@@ -5,7 +5,7 @@
 from __future__ import absolute_import
 import threading
 from time import sleep
-from conf.greenhouse_config import clk_pin, dio_pin, brightness, lib.time_conversion
+from conf.greenhouse_config import clk_pin, dio_pin, brightness, lib
 import peripherals.four_digit.four_digits as tm1637
 import peripherals.temperature as core_temp
 
