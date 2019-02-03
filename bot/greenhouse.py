@@ -331,8 +331,10 @@ def start_standby_timer(bot, update):
 
 
 def __standby_timer(bot, update):
+    print('warte...')
     time.sleep(15)
-    bot.stop(bot, update)
+    print('genug gewartet!')
+    stop(bot, update)
     return
 
 
