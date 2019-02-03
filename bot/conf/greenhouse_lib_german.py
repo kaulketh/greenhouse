@@ -11,7 +11,7 @@ decimal = ','
 
 # time unit
 # time units settings (0 == seconds, 1 == minutes)
-time_units_index = 1
+time_units_index = 0
 time_units_name = ('Sekunden', 'Minuten')
 time_units_sign = ('s', 'm')
 time_units_conversion = (1, 60)
