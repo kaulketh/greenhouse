@@ -7,6 +7,7 @@ from __future__ import absolute_import
 import logging
 import os
 import time
+import threading
 import conf.greenhouse_config as conf
 import peripherals.dht.dht as dht
 import peripherals.temperature as core
@@ -164,76 +165,77 @@ def duration(bot, update):
         os.system(conf.run_extended_greenhouse + str(user_id))
 
     elif Target == str(lib.group1[1]):
-        # TODO: improve code, remove comments
+        """ starts separate thread"""
         display.show_switch_channel_duration(1, int(Water_Time))
-        # display.show_channel(1)
         water(update, group_one[0])
 
     elif Target == str(lib.group1[2]):
+        """ starts separate thread"""
         display.show_switch_channel_duration(2, int(Water_Time))
-        # display.show_channel(2)
         water(update, group_one[1])
 
     elif Target == str(lib.group1[3]):
+        """ starts separate thread"""
         display.show_switch_channel_duration(3, int(Water_Time))
-        # display.show_channel(3)
         water(update, group_one[2])
 
     elif Target == str(lib.group2[1]):
+        """ starts separate thread"""
         display.show_switch_channel_duration(6, int(Water_Time))
-        # display.show_channel(6)
         water(update, group_two[0])
 
     elif Target == str(lib.group2[2]):
+        """ starts separate thread"""
         display.show_switch_channel_duration(7, int(Water_Time))
-        # display.show_channel(7)
         water(update, group_two[1])
 
     elif Target == str(lib.group2[3]):
+        """ starts separate thread"""
         display.show_switch_channel_duration(8, int(Water_Time))
-        # display.show_channel(8)
         water(update, group_two[2])
 
     elif Target == str(lib.group1[0]):
+        """ starts separate thread"""
         display.show_switch_group_duration(1, int(Water_Time))
-        # display.show_group(1)
         water_group(update, group_one)
 
     elif Target == str(lib.group2[0]):
+        """ starts separate thread"""
         display.show_switch_group_duration(2, int(Water_Time))
-        # display.show_group(2)
         water_group(update, group_two)
 
     elif Target == str(lib.group3[1]):
+        """ starts separate thread"""
         display.show_switch_channel_duration(4, int(Water_Time))
-        # display.show_channel(4)
         water(update, group_three[0])
 
     elif Target == str(lib.group3[2]):
+        """ starts separate thread"""
         display.show_switch_channel_duration(5, int(Water_Time))
-        # display.show_channel(5)
         water(update, group_three[1])
 
     elif Target == str(lib.group3[0]):
+        """ starts separate thread"""
         display.show_switch_group_duration(3, int(Water_Time))
-        # display.show_group(3)
         water_group(update, group_three)
 
     elif Target == str(lib.all_channels):
         logging.info('Duration: {0}'.format(Water_Time))
         update.message.reply_text(lib.water_on_all.format(Target, Water_Time),
                                   parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
-        # display.show_group(0)
+        """ starts separate thread"""
         display.show_switch_group_duration(0, int(Water_Time))
-        for member in all_groups:
-            conf.switch_on(member)
+        for channel in all_groups:
+            conf.switch_on(channel)
 
         time.sleep((int(Water_Time)*int(lib.time_conversion)))
-        for member in all_groups:
-            conf.switch_off(member)
+        for channel in all_groups:
+            conf.switch_off(channel)
         update.message.reply_text('{0}{1}{2}'.format(
             timestamp(), lib.water_off_all.format(Water_Time), lib.msg_new_choice),
             parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
+        """ starts separate thread"""
+        start_standby_timer(bot, update)
         display.show_off()
 
     else:
@@ -243,14 +245,14 @@ def duration(bot, update):
 
 
 # water the target
-def water(update, member):
+def water(update, channel):
     logging.info('Duration: ' + Water_Time)
-    logging.info('Toggle ' + str(member))
+    logging.info('Toggle ' + str(channel))
     update.message.reply_text(lib.water_on.format(Target, Water_Time),
                               parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
-    conf.switch_on(member)
+    conf.switch_on(channel)
     time.sleep((int(Water_Time)*int(lib.time_conversion)))
-    conf.switch_off(member)
+    conf.switch_off(channel)
     update.message.reply_text('{0}{1}{2}'.format(
         timestamp(), lib.water_off.format(Target, Water_Time), lib.msg_new_choice),
         parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
@@ -264,11 +266,11 @@ def water_group(update, group):
     logging.info('Toggle ' + str(group))
     update.message.reply_text(lib.water_on_group.format(Target, Water_Time),
                               parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
-    for member in group:
-        conf.switch_on(member)
+    for channel in group:
+        conf.switch_on(channel)
     time.sleep((int(Water_Time)*int(lib.time_conversion)))
-    for member in group:
-        conf.switch_off(member)
+    for channel in group:
+        conf.switch_off(channel)
     update.message.reply_text('{0}{1}{2}'.format(
         timestamp(), lib.water_off_group.format(Target, Water_Time), lib.msg_new_choice),
         parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
@@ -310,12 +312,27 @@ def stop(bot, update):
 
 
 # error
-def error(bot, update, error):
-    logging.error('An error occurs! ' + str(error))
+def error(bot, update, e):
+    logging.error('An error occurs! ' + str(e))
     display.show_error()
     cam_off()
     conf.GPIO.cleanup()
     return ConversationHandler.END
+
+
+def start_standby_timer(bot, update):
+    global thread
+    global g_bot
+    global g_update
+    g_bot = bot
+    g_update = update
+    thread = threading.Thread(target=__standby_timer, args=(g_bot, g_update))
+    thread.start()
+
+
+def __standby_timer(bot, update):
+    time.sleep(15)
+    stop(bot, update)
 
 
 def main():

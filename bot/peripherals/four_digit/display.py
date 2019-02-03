@@ -23,10 +23,8 @@ stop = [29, 39, 0, 27]
 run = [38, 28, 40, 24]
 standby = [29, 39, 11, 32]
 update = [30, 27, 13, 39]
-# extended = [41, 41, 41, 41]
 extended = [27, 24, 1, 49]
 ready = [38, 28, 13, 32]
-
 
 
 def show_duration(duration):
@@ -154,12 +152,11 @@ def show_boot():
     return
 
 
-def __disable_colon(on):
-    display.show_doublepoint(not on)
+def __disable_colon(yes):
+    display.show_doublepoint(not yes)
     return
 
 
-# TODO: improve countdown display
 def __switch_channel_duration(channel, duration):
     global g_display
     g_display = tm1637.TM1637(clk=clk_pin, dio=dio_pin, brightness=brightness)
@@ -174,7 +171,6 @@ def __switch_channel_duration(channel, duration):
     return
 
 
-# TODO: improve countdown display
 def __switch_group_duration(group, duration):
     global g_display
     g_display = tm1637.TM1637(clk=clk_pin, dio=dio_pin, brightness=brightness)
@@ -196,4 +192,3 @@ def __switch_group_duration(group, duration):
         sleep(1)
         duration -= 1
     return
-
