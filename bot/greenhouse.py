@@ -333,6 +333,7 @@ def start_standby_timer(bot, update):
 def __standby_timer(bot, update):
     time.sleep(15)
     stop(bot, update)
+    return
 
 
 def main():
