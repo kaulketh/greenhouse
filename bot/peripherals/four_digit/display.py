@@ -5,7 +5,7 @@
 from __future__ import absolute_import
 import threading
 from time import sleep
-from conf.greenhouse_config import clk_pin, dio_pin, brightness
+from conf.greenhouse_config import clk_pin, dio_pin, brightness, lib.time_conversion
 import peripherals.four_digit.four_digits as tm1637
 import peripherals.temperature as core_temp
 
@@ -29,6 +29,7 @@ ready = [38, 28, 13, 32]
 
 
 def show_duration(duration):
+    duration = duration * lib.time_conversion
     __disable_colon(True)
     display.show_int(duration)
     return
@@ -98,6 +99,7 @@ def show_channel(channel):
 
 
 def show_switch_channel_duration(channel, duration):
+    duration = duration * lib.time_conversion
     global thread
     global g_channel
     global g_duration
@@ -123,6 +125,7 @@ def show_group(group):
 
 
 def show_switch_group_duration(group, duration):
+    duration = duration * lib.time_conversion
     global thread
     global g_group
     global g_duration
