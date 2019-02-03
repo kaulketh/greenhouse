@@ -71,6 +71,13 @@ class TM1637:
         for i in range(0, len(s)):
             self.show1(i, int(s[i]))
 
+    def show_remain_int(self, i):
+        s = str(i)
+        self.clear()
+        self.show1(0, 34)
+        for i in range(0, len(s)):
+            self.show1(i+1, int(s[i]))
+
     def show(self, data):
         for i in range(0, 4):
             self.__current_data[i] = data[i]

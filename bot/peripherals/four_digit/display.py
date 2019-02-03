@@ -28,6 +28,7 @@ extended = [27, 24, 1, 49]
 ready = [38, 28, 13, 32]
 
 
+
 def show_duration(duration):
     duration = duration * lib.time_conversion
     __disable_colon(True)
@@ -167,7 +168,7 @@ def __switch_channel_duration(channel, duration):
         g_display.show([12, 17, 38, channel])
         sleep(1)
         duration -= 1
-        g_display.show_int(duration)
+        g_display.show_remain_int(duration)
         sleep(1)
         duration -= 1
     return
@@ -191,7 +192,7 @@ def __switch_group_duration(group, duration):
             display.clear()
         sleep(1)
         duration -= 1
-        g_display.show_int(duration)
+        g_display.show_remain_int(duration)
         sleep(1)
         duration -= 1
     return
