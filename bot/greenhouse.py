@@ -255,7 +255,7 @@ def water(update, channel):
         timestamp(), lib.water_off.format(Target, Water_Time), lib.msg_new_choice),
         parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
     display.show_off()
-    start_standby_timer
+    start_standby_timer(bot, job, update)
     return
 
 
@@ -274,7 +274,7 @@ def water_group(update, group):
         timestamp(), lib.water_off_group.format(Target, Water_Time), lib.msg_new_choice),
         parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
     display.show_off
-    start_standby_timer
+    start_standby_timer(bot, job, update)
     return
 
 
@@ -327,8 +327,8 @@ def standby_timer(bot, job, update):
 
 
 def start_standby_timer(bot, job):
-    timer = timer_job.run_once(standby_timer, 15)
-    # timer.enabled = True
+    timer = timer_job.run_once(standby_timer, 5)
+    timer.enabled = True
     return timer
 
 
