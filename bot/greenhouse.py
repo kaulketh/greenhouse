@@ -330,7 +330,6 @@ def start_standby_timer(bot, update, job):
 
 def stop_standby_timer(bot, update, job, job_queue):
     if job.name == 'stop_timer':
-        job.run
         logging.info("Stoppe alle Jobs!")
         job_queue.stop
     return
