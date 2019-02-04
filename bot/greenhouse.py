@@ -64,7 +64,7 @@ def cam_off():
 
 
 # api and bot settings
-SELECT, DURATION, TIMER = range(3)
+SELECT, DURATION = range(2)
 
 
 # LIST_OF_ADMINS = ['mock to test']
@@ -318,27 +318,25 @@ def error(bot, update, e):
     return ConversationHandler.END
 
 
-# def start_standby_timer(bot, update):
-#     global thread
-#     global g_bot
-#     global g_update
-#     g_bot = bot
-#     g_update = update
-#     thread = threading.Thread(target=__standby_timer, args=(g_bot, g_update, thread))
-#     thread.start()
-#
-#
-# def __standby_timer(bot, update, this_thread):
-#     print('warte...')
-#     time.sleep(15)
-#     print('genug gewartet!')
-#     stop(bot, update)
-#     this_thread.cancel()
+def standby_timer(bot, job, update):
+    update.message.reply_text("Hallo {}, starte Timer für automatischen Standby".format(update.message.from_user.first_name),
+                              parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
+    return
+
+
+def start_standby_timer(bot, job):
+    timer = timer_job.run_once(standby_timer, 15)
+    timer.enabled = True
+
+
+def stop_standby_timer(bot, job):
+    timer.enabled = False
+    timer.schedule_removal()
 
 
 def main():
     updater = Updater(API_TOKEN)
-
+    timer_job = updater.job_queue
     dp = updater.dispatcher
 
     conv_handler = ConversationHandler(
