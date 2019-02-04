@@ -321,8 +321,9 @@ def error(bot, update, e):
 
 
 def standby_timer(bot, job):
-    update.message.reply_text("Hallo {}, starte Timer für automatischen Standby".format(update.message.from_user.first_name),
-                              parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
+    logging.info("Starte Timer für automatischen Standby")
+    # update.message.reply_text("Hallo {}, starte Timer für automatischen Standby".format(update.message.from_user.first_name),
+    #                          parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
     return
 
 
