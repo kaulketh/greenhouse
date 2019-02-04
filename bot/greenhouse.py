@@ -15,7 +15,7 @@ import peripherals.four_digit.display as display
 
 from telegram import (ReplyKeyboardMarkup,
                       ReplyKeyboardRemove, ParseMode)
-from telegram.ext import (Updater, CommandHandler, RegexHandler, ConversationHandler)
+from telegram.ext import (Updater, CommandHandler, RegexHandler, ConversationHandler, JobQueue)
 
 logging.basicConfig(filename=conf.log_file, format=conf.log_format,
                     datefmt=conf.log_date_format, level=logging.INFO)
@@ -337,8 +337,7 @@ def stop_standby_timer(bot, job_queue):
 def main():
     updater = Updater(API_TOKEN)
 
-    jq = updater.job_queue
-    updater(jq, pass_job_queue=True)
+    updater.job_queue(pass_job_queue=True).start()
     logging.info("init job queue...")
 
     dp = updater.dispatcher
