@@ -326,15 +326,15 @@ def standby_timer(bot, job):
     return
 
 
-def start_standby_timer(bot, job):
+def start_standby_timer(bot, job_queue):
     logging.info("Starte 5s-Timer für automatischen Standby!")
-    job.enabled = True
+    job_queue.run_once(stop, 5)
     return
 
 
-def stop_standby_timer(bot, job):
+def stop_standby_timer(bot, job_queue):
     logging.info("Stoppe 5s-Timer für automatischen Standby!")
-    job.enabled = False
+    job_queue.schedule_removal()
     return
 
 
@@ -342,8 +342,7 @@ def main():
     updater = Updater(API_TOKEN)
 
     timer_job = updater.job_queue
-    timer = timer_job.run_once(standby_timer, 5)
-    #timer.enabled = False
+    timer_job.run_once(standby_timer, 0)
 
     dp = updater.dispatcher
 
