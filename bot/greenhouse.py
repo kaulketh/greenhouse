@@ -15,7 +15,7 @@ import peripherals.four_digit.display as display
 
 from telegram import (ReplyKeyboardMarkup,
                       ReplyKeyboardRemove, ParseMode)
-from telegram.ext import (Updater, CommandHandler, RegexHandler, ConversationHandler, JobQueue)
+from telegram.ext import (Updater, CommandHandler, RegexHandler, ConversationHandler, Job, JobQueue)
 
 logging.basicConfig(filename=conf.log_file, format=conf.log_format,
                     datefmt=conf.log_date_format, level=logging.INFO)
@@ -320,26 +320,27 @@ def error(bot, update, e):
     return ConversationHandler.END
 
 
+def job_standby_timer(bot):
+    return Job(stop)
+
+
 def start_standby_timer(bot, update):
-    # job_queue.run_once(start_standby_timer, 15)
-    job = bot.job_queue.get_jobs_by_name('start_timer')
-    job.run
+    bot.job_queue.run_once(job_standby_timer, 15)
+    # bot.job_queue.put(job_standby_timer, 15, repeat=False, prevent_autostart=True)
     logging.info("Starte 15s-Timer für automatischen Standby!")
     return
 
 
 def stop_standby_timer(bot, update):
-    job = bot.job_queue.get_jobs_by_name('stop_timer')
+    bot.job_queue.stop()
     logging.info("Stoppe alle Jobs!")
-    job.run
     return
 
 
 def main():
     updater = Updater(API_TOKEN)
-    jq = updater.job_queue
-    jq.run_once(updater.stop, 15, name='start_timer')
-    jq.run_once(jq.stop, 0, name='stop_timer')
+
+    updater.job_queue
     logging.info("init job queue...")
 
     dp = updater.dispatcher
