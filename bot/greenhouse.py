@@ -327,13 +327,15 @@ def standby_timer(bot, job, update):
 
 
 def start_standby_timer(bot, job):
-    timer = timer_job.run_once(standby_timer, 15)
-    timer.enabled = True
+    timer_job.run_once(standby_timer, 15)
+    # timer.enabled = True
+    return
 
 
 def stop_standby_timer(bot, job):
-    timer.enabled = False
-    timer.schedule_removal()
+    timer_job.enabled = False
+    timer_job.schedule_removal()
+    return
 
 
 def main():
