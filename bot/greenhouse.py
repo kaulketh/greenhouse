@@ -255,6 +255,7 @@ def water(update, channel):
         timestamp(), lib.water_off.format(Target, Water_Time), lib.msg_new_choice),
         parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
     display.show_off()
+    start_standby_timer
     return
 
 
@@ -272,7 +273,8 @@ def water_group(update, group):
     update.message.reply_text('{0}{1}{2}'.format(
         timestamp(), lib.water_off_group.format(Target, Water_Time), lib.msg_new_choice),
         parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
-    display.show_off()
+    display.show_off
+    start_standby_timer
     return
 
 
