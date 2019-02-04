@@ -320,26 +320,26 @@ def error(bot, update, e):
     return ConversationHandler.END
 
 
-def start_standby_timer(bot, update, job):
+def start_standby_timer(bot, update):
     # job_queue.run_once(start_standby_timer, 15)
-    if job.name == 'start_timer':
-        job.run
-        logging.info("Starte 15s-Timer für automatischen Standby!")
+    job = bot.job_queue.get_jobs_by_name('start_timer')
+    job.run
+    logging.info("Starte 15s-Timer für automatischen Standby!")
     return
 
 
-def stop_standby_timer(bot, update, job, job_queue):
-    if job.name == 'stop_timer':
-        logging.info("Stoppe alle Jobs!")
-        job_queue.stop
+def stop_standby_timer(bot, update):
+    job = bot.job_queue.get_jobs_by_name('stop_timer')
+    logging.info("Stoppe alle Jobs!")
+    job.run
     return
 
 
 def main():
     updater = Updater(API_TOKEN)
     jq = updater.job_queue
-    jq.run_once(stop, 15, name='start_timer')
-    jq.run_once(stop_standby_timer, 0, name='stop_timer')
+    jq.run_once(updater.stop, 15, name='start_timer')
+    jq.run_once(jq.stop, 0, name='stop_timer')
     logging.info("init job queue...")
 
     dp = updater.dispatcher
