@@ -343,7 +343,7 @@ def main():
 
     timer_job = updater.job_queue
     timer = timer_job.run_once(standby_timer, 5)
-    timer.enabled = False
+    #timer.enabled = False
 
     dp = updater.dispatcher
 
