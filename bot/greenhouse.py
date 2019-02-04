@@ -320,29 +320,23 @@ def error(bot, update, e):
     return ConversationHandler.END
 
 
-def standby_timer(bot, job):
-    # bot.send_message(chat_id=job.context, text='Starte Timer für automatischen Standby')
-    logging.info("Initialisiere Timer für automatischen Standby")
-    return
-
-
 def start_standby_timer(bot, job_queue):
-    logging.info("Starte 5s-Timer für automatischen Standby!")
-    job_queue.run_once(stop, 5)
+    logging.info("Starte 15s-Timer für automatischen Standby!")
+    job_queue.run_once(stop, 15)
     return
 
 
 def stop_standby_timer(bot, job_queue):
-    logging.info("Stoppe 5s-Timer für automatischen Standby!")
-    job_queue.schedule_removal()
+    logging.info("Stoppe Timer für automatischen Standby!")
+    job_queue.stop()
     return
 
 
 def main():
     updater = Updater(API_TOKEN)
 
-    timer_job = updater.job_queue
-    timer_job.run_once(standby_timer, 0)
+    #timer_job = updater.job_queue
+    #timer_job.run(stop, 30)
 
     dp = updater.dispatcher
 
