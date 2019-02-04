@@ -13,8 +13,7 @@ import peripherals.dht.dht as dht
 import peripherals.temperature as core
 import peripherals.four_digit.display as display
 
-from telegram import (ReplyKeyboardMarkup,
-                      ReplyKeyboardRemove, ParseMode)
+from telegram import (ReplyKeyboardMarkup, ReplyKeyboardRemove, ParseMode)
 from telegram.ext import (Updater, CommandHandler, RegexHandler, ConversationHandler)
 
 logging.basicConfig(filename=conf.log_file, format=conf.log_format,
@@ -238,7 +237,6 @@ def duration(bot, update):
 
     else:
         update.message.reply_text(lib.msg_choice, reply_markup=markup1)
-
     return SELECT
 
 
@@ -318,25 +316,9 @@ def error(bot, update, e):
     return ConversationHandler.END
 
 
-def standby_timer(bot, job, update):
-    update.message.reply_text("Hallo {}, starte Timer für automatischen Standby".format(update.message.from_user.first_name),
-                              parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
-    return
-
-
-def start_standby_timer(bot, job):
-    timer = timer_job.run_once(standby_timer, 15)
-    timer.enabled = True
-
-
-def stop_standby_timer(bot, job):
-    timer.enabled = False
-    timer.schedule_removal()
-
-
 def main():
     updater = Updater(API_TOKEN)
-    timer_job = updater.job_queue
+
     dp = updater.dispatcher
 
     conv_handler = ConversationHandler(
