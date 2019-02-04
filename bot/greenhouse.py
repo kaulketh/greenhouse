@@ -255,7 +255,7 @@ def water(update, channel):
         timestamp(), lib.water_off.format(Target, Water_Time), lib.msg_new_choice),
         parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
     display.show_off()
-    start_standby_timer(bot, job, update)
+    start_standby_timer
     return
 
 
@@ -274,7 +274,7 @@ def water_group(update, group):
         timestamp(), lib.water_off_group.format(Target, Water_Time), lib.msg_new_choice),
         parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
     display.show_off
-    start_standby_timer(bot, job, update)
+    start_standby_timer
     return
 
 
@@ -320,19 +320,21 @@ def error(bot, update, e):
     return ConversationHandler.END
 
 
-def standby_timer(bot, job, update):
+def standby_timer(bot, job):
     update.message.reply_text("Hallo {}, starte Timer für automatischen Standby".format(update.message.from_user.first_name),
                               parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
     return
 
 
 def start_standby_timer(bot, job):
+    global timer
     timer = timer_job.run_once(standby_timer, 5)
     timer.enabled = True
     return timer
 
 
 def stop_standby_timer(bot, job):
+    global timer
     timer.enabled = False
     timer.schedule_removal()
     return
@@ -340,6 +342,7 @@ def stop_standby_timer(bot, job):
 
 def main():
     updater = Updater(API_TOKEN)
+    global timer_job
     timer_job = updater.job_queue
     dp = updater.dispatcher
 
