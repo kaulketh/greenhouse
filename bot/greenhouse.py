@@ -323,13 +323,13 @@ def error(bot, update, e):
 def start_standby_timer(bot, job_queue):
     logging.info("Starte 15s-Timer für automatischen Standby!")
     job_queue.run_once(stop, 15)
-    logging.info(job_queue.jobs())
+    #logging.info(job_queue.jobs())
     return
 
 
 def stop_standby_timer(bot, job_queue):
     logging.info("Stoppe alle Jobs!")
-    logging.info(job_queue.jobs())
+    #logging.info(job_queue.jobs())
     job_queue.stop()
     return
 
