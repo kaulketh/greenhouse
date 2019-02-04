@@ -320,30 +320,31 @@ def error(bot, update, e):
     return ConversationHandler.END
 
 
-def standby_timer(bot, job):
-    bot.send_message(chat_id=job.context, text='Starte Timer für automatischen Standby')
+def standby_timer(bot, job, update):
+    # bot.send_message(chat_id=job.context, text='Starte Timer für automatischen Standby')
     logging.info("Starte Timer für automatischen Standby")
-    # update.message.reply_text("Hallo {}, starte Timer für automatischen Standby".format(update.message.from_user.first_name),
-    #                          parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
+    update.message.reply_text("Hallo {}, starte Timer für automatischen Standby".format(update.message.from_user.first_name),
+                              parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
     return
 
 
-def start_standby_timer(bot, job_queue, update):
+def start_standby_timer(bot, job):
     logging.info("Initialisiere 5s-Timer für automatischen Standby!")
-    job_queue.run_once(standby_timer, 5, context=update.message.chat_id)
+    job.enabled = True
     return
 
 
 def stop_standby_timer(bot, job):
-    timer = job
-    timer.enabled = False
-    timer.schedule_removal()
+    job.enabled = False
+    # job.schedule_removal()
+    return
 
 
 def main():
     updater = Updater(API_TOKEN)
 
     timer_job = updater.job_queue
+    timer_job.run_once(start_standby_timer, 5)
 
     dp = updater.dispatcher
 
@@ -385,8 +386,6 @@ def main():
     updater.start_polling()
 
     updater.idle()
-
-    timer_job.start()
 
 
 if __name__ == '__main__':
