@@ -7,13 +7,13 @@ from __future__ import absolute_import
 import logging
 import os
 import time
+import threading
 import conf.greenhouse_config as conf
 import peripherals.dht.dht as dht
 import peripherals.temperature as core
 import peripherals.four_digit.display as display
 
-from telegram import (ReplyKeyboardMarkup,
-                      ReplyKeyboardRemove, ParseMode)
+from telegram import (ReplyKeyboardMarkup, ReplyKeyboardRemove, ParseMode)
 from telegram.ext import (Updater, CommandHandler, RegexHandler, ConversationHandler)
 
 logging.basicConfig(filename=conf.log_file, format=conf.log_format,
@@ -39,7 +39,7 @@ def start_time():
 
 
 # switch all off at start, set all used GPIO=high
-logging.info('Enable bot, setup GPIO pins.')
+logging.info('\nInitialize bot, setup GPIO pins.')
 conf.set_pins()
 logging.info('Switch all off at start.')
 for member in all_groups:
@@ -63,7 +63,7 @@ def cam_off():
 
 
 # api and bot settings
-SELECT, DURATION, TIMER = range(3)
+SELECT, DURATION = range(2)
 
 
 # LIST_OF_ADMINS = ['mock to test']
@@ -164,60 +164,72 @@ def duration(bot, update):
         os.system(conf.run_extended_greenhouse + str(user_id))
 
     elif Target == str(lib.group1[1]):
-        display.show_channel(1)
+        """ starts separate thread"""
+        display.show_switch_channel_duration(1, int(Water_Time))
         water(update, group_one[0])
 
     elif Target == str(lib.group1[2]):
-        display.show_channel(2)
+        """ starts separate thread"""
+        display.show_switch_channel_duration(2, int(Water_Time))
         water(update, group_one[1])
 
     elif Target == str(lib.group1[3]):
-        display.show_channel(3)
+        """ starts separate thread"""
+        display.show_switch_channel_duration(3, int(Water_Time))
         water(update, group_one[2])
 
     elif Target == str(lib.group2[1]):
-        display.show_channel(6)
+        """ starts separate thread"""
+        display.show_switch_channel_duration(6, int(Water_Time))
         water(update, group_two[0])
 
     elif Target == str(lib.group2[2]):
-        display.show_channel(7)
+        """ starts separate thread"""
+        display.show_switch_channel_duration(7, int(Water_Time))
         water(update, group_two[1])
 
     elif Target == str(lib.group2[3]):
-        display.show_channel(8)
+        """ starts separate thread"""
+        display.show_switch_channel_duration(8, int(Water_Time))
         water(update, group_two[2])
 
     elif Target == str(lib.group1[0]):
-        display.show_group(1)
+        """ starts separate thread"""
+        display.show_switch_group_duration(1, int(Water_Time))
         water_group(update, group_one)
 
     elif Target == str(lib.group2[0]):
-        display.show_group(2)
+        """ starts separate thread"""
+        display.show_switch_group_duration(2, int(Water_Time))
         water_group(update, group_two)
 
     elif Target == str(lib.group3[1]):
-        display.show_channel(4)
+        """ starts separate thread"""
+        display.show_switch_channel_duration(4, int(Water_Time))
         water(update, group_three[0])
 
     elif Target == str(lib.group3[2]):
-        display.show_channel(5)
+        """ starts separate thread"""
+        display.show_switch_channel_duration(5, int(Water_Time))
         water(update, group_three[1])
 
     elif Target == str(lib.group3[0]):
-        display.show_group(3)
+        """ starts separate thread"""
+        display.show_switch_group_duration(3, int(Water_Time))
         water_group(update, group_three)
 
     elif Target == str(lib.all_channels):
         logging.info('Duration: {0}'.format(Water_Time))
         update.message.reply_text(lib.water_on_all.format(Target, Water_Time),
                                   parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
-        display.show_group(0)
-        for member in all_groups:
-            conf.switch_on(member)
+        """ starts separate thread"""
+        display.show_switch_group_duration(0, int(Water_Time))
+        for channel in all_groups:
+            conf.switch_on(channel)
 
         time.sleep((int(Water_Time)*int(lib.time_conversion)))
-        for member in all_groups:
-            conf.switch_off(member)
+        for channel in all_groups:
+            conf.switch_off(channel)
         update.message.reply_text('{0}{1}{2}'.format(
             timestamp(), lib.water_off_all.format(Water_Time), lib.msg_new_choice),
             parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
@@ -225,19 +237,18 @@ def duration(bot, update):
 
     else:
         update.message.reply_text(lib.msg_choice, reply_markup=markup1)
-
     return SELECT
 
 
 # water the target
-def water(update, member):
+def water(update, channel):
     logging.info('Duration: ' + Water_Time)
-    logging.info('Toggle ' + str(member))
+    logging.info('Toggle ' + str(channel))
     update.message.reply_text(lib.water_on.format(Target, Water_Time),
                               parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
-    conf.switch_on(member)
+    conf.switch_on(channel)
     time.sleep((int(Water_Time)*int(lib.time_conversion)))
-    conf.switch_off(member)
+    conf.switch_off(channel)
     update.message.reply_text('{0}{1}{2}'.format(
         timestamp(), lib.water_off.format(Target, Water_Time), lib.msg_new_choice),
         parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
@@ -251,11 +262,11 @@ def water_group(update, group):
     logging.info('Toggle ' + str(group))
     update.message.reply_text(lib.water_on_group.format(Target, Water_Time),
                               parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
-    for member in group:
-        conf.switch_on(member)
+    for channel in group:
+        conf.switch_on(channel)
     time.sleep((int(Water_Time)*int(lib.time_conversion)))
-    for member in group:
-        conf.switch_off(member)
+    for channel in group:
+        conf.switch_off(channel)
     update.message.reply_text('{0}{1}{2}'.format(
         timestamp(), lib.water_off_group.format(Target, Water_Time), lib.msg_new_choice),
         parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
@@ -297,8 +308,8 @@ def stop(bot, update):
 
 
 # error
-def error(bot, update, error):
-    logging.error('An error occurs! ' + str(error))
+def error(bot, update, e):
+    logging.error('An error occurs! ' + str(e))
     display.show_error()
     cam_off()
     conf.GPIO.cleanup()
