@@ -327,7 +327,7 @@ def start_standby_timer(bot, job_queue):
 
 
 def stop_standby_timer(bot, job_queue):
-    logging.info("Stoppe Timer für automatischen Standby!")
+    logging.info("Stoppe alle Jobs!")
     job_queue.stop()
     return
 
@@ -335,9 +335,8 @@ def stop_standby_timer(bot, job_queue):
 def main():
     updater = Updater(API_TOKEN)
 
-    #timer_job = updater.job_queue
-    #timer_job.run(stop, 30)
-
+    updater.job_queue.start()
+    logging.info("init job queue...")
     dp = updater.dispatcher
 
     conv_handler = ConversationHandler(
