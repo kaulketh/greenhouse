@@ -15,7 +15,7 @@ import peripherals.four_digit.display as display
 
 from telegram import (ReplyKeyboardMarkup,
                       ReplyKeyboardRemove, ParseMode)
-from telegram.ext import (Updater, CommandHandler, RegexHandler, ConversationHandler, Job, JobQueue)
+from telegram.ext import (Updater, CommandHandler, RegexHandler, ConversationHandler)
 
 logging.basicConfig(filename=conf.log_file, format=conf.log_format,
                     datefmt=conf.log_date_format, level=logging.INFO)
@@ -255,7 +255,7 @@ def water(update, channel):
         timestamp(), lib.water_off.format(Target, Water_Time), lib.msg_new_choice),
         parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
     display.show_off()
-    start_standby_timer
+
     return
 
 
@@ -273,8 +273,8 @@ def water_group(update, group):
     update.message.reply_text('{0}{1}{2}'.format(
         timestamp(), lib.water_off_group.format(Target, Water_Time), lib.msg_new_choice),
         parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
-    display.show_off
-    start_standby_timer
+    display.show_off()
+
     return
 
 
@@ -346,10 +346,8 @@ def stop_standby_timer(bot, update, job_queue):
 def main():
     updater = Updater(API_TOKEN)
 
-    updater.job_queue
-    logging.info('Init job queue...')
-    #jq.run_once(job_standby_timer, 15)
-    #logging.info('Start timer')
+    #updater.job_queue.
+    #logging.info('Init job queue...')
 
     dp = updater.dispatcher
 
@@ -388,7 +386,7 @@ def main():
 
     dp.add_error_handler(error)
 
-    updater.start_polling()
+    updater.start_polling(timeout=15)
 
     updater.idle()
 
