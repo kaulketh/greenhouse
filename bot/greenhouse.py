@@ -324,7 +324,7 @@ def job_standby_timer(bot, job, update):
     logging.info('Bot stopped automatically.')
     cam_off()
     display.show_stop()
-    update.message.reply_text('Bot stopped automatically',
+    update.message.reply_text('Bot stopped automatically, set to standby',
                               parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
     time.sleep(2)
     display.show_standby()
@@ -332,7 +332,7 @@ def job_standby_timer(bot, job, update):
 
 
 def start_standby_timer(bot, update, job_queue):
-    job_queue.run_once(stop, 15)
+    job_queue.run_once(job_standby_timer, 15)
     logging.info("Starte 15s-Timer für automatischen Standby!")
     return
 
@@ -346,10 +346,10 @@ def stop_standby_timer(bot, update, job_queue):
 def main():
     updater = Updater(API_TOKEN)
 
-    jq = updater.job_queue
-    logging.info('Init jobs')
-    jq.run_once(job_standby_timer, 15)
-    logging.info('Start timer')
+    updater.job_queue
+    logging.info('Init job queue...')
+    #jq.run_once(job_standby_timer, 15)
+    #logging.info('Start timer')
 
     dp = updater.dispatcher
 
