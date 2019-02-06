@@ -322,8 +322,7 @@ def job_stop(bot, job):
     logging.info('Bot stopped.')
     cam_off()
     display.show_stop()
-    bot.sendMessage(
-        chat_id=user_id, text=lib.msg_stop, parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
+    bot.send_message(user_id, lib.msg_stop, parse_mode='Markdown', reply_markup='remove_keyboard')
     time.sleep(2)
     display.show_standby()
 
