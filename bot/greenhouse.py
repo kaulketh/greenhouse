@@ -14,7 +14,7 @@ import peripherals.four_digit.display as display
 
 from telegram import (ReplyKeyboardMarkup,
                       ReplyKeyboardRemove, ParseMode)
-from telegram.ext import (Updater, CommandHandler, RegexHandler, ConversationHandler, Job)
+from telegram.ext import (Updater, CommandHandler, RegexHandler, ConversationHandler)
 
 logging.basicConfig(filename=conf.log_file, format=conf.log_format,
                     datefmt=conf.log_date_format, level=logging.INFO)
@@ -71,7 +71,6 @@ target = lib.empty
 water_time = lib.empty
 user_id = lib.empty
 jq = None
-stop_job = None
 
 # keyboard config
 markup1 = ReplyKeyboardMarkup(conf.kb1, resize_keyboard=True, one_time_keyboard=False)
@@ -335,10 +334,8 @@ def job_stop(bot, job):
 
 
 def start_standby_timer(bot, update):
-    global stop_job
-    jq.run_once(job_stop, conf.standby_timeout)
-
     logging.info("Standby timer started.")
+    jq.run_once(job_stop, conf.standby_timeout)
     return
 
 
