@@ -302,15 +302,10 @@ def message_values(update):
 
 # stop bot
 def stop(bot, update):
-    stop_standby_timer(bot, update)
-    jq.run_once(job_stop(update), 0)
+    timer_job = jq.run_once(job_stop, 0, context=update.message.chat_id)
+    timer_job.schedule_removal()
     jq.start()
-    #logging.info('Bot stopped.')
-    #cam_off()
-    #display.show_stop()
-    #update.message.reply_text(lib.msg_stop, parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
-    #time.sleep(2)
-    #display.show_standby()
+    stop_job_queue(bot, update)
     return ConversationHandler.END
 
 
@@ -323,24 +318,25 @@ def error(bot, update, e):
     return ConversationHandler.END
 
 
-def job_stop(bot, job, update):
-    global user_id
+def job_stop(bot, job):
     logging.info('Bot stopped.')
     cam_off()
     display.show_stop()
-    update.message.reply_text(lib.msg_stop, parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
+    bot.send_message(
+        chat_id=job.context, text=lib.msg_stop, parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
     time.sleep(2)
     display.show_standby()
 
 
 def start_standby_timer(bot, update):
-    logging.info("Standby timer started.")
-    jq.run_once(job_stop(update), conf.standby_timeout)
+    timer_job = jq.run_once(job_stop, conf.standby_timeout, context=update.message.chat_id)
+    timer_job.schedule_removal()
     jq.start()
+    logging.info("Standby timer started.")
     return
 
 
-def stop_standby_timer(bot, update):
+def stop_job_queue(bot, update):
     jq.stop()
     logging.info("Job queue stopped.")
     return
@@ -351,7 +347,6 @@ def main():
 
     global jq
     jq = updater.job_queue
-    # jq.stop()
     logging.info('Init job queue.')
 
     dp = updater.dispatcher
