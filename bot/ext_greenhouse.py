@@ -71,8 +71,8 @@ read_cmd('kill -9 {0}'.format(str(pid1)))
 
 def send_msg(message):
     os.system(
-        'curl -s -k https://api.telegram.org/bot{0}/sendMessage -d text="{1}" -d chat_id={2} parse_mode=\'Markdown\''
-              .format(apiToken, message, str(Id)))
+        'curl -s -k https://api.telegram.org/bot{0}/sendMessage -d text="{1}" -d chat_id={2}'.format(
+            apiToken, message, str(Id)))
     logging.info('Message send: {0}'.format(message))
     return
 
@@ -157,7 +157,6 @@ bot = telepot.Bot(apiToken)
 bot.message_loop(handle)
 logging.info('I am listening...')
 display.show_extended()
-
 
 while 1:
     try:

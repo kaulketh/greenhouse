@@ -323,8 +323,8 @@ def error(bot, update, e):
 
 
 def job_timeout_reached(bot, job):
-    logging.info("Job called.")
     timeout
+    logging.info("Timeout of {} seconds reached.".format(str(conf.standby_timeout)))
     return
 
 
