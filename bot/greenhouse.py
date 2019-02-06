@@ -81,7 +81,7 @@ markup2 = ReplyKeyboardMarkup(conf.kb2, resize_keyboard=True, one_time_keyboard=
 def start(bot, update):
     global user_id
 
-    stop_standby_timer
+    stop_standby_timer(bot, update)
 
     try:
         user_id = update.message.from_user.id
@@ -117,7 +117,7 @@ def start(bot, update):
             str(user_id), update.message.from_user.last_name, update.message.from_user.first_name))
         logging.info('Time unit is \'{0}\''.format(str(lib.time_units_name[lib.time_units_index])))
         display.show_off()
-        start_standby_timer
+        start_standby_timer(bot, update)
         return SELECT
 
 
@@ -126,7 +126,7 @@ def selection(bot, update):
     global target
     target = update.message.text
 
-    stop_standby_timer
+    stop_standby_timer(bot, update)
 
     if target == str(lib.panic):
         update.message.reply_text(lib.msg_panic,
@@ -137,20 +137,20 @@ def selection(bot, update):
     elif target == str(lib.live_stream):
         update.message.reply_text(lib.msg_live.format(str(conf.live)), parse_mode=ParseMode.MARKDOWN)
         logging.info('Live URL requested.')
-        start_standby_timer
+        start_standby_timer(bot, update)
         return SELECT
 
     elif target == str(lib.reload):
         logging.info('Refresh values requested.')
         message_values(update)
-        start_standby_timer
+        start_standby_timer(bot, update)
         return SELECT
 
     else:
         update.message.reply_text(lib.msg_duration.format(target),
                                   parse_mode=ParseMode.MARKDOWN, reply_markup=markup2)
         logging.info('Selection: {0}'.format(str(target)))
-        start_standby_timer
+        start_standby_timer(bot, update)
         return DURATION
 
 
@@ -159,7 +159,7 @@ def duration(bot, update):
     global water_time
     water_time = update.message.text
 
-    stop_standby_timer
+    stop_standby_timer(bot, update)
 
     if water_time == str(lib.cancel):
         update.message.reply_text(lib.msg_new_choice,
@@ -247,7 +247,7 @@ def duration(bot, update):
     else:
         update.message.reply_text(lib.msg_choice, reply_markup=markup1)
 
-    start_standby_timer
+    start_standby_timer(bot, update)
     return SELECT
 
 
@@ -343,6 +343,7 @@ def start_standby_timer(bot, update):
     logging.info(str(jq))
     jq.run_once(job_standby_timer, 15)
     logging.info("Timer started.")
+    logging.info(str(jq.jobs))
     return
 
 
@@ -350,6 +351,7 @@ def stop_standby_timer(bot, update):
     logging.info(str(jq))
     jq.stop()
     logging.info("Job queue stopped.")
+    logging.info(str(jq.jobs))
     return
 
 
@@ -357,13 +359,10 @@ def main():
     updater = Updater(token)
 
     global jq
-    jq = updater.job_queue
+    jq = updater.job_queue.
     logging.info('Init job queue.')
 
     dp = updater.dispatcher
-
-    t_start_h = Handler(start_standby_timer, pass_job_queue=True)
-    #t_stop_h = Handler(stop_standby_timer, pass_job_queue=True)
 
     ch = ConversationHandler(
         entry_points=[CommandHandler('start', start)],
@@ -397,9 +396,6 @@ def main():
     )
 
     dp.add_handler(ch)
-
-    dp.add_handler(t_start_h)
-    #dp.add_handler(t_stop_h)
 
     dp.add_error_handler(error)
 
