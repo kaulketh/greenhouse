@@ -342,7 +342,9 @@ def job_standby_timer(bot, job):
 
 def start_standby_timer(bot, update):
     logging.info("Starte 15s-Timer für automatischen Standby!")
-    job_queue.run_once(job_standby_timer, 15)
+    logging.info(str(bot))
+    logging.info(str(update))
+    # job_queue.run_once(job_standby_timer, 15)
     return
 
 
