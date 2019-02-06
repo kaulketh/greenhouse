@@ -125,8 +125,7 @@ def start(bot, update):
 def selection(bot, update):
     global target
     target = update.message.text
-
-    start_standby_timer(bot, update)
+    stop_standby_timer(bot, update)
 
     if target == str(lib.panic):
         update.message.reply_text(lib.msg_panic,
@@ -148,7 +147,7 @@ def selection(bot, update):
         update.message.reply_text(lib.msg_duration.format(target),
                                   parse_mode=ParseMode.MARKDOWN, reply_markup=markup2)
         logging.info('Selection: {0}'.format(str(target)))
-        stop_standby_timer(bot, update)
+        start_standby_timer(bot, update)
         return DURATION
 
 
@@ -156,8 +155,7 @@ def selection(bot, update):
 def duration(bot, update):
     global water_time
     water_time = update.message.text
-
-    start_standby_timer(bot, update)
+    stop_standby_timer(bot, update)
 
     if water_time == str(lib.cancel):
         update.message.reply_text(lib.msg_new_choice,
@@ -245,7 +243,7 @@ def duration(bot, update):
     else:
         update.message.reply_text(lib.msg_choice, reply_markup=markup1)
 
-    stop_standby_timer(bot, update)
+    start_standby_timer(bot, update)
     return SELECT
 
 
