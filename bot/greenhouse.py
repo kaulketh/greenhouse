@@ -116,8 +116,8 @@ def start(bot, update):
             str(user_id), update.message.from_user.last_name, update.message.from_user.first_name))
         logging.info('Time unit is \'{0}\''.format(str(lib.time_units_name[lib.time_units_index])))
         display.show_off()
-        # start_standby_timer(bot, update)
-        logging.warning('new started')
+        start_standby_timer(bot, update)
+        logging.warning('start')
         return SELECT
 
 
@@ -126,8 +126,8 @@ def selection(bot, update):
     global target
     target = update.message.text
 
-    # start_standby_timer(bot, update)
-    logging.warning('target selected')
+    stop_job_queue(bot, update)
+    logging.warning('stop')
 
     if target == str(lib.panic):
         update.message.reply_text(lib.msg_panic,
@@ -149,7 +149,8 @@ def selection(bot, update):
         update.message.reply_text(lib.msg_duration.format(target),
                                   parse_mode=ParseMode.MARKDOWN, reply_markup=markup2)
         logging.info('Selection: {0}'.format(str(target)))
-        logging.warning('return DURATION')
+        logging.warning('start')
+        start_standby_timer(bot, update)
         return DURATION
 
 
@@ -157,8 +158,8 @@ def selection(bot, update):
 def duration(bot, update):
     global water_time
     water_time = update.message.text
-    logging.warning('duration selected')
-    # start_standby_timer(bot, update)
+    logging.warning('stop')
+    stop_job_queue(bot, update)
 
     if water_time == str(lib.cancel):
         update.message.reply_text(lib.msg_new_choice,
@@ -246,7 +247,8 @@ def duration(bot, update):
     else:
         update.message.reply_text(lib.msg_choice, reply_markup=markup1)
         logging.warning('target required')
-    logging.warning('return SELECT')
+    logging.warning('start')
+    start_standby_timer(bot, update)
     return SELECT
 
 
