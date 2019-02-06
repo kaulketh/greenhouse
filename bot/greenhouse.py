@@ -79,9 +79,8 @@ markup2 = ReplyKeyboardMarkup(conf.kb2, resize_keyboard=True, one_time_keyboard=
 
 # start bot
 def start(bot, update):
-    global user_id
 
-    stop_standby_timer(bot, update)
+    global user_id
 
     try:
         user_id = update.message.from_user.id
@@ -117,14 +116,16 @@ def start(bot, update):
             str(user_id), update.message.from_user.last_name, update.message.from_user.first_name))
         logging.info('Time unit is \'{0}\''.format(str(lib.time_units_name[lib.time_units_index])))
         display.show_off()
-        start_standby_timer(bot, update)
         return SELECT
 
 
 # set the target, member of group or group
 def selection(bot, update):
+    start_standby_timer(bot, update)
+
     global target
     target = update.message.text
+
     stop_standby_timer(bot, update)
 
     if target == str(lib.panic):
@@ -147,14 +148,16 @@ def selection(bot, update):
         update.message.reply_text(lib.msg_duration.format(target),
                                   parse_mode=ParseMode.MARKDOWN, reply_markup=markup2)
         logging.info('Selection: {0}'.format(str(target)))
-        start_standby_timer(bot, update)
         return DURATION
 
 
 # set water duration
 def duration(bot, update):
+    start_standby_timer(bot, update)
+
     global water_time
     water_time = update.message.text
+
     stop_standby_timer(bot, update)
 
     if water_time == str(lib.cancel):
@@ -243,7 +246,6 @@ def duration(bot, update):
     else:
         update.message.reply_text(lib.msg_choice, reply_markup=markup1)
 
-    start_standby_timer(bot, update)
     return SELECT
 
 
