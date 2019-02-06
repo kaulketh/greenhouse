@@ -14,7 +14,7 @@ import peripherals.four_digit.display as display
 
 from telegram import (ReplyKeyboardMarkup,
                       ReplyKeyboardRemove, ParseMode)
-from telegram.ext import (Updater, CommandHandler, RegexHandler, ConversationHandler, Job)
+from telegram.ext import (Updater, CommandHandler, RegexHandler, ConversationHandler, Handler)
 
 logging.basicConfig(filename=conf.log_file, format=conf.log_format,
                     datefmt=conf.log_date_format, level=logging.INFO)
@@ -80,7 +80,9 @@ markup2 = ReplyKeyboardMarkup(conf.kb2, resize_keyboard=True, one_time_keyboard=
 # start bot
 def start(bot, update):
     global user_id
-    stop_standby_timer(bot, update)
+
+    stop_standby_timer
+
     try:
         user_id = update.message.from_user.id
     except (NameError, AttributeError):
@@ -115,7 +117,7 @@ def start(bot, update):
             str(user_id), update.message.from_user.last_name, update.message.from_user.first_name))
         logging.info('Time unit is \'{0}\''.format(str(lib.time_units_name[lib.time_units_index])))
         display.show_off()
-        start_standby_timer(bot, update)
+        start_standby_timer
         return SELECT
 
 
@@ -124,7 +126,7 @@ def selection(bot, update):
     global target
     target = update.message.text
 
-    stop_standby_timer(bot, update)
+    stop_standby_timer
 
     if target == str(lib.panic):
         update.message.reply_text(lib.msg_panic,
@@ -135,20 +137,20 @@ def selection(bot, update):
     elif target == str(lib.live_stream):
         update.message.reply_text(lib.msg_live.format(str(conf.live)), parse_mode=ParseMode.MARKDOWN)
         logging.info('Live URL requested.')
-        start_standby_timer(bot, update)
+        start_standby_timer
         return SELECT
 
     elif target == str(lib.reload):
         logging.info('Refresh values requested.')
         message_values(update)
-        start_standby_timer(bot, update)
+        start_standby_timer
         return SELECT
 
     else:
         update.message.reply_text(lib.msg_duration.format(target),
                                   parse_mode=ParseMode.MARKDOWN, reply_markup=markup2)
         logging.info('Selection: {0}'.format(str(target)))
-        start_standby_timer(bot, update)
+        start_standby_timer
         return DURATION
 
 
@@ -157,7 +159,7 @@ def duration(bot, update):
     global water_time
     water_time = update.message.text
 
-    stop_standby_timer(bot, update)
+    stop_standby_timer
 
     if water_time == str(lib.cancel):
         update.message.reply_text(lib.msg_new_choice,
@@ -245,7 +247,7 @@ def duration(bot, update):
     else:
         update.message.reply_text(lib.msg_choice, reply_markup=markup1)
 
-    start_standby_timer(bot, update)
+    start_standby_timer
     return SELECT
 
 
@@ -360,6 +362,9 @@ def main():
 
     dp = updater.dispatcher
 
+    t_start_h = Handler(start_standby_timer, pass_job_queue=True)
+    #t_stop_h = Handler(stop_standby_timer, pass_job_queue=True)
+
     ch = ConversationHandler(
         entry_points=[CommandHandler('start', start)],
 
@@ -392,6 +397,9 @@ def main():
     )
 
     dp.add_handler(ch)
+
+    dp.add_handler(t_start_h)
+    #dp.add_handler(t_stop_h)
 
     dp.add_error_handler(error)
 
