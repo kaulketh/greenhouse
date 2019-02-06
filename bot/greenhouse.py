@@ -126,7 +126,7 @@ def selection(bot, update):
     global target
     target = update.message.text
 
-    stop_standby_timer(bot, update)
+    start_standby_timer(bot, update)
 
     if target == str(lib.panic):
         update.message.reply_text(lib.msg_panic,
@@ -137,20 +137,18 @@ def selection(bot, update):
     elif target == str(lib.live_stream):
         update.message.reply_text(lib.msg_live.format(str(conf.live)), parse_mode=ParseMode.MARKDOWN)
         logging.info('Live URL requested.')
-        start_standby_timer(bot, update)
         return SELECT
 
     elif target == str(lib.reload):
         logging.info('Refresh values requested.')
         message_values(update)
-        start_standby_timer(bot, update)
         return SELECT
 
     else:
         update.message.reply_text(lib.msg_duration.format(target),
                                   parse_mode=ParseMode.MARKDOWN, reply_markup=markup2)
         logging.info('Selection: {0}'.format(str(target)))
-        start_standby_timer(bot, update)
+        stop_standby_timer(bot, update)
         return DURATION
 
 
@@ -159,7 +157,7 @@ def duration(bot, update):
     global water_time
     water_time = update.message.text
 
-    stop_standby_timer(bot, update)
+    start_standby_timer(bot, update)
 
     if water_time == str(lib.cancel):
         update.message.reply_text(lib.msg_new_choice,
@@ -247,7 +245,7 @@ def duration(bot, update):
     else:
         update.message.reply_text(lib.msg_choice, reply_markup=markup1)
 
-    start_standby_timer(bot, update)
+    stop_standby_timer(bot, update)
     return SELECT
 
 
@@ -312,8 +310,7 @@ def stop(bot, update):
     logging.info('Bot stopped.')
     cam_off()
     display.show_stop()
-    update.message.reply_text(lib.msg_stop.format(update.message.from_user.first_name),
-                              parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
+    update.message.reply_text(lib.msg_stop, parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
     time.sleep(2)
     display.show_standby()
     return ConversationHandler.END
@@ -329,29 +326,27 @@ def error(bot, update, e):
 
 
 def job_standby_timer(bot, job):
-    logging.info('Bot stopped automatically.')
+    logging.info('Bot stopped by timer automatically.')
     cam_off()
     display.show_stop()
-    # bot.sendMessage(chat_id=user_id, text='Bot stopped automatically, set to standby',
-    #                parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
+    bot.sendMessage(chat_id=user_id, text=lib.msg_stop,
+                    parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
     time.sleep(2)
     display.show_standby()
     return ConversationHandler.END
 
 
 def start_standby_timer(bot, update):
-    logging.info(str(jq))
-    jq.run_once(job_standby_timer, 15)
+    jq.run_once(job_standby_timer, conf.standby_timeout)
+    jq.start()
+    jq.tick()
     logging.info("Timer started.")
-    logging.info(str(jq.jobs))
     return
 
 
 def stop_standby_timer(bot, update):
-    logging.info(str(jq))
     jq.stop()
     logging.info("Job queue stopped.")
-    logging.info(str(jq.jobs))
     return
 
 
@@ -360,7 +355,8 @@ def main():
 
     global jq
     jq = updater.job_queue
-    logging.info('Init job queue.')
+    jq.stop()
+    logging.info('Init and stop job queue.')
 
     dp = updater.dispatcher
 
@@ -370,22 +366,22 @@ def main():
         states={
             SELECT: [RegexHandler(
                 '^({0}|{1}|{2}|{3}|{4}|{5}|{6}|{7}|{8}|{9}|{10}|{11}|{12}|{13}|{14})$'.format(
-                                                                                    str(lib.group1[0]),
-                                                                                    str(lib.group1[1]),
-                                                                                    str(lib.group1[2]),
-                                                                                    str(lib.group1[3]),
-                                                                                    str(lib.group2[0]),
-                                                                                    str(lib.group2[1]),
-                                                                                    str(lib.group2[2]),
-                                                                                    str(lib.group2[3]),
-                                                                                    str(lib.group3[0]),
-                                                                                    str(lib.group3[1]),
-                                                                                    str(lib.group3[2]),
-                                                                                    str(lib.all_channels),
-                                                                                    str(lib.panic),
-                                                                                    str(lib.live_stream),
-                                                                                    str(lib.reload)), selection),
-                     RegexHandler('^{0}$'.format(lib.stop_bot), stop)],
+                    str(lib.group1[0]),
+                    str(lib.group1[1]),
+                    str(lib.group1[2]),
+                    str(lib.group1[3]),
+                    str(lib.group2[0]),
+                    str(lib.group2[1]),
+                    str(lib.group2[2]),
+                    str(lib.group2[3]),
+                    str(lib.group3[0]),
+                    str(lib.group3[1]),
+                    str(lib.group3[2]),
+                    str(lib.all_channels),
+                    str(lib.panic),
+                    str(lib.live_stream),
+                    str(lib.reload)), selection),
+                RegexHandler('^{0}$'.format(lib.stop_bot), stop)],
 
             DURATION: [RegexHandler('^([0-9]+|{0}|{1})$'.format(str(lib.cancel), str(lib.panic)), duration),
                        RegexHandler('^{0}$'.format(lib.stop_bot), stop)]
