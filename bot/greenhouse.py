@@ -304,7 +304,7 @@ def message_values(update):
 def stop(bot, update):
     stop_standby_timer(bot, update)
     jq.run_once(job_stop, 0)
-
+    jq.start()
     #logging.info('Bot stopped.')
     #cam_off()
     #display.show_stop()
@@ -336,6 +336,7 @@ def job_stop(bot, job):
 def start_standby_timer(bot, update):
     logging.info("Standby timer started.")
     jq.run_once(job_stop, conf.standby_timeout)
+    jq.start()
     return
 
 
