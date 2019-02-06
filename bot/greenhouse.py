@@ -116,7 +116,8 @@ def start(bot, update):
             str(user_id), update.message.from_user.last_name, update.message.from_user.first_name))
         logging.info('Time unit is \'{0}\''.format(str(lib.time_units_name[lib.time_units_index])))
         display.show_off()
-        start_standby_timer(bot, update)
+        # start_standby_timer(bot, update)
+        logging.warning('new started')
         return SELECT
 
 
@@ -125,7 +126,8 @@ def selection(bot, update):
     global target
     target = update.message.text
 
-    start_standby_timer(bot, update)
+    # start_standby_timer(bot, update)
+    logging.warning('target selected')
 
     if target == str(lib.panic):
         update.message.reply_text(lib.msg_panic,
@@ -147,6 +149,7 @@ def selection(bot, update):
         update.message.reply_text(lib.msg_duration.format(target),
                                   parse_mode=ParseMode.MARKDOWN, reply_markup=markup2)
         logging.info('Selection: {0}'.format(str(target)))
+        logging.warning('return DURATION')
         return DURATION
 
 
@@ -154,8 +157,8 @@ def selection(bot, update):
 def duration(bot, update):
     global water_time
     water_time = update.message.text
-
-    start_standby_timer(bot, update)
+    logging.warning('duration selected')
+    # start_standby_timer(bot, update)
 
     if water_time == str(lib.cancel):
         update.message.reply_text(lib.msg_new_choice,
@@ -242,7 +245,8 @@ def duration(bot, update):
 
     else:
         update.message.reply_text(lib.msg_choice, reply_markup=markup1)
-
+        logging.warning('target required')
+    logging.warning('return SELECT')
     return SELECT
 
 
@@ -323,7 +327,7 @@ def error(bot, update, e):
 
 
 def job_timeout_reached(bot, job):
-    timeout
+    timeout.timeout_reached()
     logging.info("Timeout of {} seconds reached.".format(str(conf.standby_timeout)))
     return
 

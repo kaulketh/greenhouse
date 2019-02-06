@@ -50,4 +50,4 @@ def timeout_reached():
 
 
 if __name__ == '__main__':
-    timeout_reached()
+    pass
