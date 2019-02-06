@@ -103,7 +103,6 @@ def start(bot, update):
             update.message.from_user.first_name, update.message.chat_id), parse_mode=ParseMode.MARKDOWN)
         return ConversationHandler.END
     else:
-        start_standby_timer(bot, update)
         display.show_run()
         logging.info('Bot started.')
         message_values(update)
@@ -116,6 +115,7 @@ def start(bot, update):
             str(user_id), update.message.from_user.last_name, update.message.from_user.first_name))
         logging.info('Time unit is \'{0}\''.format(str(lib.time_units_name[lib.time_units_index])))
         display.show_off()
+        start_standby_timer(bot, update)
         return SELECT
 
 
@@ -329,7 +329,7 @@ def job_stop(bot, job):
 
 
 def start_standby_timer(bot, update):
-    jq.run_once(job_stop, conf.standby_timeout, context=update.message.chat_id)
+    jq.run_once(job_stop, conf.standby_timeout, context=str(user_id))
     jq.start()
     jq.tick()
     logging.info("Standby timer started.")
