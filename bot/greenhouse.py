@@ -340,8 +340,8 @@ def job_standby_timer(bot, job):
     return ConversationHandler.END
 
 
-def start_standby_timer(bot, update, job_queue):
-    job_queue.run_once(job_standby_timer, 15)
+def start_standby_timer(bot, update):
+    bot.job_queue.run_once(job_standby_timer, 15)
     logging.info("Starte 15s-Timer für automatischen Standby!")
     return
 
@@ -396,7 +396,7 @@ def main():
 
     dp.add_error_handler(error)
 
-    updater.start_polling(timeout=15)
+    updater.start_polling()
 
     updater.idle()
 
