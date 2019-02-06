@@ -306,7 +306,7 @@ def stop(bot, update):
     jq.start()
     jq.tick()
     stop_job_queue(bot, update, timer_job)
-    return ConversationHandler.END
+    return
 
 
 # error
@@ -326,6 +326,7 @@ def job_stop(bot, job):
         chat_id=user_id, text=lib.msg_stop, parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
     time.sleep(2)
     display.show_standby()
+    return ConversationHandler.END
 
 
 def start_standby_timer(bot, update):
