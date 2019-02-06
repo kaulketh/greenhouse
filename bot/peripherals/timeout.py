@@ -41,9 +41,11 @@ def timeout_reached():
     read_cmd(conf.disable_camera)
     display.show_stop()
     time.sleep(2)
+    # start new new instance of greenhouse
+    read_cmd(lib.restart_bot)
     send_msg(conf.lib.msg_stop)
     display.show_standby()
-    # kill the still running greenhouse bot script
+    # kill the current instance of greenhouse bot
     pid1 = read_cmd(lib.get_pid1)
     read_cmd('kill -9 {0}'.format(str(pid1)))
     return
