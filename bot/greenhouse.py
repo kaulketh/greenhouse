@@ -120,7 +120,7 @@ def start(bot, update):
         logging.info('Time unit is \'{0}\''.format(str(lib.time_units_name[lib.time_units_index])))
         display.show_off()
         g_update = update
-        start_standby_timer
+        start_standby_timer(bot, g_update)
         return SELECT
 
 
@@ -341,8 +341,8 @@ def job_standby_timer(bot, job):
 
 
 def start_standby_timer(bot, update):
-    bot.job_queue.run_once(job_standby_timer, 15)
     logging.info("Starte 15s-Timer für automatischen Standby!")
+    bot.job_queue.run_once(job_standby_timer, 15)
     return
 
 
