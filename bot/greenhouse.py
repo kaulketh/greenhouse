@@ -309,11 +309,11 @@ def message_values(update):
 
 # stop bot
 def stop(bot, update):
+    stop_job_queue(bot, update)
     logging.info('Bot stopped.')
     cam_off()
     display.show_stop()
-    update.message.reply_text(lib.msg_stop.format(update.message.from_user.first_name),
-                              parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
+    update.message.reply_text(lib.msg_stop, parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
     time.sleep(2)
     display.show_standby()
     return ConversationHandler.END
@@ -335,10 +335,8 @@ def job_timeout_reached(bot, job):
 
 
 def start_standby_timer(bot, update):
-    logging.info("Standby timer started.")
-    jq.run_once(job_timeout_reached, conf.standby_timeout)
     jq.start()
-    jq.tick()
+    logging.info("Standby timer started.")
     return
 
 
@@ -353,7 +351,9 @@ def main():
 
     global jq
     jq = updater.job_queue
-    logging.info('Init job queue.')
+    jq.run_once(job_timeout_reached, conf.standby_timeout)
+    jq.stop()
+    logging.info('Init job queue and timer job.')
 
     dp = updater.dispatcher
 
