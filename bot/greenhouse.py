@@ -63,6 +63,7 @@ def cam_off():
 
 
 # api and bot settings
+jq = None
 SELECT, DURATION = range(2)
 
 
@@ -72,9 +73,6 @@ API_TOKEN = conf.token
 Target = lib.empty
 Water_Time = lib.empty
 user_id = lib.empty
-
-global g_update
-g_update = None
 
 # keyboard config
 markup1 = ReplyKeyboardMarkup(conf.kb1, resize_keyboard=True, one_time_keyboard=False)
@@ -124,6 +122,7 @@ def start(bot, update):
 
 # set the target, member of group or group
 def selection(bot, update):
+    stop_standby_timer(bot, update)
     global Target
     Target = update.message.text
 
@@ -153,6 +152,7 @@ def selection(bot, update):
 
 # set water duration
 def duration(bot, update):
+    stop_standby_timer(bot, update)
     global Water_Time
     Water_Time = update.message.text
 
@@ -334,24 +334,26 @@ def job_standby_timer(bot, job):
 
 
 def start_standby_timer(bot, update):
-    bot.job.job_queue.start()
+    jq.start()
     logging.info("Jobs started.")
     return
 
 
 def stop_standby_timer(bot, update):
-    bot.job.job_queue.stop()
+    jq.stop()
     logging.info("Jobs stopped.")
     return
 
 
 def main():
     updater = Updater(API_TOKEN)
+
+    global jq
     jq = updater.job_queue
-    timer_job = Job(callback=job_standby_timer, interval=15, repeat=False)
-    jq.put(timer_job)
+    jq.run_once(job_standby_timer, 15)
+    logging.info('Init job queue.')
     jq.stop()
-    logging.info('Init job queue and stop jobs')
+    logging.info('Stopped queue')
 
     dp = updater.dispatcher
 
