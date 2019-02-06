@@ -7,7 +7,6 @@ from __future__ import absolute_import
 import logging
 import os
 import time
-import threading
 import conf.greenhouse_config as conf
 import peripherals.dht.dht as dht
 import peripherals.temperature as core
@@ -121,6 +120,7 @@ def start(bot, update):
         logging.info('Time unit is \'{0}\''.format(str(lib.time_units_name[lib.time_units_index])))
         display.show_off()
         g_update = update
+        start_standby_timer
         return SELECT
 
 
@@ -355,8 +355,9 @@ def stop_standby_timer(bot, update, job_queue):
 def main():
     updater = Updater(API_TOKEN)
 
-    updater.job_queue.run_once(job_standby_timer, 15)
-    logging.info('Init job queue... start standby timer')
+    updater.job_queue
+        # .run_once(job_standby_timer, 15)
+    logging.info('Init job queue...')
 
     dp = updater.dispatcher
 
