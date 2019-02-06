@@ -347,8 +347,10 @@ def stop_standby_timer(bot, update):
 
 def main():
     updater = Updater(API_TOKEN)
-
-    updater.job_queue.put(Job(job_standby_timer, 15)).stop()
+    jq = updater.job_queue
+    timer_job = Job(callback=job_standby_timer, interval=15, repeat=False)
+    jq.put(timer_job)
+    jq.stop()
     logging.info('Init job queue and stop jobs')
 
     dp = updater.dispatcher
