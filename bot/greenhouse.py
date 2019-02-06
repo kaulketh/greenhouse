@@ -333,11 +333,10 @@ def job_standby_timer(bot, job):
                     parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
     time.sleep(2)
     display.show_standby()
-    return ConversationHandler.END
 
 
 def start_standby_timer(bot, update):
-    jq.run_once(job_standby_timer, conf.standby_timeout)
+    jq.run_once(stop, conf.standby_timeout)
     jq.start()
     jq.tick()
     logging.info("Timer started.")
