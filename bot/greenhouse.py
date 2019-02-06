@@ -82,6 +82,7 @@ markup2 = ReplyKeyboardMarkup(conf.kb2, resize_keyboard=True, one_time_keyboard=
 # start bot
 def start(bot, update):
     global user_id
+    stop_standby_timer(bot, update)
     try:
         user_id = update.message.from_user.id
     except (NameError, AttributeError):
@@ -122,9 +123,10 @@ def start(bot, update):
 
 # set the target, member of group or group
 def selection(bot, update):
-    stop_standby_timer(bot, update)
     global Target
     Target = update.message.text
+
+    stop_standby_timer(bot, update)
 
     if Target == str(lib.panic):
         update.message.reply_text(lib.msg_panic,
@@ -135,11 +137,13 @@ def selection(bot, update):
     elif Target == str(lib.live_stream):
         update.message.reply_text(lib.msg_live.format(str(conf.live)), parse_mode=ParseMode.MARKDOWN)
         logging.info('Live URL requested.')
+        start_standby_timer(bot, update)
         return SELECT
 
     elif Target == str(lib.reload):
         logging.info('Refresh values requested.')
         message_values(update)
+        start_standby_timer(bot, update)
         return SELECT
 
     else:
@@ -152,9 +156,10 @@ def selection(bot, update):
 
 # set water duration
 def duration(bot, update):
-    stop_standby_timer(bot, update)
     global Water_Time
     Water_Time = update.message.text
+
+    stop_standby_timer(bot, update)
 
     if Water_Time == str(lib.cancel):
         update.message.reply_text(lib.msg_new_choice,
