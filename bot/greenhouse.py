@@ -302,7 +302,7 @@ def message_values(update):
 
 # stop bot
 def stop(bot, update):
-    timer_job = jq.run_once(job_stop, 0, context=update.message.chat_id)
+    timer_job = jq.run_once(job_stop, 0)
     jq.start()
     jq.tick()
     stop_job_queue(bot, update, timer_job)
@@ -323,13 +323,13 @@ def job_stop(bot, job):
     cam_off()
     display.show_stop()
     bot.send_message(
-        chat_id=job.context, text=lib.msg_stop, parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
+        chat_id=user_id, text=lib.msg_stop, parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
     time.sleep(2)
     display.show_standby()
 
 
 def start_standby_timer(bot, update):
-    jq.run_once(job_stop, conf.standby_timeout, context=str(user_id))
+    jq.run_once(job_stop, conf.standby_timeout)
     jq.start()
     jq.tick()
     logging.info("Standby timer started.")
