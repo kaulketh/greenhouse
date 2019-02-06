@@ -323,12 +323,12 @@ def error(bot, update, e):
     return ConversationHandler.END
 
 
-def job_stop(bot, job):
+def job_stop(bot, job, update):
+    global user_id
     logging.info('Bot stopped.')
     cam_off()
     display.show_stop()
-    bot.sendMessage(chat_id=user_id, text=lib.msg_stop,
-                    parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
+    update.message.reply_text(lib.msg_stop, parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
     time.sleep(2)
     display.show_standby()
 
