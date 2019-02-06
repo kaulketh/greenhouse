@@ -63,16 +63,14 @@ def cam_off():
 
 
 # api and bot settings
-jq = None
 SELECT, DURATION = range(2)
-
-
 # LIST_OF_ADMINS = ['mock to test']
-LIST_OF_ADMINS = conf.admins
-API_TOKEN = conf.token
-Target = lib.empty
-Water_Time = lib.empty
+list_of_admins = conf.admins
+token = conf.token
+target = lib.empty
+water_time = lib.empty
 user_id = lib.empty
+jq = None
 
 # keyboard config
 markup1 = ReplyKeyboardMarkup(conf.kb1, resize_keyboard=True, one_time_keyboard=False)
@@ -97,7 +95,7 @@ def start(bot, update):
                 except (NameError, AttributeError):
                     return ConversationHandler.END
 
-    if user_id not in LIST_OF_ADMINS:
+    if user_id not in list_of_admins:
         display.show_stop()
         logging.info('Not allowed access by: {0} - {1},{2}'.format(
             str(user_id), update.message.from_user.last_name, update.message.from_user.first_name))
@@ -123,124 +121,124 @@ def start(bot, update):
 
 # set the target, member of group or group
 def selection(bot, update):
-    global Target
-    Target = update.message.text
+    global target
+    target = update.message.text
 
     stop_standby_timer(bot, update)
 
-    if Target == str(lib.panic):
+    if target == str(lib.panic):
         update.message.reply_text(lib.msg_panic,
                                   parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
         logging.info(lib.msg_panic)
         os.system(conf.run_extended_greenhouse + str(user_id))
 
-    elif Target == str(lib.live_stream):
+    elif target == str(lib.live_stream):
         update.message.reply_text(lib.msg_live.format(str(conf.live)), parse_mode=ParseMode.MARKDOWN)
         logging.info('Live URL requested.')
         start_standby_timer(bot, update)
         return SELECT
 
-    elif Target == str(lib.reload):
+    elif target == str(lib.reload):
         logging.info('Refresh values requested.')
         message_values(update)
         start_standby_timer(bot, update)
         return SELECT
 
     else:
-        update.message.reply_text(lib.msg_duration.format(Target),
+        update.message.reply_text(lib.msg_duration.format(target),
                                   parse_mode=ParseMode.MARKDOWN, reply_markup=markup2)
-        logging.info('Selection: {0}'.format(str(Target)))
+        logging.info('Selection: {0}'.format(str(target)))
         start_standby_timer(bot, update)
         return DURATION
 
 
 # set water duration
 def duration(bot, update):
-    global Water_Time
-    Water_Time = update.message.text
+    global water_time
+    water_time = update.message.text
 
     stop_standby_timer(bot, update)
 
-    if Water_Time == str(lib.cancel):
+    if water_time == str(lib.cancel):
         update.message.reply_text(lib.msg_new_choice,
                                   parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
         logging.info(lib.msg_new_choice)
 
-    elif Water_Time == str(lib.panic):
+    elif water_time == str(lib.panic):
         update.message.reply_text(lib.msg_panic,
                                   parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
         logging.info(lib.msg_panic)
         os.system(conf.run_extended_greenhouse + str(user_id))
 
-    elif Target == str(lib.group1[1]):
+    elif target == str(lib.group1[1]):
         """ starts separate thread"""
-        display.show_switch_channel_duration(1, int(Water_Time))
+        display.show_switch_channel_duration(1, int(water_time))
         water(update, group_one[0])
 
-    elif Target == str(lib.group1[2]):
+    elif target == str(lib.group1[2]):
         """ starts separate thread"""
-        display.show_switch_channel_duration(2, int(Water_Time))
+        display.show_switch_channel_duration(2, int(water_time))
         water(update, group_one[1])
 
-    elif Target == str(lib.group1[3]):
+    elif target == str(lib.group1[3]):
         """ starts separate thread"""
-        display.show_switch_channel_duration(3, int(Water_Time))
+        display.show_switch_channel_duration(3, int(water_time))
         water(update, group_one[2])
 
-    elif Target == str(lib.group2[1]):
+    elif target == str(lib.group2[1]):
         """ starts separate thread"""
-        display.show_switch_channel_duration(6, int(Water_Time))
+        display.show_switch_channel_duration(6, int(water_time))
         water(update, group_two[0])
 
-    elif Target == str(lib.group2[2]):
+    elif target == str(lib.group2[2]):
         """ starts separate thread"""
-        display.show_switch_channel_duration(7, int(Water_Time))
+        display.show_switch_channel_duration(7, int(water_time))
         water(update, group_two[1])
 
-    elif Target == str(lib.group2[3]):
+    elif target == str(lib.group2[3]):
         """ starts separate thread"""
-        display.show_switch_channel_duration(8, int(Water_Time))
+        display.show_switch_channel_duration(8, int(water_time))
         water(update, group_two[2])
 
-    elif Target == str(lib.group1[0]):
+    elif target == str(lib.group1[0]):
         """ starts separate thread"""
-        display.show_switch_group_duration(1, int(Water_Time))
+        display.show_switch_group_duration(1, int(water_time))
         water_group(update, group_one)
 
-    elif Target == str(lib.group2[0]):
+    elif target == str(lib.group2[0]):
         """ starts separate thread"""
-        display.show_switch_group_duration(2, int(Water_Time))
+        display.show_switch_group_duration(2, int(water_time))
         water_group(update, group_two)
 
-    elif Target == str(lib.group3[1]):
+    elif target == str(lib.group3[1]):
         """ starts separate thread"""
-        display.show_switch_channel_duration(4, int(Water_Time))
+        display.show_switch_channel_duration(4, int(water_time))
         water(update, group_three[0])
 
-    elif Target == str(lib.group3[2]):
+    elif target == str(lib.group3[2]):
         """ starts separate thread"""
-        display.show_switch_channel_duration(5, int(Water_Time))
+        display.show_switch_channel_duration(5, int(water_time))
         water(update, group_three[1])
 
-    elif Target == str(lib.group3[0]):
+    elif target == str(lib.group3[0]):
         """ starts separate thread"""
-        display.show_switch_group_duration(3, int(Water_Time))
+        display.show_switch_group_duration(3, int(water_time))
         water_group(update, group_three)
 
-    elif Target == str(lib.all_channels):
-        logging.info('Duration: {0}'.format(Water_Time))
-        update.message.reply_text(lib.water_on_all.format(Target, Water_Time),
+    elif target == str(lib.all_channels):
+        logging.info('Duration: {0}'.format(water_time))
+        update.message.reply_text(lib.water_on_all.format(target, water_time),
                                   parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
         """ starts separate thread"""
-        display.show_switch_group_duration(0, int(Water_Time))
+        display.show_switch_group_duration(0, int(water_time))
         for channel in all_groups:
             conf.switch_on(channel)
 
-        time.sleep((int(Water_Time)*int(lib.time_conversion)))
+        time.sleep((int(water_time) * int(lib.time_conversion)))
         for channel in all_groups:
             conf.switch_off(channel)
         update.message.reply_text('{0}{1}{2}'.format(
-            timestamp(), lib.water_off_all.format(Water_Time), lib.msg_new_choice),
+            timestamp(), lib.water_off_all.format(water_time), lib.msg_new_choice),
             parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
         display.show_off()
 
@@ -253,15 +251,15 @@ def duration(bot, update):
 
 # water the target
 def water(update, channel):
-    logging.info('Duration: ' + Water_Time)
+    logging.info('Duration: ' + water_time)
     logging.info('Toggle ' + str(channel))
-    update.message.reply_text(lib.water_on.format(Target, Water_Time),
+    update.message.reply_text(lib.water_on.format(target, water_time),
                               parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
     conf.switch_on(channel)
-    time.sleep((int(Water_Time)*int(lib.time_conversion)))
+    time.sleep((int(water_time) * int(lib.time_conversion)))
     conf.switch_off(channel)
     update.message.reply_text('{0}{1}{2}'.format(
-        timestamp(), lib.water_off.format(Target, Water_Time), lib.msg_new_choice),
+        timestamp(), lib.water_off.format(target, water_time), lib.msg_new_choice),
         parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
     display.show_off()
     return
@@ -269,17 +267,17 @@ def water(update, channel):
 
 # water a group of targets
 def water_group(update, group):
-    logging.info('Duration: ' + Water_Time)
+    logging.info('Duration: ' + water_time)
     logging.info('Toggle ' + str(group))
-    update.message.reply_text(lib.water_on_group.format(Target, Water_Time),
+    update.message.reply_text(lib.water_on_group.format(target, water_time),
                               parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
     for channel in group:
         conf.switch_on(channel)
-    time.sleep((int(Water_Time)*int(lib.time_conversion)))
+    time.sleep((int(water_time) * int(lib.time_conversion)))
     for channel in group:
         conf.switch_off(channel)
     update.message.reply_text('{0}{1}{2}'.format(
-        timestamp(), lib.water_off_group.format(Target, Water_Time), lib.msg_new_choice),
+        timestamp(), lib.water_off_group.format(target, water_time), lib.msg_new_choice),
         parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
     display.show_off()
     return
@@ -340,26 +338,25 @@ def job_standby_timer(bot, job):
 
 
 def start_standby_timer(bot, update):
-    jq.start()
-    logging.info("Jobs started.")
+    logging.info(str(jq))
+    jq.run_once(job_standby_timer, 15)
+    logging.info("Timer started.")
     return
 
 
 def stop_standby_timer(bot, update):
+    logging.info(str(jq))
     jq.stop()
-    logging.info("Jobs stopped.")
+    logging.info("Job queue stopped.")
     return
 
 
 def main():
-    updater = Updater(API_TOKEN)
+    updater = Updater(token)
 
     global jq
     jq = updater.job_queue
-    jq.run_repeating(job_standby_timer, 0, first=15)
     logging.info('Init job queue.')
-    jq.stop()
-    logging.info('Stopped queue')
 
     dp = updater.dispatcher
 
