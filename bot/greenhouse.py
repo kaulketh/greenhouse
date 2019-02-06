@@ -302,10 +302,13 @@ def message_values(update):
 
 # stop bot
 def stop(bot, update):
-    timer_job = jq.run_once(job_stop, 0)
-    jq.start()
-    jq.tick()
-    stop_job_queue(bot, update, timer_job)
+    logging.info('Bot stopped.')
+    cam_off()
+    display.show_stop()
+    update.message.reply_text(lib.msg_stop.format(update.message.from_user.first_name),
+                              parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
+    time.sleep(2)
+    display.show_standby()
     return ConversationHandler.END
 
 
@@ -319,28 +322,20 @@ def error(bot, update, e):
 
 
 def job_stop(bot, job):
-    logging.info('Bot stopped.')
-    cam_off()
-    display.show_stop()
-    bot.sendMessage(
-        chat_id=user_id, text=lib.msg_stop, parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
-    time.sleep(2)
-    display.show_standby()
+    logging.info("Job called.")
+    pass
     return
 
 
 def start_standby_timer(bot, update):
-    jq.run_once(job_stop, conf.standby_timeout)
-    jq.start()
-    jq.tick()
     logging.info("Standby timer started.")
+    pass
     return
 
 
 def stop_job_queue(bot, update, job):
-    job.schedule_removal()
-    jq.stop()
     logging.info("Job queue stopped.")
+    pass
     return
 
 
