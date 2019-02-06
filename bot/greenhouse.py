@@ -74,6 +74,8 @@ Target = lib.empty
 Water_Time = lib.empty
 user_id = lib.empty
 
+global g_update
+g_update = None
 
 # keyboard config
 markup1 = ReplyKeyboardMarkup(conf.kb1, resize_keyboard=True, one_time_keyboard=False)
@@ -83,6 +85,7 @@ markup2 = ReplyKeyboardMarkup(conf.kb2, resize_keyboard=True, one_time_keyboard=
 # start bot
 def start(bot, update):
     global user_id
+    global g_update
     try:
         user_id = update.message.from_user.id
     except (NameError, AttributeError):
@@ -117,12 +120,14 @@ def start(bot, update):
             str(user_id), update.message.from_user.last_name, update.message.from_user.first_name))
         logging.info('Time unit is \'{0}\''.format(str(lib.time_units_name[lib.time_units_index])))
         display.show_off()
+        g_update = update
         return SELECT
 
 
 # set the target, member of group or group
 def selection(bot, update):
     global Target
+    global g_update
     Target = update.message.text
 
     if Target == str(lib.panic):
@@ -145,12 +150,14 @@ def selection(bot, update):
         update.message.reply_text(lib.msg_duration.format(Target),
                                   parse_mode=ParseMode.MARKDOWN, reply_markup=markup2)
         logging.info('Selection: {0}'.format(str(Target)))
+        g_update = update
         return DURATION
 
 
 # set water duration
 def duration(bot, update):
     global Water_Time
+    global g_update
     Water_Time = update.message.text
 
     if Water_Time == str(lib.cancel):
@@ -239,6 +246,7 @@ def duration(bot, update):
     else:
         update.message.reply_text(lib.msg_choice, reply_markup=markup1)
 
+    g_update = update
     return SELECT
 
 
@@ -321,11 +329,12 @@ def error(bot, update, e):
 
 
 def job_standby_timer(bot, job):
+    global g_update
     logging.info('Bot stopped automatically.')
     cam_off()
     display.show_stop()
-    # update.message.reply_text('Bot stopped automatically, set to standby',
-    #                           parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
+    g_update.message.reply_text('Bot stopped automatically, set to standby',
+                                parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
     time.sleep(2)
     display.show_standby()
     return ConversationHandler.END
