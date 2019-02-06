@@ -359,7 +359,7 @@ def main():
     updater = Updater(token)
 
     global jq
-    jq = updater.job_queue.
+    jq = updater.job_queue
     logging.info('Init job queue.')
 
     dp = updater.dispatcher
