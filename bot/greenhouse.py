@@ -308,6 +308,7 @@ def message_values(update):
 
 # stop bot
 def stop(bot, update):
+    stop_standby_timer(bot, update)
     logging.info('Bot stopped.')
     cam_off()
     display.show_stop()
@@ -331,8 +332,8 @@ def job_standby_timer(bot, job):
     logging.info('Bot stopped automatically.')
     cam_off()
     display.show_stop()
-    bot.sendMessage(chat_id=user_id, text='Bot stopped automatically, set to standby',
-                    parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
+    # bot.sendMessage(chat_id=user_id, text='Bot stopped automatically, set to standby',
+    #                parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
     time.sleep(2)
     display.show_standby()
     return ConversationHandler.END
@@ -355,7 +356,7 @@ def main():
 
     global jq
     jq = updater.job_queue
-    jq.run_once(job_standby_timer, 15)
+    jq.run_repeating(job_standby_timer, 0, first=15)
     logging.info('Init job queue.')
     jq.stop()
     logging.info('Stopped queue')
