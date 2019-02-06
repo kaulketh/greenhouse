@@ -71,6 +71,7 @@ target = lib.empty
 water_time = lib.empty
 user_id = lib.empty
 jq = None
+stop_job = None
 
 # keyboard config
 markup1 = ReplyKeyboardMarkup(conf.kb1, resize_keyboard=True, one_time_keyboard=False)
@@ -307,9 +308,11 @@ def message_values(update):
 # stop bot
 def stop(bot, update):
     stop_standby_timer(bot, update)
-    jq.run_once(job_stop, 0)
+    global stop_job
+    stop_job = jq.run_once(job_stop, 0)
     jq.start()
     jq.tick()
+    stop_job.schedule_removal()
     #logging.info('Bot stopped.')
     #cam_off()
     #display.show_stop()
@@ -339,14 +342,18 @@ def job_stop(bot, job):
 
 
 def start_standby_timer(bot, update):
-    jq.run_once(job_stop, conf.standby_timeout)
+    global stop_job
+    stop_job = jq.run_once(job_stop, conf.standby_timeout)
+    # jq.run_once(job_stop, conf.standby_timeout)
     jq.start()
     jq.tick()
+    stop_job.schedule_removal()
     logging.info("Standby timer started.")
     return
 
 
 def stop_standby_timer(bot, update):
+    stop_job.schedule_removal()
     jq.stop()
     logging.info("Job queue stopped.")
     return
