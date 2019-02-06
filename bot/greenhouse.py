@@ -305,8 +305,7 @@ def stop(bot, update):
     timer_job = jq.run_once(job_stop, 0, context=update.message.chat_id)
     jq.start()
     jq.tick()
-    timer_job.schedule_removal()
-    stop_job_queue(bot, update)
+    stop_job_queue(bot, update, timer_job)
     return ConversationHandler.END
 
 
@@ -330,15 +329,15 @@ def job_stop(bot, job):
 
 
 def start_standby_timer(bot, update):
-    timer_job = jq.run_once(job_stop, conf.standby_timeout, context=update.message.chat_id)
+    jq.run_once(job_stop, conf.standby_timeout, context=update.message.chat_id)
     jq.start()
     jq.tick()
-    timer_job.schedule_removal()
     logging.info("Standby timer started.")
     return
 
 
-def stop_job_queue(bot, update):
+def stop_job_queue(bot, update, job):
+    job.schedule_removal()
     jq.stop()
     logging.info("Job queue stopped.")
     return
