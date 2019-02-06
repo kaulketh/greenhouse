@@ -355,7 +355,8 @@ def start_standby_timer(bot, update):
 
 def stop_standby_timer(bot, update):
     jq.stop()
-    stop_job.schedule_removal()
+    if stop_job is not None:
+        stop_job.schedule_removal()
     logging.info("Job queue stopped.")
     return
 
