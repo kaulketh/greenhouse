@@ -14,8 +14,8 @@ logging.basicConfig(filename=conf.log_file, format=conf.log_format,
                     datefmt=conf.log_date_format, level=logging.INFO)
 
 # API token and chat Id
-apiToken = conf.token
-Id = sys.argv[1]
+token = conf.token
+chat_id = conf.mainId
 
 
 def read_cmd(cmd):
@@ -29,13 +29,13 @@ def read_cmd(cmd):
 def send_msg(message):
     os.system(
         'curl -s -k https://api.telegram.org/bot{0}/sendMessage -d text="{1}" -d chat_id={2} '
-        'parse_mode=\'Markdown\' reply_markup=\'remove_keyboard\''.format(apiToken, message, str(Id)))
+        'parse_mode=\'Markdown\' reply_markup=\'remove_keyboard\''.format(token, message, str(chat_id)))
     logging.info('Message send: {0}'.format(message))
     return
 
 
-def timeout():
-    logging.info('Bot stopped.')
+def timeout_reached():
+    logging.info('Timeout reached, bot in standby.')
     read_cmd(conf.disable_camera)
     display.show_stop()
     time.sleep(2)
@@ -49,7 +49,4 @@ def timeout():
 
 
 if __name__ == '__main__':
-    pass
-
-
-
+    timeout_reached()

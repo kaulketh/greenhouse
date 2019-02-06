@@ -10,6 +10,7 @@ import time
 import conf.greenhouse_config as conf
 import peripherals.dht.dht as dht
 import peripherals.temperature as core
+import peripherals.timeout as timeout
 import peripherals.four_digit.display as display
 
 from telegram import (ReplyKeyboardMarkup,
@@ -321,21 +322,23 @@ def error(bot, update, e):
     return ConversationHandler.END
 
 
-def job_stop(bot, job):
+def job_timeout_reached(bot, job):
     logging.info("Job called.")
-    pass
+    timeout
     return
 
 
 def start_standby_timer(bot, update):
     logging.info("Standby timer started.")
-    pass
+    jq.run_once(job_timeout_reached, conf.standby_timeout)
+    jq.start()
+    jq.tick()
     return
 
 
-def stop_job_queue(bot, update, job):
+def stop_job_queue(bot, update):
+    jq.stop()
     logging.info("Job queue stopped.")
-    pass
     return
 
 
