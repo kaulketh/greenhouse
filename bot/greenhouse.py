@@ -320,12 +320,12 @@ def error(bot, update, e):
     return ConversationHandler.END
 
 
-def job_standby_timer(bot, job, update):
+def job_standby_timer(bot, job):
     logging.info('Bot stopped automatically.')
     cam_off()
     display.show_stop()
-    update.message.reply_text('Bot stopped automatically, set to standby',
-                              parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
+    # update.message.reply_text('Bot stopped automatically, set to standby',
+    #                           parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
     time.sleep(2)
     display.show_standby()
     return ConversationHandler.END
