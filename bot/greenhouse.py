@@ -14,7 +14,7 @@ import peripherals.four_digit.display as display
 
 from telegram import (ReplyKeyboardMarkup,
                       ReplyKeyboardRemove, ParseMode)
-from telegram.ext import (Updater, CommandHandler, RegexHandler, ConversationHandler)
+from telegram.ext import (Updater, CommandHandler, RegexHandler, ConversationHandler, Job)
 
 logging.basicConfig(filename=conf.log_file, format=conf.log_format,
                     datefmt=conf.log_date_format, level=logging.INFO)
@@ -84,7 +84,6 @@ markup2 = ReplyKeyboardMarkup(conf.kb2, resize_keyboard=True, one_time_keyboard=
 # start bot
 def start(bot, update):
     global user_id
-    global g_update
     try:
         user_id = update.message.from_user.id
     except (NameError, AttributeError):
@@ -119,15 +118,13 @@ def start(bot, update):
             str(user_id), update.message.from_user.last_name, update.message.from_user.first_name))
         logging.info('Time unit is \'{0}\''.format(str(lib.time_units_name[lib.time_units_index])))
         display.show_off()
-        g_update = update
-        start_standby_timer(bot, g_update)
+        start_standby_timer(bot, update)
         return SELECT
 
 
 # set the target, member of group or group
 def selection(bot, update):
     global Target
-    global g_update
     Target = update.message.text
 
     if Target == str(lib.panic):
@@ -150,14 +147,13 @@ def selection(bot, update):
         update.message.reply_text(lib.msg_duration.format(Target),
                                   parse_mode=ParseMode.MARKDOWN, reply_markup=markup2)
         logging.info('Selection: {0}'.format(str(Target)))
-        g_update = update
+        start_standby_timer(bot, update)
         return DURATION
 
 
 # set water duration
 def duration(bot, update):
     global Water_Time
-    global g_update
     Water_Time = update.message.text
 
     if Water_Time == str(lib.cancel):
@@ -246,7 +242,7 @@ def duration(bot, update):
     else:
         update.message.reply_text(lib.msg_choice, reply_markup=markup1)
 
-    g_update = update
+    start_standby_timer(bot, update)
     return SELECT
 
 
@@ -263,7 +259,6 @@ def water(update, channel):
         timestamp(), lib.water_off.format(Target, Water_Time), lib.msg_new_choice),
         parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
     display.show_off()
-
     return
 
 
@@ -282,7 +277,6 @@ def water_group(update, group):
         timestamp(), lib.water_off_group.format(Target, Water_Time), lib.msg_new_choice),
         parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
     display.show_off()
-
     return
 
 
@@ -329,42 +323,37 @@ def error(bot, update, e):
 
 
 def job_standby_timer(bot, job):
-    global g_update
     logging.info('Bot stopped automatically.')
     cam_off()
     display.show_stop()
-    g_update.message.reply_text('Bot stopped automatically, set to standby',
-                                parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
+    bot.sendMessage(chat_id=user_id, text='Bot stopped automatically, set to standby',
+                    parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
     time.sleep(2)
     display.show_standby()
     return ConversationHandler.END
 
 
 def start_standby_timer(bot, update):
-    logging.info("Starte 15s-Timer für automatischen Standby!")
-    logging.info(str(bot))
-    logging.info(str(update))
-    # job_queue.run_once(job_standby_timer, 15)
+    bot.job.job_queue.start()
+    logging.info("Jobs started.")
     return
 
 
-def stop_standby_timer(bot, update, job_queue):
-    job_queue.stop()
-    logging.info("Stoppe alle Jobs!")
+def stop_standby_timer(bot, update):
+    bot.job.job_queue.stop()
+    logging.info("Jobs stopped.")
     return
 
 
 def main():
     updater = Updater(API_TOKEN)
 
-    jq = updater.job_queue
-
-        # .run_once(job_standby_timer, 15)
-    logging.info('Init job queue... ' + str(jq))
+    updater.job_queue.put(Job(job_standby_timer, 15)).stop()
+    logging.info('Init job queue and stop jobs')
 
     dp = updater.dispatcher
 
-    conv_handler = ConversationHandler(
+    ch = ConversationHandler(
         entry_points=[CommandHandler('start', start)],
 
         states={
@@ -395,7 +384,7 @@ def main():
 
     )
 
-    dp.add_handler(conv_handler)
+    dp.add_handler(ch)
 
     dp.add_error_handler(error)
 
