@@ -14,7 +14,7 @@ import peripherals.four_digit.display as display
 
 from telegram import (ReplyKeyboardMarkup,
                       ReplyKeyboardRemove, ParseMode)
-from telegram.ext import (Updater, CommandHandler, RegexHandler, ConversationHandler, Handler)
+from telegram.ext import (Updater, CommandHandler, RegexHandler, ConversationHandler, Job)
 
 logging.basicConfig(filename=conf.log_file, format=conf.log_format,
                     datefmt=conf.log_date_format, level=logging.INFO)
@@ -80,8 +80,6 @@ markup2 = ReplyKeyboardMarkup(conf.kb2, resize_keyboard=True, one_time_keyboard=
 
 # start bot
 def start(bot, update):
-    stop_standby_timer(bot, update)
-
     global user_id
 
     try:
@@ -124,8 +122,6 @@ def start(bot, update):
 
 # set the target, member of group or group
 def selection(bot, update):
-    stop_standby_timer(bot, update)
-
     global target
     target = update.message.text
 
@@ -156,8 +152,6 @@ def selection(bot, update):
 
 # set water duration
 def duration(bot, update):
-    stop_standby_timer(bot, update)
-
     global water_time
     water_time = update.message.text
 
@@ -310,11 +304,8 @@ def message_values(update):
 # stop bot
 def stop(bot, update):
     stop_standby_timer(bot, update)
-    global stop_job
-    stop_job = jq.run_once(job_stop, 0)
-    stop_job.run()
-    stop_job.schedule_removal()
-    stop_job = None
+    jq.run_once(job_stop, 0)
+
     #logging.info('Bot stopped.')
     #cam_off()
     #display.show_stop()
@@ -345,18 +336,14 @@ def job_stop(bot, job):
 
 def start_standby_timer(bot, update):
     global stop_job
-    stop_job = jq.run_once(job_stop, conf.standby_timeout)
-    # jq.run_once(job_stop, conf.standby_timeout)
-    stop_job.run()
-    stop_job.schedule_removal()
+    jq.run_once(job_stop, conf.standby_timeout)
+
     logging.info("Standby timer started.")
     return
 
 
 def stop_standby_timer(bot, update):
     jq.stop()
-    if stop_job is not None:
-        stop_job.schedule_removal()
     logging.info("Job queue stopped.")
     return
 
