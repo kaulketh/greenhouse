@@ -80,6 +80,7 @@ markup2 = ReplyKeyboardMarkup(conf.kb2, resize_keyboard=True, one_time_keyboard=
 
 # start bot
 def start(bot, update):
+    stop_standby_timer(bot, update)
 
     global user_id
 
@@ -105,6 +106,7 @@ def start(bot, update):
             update.message.from_user.first_name, update.message.chat_id), parse_mode=ParseMode.MARKDOWN)
         return ConversationHandler.END
     else:
+        start_standby_timer(bot, update)
         display.show_run()
         logging.info('Bot started.')
         message_values(update)
@@ -122,12 +124,12 @@ def start(bot, update):
 
 # set the target, member of group or group
 def selection(bot, update):
-    start_standby_timer(bot, update)
+    stop_standby_timer(bot, update)
 
     global target
     target = update.message.text
 
-    stop_standby_timer(bot, update)
+    start_standby_timer(bot, update)
 
     if target == str(lib.panic):
         update.message.reply_text(lib.msg_panic,
@@ -154,12 +156,12 @@ def selection(bot, update):
 
 # set water duration
 def duration(bot, update):
-    start_standby_timer(bot, update)
+    stop_standby_timer(bot, update)
 
     global water_time
     water_time = update.message.text
 
-    stop_standby_timer(bot, update)
+    start_standby_timer(bot, update)
 
     if water_time == str(lib.cancel):
         update.message.reply_text(lib.msg_new_choice,
@@ -310,9 +312,9 @@ def stop(bot, update):
     stop_standby_timer(bot, update)
     global stop_job
     stop_job = jq.run_once(job_stop, 0)
-    jq.start()
-    jq.tick()
+    stop_job.run()
     stop_job.schedule_removal()
+    stop_job = None
     #logging.info('Bot stopped.')
     #cam_off()
     #display.show_stop()
@@ -345,16 +347,15 @@ def start_standby_timer(bot, update):
     global stop_job
     stop_job = jq.run_once(job_stop, conf.standby_timeout)
     # jq.run_once(job_stop, conf.standby_timeout)
-    jq.start()
-    jq.tick()
+    stop_job.run()
     stop_job.schedule_removal()
     logging.info("Standby timer started.")
     return
 
 
 def stop_standby_timer(bot, update):
-    stop_job.schedule_removal()
     jq.stop()
+    stop_job.schedule_removal()
     logging.info("Job queue stopped.")
     return
 
@@ -364,8 +365,8 @@ def main():
 
     global jq
     jq = updater.job_queue
-    jq.stop()
-    logging.info('Init and stop job queue.')
+    # jq.stop()
+    logging.info('Init job queue.')
 
     dp = updater.dispatcher
 
