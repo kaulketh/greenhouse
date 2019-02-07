@@ -79,6 +79,7 @@ markup1 = ReplyKeyboardMarkup(conf.kb1, resize_keyboard=True, one_time_keyboard=
 markup2 = ReplyKeyboardMarkup(conf.kb2, resize_keyboard=True, one_time_keyboard=False)
 
 
+# TODO: remove warnings!
 # start bot
 def start(bot, update):
     global user_id
@@ -139,11 +140,13 @@ def selection(bot, update):
     elif target == str(lib.live_stream):
         update.message.reply_text(lib.msg_live.format(str(conf.live)), parse_mode=ParseMode.MARKDOWN)
         logging.info('Live URL requested.')
+        start_standby_timer(bot, update)
         return SELECT
 
     elif target == str(lib.reload):
         logging.info('Refresh values requested.')
         message_values(update)
+        start_standby_timer(bot, update)
         return SELECT
 
     else:
@@ -338,14 +341,12 @@ def job_timeout_reached(bot, job):
 def start_standby_timer(bot, update):
     global timer_job
     timer_job = jq.run_once(job_timeout_reached, conf.standby_timeout, context=update)
-    # jq.tick()
     logging.info("Standby timer added to queue.")
     return
 
 
 def stop_job_queue(bot, update):
     timer_job.schedule_removal()
-    # jq.stop()
     logging.info("Job removed of queue.")
     return
 
