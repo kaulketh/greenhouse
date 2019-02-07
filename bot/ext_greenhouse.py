@@ -69,10 +69,14 @@ pid1 = read_cmd(lib.get_pid1)
 read_cmd('kill -9 {0}'.format(str(pid1)))
 
 
-def send_msg(message):
+markdown = "-d parse_mode='Markdown'"
+no_parse_mode = conf.lib.empty
+
+
+def send_msg(message, parse_mode):
     os.system(
-        'curl -s -k https://api.telegram.org/bot{0}/sendMessage -d text="{1}" -d chat_id={2}'.format(
-            apiToken, message, str(Id)))
+        'curl -s -k https://api.telegram.org/bot{0}/sendMessage -d text="{1}" -d chat_id={2} {3}'.format(
+            apiToken, message.replace("`", "\\`"), str(Id), parse_mode))
     logging.info('Message send: {0}'.format(message))
     return
 
@@ -99,38 +103,38 @@ def handle(msg):
 
     # commands
     if command == lib.cmd_restart:
-        send_msg(read_cmd('sudo reboot'))
+        send_msg(read_cmd('sudo reboot'), no_parse_mode)
         display.show_boot()
     elif command == lib.cmd_update:
         read_cmd(lib.update_bot)
-        send_msg(lib.msg_update)
+        send_msg(lib.msg_update, no_parse_mode)
         display.show_update()
         time.sleep(3)
     elif command == lib.cmd_logrotate:
-        send_msg(read_cmd(lib.logrotate_bot))
+        send_msg(read_cmd(lib.logrotate_bot), no_parse_mode)
     elif command == lib.cmd_all_on:
-        send_msg(conf.get_timestamp() + ' all on')
+        send_msg(conf.get_timestamp() + ' all on', no_parse_mode)
         water_on_group(group_all)
     elif command == lib.cmd_all_off:
-        send_msg('all off.')
+        send_msg('all off.', no_parse_mode)
         water_off_group(group_all)
     elif command == lib.cmd_group1_on:
-        send_msg(conf.get_timestamp() + 'group 1 on')
+        send_msg(conf.get_timestamp() + 'group 1 on', no_parse_mode)
         water_on_group(group_one)
     elif command == lib.cmd_group1_off:
-        send_msg('group 1 off')
+        send_msg('group 1 off', no_parse_mode)
         water_off_group(group_one)
     elif command == lib.cmd_group2_on:
-        send_msg(conf.get_timestamp() + 'group 2  on')
+        send_msg(conf.get_timestamp() + 'group 2  on', no_parse_mode)
         water_on_group(group_two)
     elif command == lib.cmd_group2_off:
-        send_msg('group 2 off')
+        send_msg('group 2 off', no_parse_mode)
         water_off_group(group_two)
     elif command == lib.cmd_group3_on:
-        send_msg(conf.get_timestamp() + 'group 3 on')
+        send_msg(conf.get_timestamp() + 'group 3 on', no_parse_mode)
         water_on_group(group_three)
     elif command == lib.cmd_group3_off:
-        send_msg('group 3 off')
+        send_msg('group 3 off', no_parse_mode)
         water_off_group(group_three)
     elif command == lib.cmd_kill:
         # disable camera
@@ -139,16 +143,16 @@ def handle(msg):
         pid2 = read_cmd(lib.get_pid2)
         # logging.info('Got own PID to kill me and prepare the other bot for proper using: {0}'.format(str(pid2)))
         read_cmd(lib.restart_bot)
-        send_msg(conf.lib.msg_stop)
+        send_msg(conf.lib.msg_stop, markdown)
         read_cmd('kill -9 ' + pid2)
     elif command == '/start':
-        send_msg('Extended input possible, bot is ready to use!')
+        send_msg('Extended input possible, bot is ready to use!', no_parse_mode)
     elif command == '/live':
-        send_msg(conf.live)
+        send_msg(conf.lib.msg_live.format(conf.live), markdown)
     elif command == '/help':
-        send_msg(lib.msg_help)
+        send_msg(lib.msg_help, no_parse_mode)
     else:
-        send_msg(lib.msg_unknown)
+        send_msg(lib.msg_unknown, no_parse_mode)
     check_pins_state()
 
 
