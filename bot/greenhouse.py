@@ -72,6 +72,7 @@ target = lib.empty
 water_time = lib.empty
 user_id = lib.empty
 jq = None
+timer_job = None
 
 # keyboard config
 markup1 = ReplyKeyboardMarkup(conf.kb1, resize_keyboard=True, one_time_keyboard=False)
@@ -329,20 +330,23 @@ def error(bot, update, e):
 
 
 def job_timeout_reached(bot, job):
-    timeout.timeout_reached()
+    timeout.timeout_reached(job.context)
     logging.info("Timeout of {} seconds reached.".format(str(conf.standby_timeout)))
     return
 
 
 def start_standby_timer(bot, update):
-    jq.start()
-    logging.info("Standby timer started.")
+    global timer_job
+    timer_job = jq.run_once(job_timeout_reached, conf.standby_timeout, context=update)
+    # jq.tick()
+    logging.info("Standby timer added to queue.")
     return
 
 
 def stop_job_queue(bot, update):
-    jq.stop()
-    logging.info("Job queue stopped.")
+    timer_job.schedule_removal()
+    # jq.stop()
+    logging.info("Job removed of queue.")
     return
 
 
@@ -351,9 +355,7 @@ def main():
 
     global jq
     jq = updater.job_queue
-    jq.run_once(job_timeout_reached, conf.standby_timeout)
-    jq.stop()
-    logging.info('Init job queue and timer job.')
+    logging.info('Init job queue.')
 
     dp = updater.dispatcher
 

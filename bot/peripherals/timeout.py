@@ -5,6 +5,8 @@
 
 from __future__ import absolute_import
 
+from telegram import (ReplyKeyboardRemove, ParseMode)
+
 import logging
 import os
 import time
@@ -36,14 +38,15 @@ def send_msg(message):
     return
 
 
-def timeout_reached():
+def timeout_reached(update):
     logging.info('Timeout reached, bot in standby.')
     read_cmd(conf.disable_camera)
     display.show_stop()
     time.sleep(2)
     # start new new instance of greenhouse
     read_cmd(lib.restart_bot)
-    send_msg(conf.lib.msg_stop)
+    update.message.reply_text(lib.msg_stop, parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
+    # send_msg(conf.lib.msg_stop)
     display.show_standby()
     # kill the current instance of greenhouse bot
     pid1 = read_cmd(lib.get_pid1)
