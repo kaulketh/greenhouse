@@ -45,7 +45,7 @@ def timeout_reached(update):
     time.sleep(2)
     # start new new instance of greenhouse
     read_cmd(lib.restart_bot)
-    update.message.reply_text(lib.msg_stop, parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
+    update.message.reply_text(conf.lib.msg_stop, parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
     # send_msg(conf.lib.msg_stop)
     display.show_standby()
     # kill the current instance of greenhouse bot
