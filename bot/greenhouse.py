@@ -13,8 +13,8 @@ import peripherals.temperature as core
 import peripherals.timeout as timeout
 import peripherals.four_digit.display as display
 
-from telegram import (ReplyKeyboardMarkup, ReplyKeyboardRemove, ParseMode)
-from telegram.ext import (Updater, CommandHandler, RegexHandler, ConversationHandler)
+from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove, ParseMode
+from telegram.ext import Updater, CommandHandler, RegexHandler, ConversationHandler
 
 logging.basicConfig(filename=conf.log_file, format=conf.log_format,
                     datefmt=conf.log_date_format, level=logging.INFO)
