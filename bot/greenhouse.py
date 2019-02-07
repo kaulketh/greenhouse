@@ -79,7 +79,6 @@ markup1 = ReplyKeyboardMarkup(conf.kb1, resize_keyboard=True, one_time_keyboard=
 markup2 = ReplyKeyboardMarkup(conf.kb2, resize_keyboard=True, one_time_keyboard=False)
 
 
-# TODO: remove warnings!
 # start bot
 def start(bot, update):
     global user_id
@@ -118,8 +117,8 @@ def start(bot, update):
             str(user_id), update.message.from_user.last_name, update.message.from_user.first_name))
         logging.info('Time unit is \'{0}\''.format(str(lib.time_units_name[lib.time_units_index])))
         display.show_off()
+
         start_standby_timer(bot, update)
-        logging.warning('start')
         return SELECT
 
 
@@ -128,8 +127,7 @@ def selection(bot, update):
     global target
     target = update.message.text
 
-    stop_job_queue(bot, update)
-    logging.warning('stop')
+    stop_standby_timer(bot, update)
 
     if target == str(lib.panic):
         update.message.reply_text(lib.msg_panic,
@@ -138,8 +136,8 @@ def selection(bot, update):
         os.system(conf.run_extended_greenhouse + str(user_id))
 
     elif target == str(lib.live_stream):
-        update.message.reply_text(lib.msg_live.format(str(conf.live)), parse_mode=ParseMode.MARKDOWN)
         logging.info('Live URL requested.')
+        update.message.reply_text(lib.msg_live.format(str(conf.live)), parse_mode=ParseMode.MARKDOWN)
         start_standby_timer(bot, update)
         return SELECT
 
@@ -153,7 +151,7 @@ def selection(bot, update):
         update.message.reply_text(lib.msg_duration.format(target),
                                   parse_mode=ParseMode.MARKDOWN, reply_markup=markup2)
         logging.info('Selection: {0}'.format(str(target)))
-        logging.warning('start')
+
         start_standby_timer(bot, update)
         return DURATION
 
@@ -162,8 +160,8 @@ def selection(bot, update):
 def duration(bot, update):
     global water_time
     water_time = update.message.text
-    logging.warning('stop')
-    stop_job_queue(bot, update)
+
+    stop_standby_timer(bot, update)
 
     if water_time == str(lib.cancel):
         update.message.reply_text(lib.msg_new_choice,
@@ -250,8 +248,7 @@ def duration(bot, update):
 
     else:
         update.message.reply_text(lib.msg_choice, reply_markup=markup1)
-        logging.warning('target required')
-    logging.warning('start')
+
     start_standby_timer(bot, update)
     return SELECT
 
@@ -313,7 +310,7 @@ def message_values(update):
 
 # stop bot
 def stop(bot, update):
-    stop_job_queue(bot, update)
+    stop_standby_timer(bot, update)
     logging.info('Bot stopped.')
     cam_off()
     display.show_stop()
@@ -341,13 +338,13 @@ def job_timeout_reached(bot, job):
 def start_standby_timer(bot, update):
     global timer_job
     timer_job = jq.run_once(job_timeout_reached, conf.standby_timeout, context=update)
-    logging.info("Standby timer added to queue.")
+    logging.info("Init standby timer, added to queue.")
     return
 
 
-def stop_job_queue(bot, update):
+def stop_standby_timer(bot, update):
     timer_job.schedule_removal()
-    logging.info("Job removed of queue.")
+    logging.info("Timer job removed of queue.")
     return
 
 
