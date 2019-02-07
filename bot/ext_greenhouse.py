@@ -139,6 +139,7 @@ def handle(msg):
         pid2 = read_cmd(lib.get_pid2)
         # logging.info('Got own PID to kill me and prepare the other bot for proper using: {0}'.format(str(pid2)))
         read_cmd(lib.restart_bot)
+        # TODO: [#36] bug fix required!
         send_msg(conf.lib.msg_stop)
         read_cmd('kill -9 ' + pid2)
     elif command == '/start':
