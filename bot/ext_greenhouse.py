@@ -70,7 +70,6 @@ read_cmd('kill -9 {0}'.format(str(pid1)))
 
 
 markdown = "-d parse_mode='Markdown'"
-html = "-d parse_mode='HTML'"
 no_parse_mode = conf.lib.empty
 
 
@@ -149,7 +148,7 @@ def handle(msg):
     elif command == '/start':
         send_msg('Extended input possible, bot is ready to use!', no_parse_mode)
     elif command == '/live':
-        send_msg(conf.lib.msg_live.format(conf.live), html)
+        send_msg(conf.lib.msg_live.format(conf.live), markdown)
     elif command == '/help':
         send_msg(lib.msg_help, no_parse_mode)
     else:
