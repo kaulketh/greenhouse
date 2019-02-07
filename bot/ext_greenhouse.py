@@ -70,8 +70,9 @@ read_cmd('kill -9 {0}'.format(str(pid1)))
 
 
 def send_msg(message):
-    os.system('curl -s -k https://api.telegram.org/bot{0}/sendMessage -d text="{1}" -d chat_id={2}'
-              .format(apiToken, message, str(Id)))
+    os.system(
+        'curl -s -k https://api.telegram.org/bot{0}/sendMessage -d text="{1}" -d chat_id={2}'.format(
+            apiToken, message, str(Id)))
     logging.info('Message send: {0}'.format(message))
     return
 
@@ -138,7 +139,7 @@ def handle(msg):
         pid2 = read_cmd(lib.get_pid2)
         # logging.info('Got own PID to kill me and prepare the other bot for proper using: {0}'.format(str(pid2)))
         read_cmd(lib.restart_bot)
-        send_msg('Enabled default bot... Run with /start')
+        send_msg(conf.lib.msg_stop)
         read_cmd('kill -9 ' + pid2)
     elif command == '/start':
         send_msg('Extended input possible, bot is ready to use!')
@@ -156,7 +157,6 @@ bot = telepot.Bot(apiToken)
 bot.message_loop(handle)
 logging.info('I am listening...')
 display.show_extended()
-
 
 while 1:
     try:

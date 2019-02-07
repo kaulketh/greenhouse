@@ -18,6 +18,7 @@ import conf.greenhouse_lib_german as lib
 admins = [access.thk, access.annett]
 mainId = access.thk
 token = access.token
+standby_timeout = 60
 
 
 # keyboard configs
