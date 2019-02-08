@@ -7,6 +7,7 @@ import conf.greenhouse_config as conf
 import logging
 
 logging.basicConfig(filename=conf.log_file, format=conf.log_format, datefmt=conf.log_date_format, level=logging.INFO)
+logging.getLogger(__name__)
 
 temp = 0
 one = 0

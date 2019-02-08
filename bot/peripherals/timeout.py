@@ -17,6 +17,7 @@ import peripherals.four_digit.display as display
 
 logging.basicConfig(filename=conf.log_file, format=conf.log_format,
                     datefmt=conf.log_date_format, level=logging.INFO)
+logging.getLogger(__name__)
 
 # API token and chat Id
 token = conf.token

@@ -79,6 +79,7 @@ log_file = 'greenhouse.log'
 log_format = '%(asctime)s %(levelname)-8s %(name)-10s %(message)s'
 log_date_format = '[%Y-%m-%d %H:%M:%S]'
 logging.basicConfig(filename=log_file, format=log_format, datefmt=log_date_format, level=logging.INFO)
+logging.getLogger(__name__)
 # command to run extended bot
 run_extended_greenhouse = 'sudo python /home/pi/scripts/TelegramBot/ext_greenhouse.py '
 

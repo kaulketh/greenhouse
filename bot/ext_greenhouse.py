@@ -18,6 +18,7 @@ import logging
 
 logging.basicConfig(filename=conf.log_file, format=conf.log_format,
                     datefmt=conf.log_date_format, level=logging.INFO)
+logging.getLogger(__name__)
 
 pins_state = False
 
