@@ -8,7 +8,7 @@ import os
 from logging.config import fileConfig
 
 this_folder = os.path.dirname(os.path.abspath(__file__))
-config_file = os.path.join(this_folder, 'logger_config.ini')
+config_file = os.path.join(this_folder, 'logger.ini')
 fileConfig(config_file)
 
 
