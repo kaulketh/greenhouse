@@ -19,12 +19,14 @@ echo "Failed! Paremeter is missing."
 echo "Usage only possible at least with Telegram bot API token and Chat ID!"
 }
 
+
 # if less than 2 arguments supplied, display usage
 if [[ $# -le 1  ]]
-	then 
-		display_usage
-		exit 1
+    then
+        display_usage
+        exit 1
 fi
+
 
 # if third arguments supplied then will set as branch
 if [[ $# -eq 3  ]]
@@ -35,8 +37,8 @@ else
     # get default branch from repository
     branch=$(curl -s https://api.github.com/repos/${owner}/${project} --insecure | grep -Po '(?<="default_branch":)(.*?)(?=,)' | sed "s/\"//g" | sed -e 's/^[[:space:]]*//')
     echo ${branch} > ${cloned_branch}
-
 fi
+
 
 # get last commit id of branch
 commit=$(curl -s https://api.github.com/repos/${owner}/${project}/commits/${branch} --insecure | grep -Po '(?<="sha":)(.*?)(?=,)' -m 1 | sed "s/\"//g" | sed -e 's/^[[:space:]]*//' | sed -e 's/[.]*$//')
