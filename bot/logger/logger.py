@@ -1,12 +1,15 @@
-#!/usr/bin/python
+#!/usr/bin/python3.5
 # -*- coding: utf-8 -*-
 # logging tool
 # author: Thomas Kaulke, kaulketh@gmail.com
 
 import logging
+import os
 from logging.config import fileConfig
 
-fileConfig('logger_config.ini')
+this_folder = os.path.dirname(os.path.abspath(__file__))
+config_file = os.path.join(this_folder, 'logger_config.ini')
+fileConfig(config_file)
 
 
 def get_logger(name=None):
@@ -15,11 +18,6 @@ def get_logger(name=None):
     logger = logging.getLogger(name)
     return logger
 
-get_logger('Test').debug("debug test")
-get_logger('Test').info("info test")
-get_logger('Test').warning("warning test")
-get_logger('Test').error("error test")
-get_logger('Test').critical("critical test")
 
 if __name__ == '__main__':
     pass
