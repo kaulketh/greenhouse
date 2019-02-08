@@ -9,7 +9,6 @@
 from __future__ import absolute_import
 import os
 import time
-import sys
 import conf.greenhouse_config as conf
 import peripherals.dht.dht as dht
 import peripherals.temperature as core
