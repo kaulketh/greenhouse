@@ -77,7 +77,7 @@ live = access.live
 
 # logging
 log_file = 'greenhouse.log'
-log_format = '%(asctime)s %(levelname)-8s %(name)-10s %(message)s'
+log_format = '%(asctime)s %(levelname)-8s %(name)-60s %(message)s'
 log_date_format = '[%Y-%m-%d %H:%M:%S]'
 logging.basicConfig(filename=log_file, format=log_format, datefmt=log_date_format, level=logging.INFO)
 logging = logging.getLogger(str(sys.argv[0]))
