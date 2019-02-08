@@ -12,7 +12,7 @@ import conf.greenhouse_config as conf
 import peripherals.four_digit.display as display
 import logger.logger as log
 
-logging = log.get_logger('timeout')
+logging = log.get_logger()
 
 # API token and chat Id
 token = conf.token

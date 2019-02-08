@@ -13,7 +13,7 @@ import math
 import conf.greenhouse_config as conf
 from time import sleep
 import logger.logger as log
-logger = log.get_logger('four digits display')
+logger = log.get_logger()
 
 """ http://www.uize.com/examples/seven-segment-display.html """
 #               0    1     2     3     4     5     6     7     8     9

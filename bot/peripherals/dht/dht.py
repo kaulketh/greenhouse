@@ -8,7 +8,7 @@ import Adafruit_DHT
 import conf.greenhouse_config as conf
 import logger.logger as log
 
-logging = log.get_logger('dht')
+logging = log.get_logger()
 
 lib = conf.lib
 sensor = Adafruit_DHT.DHT22

@@ -9,7 +9,7 @@ from lib_oled96 import Ssd1306
 from smbus import SMBus
 import logger.logger as log
 
-logging = log.get_logger('oled display')
+logging = log.get_logger('oled')
 
 # Display setup, methods and members
 """ 0 = Raspberry Pi 1, 1 = Raspberry Pi > 1 """

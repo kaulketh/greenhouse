@@ -16,7 +16,7 @@ import telepot
 import os
 import logger.logger as log
 
-logging = log.get_logger('ext. greenhouse bot')
+logging = log.get_logger()
 
 pins_state = False
 
