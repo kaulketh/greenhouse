@@ -19,12 +19,13 @@ top = 7
 switch_time = 15
 
 
+"""Ensure same file names in update_bot.sh!"""
 def get_last_commit():
-        commit = open("/lastGreenhouseCommit.id").read()
-        branch = open("/defaultGreenhouseBranch.name").read()
-        commit = commit[0:6]
-        commit = commit + " " + branch.replace("\n", "")
-        return commit
+        commit = open("/greenhouseRepoCommit.id").read()
+        branch = open("/greenhouseRepoBranch.name").read()
+        commit = commit[0:7]
+        build = commit + " " + branch.replace("\n", "")
+        return build
 
 
 def get_core_temp():

@@ -7,8 +7,9 @@ chat=$2
 project=greenhouse
 owner=kaulketh
 log='/update_bot.log'
-commit_id='/lastGreenhouseCommit.id'
-cloned_branch='/defaultGreenhouseBranch.name'
+""" Ensure same file names in peripherals/oled/display.py! """
+commit_id='/greenhouseRepoCommit.id'
+cloned_branch='/greenhouseRepoBranch.name'
 bot_dir='/home/pi/scripts/TelegramBot/'
 wait=3
 
