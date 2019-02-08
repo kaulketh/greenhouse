@@ -140,8 +140,6 @@ def _handle(msg):
         _read_cmd(lib.restart_bot)
         _send_msg(conf.lib.msg_stop, markdown)
         _read_cmd('kill -9 ' + pid2)
-    elif command == '/start':
-        _send_msg('Extended input possible, bot is ready to use!', no_parse_mode)
     elif command == '/live':
         _send_msg(conf.lib.msg_live.format(conf.live), markdown)
     elif command == '/help':
