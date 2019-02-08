@@ -19,7 +19,7 @@ import logger.logger as log
 from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove, ParseMode
 from telegram.ext import Updater, CommandHandler, RegexHandler, ConversationHandler, CallbackQueryHandler
 
-logging = log.get_logger('greenhouse bot')
+logging = log.get_logger()
 
 # used library
 lib = conf.lib
