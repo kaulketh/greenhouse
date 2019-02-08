@@ -121,3 +121,7 @@ def get_timestamp_line():
 def get_pin_state(pin):
     GPIO.setup(pin, GPIO.OUT)
     return GPIO.input(pin)
+
+
+if __name__ == '__main__':
+    pass

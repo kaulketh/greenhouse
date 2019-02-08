@@ -47,4 +47,7 @@ update_bot = 'rm /lastGreenhouseCommit.id && bash /home/pi/scripts/TelegramBot/u
              + str(token) + ' ' + str(thk) + ' &'
 
 backup_all = 'tar -zcf /home/pi/backups/greenhouse.tgz --exclude=\'*.pyc\' /home/pi/scripts/TelegramBot/ &'
-logrotate_bot = 'logrotate -f /etc/logrotate.conf &' 
+logrotate_bot = 'logrotate -f /etc/logrotate.conf &'
+
+if __name__ == '__main__':
+    pass

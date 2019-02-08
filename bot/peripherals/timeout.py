@@ -23,7 +23,7 @@ token = conf.token
 chat_id = conf.mainId
 
 
-def read_cmd(cmd):
+def _read_cmd(cmd):
     os.system(cmd + ' > ' + lib.tmp_file + ' 2>&1')
     file = open(lib.tmp_file, 'r')
     data = file.read()
@@ -31,7 +31,7 @@ def read_cmd(cmd):
     return data
 
 
-def send_msg(message):
+def _send_msg(message):
     os.system('curl -s -k https://api.telegram.org/bot{0}/sendMessage -d text="{1}" -d chat_id={2}'.format(
         token, message, str(chat_id)))
     logging.info('Message send: {0}'.format(message))
@@ -40,17 +40,17 @@ def send_msg(message):
 
 def timeout_reached(update):
     logging.info('Timeout reached, bot in standby.')
-    read_cmd(conf.disable_camera)
+    _read_cmd(conf.disable_camera)
     display.show_stop()
     time.sleep(2)
     # start new new instance of greenhouse
-    read_cmd(lib.restart_bot)
+    _read_cmd(lib.restart_bot)
     update.message.reply_text(conf.lib.msg_stop, parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
     # send_msg(conf.lib.msg_stop)
     display.show_standby()
     # kill the current instance of greenhouse bot
-    pid1 = read_cmd(lib.get_pid1)
-    read_cmd('kill -9 {0}'.format(str(pid1)))
+    pid1 = _read_cmd(lib.get_pid1)
+    _read_cmd('kill -9 {0}'.format(str(pid1)))
     return
 
 
