@@ -15,7 +15,7 @@ fileConfig(config_file)
 def get_logger(name=None):
     if name is None:
         name = __name__
-    logger = logging.getLogger(name)
+    logger = logging.getLogger(name[0:15])
     return logger
 
 

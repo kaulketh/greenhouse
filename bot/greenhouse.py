@@ -311,7 +311,7 @@ def _start_standby_timer(bot, update):
 
 def _stop_standby_timer(bot, update):
     timer_job.schedule_removal()
-    logging.info("Timer job removed of queue.")
+    logging.info("Timer job removed from the queue.")
     return
 
 
