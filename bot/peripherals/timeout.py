@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# script for "panic" mode - extended bot
+# Timeout: Kill running process after given time and sends a message
 # author: Thomas Kaulke, kaulketh@gmail.com
 
 from __future__ import absolute_import
@@ -31,13 +31,6 @@ def _read_cmd(cmd):
     return data
 
 
-def _send_msg(message):
-    os.system('curl -s -k https://api.telegram.org/bot{0}/sendMessage -d text="{1}" -d chat_id={2}'.format(
-        token, message, str(chat_id)))
-    logging.info('Message send: {0}'.format(message))
-    return
-
-
 def timeout_reached(update):
     logging.info('Timeout reached, bot in standby.')
     _read_cmd(conf.disable_camera)
@@ -46,7 +39,6 @@ def timeout_reached(update):
     # start new new instance of greenhouse
     _read_cmd(lib.restart_bot)
     update.message.reply_text(conf.lib.msg_stop, parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
-    # send_msg(conf.lib.msg_stop)
     display.show_standby()
     # kill the current instance of greenhouse bot
     pid1 = _read_cmd(lib.get_pid1)
