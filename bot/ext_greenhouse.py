@@ -14,11 +14,9 @@ import sys
 import time
 import telepot
 import os
-import logging
+import logger.logger as log
 
-logging.basicConfig(filename=conf.log_file, format=conf.log_format,
-                    datefmt=conf.log_date_format, level=logging.INFO)
-logging = logging.getLogger(__name__)
+logging = log.get_logger('extended bot')
 
 pins_state = False
 

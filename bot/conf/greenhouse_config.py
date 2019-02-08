@@ -5,10 +5,11 @@
 
 from __future__ import absolute_import
 import time
-import sys
 import RPi.GPIO as GPIO
-import logging
 import conf.access as access
+import logger.logger as log
+
+logging = log.get_logger('config')
 
 # language selection
 """ for English import greenhouse_lib_english """
@@ -75,12 +76,6 @@ GROUP_03 = (RELAIS_04, RELAIS_05)
 # live stream address
 live = access.live
 
-# logging
-log_file = 'greenhouse.log'
-log_format = '%(asctime)s %(levelname)-8s %(name)-60s %(message)s'
-log_date_format = '[%Y-%m-%d %H:%M:%S]'
-logging.basicConfig(filename=log_file, format=log_format, datefmt=log_date_format, level=logging.INFO)
-logging = logging.getLogger(str(sys.argv[0]))
 # command to run extended bot
 run_extended_greenhouse = 'sudo python /home/pi/scripts/TelegramBot/ext_greenhouse.py '
 

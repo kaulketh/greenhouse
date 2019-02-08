@@ -4,11 +4,9 @@
 
 from __future__ import absolute_import
 import conf.greenhouse_config as conf
-import sys
-import logging
+import logger.logger as log
 
-logging.basicConfig(filename=conf.log_file, format=conf.log_format, datefmt=conf.log_date_format, level=logging.INFO)
-logging = logging.getLogger(str(sys.argv[0]))
+logging = log.get_logger('temperature')
 
 temp = 0
 one = 0

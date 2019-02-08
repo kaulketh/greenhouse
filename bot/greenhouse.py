@@ -7,7 +7,6 @@
 # adapted: author: Thomas Kaulke, kaulketh@gmail.com
 
 from __future__ import absolute_import
-import logging
 import os
 import time
 import sys
@@ -16,13 +15,12 @@ import peripherals.dht.dht as dht
 import peripherals.temperature as core
 import peripherals.timeout as timeout
 import peripherals.four_digit.display as display
+import logger.logger as log
 
 from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove, ParseMode
 from telegram.ext import Updater, CommandHandler, RegexHandler, ConversationHandler
 
-logging.basicConfig(filename=conf.log_file, format=conf.log_format,
-                    datefmt=conf.log_date_format, level=logging.INFO)
-logging = logging.getLogger(str(sys.argv[0]))
+logging = log.get_logger('greenhouse bot')
 
 # used library
 lib = conf.lib
