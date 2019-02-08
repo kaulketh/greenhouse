@@ -5,11 +5,9 @@
 from __future__ import absolute_import
 from subprocess import Popen, PIPE
 import sys
-import logging
-import conf.greenhouse_config as config
+import logger.logger as log
 
-logging.basicConfig(filename=config.log_file, format=config.log_format,
-                    datefmt=config.log_date_format, level=logging.INFO)
+logging = log.get_logger('GPIO check')
 
 pin_to_check = int(sys.argv[1])
 gpios = (21, 22, 23, 24, 25, 27, 28, 29)

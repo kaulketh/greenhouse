@@ -49,3 +49,7 @@ msg_choice = '`Please select:`'
 msg_new_choice = '`New choice or end?`'
 msg_panic = '`PANIC MODE!`'
 private_warning = '`Hello {}, this is a private bot!\nYour chat id: {} has been blocked.`'
+
+
+if __name__ == '__main__':
+    pass

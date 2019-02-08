@@ -59,6 +59,7 @@ echo "[$(date +'%F %H:%M:%S')] Removing some files..."
 find ${bot_dir} -name *.pyc -type f -exec rm -fv {} \;
 find ${bot_dir} -name *.log -type f -exec rm -fv {} \;
 find ${bot_dir} -name *.tmp -type f -exec rm -fv {} \;
+find ${bot_dir} -name *.save -type f -exec rm -fv {} \;
 rm -fv /cmd.tmp
 echo 
 

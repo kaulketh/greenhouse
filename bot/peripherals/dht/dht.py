@@ -5,14 +5,15 @@
 
 from __future__ import absolute_import
 import Adafruit_DHT
-import logging
 import conf.greenhouse_config as conf
+import logger.logger as log
 
+logging = log.get_logger('dht')
 
 lib = conf.lib
 sensor = Adafruit_DHT.DHT22
 pin = conf.DHT_PIN
-logging.basicConfig(filename=conf.log_file, format=conf.log_format, datefmt=conf.log_date_format, level=logging.INFO)
+
 
 
 def get_values():
@@ -30,3 +31,7 @@ def get_values():
         humidity = 0
         temperature = 0 
     return
+
+
+if __name__ == '__main__':
+    pass

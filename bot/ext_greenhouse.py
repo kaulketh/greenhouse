@@ -1,7 +1,10 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 # script for "panic" mode - extended bot
+# using telepot as Python framework for Telegram Bot API
+# https://telepot.readthedocs.io/en/latest/reference.html
 # author: Thomas Kaulke, kaulketh@gmail.com
+
 
 from __future__ import absolute_import
 import conf.greenhouse_config as conf
@@ -11,13 +14,14 @@ import sys
 import time
 import telepot
 import os
-import logging
+import logger.logger as log
 
-logging.basicConfig(filename=conf.log_file, format=conf.log_format,
-                    datefmt=conf.log_date_format, level=logging.INFO)
+logging = log.get_logger('extended bot')
 
-# def board pins/channels, refer hardware/raspi_gpio.info
 pins_state = False
+
+markdown = "-d parse_mode='Markdown'"
+no_parse_mode = conf.lib.empty
 
 relais01 = conf.RELAIS_01
 relais02 = conf.RELAIS_02
@@ -40,14 +44,14 @@ Id = sys.argv[1]
 
 
 # water a group of targets
-def water_on_group(group):
+def _water_on_group(group):
     for member in group:
         conf.switch_on(member)
     return
 
 
 # water off for a  group of targets
-def water_off_group(group):
+def _water_off_group(group):
     for member in group:
         conf.switch_off(member)
     return
@@ -55,7 +59,7 @@ def water_off_group(group):
 
 # Assign default output (stdout 1 and stderr 2) to file and read in
 # variable and get back
-def read_cmd(cmd):
+def _read_cmd(cmd):
     os.system(cmd + ' > ' + lib.tmp_file + ' 2>&1')
     file = open(lib.tmp_file, 'r')
     data = file.read()
@@ -63,17 +67,7 @@ def read_cmd(cmd):
     return data
 
 
-# kill the still running greenhouse bot script
-pid1 = read_cmd(lib.get_pid1)
-# logging.info('{0} is PID of running default bot, used to kill.'.format(str(pid1)))
-read_cmd('kill -9 {0}'.format(str(pid1)))
-
-
-markdown = "-d parse_mode='Markdown'"
-no_parse_mode = conf.lib.empty
-
-
-def send_msg(message, parse_mode):
+def _send_msg(message, parse_mode):
     os.system(
         'curl -s -k https://api.telegram.org/bot{0}/sendMessage -d text="{1}" -d chat_id={2} {3}'.format(
             apiToken, message.replace("`", "\\`"), str(Id), parse_mode))
@@ -81,7 +75,7 @@ def send_msg(message, parse_mode):
     return
 
 
-def check_pins_state():
+def _check_pins_state():
     global pins_state
     for pin in group_all:
         if not conf.get_pin_state(pin):
@@ -94,7 +88,7 @@ def check_pins_state():
     return
 
 
-def handle(msg):
+def _handle(msg):
     if pins_state:
         display.show_extended()
 
@@ -103,74 +97,83 @@ def handle(msg):
 
     # commands
     if command == lib.cmd_restart:
-        send_msg(read_cmd('sudo reboot'), no_parse_mode)
+        _send_msg(_read_cmd('sudo reboot'), no_parse_mode)
         display.show_boot()
     elif command == lib.cmd_update:
-        read_cmd(lib.update_bot)
-        send_msg(lib.msg_update, no_parse_mode)
+        _read_cmd(lib.update_bot)
+        _send_msg(lib.msg_update, no_parse_mode)
         display.show_update()
         time.sleep(3)
     elif command == lib.cmd_logrotate:
-        send_msg(read_cmd(lib.logrotate_bot), no_parse_mode)
+        _send_msg(_read_cmd(lib.logrotate_bot), no_parse_mode)
     elif command == lib.cmd_all_on:
-        send_msg(conf.get_timestamp() + ' all on', no_parse_mode)
-        water_on_group(group_all)
+        _send_msg(conf.get_timestamp() + ' all on', no_parse_mode)
+        _water_on_group(group_all)
     elif command == lib.cmd_all_off:
-        send_msg('all off.', no_parse_mode)
-        water_off_group(group_all)
+        _send_msg('all off.', no_parse_mode)
+        _water_off_group(group_all)
     elif command == lib.cmd_group1_on:
-        send_msg(conf.get_timestamp() + 'group 1 on', no_parse_mode)
-        water_on_group(group_one)
+        _send_msg(conf.get_timestamp() + 'group 1 on', no_parse_mode)
+        _water_on_group(group_one)
     elif command == lib.cmd_group1_off:
-        send_msg('group 1 off', no_parse_mode)
-        water_off_group(group_one)
+        _send_msg('group 1 off', no_parse_mode)
+        _water_off_group(group_one)
     elif command == lib.cmd_group2_on:
-        send_msg(conf.get_timestamp() + 'group 2  on', no_parse_mode)
-        water_on_group(group_two)
+        _send_msg(conf.get_timestamp() + 'group 2  on', no_parse_mode)
+        _water_on_group(group_two)
     elif command == lib.cmd_group2_off:
-        send_msg('group 2 off', no_parse_mode)
-        water_off_group(group_two)
+        _send_msg('group 2 off', no_parse_mode)
+        _water_off_group(group_two)
     elif command == lib.cmd_group3_on:
-        send_msg(conf.get_timestamp() + 'group 3 on', no_parse_mode)
-        water_on_group(group_three)
+        _send_msg(conf.get_timestamp() + 'group 3 on', no_parse_mode)
+        _water_on_group(group_three)
     elif command == lib.cmd_group3_off:
-        send_msg('group 3 off', no_parse_mode)
-        water_off_group(group_three)
+        _send_msg('group 3 off', no_parse_mode)
+        _water_off_group(group_three)
     elif command == lib.cmd_kill:
         # disable camera
         logging.info('Disable camera module.')
-        read_cmd(conf.disable_camera)
-        pid2 = read_cmd(lib.get_pid2)
+        _read_cmd(conf.disable_camera)
+        pid2 = _read_cmd(lib.get_pid2)
         # logging.info('Got own PID to kill me and prepare the other bot for proper using: {0}'.format(str(pid2)))
-        read_cmd(lib.restart_bot)
-        send_msg(conf.lib.msg_stop, markdown)
-        read_cmd('kill -9 ' + pid2)
-    elif command == '/start':
-        send_msg('Extended input possible, bot is ready to use!', no_parse_mode)
+        _read_cmd(lib.restart_bot)
+        _send_msg(conf.lib.msg_stop, markdown)
+        _read_cmd('kill -9 ' + pid2)
     elif command == '/live':
-        send_msg(conf.lib.msg_live.format(conf.live), markdown)
+        _send_msg(conf.lib.msg_live.format(conf.live), markdown)
     elif command == '/help':
-        send_msg(lib.msg_help, no_parse_mode)
+        _send_msg(lib.msg_help, no_parse_mode)
     else:
-        send_msg(lib.msg_unknown, no_parse_mode)
-    check_pins_state()
+        _send_msg(lib.msg_unknown, no_parse_mode)
+    _check_pins_state()
 
 
-conf.set_pins()
-bot = telepot.Bot(apiToken)
-bot.message_loop(handle)
-logging.info('I am listening...')
-display.show_extended()
+def init_and_start():
+    # kill the still running greenhouse bot script
+    pid1 = _read_cmd(lib.get_pid1)
+    # logging.info('{0} is PID of running default bot, used to kill.'.format(str(pid1)))
+    _read_cmd('kill -9 {0}'.format(str(pid1)))
 
-while 1:
-    try:
-        time.sleep(1)
+    conf.set_pins()
+    bot = telepot.Bot(apiToken)
+    bot.message_loop(_handle)
+    logging.info('I am listening...')
+    display.show_extended()
+    while 1:
+        try:
+            time.sleep(5)
 
-    except KeyboardInterrupt:
-        logging.warning('Program interrupted')
-        display.show_error()
-        exit()
+        except KeyboardInterrupt:
+            logging.warning('Program interrupted')
+            display.show_error()
+            exit()
 
-    except Exception:
-        logging.warning('Any error occurs')
-        display.show_error()
+        except Exception:
+            logging.warning('Any error occurs')
+            display.show_error()
+
+
+init_and_start()
+
+if __name__ == '__main__':
+    pass

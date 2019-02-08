@@ -48,3 +48,6 @@ msg_choice = '`Bitte auswählen:`'
 msg_new_choice = '`Neue Auswahl oder Beenden?`'
 msg_panic = '`PANIK-MODUS!`'
 private_warning = '`Hallo {}, dies ist ein privater Bot!\nDeine ChatID: {} ist geblockt worden.`'
+
+if __name__ == '__main__':
+    pass

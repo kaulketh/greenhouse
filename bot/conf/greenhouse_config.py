@@ -6,8 +6,11 @@
 from __future__ import absolute_import
 import time
 import RPi.GPIO as GPIO
-import logging
 import conf.access as access
+import logger.logger as log
+
+"""logging is configured in logger package in logger_config.ini"""
+logging = log.get_logger('config')
 
 # language selection
 """ for English import greenhouse_lib_english """
@@ -74,11 +77,6 @@ GROUP_03 = (RELAIS_04, RELAIS_05)
 # live stream address
 live = access.live
 
-# logging
-log_file = 'greenhouse.log'
-log_format = '%(asctime)s %(levelname)-8s %(name)-10s %(message)s'
-log_date_format = '[%Y-%m-%d %H:%M:%S]'
-logging.basicConfig(filename=log_file, format=log_format, datefmt=log_date_format, level=logging.INFO)
 # command to run extended bot
 run_extended_greenhouse = 'sudo python /home/pi/scripts/TelegramBot/ext_greenhouse.py '
 
@@ -121,3 +119,7 @@ def get_timestamp_line():
 def get_pin_state(pin):
     GPIO.setup(pin, GPIO.OUT)
     return GPIO.input(pin)
+
+
+if __name__ == '__main__':
+    pass
