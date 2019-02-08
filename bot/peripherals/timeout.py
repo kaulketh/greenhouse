@@ -4,20 +4,18 @@
 # author: Thomas Kaulke, kaulketh@gmail.com
 
 from __future__ import absolute_import
-
 from telegram import (ReplyKeyboardRemove, ParseMode)
-
 import logging
 import os
 import time
-
+import  sys
 import conf.ext_greenhouse_lib as lib
 import conf.greenhouse_config as conf
 import peripherals.four_digit.display as display
 
 logging.basicConfig(filename=conf.log_file, format=conf.log_format,
                     datefmt=conf.log_date_format, level=logging.INFO)
-logging.getLogger(__name__)
+logging = logging.getLogger(sys.argv[0])
 
 # API token and chat Id
 token = conf.token
