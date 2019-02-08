@@ -192,3 +192,7 @@ def __switch_group_duration(group, duration):
         sleep(1)
         duration -= 1
     return
+
+
+if __name__ == '__main__':
+    pass

@@ -1,7 +1,10 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 # script for "panic" mode - extended bot
+# using telepot as Python framework for Telegram Bot API
+# https://telepot.readthedocs.io/en/latest/reference.html
 # author: Thomas Kaulke, kaulketh@gmail.com
+
 
 from __future__ import absolute_import
 import conf.greenhouse_config as conf

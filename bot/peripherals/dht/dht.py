@@ -30,3 +30,7 @@ def get_values():
         humidity = 0
         temperature = 0 
     return
+
+
+if __name__ == '__main__':
+    pass

@@ -1,5 +1,8 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+# main script for greenhouse bot
+# using telegram as Python framework for Telegram Bot API
+# https://core.telegram.org/api#bot-api
 # original: author: Stefan Weigert  http://www.stefan-weigert.de/php_loader/raspi.php
 # adapted: author: Thomas Kaulke, kaulketh@gmail.com
 
