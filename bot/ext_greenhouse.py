@@ -149,7 +149,6 @@ def _handle(msg):
 
 
 def init_and_start():
-    logging.info('################### ' + str(sys.argv[0]) + ' ###################')
     # kill the still running greenhouse bot script
     pid1 = _read_cmd(lib.get_pid1)
     # logging.info('{0} is PID of running default bot, used to kill.'.format(str(pid1)))

@@ -49,7 +49,6 @@ markup2 = ReplyKeyboardMarkup(conf.kb2, resize_keyboard=True, one_time_keyboard=
 
 # Start info
 def _init_bot_set_pins():
-    logging.info('################### ' + str(sys.argv[0]) + ' ###################')
     logging.info('Initialize bot, setup GPIO pins.')
     conf.set_pins()
     logging.info('Switch all off at start.')
