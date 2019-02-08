@@ -28,7 +28,7 @@ def _read_cmd(cmd):
 
 
 def timeout_reached(update):
-    logging.info('Timeout reached, bot in standby.')
+    logging.info('Timeout reached, set bot in standby.')
     _read_cmd(conf.disable_camera)
     display.show_stop()
     time.sleep(2)

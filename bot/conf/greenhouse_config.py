@@ -9,6 +9,7 @@ import RPi.GPIO as GPIO
 import conf.access as access
 import logger.logger as log
 
+"""logging is configured in logger package in logger_config.ini"""
 logging = log.get_logger('config')
 
 # language selection
