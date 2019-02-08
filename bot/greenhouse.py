@@ -17,7 +17,7 @@ import peripherals.four_digit.display as display
 import logger.logger as log
 
 from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove, ParseMode
-from telegram.ext import Updater, CommandHandler, RegexHandler, ConversationHandler
+from telegram.ext import Updater, CommandHandler, RegexHandler, ConversationHandler, CallbackQueryHandler
 
 logging = log.get_logger('greenhouse bot')
 
@@ -316,8 +316,8 @@ def _stop_standby_timer(bot, update):
 
 
 def _job_timeout_reached(bot, job):
+    logging.warning("Timeout of {} seconds reached.".format(str(conf.standby_timeout)))
     timeout.timeout_reached(job.context)
-    logging.info("Timeout of {} seconds reached.".format(str(conf.standby_timeout)))
     return
 
 

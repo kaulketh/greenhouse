@@ -14,7 +14,7 @@ logger = log.get_logger('test bot')
 
 
 def start(bot, update):
-    keyboard = [[InlineKeyboardButton("Option 1", callback_data='1'),
+    keyboard = [[InlineKeyboardButton("Option 1", callback_data='1').,
                  InlineKeyboardButton("Option 2", callback_data='2')],
 
                 [InlineKeyboardButton(text='R+',  url='www.rammstein.de')]]
@@ -26,6 +26,7 @@ def start(bot, update):
 
 def button(bot, update):
     query = update.callback_query
+
 
     bot.edit_message_text(text="Selected option: {}".format(query.data),
                           chat_id=query.message.chat_id,

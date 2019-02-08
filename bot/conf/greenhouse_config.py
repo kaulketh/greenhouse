@@ -33,18 +33,6 @@ kb1 = [[lib.group1[1], lib.group1[2], lib.group1[3], lib.group3[1]],
        ]
 kb2 = [[lib.cancel, lib.stop_bot]]
 
-
-# to use Raspberry Pi board pin numbers
-def set_pins():
-    GPIO.setmode(GPIO.BOARD)
-    logging.info('Set GPIO mode: GPIO.BOARD')
-    # to use GPIO instead board pin numbers, then please adapt pin definition
-    # GPIO.setmode(GPIO.BCM)
-    # comment if warnings required
-    GPIO.setwarnings(False)
-    return GPIO
-
-
 # 7-segment display settings
 clk_pin = 32
 dio_pin = 22
@@ -86,6 +74,16 @@ disable_camera = 'sudo service motion stop && sudo rm -rf /home/pi/Monitor/* &'
 
 # gpio check
 run_gpio_check = 'sudo python /home/pi/scripts/TelegramBot/gpio_check.py '
+
+# to use Raspberry Pi board pin numbers
+def set_pins():
+    GPIO.setmode(GPIO.BOARD)
+    logging.info('Set GPIO mode: GPIO.BOARD')
+    # to use GPIO instead board pin numbers, then please adapt pin definition
+    # GPIO.setmode(GPIO.BCM)
+    # comment if warnings required
+    GPIO.setwarnings(False)
+    return GPIO
 
 
 # switch functions
