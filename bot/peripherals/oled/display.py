@@ -7,6 +7,9 @@ from time import sleep
 from PIL import Image, ImageFont, ImageDraw
 from lib_oled96 import Ssd1306
 from smbus import SMBus
+import logger.logger as log
+
+logging = log.get_logger('oled display')
 
 # Display setup, methods and members
 """ 0 = Raspberry Pi 1, 1 = Raspberry Pi > 1 """
@@ -21,11 +24,25 @@ switch_time = 15
 
 """Ensure same file names in update_bot.sh!"""
 def get_last_commit():
+    commit = None
+    branch = None
+
+    try:
         commit = open("/greenhouseRepoCommit.id").read()
+        if commit is None:
+            commit = '-------'
+        else:
+            commit = commit[0:7]
         branch = open("/greenhouseRepoBranch.name").read()
-        commit = commit[0:7]
-        build = commit + " " + branch.replace("\n", "")
-        return build
+        if branch is None:
+            branch = '-------'
+        else:
+            branch = branch.replace("\n", "")
+    except Exception:
+        logging.error('Any error occurs!')
+
+    build = commit + " " + branch
+    return build
 
 
 def get_core_temp():
