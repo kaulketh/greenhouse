@@ -9,10 +9,7 @@
 from __future__ import absolute_import
 import os
 import time
-import sys
-from threading import Thread
 import conf.greenhouse_config as conf
-import conf.inline_keyboard_lib as inline
 import peripherals.dht.dht as dht
 import peripherals.temperature as core
 import peripherals.stop_and_restart as stop_and_restart
@@ -20,7 +17,7 @@ import peripherals.four_digit.display as display
 import logger.logger as log
 
 from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove, ParseMode
-from telegram.ext import Updater, CommandHandler, RegexHandler, ConversationHandler, CallbackQueryHandler
+from telegram.ext import Updater, CommandHandler, RegexHandler, ConversationHandler
 
 logging = log.get_logger()
 
@@ -247,12 +244,17 @@ def _water(update, channel):
     update.message.reply_text(lib.water_on.format(target, water_time),
                               parse_mode=ParseMode.MARKDOWN, reply_markup=markup3)
 
+    # TODO: emergency stop!!!!!
     duration = (int(water_time) * int(lib.time_conversion))
     conf.switch_on(channel)
 
-    while (update.message.text is not (str(lib.cancel)) and duration > 0):
+    while (update.message.text is not (str(lib.cancel)) or duration > 0):
         time.sleep(1)
         duration -=1
+
+    if update.message.text == str(lib.cancel):
+        conf.switch_off(channel)
+        return STOP_WATER
 
     conf.switch_off(channel)
     update.message.reply_text('{0}{1}{2}'.format(
