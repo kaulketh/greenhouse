@@ -245,16 +245,14 @@ def _water(bot, update, channel):
                               parse_mode=ParseMode.MARKDOWN, reply_markup=markup3)
 
     # TODO: emergency stop!!!!!
-    global stop_water
     duration = (int(water_time) * int(lib.time_conversion))
     conf.switch_on(channel)
     while duration > 0:
-        stop_water = update.message.text
         logging.warning('duration: ' + str(duration))
         time.sleep(1)
         duration -= 1
-        logging.warning('msg: ' + stop_water)
-        if stop_water == str(lib.cancel):
+        logging.warning('msg: ' + update.message.text)
+        if update.message.text == str(lib.cancel):
             conf.switch_off(channel)
             logging.warning('try to stop!')
             return STOP_WATER
