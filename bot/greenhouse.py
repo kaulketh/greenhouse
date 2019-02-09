@@ -246,15 +246,14 @@ def _water(update, channel):
 
     # TODO: emergency stop!!!!!
     global stop_water
-    stop_water = update.message.text
     duration = (int(water_time) * int(lib.time_conversion))
-
     conf.switch_on(channel)
     while duration > 0:
-        logging.warning('duration : ' + str(duration))
+        stop_water = update.message.text
+        logging.warning('duration: ' + str(duration))
         time.sleep(1)
         duration -= 1
-        logging.warning('msg :' + stop_water)
+        logging.warning('msg: ' + stop_water)
         if stop_water == str(lib.cancel):
             conf.switch_off(channel)
             logging.warning('try to stop!')
