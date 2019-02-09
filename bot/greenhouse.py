@@ -300,8 +300,10 @@ def _message_values(update):
 
 # emergency stop
 def _break_watering(bot, update):
-    query = update.callback_query & _restart(bot, update)
-    bot.edit_message_text(text="Abgebochen!", chat_id=query.message.chat_id, message_id=query.message.message_id)
+    _restart(bot, update)
+    bot.edit_message_text(text="Abgebochen!",
+                          chat_id=update.callback_query.message.chat_id,
+                          message_id=update.callback_query.message.message_id)
     return
 
 def _stop_and_restart():
