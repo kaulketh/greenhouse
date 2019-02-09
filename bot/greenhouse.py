@@ -298,9 +298,10 @@ def _message_values(update):
 
 # emergency stop
 def _break_watering(bot, update):
+    old_update = update
     query = update.callback_query
     bot.edit_message_text(text="Abgebochen!", chat_id=query.message.chat_id, message_id=query.message.message_id)
-    _stop(bot, update)
+    _stop(bot, old_update)
 
 
 # stop bot
