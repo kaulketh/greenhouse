@@ -37,7 +37,8 @@ def get_last_commit():
         else:
             branch = branch.replace("\n", "")
     except Exception:
-        exit()
+        build = '!!!ERROR!!!'
+        return build
 
     build = commit + " " + branch
     return build
