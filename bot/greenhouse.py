@@ -243,8 +243,10 @@ def _water(update, channel):
     logging.info('Toggle ' + str(channel))
     update.message.reply_text(lib.water_on.format(target, water_time),
                               parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
+
     # TODO: inline keyboard button to break watering
     update.message.reply_text('Abbruch möglich', reply_markup=inline.markup_break)
+
     conf.switch_on(channel)
     time.sleep((int(water_time) * int(lib.time_conversion)))
     conf.switch_off(channel)
@@ -296,9 +298,11 @@ def _message_values(update):
 
 # emergency stop
 def _break_watering(bot, update):
-    query = update.callback_query
+    query = update.callback_quer
     bot.edit_message_text(text="Abgebochen!", chat_id=query.message.chat_id, message_id=query.message.message_id)
     _start_stop_and_restart(bot, update)
+    return
+
 
 
 def _start_stop_and_restart(bot, update):
@@ -415,14 +419,10 @@ def main():
                        RegexHandler('^{0}$'.format(lib.stop_bot), _stop)]
 
         },
-        fallbacks=[CommandHandler('stop', _stop)],
-
+        fallbacks=[CommandHandler('stop', _stop), CallbackQueryHandler(_break_watering)]
     )
-    cbqh = CallbackQueryHandler(_break_watering)
 
     dp.add_handler(ch)
-
-    dp.add_handler(cbqh)
 
     dp.add_error_handler(_error)
 

@@ -28,13 +28,13 @@ def _read_cmd(cmd):
 
 
 def emergency_stop(bot):
-    logging.warning('Timeout reached, set bot in standby.')
+    bot.reply_text(conf.lib.msg_stop, parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
+    logging.warning('Emergency stop, set bot in standby.')
     _read_cmd(conf.disable_camera)
     display.show_stop()
     time.sleep(2)
     # start new new instance of greenhouse
     _read_cmd(lib.restart_bot)
-    bot.reply_text(conf.lib.msg_stop, parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
     display.show_standby()
     # kill the current instance of greenhouse bot
     pid1 = _read_cmd(lib.get_pid1)
