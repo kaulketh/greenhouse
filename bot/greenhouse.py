@@ -393,7 +393,6 @@ def main():
     dp = updater.dispatcher
 
     ch = ConversationHandler(
-        per_message=True,
         entry_points=[CommandHandler('start', _start)],
         states={
             SELECT: [RegexHandler(
