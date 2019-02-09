@@ -9,7 +9,7 @@ import conf.greenhouse_config as conf
 btn_live = InlineKeyboardButton(text=conf.lib.msg_live.format(str(conf.live)), url=str(conf.live))
 btn_start = InlineKeyboardButton(text='Start', callback_data='/start')
 btn_break = InlineKeyboardButton(text=conf.lib.cancel, callback_data='/stop')
-kbd_break = [[InlineKeyboardButton(text=conf.lib.cancel, callback_data='/stop')]]
+kbd_break = [[InlineKeyboardButton(text=conf.lib.cancel, callback_data='Stop')]]
 markup_break = InlineKeyboardMarkup(inline_keyboard=kbd_break)
 
 def __get_markup(button):

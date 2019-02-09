@@ -296,6 +296,10 @@ def _message_values(update):
 
 # stop bot
 def _stop(bot, update):
+    query = update.callback_query
+    bot.edit_message_text(text="{}".format(query.data),
+                          chat_id=query.message.chat_id,
+                          message_id=query.message.message_id)
     _stop_standby_timer(bot, update)
     logging.info('Bot stopped.')
     _cam_off()
@@ -398,8 +402,11 @@ def main():
         fallbacks=[CommandHandler('stop', _stop)],
 
     )
+    cbqh = CallbackQueryHandler(_stop)
 
     dp.add_handler(ch)
+
+    dp.add_handler(cbqh)
 
     dp.add_error_handler(_error)
 
