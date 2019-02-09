@@ -2,12 +2,13 @@
 # -*- coding: utf-8 -*-
 # author: Thomas Kaulke, kaulketh@gmail.com
 
+from __future__ import absolute_import
+import logger.logger as log
 import subprocess
 from time import sleep
 from PIL import Image, ImageFont, ImageDraw
 from lib_oled96 import Ssd1306
 from smbus import SMBus
-import logger.logger as log
 
 logging = log.get_logger('oled')
 
