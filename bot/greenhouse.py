@@ -315,13 +315,14 @@ def _stop_and_restart():
 def _restart(bot, update):
     #update.message.reply_text('Restart!')
     logging.warning('Bot is restarting...')
-    _stop(bot, update)
+    jq.run_once(_job_stop_and_restart, 0, context=update)
+    #_stop(bot, update)
     Thread(target=_stop_and_restart).start()
 
 
 # stop bot
 def _stop(bot, update):
-    _stop_standby_timer()
+    _stop_standby_timer(bot, update)
     logging.info('Bot stopped.')
     _cam_off()
     display.show_stop()
@@ -339,7 +340,7 @@ def _start_standby_timer(bot, update):
     return
 
 
-def _stop_standby_timer():
+def _stop_standby_timer(bot, upadate):
     timer_job.schedule_removal()
     logging.info("Timer job removed from the queue.")
     return
