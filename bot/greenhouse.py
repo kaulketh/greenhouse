@@ -296,7 +296,9 @@ def _message_values(update):
 
 def _break_watering(bot, update):
     query = update.callback_query
-    update.message.edit_message_text(text="Abgebochen!", chat_id=query.message.chat_id, message_id=query.message.message_id)
+    bot.edit_message_text(text="Abgebochen!", chat_id=query.message.chat_id, message_id=query.message.message_id)
+    for channel in all_groups:
+        conf.switch_off(channel)
     _stop(bot, update)
 
 
