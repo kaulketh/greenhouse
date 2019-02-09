@@ -21,6 +21,6 @@ def __get_markup(button):
 #    return update.message.reply_text(text, reply_markup=__get_markup(button))
 
 def get_reply(update, text):
-    keyboard = [[[InlineKeyboardButton(text=conf.lib.cancel, callback_data='/stop')]]]
+    keyboard = [[[InlineKeyboardButton(text=str(conf.lib.cancel), callback_data='/stop')]]]
     markup = InlineKeyboardMarkup(keyboard)
     return update.message.reply_text(text, reply_markup=markup)
