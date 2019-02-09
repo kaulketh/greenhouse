@@ -9,6 +9,8 @@
 from __future__ import absolute_import
 import os
 import time
+import sys
+from threading import Thread
 import conf.greenhouse_config as conf
 import conf.inline_keyboard_lib as inline
 import peripherals.dht.dht as dht
@@ -300,8 +302,19 @@ def _message_values(update):
 def _break_watering(bot, update):
     query = update.callback_query
     bot.edit_message_text(text="Abgebochen!", chat_id=query.message.chat_id, message_id=query.message.message_id)
-    _stop(bot, update)
+    _restart(bot, update)
     return
+
+def _stop_and_restart():
+     """Gracefully stop the Updater and replace the current process with a new one"""
+     updater.stop()
+     os.execl(sys.executable, sys.executable, *sys.argv)
+
+
+def _restart(bot, update):
+    update.message.reply_text('Restart...')
+    logging.warning('Bot is restarting...')
+    Thread(target=_stop_and_restart).start()
 
 
 # stop bot
@@ -370,6 +383,7 @@ def _cam_off():
 def main():
     _init_bot_set_pins()
 
+    global updater
     updater = Updater(token)
 
     global jq
