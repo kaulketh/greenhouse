@@ -245,16 +245,16 @@ def _water(update, channel):
                               parse_mode=ParseMode.MARKDOWN, reply_markup=markup3)
 
     # TODO: emergency stop!!!!!
+    stop = update.message.text
     duration = (int(water_time) * int(lib.time_conversion))
     conf.switch_on(channel)
 
-    while (update.message.text is not (str(lib.cancel)) or duration > 0):
+    while duration > 0:
         time.sleep(1)
         duration -=1
-
-    if update.message.text == str(lib.cancel):
-        conf.switch_off(channel)
-        return STOP_WATER
+        if stop == str(lib.cancel):
+            conf.switch_off(channel)
+            return STOP_WATER
 
     conf.switch_off(channel)
     update.message.reply_text('{0}{1}{2}'.format(
@@ -403,7 +403,7 @@ def main():
             DURATION: [RegexHandler('^([0-9]+|{0}|{1})$'.format(str(lib.cancel), str(lib.panic)), _duration),
                        RegexHandler('^{0}$'.format(lib.stop_bot), _stop)],
 
-            STOP_WATER: [RegexHandler('^({0})$'.format(str(lib.cancel)), _stop)]
+            STOP_WATER: [RegexHandler('^{0}$'.format(lib.cancel), _stop)]
 
                 },
         fallbacks=[CommandHandler('stop', _stop)]
