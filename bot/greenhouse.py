@@ -10,6 +10,7 @@ from __future__ import absolute_import
 import os
 import time
 import conf.greenhouse_config as conf
+import conf.inline_keyboard_lib as inline
 import peripherals.dht.dht as dht
 import peripherals.temperature as core
 import peripherals.timeout as timeout
@@ -222,6 +223,7 @@ def _water_all(update):
     logging.info('Duration: {0}'.format(water_time))
     update.message.reply_text(lib.water_on_all.format(target, water_time),
                               parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
+    inline.get_reply(update, inline.btn_break, 'Abbruch möglich')
     """ starts separate thread"""
     display.show_switch_group_duration(0, int(water_time))
     for channel in all_groups:
@@ -241,6 +243,7 @@ def _water(update, channel):
     logging.info('Toggle ' + str(channel))
     update.message.reply_text(lib.water_on.format(target, water_time),
                               parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
+    inline.get_reply(update, inline.btn_break, 'Abbruch möglich')
     conf.switch_on(channel)
     time.sleep((int(water_time) * int(lib.time_conversion)))
     conf.switch_off(channel)
@@ -256,6 +259,7 @@ def _water_group(update, group):
     logging.info('Toggle ' + str(group))
     update.message.reply_text(lib.water_on_group.format(target, water_time),
                               parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
+    inline.get_reply(update, inline.btn_break, 'Abbruch möglich')
     for channel in group:
         conf.switch_on(channel)
     time.sleep((int(water_time) * int(lib.time_conversion)))

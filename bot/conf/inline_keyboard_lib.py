@@ -6,14 +6,16 @@ from __future__ import absolute_import
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 import conf.greenhouse_config as conf
 
-
 btn_live = InlineKeyboardButton(text=conf.lib.msg_live.format(str(conf.live)), url=str(conf.live))
-btn_start = InlineKeyboardButton(text='Start',callback_data='/start')
-btn_break = InlineKeyboardButton(text=)
+btn_start = InlineKeyboardButton(text='Start', callback_data='/start')
+btn_break = InlineKeyboardButton(text=conf.lib.cancel, callback_data='/stop')
 
-kbd2 = [[InlineKeyboardButton(text='Google', url='www.google.de')],
-            [InlineKeyboardButton(text='R+',  url='www.rammstein.de')]
-            ]
 
-keyboard2 = InlineKeyboardMarkup(inline_keyboard=[kbd2])
+def __get_markup(button):
+    keyboard = [[button]]
+    markup = InlineKeyboardMarkup(inline_keyboard=[keyboard])
+    return markup
 
+
+def get_reply(update, button, text=None):
+    return update.message.reply_text(text, reply_markup=__get_markup(button))

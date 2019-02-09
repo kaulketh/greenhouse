@@ -14,7 +14,7 @@ logger = log.get_logger('test bot')
 
 
 def start(bot, update):
-    keyboard = [[InlineKeyboardButton("Option 1", callback_data='1').,
+    keyboard = [[InlineKeyboardButton("Option 1", callback_data='1'),
                  InlineKeyboardButton("Option 2", callback_data='2')],
 
                 [InlineKeyboardButton(text='R+',  url='www.rammstein.de')]]
