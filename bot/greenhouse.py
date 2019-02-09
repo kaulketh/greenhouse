@@ -306,16 +306,21 @@ def _break_watering(bot, update):
                           message_id=update.callback_query.message.message_id)
     return
 
-def _stop_and_restart():
+def _stop_and_restart(bot, update):
      """Gracefully stop the Updater and replace the current process with a new one"""
      updater.stop()
      os.execl(sys.executable, sys.executable, *sys.argv)
+     _stop(bot, update)
 
 
 def _restart(bot, update):
-    update.message.reply_text('Restart!')
+    #update.message.reply_text('Restart!')
     logging.warning('Bot is restarting...')
-    Thread(target=_stop_and_restart).start()
+    global g_bot
+    global g_update
+    g_bot = bot
+    g_update = update
+    Thread(target=_stop_and_restart, args=(g_bot, g_update)).start()
 
 
 # stop bot
