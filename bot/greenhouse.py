@@ -392,9 +392,9 @@ def main():
 
     dp = updater.dispatcher
 
-    ch = ConversationHandler(per_message=True,
+    ch = ConversationHandler(
+        per_message=True,
         entry_points=[CommandHandler('start', _start)],
-
         states={
             SELECT: [RegexHandler(
                 '^({0}|{1}|{2}|{3}|{4}|{5}|{6}|{7}|{8}|{9}|{10}|{11}|{12}|{13}|{14})$'.format(
@@ -418,7 +418,7 @@ def main():
             DURATION: [RegexHandler('^([0-9]+|{0}|{1})$'.format(str(lib.cancel), str(lib.panic)), _duration),
                        RegexHandler('^{0}$'.format(lib.stop_bot), _stop)]
 
-        },
+                },
         fallbacks=[CommandHandler('stop', _stop), CallbackQueryHandler(_break_watering)]
     )
 
