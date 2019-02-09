@@ -12,8 +12,8 @@ btn_break = InlineKeyboardButton(text=conf.lib.cancel, callback_data='/stop')
 
 
 def __get_markup(button):
-    keyboard = [[button]]
-    markup = InlineKeyboardMarkup(inline_keyboard=[keyboard])
+    keyboard = [[[button]]]
+    markup = InlineKeyboardMarkup(keyboard)
     return markup
 
 
