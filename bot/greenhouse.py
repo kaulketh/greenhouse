@@ -298,9 +298,9 @@ def _message_values(update):
 
 # emergency stop
 def _break_watering(bot, update):
-    _stop(bot, update)
     query = update.callback_query
     bot.edit_message_text(text="Abgebochen!", chat_id=query.message.chat_id, message_id=query.message.message_id)
+    _stop(bot, update)
     return
 
 
@@ -407,7 +407,7 @@ def main():
         fallbacks=[CommandHandler('stop', _stop)]
     )
 
-    cbqh = CallbackQueryHandler(_break_watering)
+    cbqh = CallbackQueryHandler(_break_watering, pass_update_queue=True)
 
     dp.add_handler(ch)
 
