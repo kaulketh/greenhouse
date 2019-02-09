@@ -243,6 +243,7 @@ def _water(update, channel):
     logging.info('Toggle ' + str(channel))
     update.message.reply_text(lib.water_on.format(target, water_time),
                               parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
+    # TODO: inline keyboard button to break watering
     update.message.reply_text('Abbruch möglich', reply_markup=inline.markup_break)
     conf.switch_on(channel)
     time.sleep((int(water_time) * int(lib.time_conversion)))
