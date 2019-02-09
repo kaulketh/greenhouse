@@ -310,12 +310,12 @@ def _stop_and_restart(bot, update):
      """Gracefully stop the Updater and replace the current process with a new one"""
      updater.stop()
      os.execl(sys.executable, sys.executable, *sys.argv)
-     _stop(bot, update)
 
 
 def _restart(bot, update):
     #update.message.reply_text('Restart!')
     logging.warning('Bot is restarting...')
+    _stop(bot, update)
     global g_bot
     global g_update
     g_bot = bot
