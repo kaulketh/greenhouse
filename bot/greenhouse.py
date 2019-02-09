@@ -313,7 +313,7 @@ def _stop_and_restart():
 
 
 def _restart(bot, update):
-    update.message.reply_text('Restart...')
+    update.message.reply_text('Restart!')
     logging.warning('Bot is restarting...')
     Thread(target=_stop_and_restart).start()
 
@@ -422,7 +422,7 @@ def main():
         fallbacks=[CommandHandler('stop', _stop)]
     )
 
-    cbqh = CallbackQueryHandler(_break_watering)
+    cbqh = CallbackQueryHandler(_restart)
 
     dp.add_handler(ch)
 
