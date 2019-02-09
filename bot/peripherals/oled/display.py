@@ -3,7 +3,6 @@
 # author: Thomas Kaulke, kaulketh@gmail.com
 
 import subprocess
-from . import logging
 from time import sleep
 from PIL import Image, ImageFont, ImageDraw
 from lib_oled96 import Ssd1306
@@ -38,7 +37,7 @@ def get_last_commit():
         else:
             branch = branch.replace("\n", "")
     except Exception:
-        logging.error('Any error occurs!')
+        exit()
 
     build = commit + " " + branch
     return build
