@@ -300,22 +300,7 @@ def _message_values(update):
 def _break_watering(bot, update):
     query = update.callback_query
     bot.edit_message_text(text="Abgebochen!", chat_id=query.message.chat_id, message_id=query.message.message_id)
-    _start_stop_and_restart(bot, update)
-    return
-
-
-
-def _start_stop_and_restart(bot, update):
-    global restart_job
-    restart_job = jq.run_once(_job_emergency_stop, 0, context=update)
-    logging.info("Init emergency stop and restart.")
-    return
-
-
-def _job_emergency_stop(bot, job):
-    logging.warning("Job: Emergency stop called!")
-    stop_and_restart.stop_and_restart(job.context)
-    return
+    _stop(bot, update)
 
 
 # stop bot
@@ -418,10 +403,14 @@ def main():
                        RegexHandler('^{0}$'.format(lib.stop_bot), _stop)]
 
                 },
-        fallbacks=[CommandHandler('stop', _stop), CallbackQueryHandler(_break_watering)]
+        fallbacks=[CommandHandler('stop', _stop)]
     )
 
+    cbqh = CallbackQueryHandler(_break_watering)
+
     dp.add_handler(ch)
+
+    dp.add_handler(cbqh)
 
     dp.add_error_handler(_error)
 
