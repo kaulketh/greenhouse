@@ -293,6 +293,7 @@ def _message_values(update):
         _start_time(), temp, hum, core_temp), parse_mode=ParseMode.MARKDOWN)
     return
 
+
 # emergency stop
 def _break_watering(bot, update):
     query = update.callback_query
@@ -302,9 +303,16 @@ def _break_watering(bot, update):
 
 def _start_stop_and_restart(bot, update):
     global restart_job
-    restart_job = jq.run_once(_job_stop_and_restart, 0, context=update)
-    logging.info("Init restart.")
+    restart_job = jq.run_once(_job_emergency_stop, 0, context=bot)
+    logging.info("Init emergency stop and restart.")
     return
+
+
+def _job_emergency_stop(bot, job):
+    logging.warning("Job: Emergency stop called!")
+    stop_and_restart.emergency_stop(job.context)
+    return
+
 
 # stop bot
 def _stop(bot, update):
