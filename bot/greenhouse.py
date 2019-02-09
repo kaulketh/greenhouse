@@ -13,7 +13,7 @@ import conf.greenhouse_config as conf
 import conf.inline_keyboard_lib as inline
 import peripherals.dht.dht as dht
 import peripherals.temperature as core
-import peripherals.timeout as timeout
+import peripherals.stop_and_restart as stop_and_restart
 import peripherals.four_digit.display as display
 import logger.logger as log
 
@@ -293,14 +293,18 @@ def _message_values(update):
         _start_time(), temp, hum, core_temp), parse_mode=ParseMode.MARKDOWN)
     return
 
-
+# emergency stop
 def _break_watering(bot, update):
     query = update.callback_query
     bot.edit_message_text(text="Abgebochen!", chat_id=query.message.chat_id, message_id=query.message.message_id)
-    for channel in all_groups:
-        conf.switch_off(channel)
-    _stop(bot, update)
+    _start_stop_and_restart(bot, update)
 
+
+def _start_stop_and_restart(bot, update):
+    global restart_job
+    restart_job = jq.run_once(_job_stop_and_restart, 0, context=update)
+    logging.info("Init restart.")
+    return
 
 # stop bot
 def _stop(bot, update):
@@ -317,7 +321,7 @@ def _stop(bot, update):
 # timer
 def _start_standby_timer(bot, update):
     global timer_job
-    timer_job = jq.run_once(_job_timeout_reached, conf.standby_timeout, context=update)
+    timer_job = jq.run_once(_job_stop_and_restart, conf.standby_timeout, context=update)
     logging.info("Init standby timer, added to queue.")
     return
 
@@ -328,9 +332,9 @@ def _stop_standby_timer(bot, update):
     return
 
 
-def _job_timeout_reached(bot, job):
-    logging.warning("Timeout of {} seconds reached.".format(str(conf.standby_timeout)))
-    timeout.timeout_reached(job.context)
+def _job_stop_and_restart(bot, job):
+    logging.warning("Job: Stop and restart called!")
+    stop_and_restart.stop_and_restart(job.context)
     return
 
 
