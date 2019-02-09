@@ -34,7 +34,7 @@ group_two = conf.GROUP_02
 group_three = conf.GROUP_03
 
 # api and bot settings
-SELECT, DURATION = range(2)
+SELECTION, DURATION, STOP_WATER = range(3)
 # LIST_OF_ADMINS = ['mock to test']
 list_of_admins = conf.admins
 token = conf.token
@@ -47,6 +47,7 @@ timer_job = None
 # keyboard config
 markup1 = ReplyKeyboardMarkup(conf.kb1, resize_keyboard=True, one_time_keyboard=False)
 markup2 = ReplyKeyboardMarkup(conf.kb2, resize_keyboard=True, one_time_keyboard=False)
+markup3 = ReplyKeyboardMarkup(conf.kb3, resize_keyboard=True, one_time_keyboard=False)
 
 
 # Start info
@@ -100,7 +101,7 @@ def _start(bot, update):
         display.show_off()
 
         _start_standby_timer(bot, update)
-        return SELECT
+        return SELECTION
 
 
 # set the target, member of group or group
@@ -120,13 +121,13 @@ def _selection(bot, update):
         logging.info('Live URL requested.')
         update.message.reply_text(lib.msg_live.format(str(conf.live)), parse_mode=ParseMode.MARKDOWN)
         _start_standby_timer(bot, update)
-        return SELECT
+        return SELECTION
 
     elif target == str(lib.reload):
         logging.info('Refresh values requested.')
         _message_values(update)
         _start_standby_timer(bot, update)
-        return SELECT
+        return SELECTION
 
     else:
         update.message.reply_text(lib.msg_duration.format(target),
@@ -217,14 +218,14 @@ def _duration(bot, update):
         update.message.reply_text(lib.msg_choice, reply_markup=markup1)
 
     _start_standby_timer(bot, update)
-    return SELECT
+    return SELECTION
 
 
 # watering targets
 def _water_all(update):
     logging.info('Duration: {0}'.format(water_time))
     update.message.reply_text(lib.water_on_all.format(target, water_time),
-                              parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
+                              parse_mode=ParseMode.MARKDOWN, reply_markup=markup3)
 
     """ starts separate thread"""
     display.show_switch_group_duration(0, int(water_time))
@@ -244,13 +245,15 @@ def _water(update, channel):
     logging.info('Duration: ' + water_time)
     logging.info('Toggle ' + str(channel))
     update.message.reply_text(lib.water_on.format(target, water_time),
-                              parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
+                              parse_mode=ParseMode.MARKDOWN, reply_markup=markup3)
 
-    # TODO: inline keyboard button to break watering
-    update.message.reply_text('Abbruch möglich', reply_markup=inline.markup_break)
-
+    duration = (int(water_time) * int(lib.time_conversion))
     conf.switch_on(channel)
-    time.sleep((int(water_time) * int(lib.time_conversion)))
+
+    while (update.message.text is not (str(lib.cancel)) and duration > 0):
+        time.sleep(1)
+        duration -=1
+
     conf.switch_off(channel)
     update.message.reply_text('{0}{1}{2}'.format(
         _timestamp(), lib.water_off.format(target, water_time), lib.msg_new_choice),
@@ -263,7 +266,7 @@ def _water_group(update, group):
     logging.info('Duration: ' + water_time)
     logging.info('Toggle ' + str(group))
     update.message.reply_text(lib.water_on_group.format(target, water_time),
-                              parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
+                              parse_mode=ParseMode.MARKDOWN, reply_markup=markup3)
 
     for channel in group:
         conf.switch_on(channel)
@@ -296,28 +299,6 @@ def _message_values(update):
     update.message.reply_text(lib.msg_temperature.format(
         _start_time(), temp, hum, core_temp), parse_mode=ParseMode.MARKDOWN)
     return
-
-
-# emergency stop
-def _break_watering(bot, update):
-    _restart(bot, update)
-    bot.edit_message_text(text="Abgebochen!",
-                          chat_id=update.callback_query.message.chat_id,
-                          message_id=update.callback_query.message.message_id)
-    return
-
-def _stop_and_restart():
-     """Gracefully stop the Updater and replace the current process with a new one"""
-     updater.stop()
-     os.execl(sys.executable, sys.executable, *sys.argv)
-
-
-def _restart(bot, update):
-    #update.message.reply_text('Restart!')
-    logging.warning('Bot is restarting...')
-    jq.run_once(_job_stop_and_restart, 0, context=update)
-    #_stop(bot, update)
-    Thread(target=_stop_and_restart).start()
 
 
 # stop bot
@@ -398,7 +379,7 @@ def main():
     ch = ConversationHandler(
         entry_points=[CommandHandler('start', _start)],
         states={
-            SELECT: [RegexHandler(
+            SELECTION: [RegexHandler(
                 '^({0}|{1}|{2}|{3}|{4}|{5}|{6}|{7}|{8}|{9}|{10}|{11}|{12}|{13}|{14})$'.format(
                     str(lib.group1[0]),
                     str(lib.group1[1]),
@@ -418,17 +399,16 @@ def main():
                 RegexHandler('^{0}$'.format(lib.stop_bot), _stop)],
 
             DURATION: [RegexHandler('^([0-9]+|{0}|{1})$'.format(str(lib.cancel), str(lib.panic)), _duration),
-                       RegexHandler('^{0}$'.format(lib.stop_bot), _stop)]
+                       RegexHandler('^{0}$'.format(lib.stop_bot), _stop)],
+
+            STOP_WATER: [RegexHandler('^({0}$'.format(str(lib.cancel)), _stop)]
 
                 },
         fallbacks=[CommandHandler('stop', _stop)]
     )
 
-    cbqh = CallbackQueryHandler(_restart)
 
     dp.add_handler(ch)
-
-    dp.add_handler(cbqh)
 
     dp.add_error_handler(_error)
 
