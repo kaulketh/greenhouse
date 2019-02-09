@@ -403,7 +403,7 @@ def main():
             DURATION: [RegexHandler('^([0-9]+|{0}|{1})$'.format(str(lib.cancel), str(lib.panic)), _duration),
                        RegexHandler('^{0}$'.format(lib.stop_bot), _stop)],
 
-            STOP_WATER: [RegexHandler('^({0}$'.format(str(lib.cancel)), _stop)]
+            STOP_WATER: [RegexHandler('^({0})$'.format(str(lib.cancel)), _stop)]
 
                 },
         fallbacks=[CommandHandler('stop', _stop)]
