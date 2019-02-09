@@ -307,14 +307,14 @@ def _break_watering(bot, update):
 
 def _start_stop_and_restart(bot, update):
     global restart_job
-    restart_job = jq.run_once(_job_emergency_stop, 0, context=bot)
+    restart_job = jq.run_once(_job_emergency_stop, 0, context=update)
     logging.info("Init emergency stop and restart.")
     return
 
 
 def _job_emergency_stop(bot, job):
     logging.warning("Job: Emergency stop called!")
-    stop_and_restart.emergency_stop(job.context)
+    stop_and_restart.stop_and_restart(job.context)
     return
 
 
@@ -392,7 +392,7 @@ def main():
 
     dp = updater.dispatcher
 
-    ch = ConversationHandler(
+    ch = ConversationHandler(per_message=True,
         entry_points=[CommandHandler('start', _start)],
 
         states={
