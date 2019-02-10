@@ -134,7 +134,7 @@ def _handle(msg):
     elif command == lib.cmd_kill:
         # disable camera
         logging.info('Disable camera module.')
-        _read_cmd(utils.disable_camera)
+        _read_cmd(conf.disable_camera)
         pid2 = _read_cmd(lib.get_pid2)
         # logging.info('Got own PID to kill me and prepare the other bot for proper using: {0}'.format(str(pid2)))
         _read_cmd(lib.restart_bot)

@@ -32,7 +32,7 @@ group_two = conf.GROUP_02
 group_three = conf.GROUP_03
 
 # api and bot settings
-SELECTION, DURATION = range(2)
+SELECTION, DURATION, EMERGENCY = range(3)
 # LIST_OF_ADMINS = ['mock to test']
 list_of_admins = conf.admins
 token = conf.token
@@ -254,6 +254,7 @@ def _water_all(bot, update):
         if stop_water == str(lib.emergency_stop):
             duration = 0
             __all_off()
+            return EMERGENCY
         time.sleep(1)
         duration -= 1
     __all_off()
@@ -277,6 +278,7 @@ def _water(bot, update, channel):
         if stop_water == str(lib.emergency_stop):
             duration = 0
             __all_off()
+            return EMERGENCY
         time.sleep(1)
         duration -= 1
     utils.switch_off(channel)
@@ -301,6 +303,7 @@ def _water_group(bot, update, group):
         if stop_water == str(lib.emergency_stop):
             duration = 0
             __all_off()
+            return EMERGENCY
         time.sleep(1)
         duration -= 1
     for channel in group:
@@ -431,7 +434,9 @@ def main():
                 RegexHandler('^{0}$'.format(lib.stop_bot), _stop)],
 
             DURATION: [RegexHandler('^([0-9]+|{0}|{1})$'.format(str(lib.cancel), str(lib.panic)), _duration),
-                       RegexHandler('^({0}|{1})$'.format(lib.stop_bot, lib.emergency_stop), _stop)]
+                       RegexHandler('^{0}$'.format(lib.stop_bot), _stop)],
+
+            EMERGENCY: [RegexHandler('^{0}$'.format(lib.emergency_stop), _stop)]
 
                 },
         fallbacks=[CommandHandler('stop', _stop)]
