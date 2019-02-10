@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 # main script for greenhouse bot
-# using telegram as Python framework for Telegram Bot API
+# using telegram.ext as Python framework for Telegram Bot API
 # https://core.telegram.org/api#bot-api
 # original: author: Stefan Weigert  http://www.stefan-weigert.de/php_loader/raspi.php
 # adapted: author: Thomas Kaulke, kaulketh@gmail.com
@@ -18,7 +18,7 @@ import peripherals.four_digit.display as display
 import logger.logger as log
 
 from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove, ParseMode
-from telegram.ext import Updater, CommandHandler, RegexHandler, ConversationHandler
+from telegram.ext import Updater, CommandHandler, RegexHandler, ConversationHandler, MessageHandler, Filters
 
 logging = log.get_logger()
 
@@ -32,7 +32,7 @@ group_two = conf.GROUP_02
 group_three = conf.GROUP_03
 
 # api and bot settings
-SELECTION, DURATION, EMERGENCY = range(3)
+SELECTION, DURATION = range(2)
 # LIST_OF_ADMINS = ['mock to test']
 list_of_admins = conf.admins
 token = conf.token
@@ -245,20 +245,9 @@ def _water_all(bot, update):
     """ starts separate thread"""
     display.show_switch_group_duration(0, int(water_time))
 
-    global duration
-    duration = (int(water_time) * int(lib.time_conversion))
     for channel in all_groups:
         utils.switch_on(channel)
-    while duration > 0:
-        global stop_water
-        EMERGENCY.check_update(update)
-        stop_water = update.message.text
-        if stop_water == str(lib.emergency_stop):
-            duration = 0
-            __all_off()
-            return EMERGENCY
-        time.sleep(1)
-        duration -= 1
+    time.sleep((int(water_time) * int(lib.time_conversion)))
     __all_off()
     update.message.reply_text('{0}{1}{2}'.format(
         _timestamp(), lib.water_off_all.format(water_time), lib.msg_new_choice),
@@ -272,19 +261,8 @@ def _water(bot, update, channel):
     logging.info('Toggle ' + str(channel))
     update.message.reply_text(lib.water_on.format(target, water_time),
                               parse_mode=ParseMode.MARKDOWN, reply_markup=markup3)
-    global duration
-    duration = (int(water_time) * int(lib.time_conversion))
     utils.switch_on(channel)
-    while duration > 0:
-        global stop_water
-        EMERGENCY.check_update(update)
-        stop_water = update.message.text
-        if stop_water == str(lib.emergency_stop):
-            duration = 0
-            __all_off()
-            return EMERGENCY
-        time.sleep(1)
-        duration -= 1
+    time.sleep(int(water_time) * int(lib.time_conversion))
     utils.switch_off(channel)
     update.message.reply_text('{0}{1}{2}'.format(
         _timestamp(), lib.water_off.format(target, water_time), lib.msg_new_choice),
@@ -298,20 +276,10 @@ def _water_group(bot, update, group):
     logging.info('Toggle ' + str(group))
     update.message.reply_text(lib.water_on_group.format(target, water_time),
                               parse_mode=ParseMode.MARKDOWN, reply_markup=markup3)
-    global duration
-    duration = (int(water_time) * int(lib.time_conversion))
+
     for channel in group:
         utils.switch_on(channel)
-    while duration > 0:
-        global stop_water
-        EMERGENCY.check_update(update)
-        stop_water = update.message.text
-        if stop_water == str(lib.emergency_stop):
-            duration = 0
-            __all_off()
-            return EMERGENCY
-        time.sleep(1)
-        duration -= 1
+    time.sleep((int(water_time) * int(lib.time_conversion)))
     for channel in group:
         utils.switch_off(channel)
     update.message.reply_text('{0}{1}{2}'.format(
@@ -344,6 +312,7 @@ def _message_values(update):
 
 # stop bot
 def _stop(bot, update):
+    __all_off()
     _stop_standby_timer(bot, update)
     logging.info('Bot stopped.')
     _cam_off()
@@ -376,7 +345,7 @@ def _job_stop_and_restart(bot, job):
 
 # error
 def _error(bot, update, e):
-    logging.error('An error occurs! ' + str(e))
+    logging.error('Update "{0}" caused error "{1}"'.format(update, e))
     display.show_error()
     _cam_off()
     conf.GPIO.cleanup()
@@ -440,14 +409,12 @@ def main():
                 RegexHandler('^{0}$'.format(lib.stop_bot), _stop)],
 
             DURATION: [RegexHandler('^([0-9]+|{0}|{1})$'.format(str(lib.cancel), str(lib.panic)), _duration),
-                       RegexHandler('^{0}$'.format(lib.stop_bot), _stop)],
-
-            EMERGENCY: [RegexHandler('^{0}$'.format(lib.emergency_stop), _stop)]
-
+                       RegexHandler('^{0}$'.format(lib.stop_bot), _stop)]
                 },
         fallbacks=[CommandHandler('stop', _stop)]
     )
-
+    msgh = MessageHandler(Filters.text(lib.emergency_stop), _stop)
+    dp.add_handler(msgh)
 
     dp.add_handler(ch)
 
