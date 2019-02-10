@@ -250,6 +250,7 @@ def _water_all(bot, update):
     for channel in all_groups:
         utils.switch_on(channel)
     while duration > 0:
+        global stop_water
         stop_water = update.message.text
         if stop_water == str(lib.emergency_stop):
             duration = 0
@@ -274,6 +275,7 @@ def _water(bot, update, channel):
     duration = (int(water_time) * int(lib.time_conversion))
     utils.switch_on(channel)
     while duration > 0:
+        global stop_water
         stop_water = update.message.text
         if stop_water == str(lib.emergency_stop):
             duration = 0
@@ -299,6 +301,7 @@ def _water_group(bot, update, group):
     for channel in group:
         utils.switch_on(channel)
     while duration > 0:
+        global stop_water
         stop_water = update.message.text
         if stop_water == str(lib.emergency_stop):
             duration = 0
