@@ -244,17 +244,18 @@ def _water_all(bot, update):
     """ starts separate thread"""
     display.show_switch_group_duration(0, int(water_time))
 
+    global duration
+    duration = (int(water_time) * int(lib.time_conversion))
     for channel in all_groups:
-        duration = (int(water_time) * int(lib.time_conversion))
         utils.switch_on(channel)
-        while duration > 0:
-            stop_water = update.message.text
-            if stop_water == str(lib.emergency_stop):
-                duration = 0
-                _all_off()
-            time.sleep(1)
-            duration -= 1
-
+    while duration > 0:
+        stop_water = update.message.text
+        if stop_water == str(lib.emergency_stop):
+            duration = 0
+            _all_off()
+            return
+        time.sleep(1)
+        duration -= 1
     _all_off()
     update.message.reply_text('{0}{1}{2}'.format(
         _timestamp(), lib.water_off_all.format(water_time), lib.msg_new_choice),
@@ -268,17 +269,17 @@ def _water(bot, update, channel):
     logging.info('Toggle ' + str(channel))
     update.message.reply_text(lib.water_on.format(target, water_time),
                               parse_mode=ParseMode.MARKDOWN, reply_markup=markup3)
-
+    global duration
     duration = (int(water_time) * int(lib.time_conversion))
     utils.switch_on(channel)
-    # while duration > 0:
-    #     stop_water = update.message.text
-    #     if stop_water == str(lib.emergency_stop):
-    #         duration = 0
-    #         _all_off()
-    #     time.sleep(1)
-    #     duration -= 1
-    time.sleep(duration)
+    while duration > 0:
+        stop_water = update.message.text
+        if stop_water == str(lib.emergency_stop):
+            duration = 0
+            _all_off()
+            return
+        time.sleep(1)
+        duration -= 1
     utils.switch_off(channel)
     update.message.reply_text('{0}{1}{2}'.format(
         _timestamp(), lib.water_off.format(target, water_time), lib.msg_new_choice),
@@ -292,17 +293,18 @@ def _water_group(bot, update, group):
     logging.info('Toggle ' + str(group))
     update.message.reply_text(lib.water_on_group.format(target, water_time),
                               parse_mode=ParseMode.MARKDOWN, reply_markup=markup3)
+    global duration
+    duration = (int(water_time) * int(lib.time_conversion))
     for channel in group:
-        duration = (int(water_time) * int(lib.time_conversion))
         utils.switch_on(channel)
-        while duration > 0:
-            stop_water = update.message.text
-            if stop_water == str(lib.emergency_stop):
-                duration = 0
-                _all_off()
-            time.sleep(1)
-            duration -= 1
-
+    while duration > 0:
+        stop_water = update.message.text
+        if stop_water == str(lib.emergency_stop):
+            duration = 0
+            _all_off()
+            return
+        time.sleep(1)
+        duration -= 1
     for channel in group:
         utils.switch_off(channel)
     update.message.reply_text('{0}{1}{2}'.format(
