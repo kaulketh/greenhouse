@@ -413,8 +413,8 @@ def main():
                 },
         fallbacks=[CommandHandler('stop', _stop)]
     )
-    msgh = MessageHandler(Filters.text(lib.emergency_stop), _stop)
-    dp.add_handler(msgh)
+    rgh = RegexHandler(lib.emergency_stop, _stop)
+    dp.add_handler(rgh)
 
     dp.add_handler(ch)
 
