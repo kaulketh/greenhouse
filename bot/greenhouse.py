@@ -53,8 +53,7 @@ def _init_bot_set_pins():
     logging.info('Initialize bot, setup GPIO pins.')
     utils.set_pins()
     logging.info('Switch all off at start.')
-    for member in all_groups:
-        utils.switch_off(member)
+    __all_off()
     display.show_standby()
     return
 
@@ -231,9 +230,11 @@ def _duration(bot, update):
 
 
 # watering targets
-def _all_off():
+def __all_off():
+    logging.info('Switch all off.')
     for channel in all_groups:
         utils.switch_off(channel)
+    return
 
 
 def _water_all(bot, update):
@@ -252,11 +253,10 @@ def _water_all(bot, update):
         stop_water = update.message.text
         if stop_water == str(lib.emergency_stop):
             duration = 0
-            _all_off()
-            return
+            __all_off()
         time.sleep(1)
         duration -= 1
-    _all_off()
+    __all_off()
     update.message.reply_text('{0}{1}{2}'.format(
         _timestamp(), lib.water_off_all.format(water_time), lib.msg_new_choice),
         parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
@@ -276,8 +276,7 @@ def _water(bot, update, channel):
         stop_water = update.message.text
         if stop_water == str(lib.emergency_stop):
             duration = 0
-            _all_off()
-            return
+            __all_off()
         time.sleep(1)
         duration -= 1
     utils.switch_off(channel)
@@ -301,8 +300,7 @@ def _water_group(bot, update, group):
         stop_water = update.message.text
         if stop_water == str(lib.emergency_stop):
             duration = 0
-            _all_off()
-            return
+            __all_off()
         time.sleep(1)
         duration -= 1
     for channel in group:
