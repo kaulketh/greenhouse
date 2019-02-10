@@ -157,56 +157,67 @@ def _duration(bot, update):
     elif target == str(lib.group1[1]):
         """ starts separate thread"""
         display.show_switch_channel_duration(1, int(water_time))
+
         _water(bot, update, group_one[0])
 
     elif target == str(lib.group1[2]):
         """ starts separate thread"""
         display.show_switch_channel_duration(2, int(water_time))
+
         _water(bot, update, group_one[1])
 
     elif target == str(lib.group1[3]):
         """ starts separate thread"""
         display.show_switch_channel_duration(3, int(water_time))
+
         _water(bot, update, group_one[2])
 
     elif target == str(lib.group2[1]):
         """ starts separate thread"""
         display.show_switch_channel_duration(6, int(water_time))
+
         _water(bot, update, group_two[0])
 
     elif target == str(lib.group2[2]):
         """ starts separate thread"""
         display.show_switch_channel_duration(7, int(water_time))
+
         _water(bot, update, group_two[1])
 
     elif target == str(lib.group2[3]):
         """ starts separate thread"""
         display.show_switch_channel_duration(8, int(water_time))
+
         _water(bot, update, group_two[2])
 
     elif target == str(lib.group1[0]):
         """ starts separate thread"""
         display.show_switch_group_duration(1, int(water_time))
+
         _water_group(bot, update, group_one)
 
     elif target == str(lib.group2[0]):
         """ starts separate thread"""
         display.show_switch_group_duration(2, int(water_time))
+
         _water_group(bot, update, group_two)
 
     elif target == str(lib.group3[1]):
         """ starts separate thread"""
         display.show_switch_channel_duration(4, int(water_time))
+
         _water(bot, update, group_three[0])
 
     elif target == str(lib.group3[2]):
         """ starts separate thread"""
         display.show_switch_channel_duration(5, int(water_time))
+
         _water(bot, update, group_three[1])
 
     elif target == str(lib.group3[0]):
         """ starts separate thread"""
         display.show_switch_group_duration(3, int(water_time))
+
         _water_group(bot, update, group_three)
 
     elif target == str(lib.all_channels):
@@ -227,16 +238,29 @@ def _water_all(bot, update):
 
     """ starts separate thread"""
     display.show_switch_group_duration(0, int(water_time))
+
     for channel in all_groups:
+        duration = (int(water_time) * int(lib.time_conversion))
         utils.switch_on(channel)
-    time.sleep((int(water_time) * int(lib.time_conversion)))
-    for channel in all_groups:
-        utils.switch_off(channel)
+        while duration > 0:
+            stop_water = update.message.text
+            if stop_water == str(lib.emergency_stop):
+                duration = 0
+                _all_off()
+            time.sleep(1)
+            duration -= 1
+
+    _all_off()
     update.message.reply_text('{0}{1}{2}'.format(
         _timestamp(), lib.water_off_all.format(water_time), lib.msg_new_choice),
         parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
     display.show_off()
     return
+
+
+def _all_off():
+    for channel in all_groups:
+        utils.switch_off(channel)
 
 
 def _water(bot, update, channel):
@@ -245,20 +269,16 @@ def _water(bot, update, channel):
     update.message.reply_text(lib.water_on.format(target, water_time),
                               parse_mode=ParseMode.MARKDOWN, reply_markup=markup3)
 
-    # TODO: emergency stop!!!!!
     duration = (int(water_time) * int(lib.time_conversion))
-    conf.switch_on(channel)
-
+    utils.switch_on(channel)
     while duration > 0:
         stop_water = update.message.text
-        logging.warning('duration: ' + str(duration))
-        logging.warning('msg: ' + stop_water)
         if stop_water == str(lib.emergency_stop):
             duration = 0
-            utils.switch_off(channel)
-            logging.warning('try to stop!')
+            _all_off()
         time.sleep(1)
         duration -= 1
+
     utils.switch_off(channel)
     update.message.reply_text('{0}{1}{2}'.format(
         _timestamp(), lib.water_off.format(target, water_time), lib.msg_new_choice),
@@ -272,10 +292,17 @@ def _water_group(bot, update, group):
     logging.info('Toggle ' + str(group))
     update.message.reply_text(lib.water_on_group.format(target, water_time),
                               parse_mode=ParseMode.MARKDOWN, reply_markup=markup3)
-
     for channel in group:
+        duration = (int(water_time) * int(lib.time_conversion))
         utils.switch_on(channel)
-    time.sleep((int(water_time) * int(lib.time_conversion)))
+        while duration > 0:
+            stop_water = update.message.text
+            if stop_water == str(lib.emergency_stop):
+                duration = 0
+                _all_off()
+            time.sleep(1)
+            duration -= 1
+
     for channel in group:
         utils.switch_off(channel)
     update.message.reply_text('{0}{1}{2}'.format(

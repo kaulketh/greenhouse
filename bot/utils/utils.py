@@ -53,3 +53,7 @@ def set_pins():
     # comment if warnings required
     GPIO.setwarnings(False)
     return GPIO
+
+
+if __name__ == '__main__':
+    pass
