@@ -231,6 +231,11 @@ def _duration(bot, update):
 
 
 # watering targets
+def _all_off():
+    for channel in all_groups:
+        utils.switch_off(channel)
+
+
 def _water_all(bot, update):
     logging.info('Duration: {0}'.format(water_time))
     update.message.reply_text(lib.water_on_all.format(target, water_time),
@@ -256,11 +261,6 @@ def _water_all(bot, update):
         parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
     display.show_off()
     return
-
-
-def _all_off():
-    for channel in all_groups:
-        utils.switch_off(channel)
 
 
 def _water(bot, update, channel):
