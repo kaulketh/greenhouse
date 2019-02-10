@@ -31,7 +31,7 @@ group_two = conf.GROUP_02
 group_three = conf.GROUP_03
 
 # api and bot settings
-SELECTION, DURATION, WATER = range(3)
+SELECTION, DURATION, STOP_WATER= range(3)
 # LIST_OF_ADMINS = ['mock to test']
 list_of_admins = conf.admins
 token = conf.token
@@ -132,7 +132,7 @@ def _selection(bot, update):
         logging.info('Selection: {0}'.format(str(target)))
 
         _start_standby_timer(bot, update)
-        return DURATION
+        return DURATION, STOP_WATER
 
 
 # set water duration
@@ -249,8 +249,13 @@ def _water(bot, update, channel):
     conf.switch_on(channel)
 
     while duration > 0:
-        _check_emergency_stop(bot, update, channel)
+        stop_water = update.message.text
         logging.warning('duration: ' + str(duration))
+        logging.warning('msg: ' + stop_water)
+        if stop_water == str(lib.cancel):
+            conf.switch_off(channel)
+            logging.warning('try to stop!')
+            return STOP_WATER
         time.sleep(1)
         duration -= 1
 
@@ -259,16 +264,6 @@ def _water(bot, update, channel):
         _timestamp(), lib.water_off.format(target, water_time), lib.msg_new_choice),
         parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
     display.show_off()
-    return
-
-
-def _check_emergency_stop(bot, update, channel):
-    stop_water = update.message.text
-    logging.warning('msg: ' + stop_water)
-    if stop_water == str(lib.cancel):
-        conf.switch_off(channel)
-        logging.warning('try to stop!')
-        return WATER
     return
 
 
@@ -411,7 +406,9 @@ def main():
             DURATION: [RegexHandler('^([0-9]+|{0}|{1})$'.format(str(lib.cancel), str(lib.panic)), _duration),
                        RegexHandler('^{0}$'.format(lib.stop_bot), _stop)],
 
-            WATER: [RegexHandler('^{0}$'.format(lib.cancel), _stop)]
+            STOP_WATER: [RegexHandler('^{0}$'.format(lib.cancel), _stop)]
+
+
 
                 },
         fallbacks=[CommandHandler('stop', _stop)]
