@@ -32,7 +32,7 @@ group_two = conf.GROUP_02
 group_three = conf.GROUP_03
 
 # api and bot settings
-SELECTION, DURATION = range(3)
+SELECTION, DURATION = range(2)
 # LIST_OF_ADMINS = ['mock to test']
 list_of_admins = conf.admins
 token = conf.token
@@ -323,11 +323,18 @@ def _stop(bot, update):
     return ConversationHandler.END
 
 
+def _emergency_stop(bot, update):
+    global timer_job
+    timer_job = jq.run_once(_job_stop_and_restart, 0, context=update)
+    logging.info("Init standby immediately.".format(conf.standby_timeout))
+    return
+
+
 # timer
 def _start_standby_timer(bot, update):
     global timer_job
     timer_job = jq.run_once(_job_stop_and_restart, conf.standby_timeout, context=update)
-    logging.info("Init standby timer, added to queue.")
+    logging.info("Init standby timer of {0}seconds, added to queue.".format(conf.standby_timeout))
     return
 
 
@@ -407,13 +414,13 @@ def main():
                     str(lib.live_stream),
                     str(lib.reload)), _selection),
                 RegexHandler('^{0}$'.format(lib.stop_bot), _stop),
-                RegexHandler(lib.emergency_stop, _stop)],
+                RegexHandler(lib.emergency_stop, _emergency_stop)],
 
             DURATION: [RegexHandler('^([0-9]+|{0}|{1})$'.format(str(lib.cancel), str(lib.panic)), _duration),
                        RegexHandler('^{0}$'.format(lib.stop_bot), _stop),
-                       RegexHandler(lib.emergency_stop, _stop)]
+                       RegexHandler(lib.emergency_stop, _emergency_stop)]
                 },
-        fallbacks=[CommandHandler('stop', _stop), RegexHandler(lib.emergency_stop, _stop)]
+        fallbacks=[CommandHandler('stop', _stop), RegexHandler(lib.emergency_stop, _emergency_stop)]
     )
     # rgh = RegexHandler(lib.emergency_stop, _stop)
     # dp.add_handler(rgh)

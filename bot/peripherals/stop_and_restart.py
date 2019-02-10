@@ -26,7 +26,7 @@ def _read_cmd(cmd):
     file.close()
     return data
 
-
+# TODO: doesn't work properly!
 def emergency_stop(bot):
     bot.reply_text(conf.lib.msg_stop, parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
     logging.warning('Emergency stop, set bot in standby.')
@@ -43,7 +43,7 @@ def emergency_stop(bot):
 
 
 def stop_and_restart(update):
-    logging.warning('Timeout reached, set bot in standby.')
+    logging.warning('Stop and restart, set bot in standby.')
     _read_cmd(conf.disable_camera)
     display.show_stop()
     time.sleep(2)
