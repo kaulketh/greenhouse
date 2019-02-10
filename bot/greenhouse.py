@@ -9,6 +9,7 @@
 from __future__ import absolute_import
 import os
 import time
+import threading
 import utils.utils as utils
 import conf.greenhouse_config as conf
 import peripherals.dht.dht as dht
@@ -18,7 +19,7 @@ import peripherals.four_digit.display as display
 import logger.logger as log
 
 from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove, ParseMode
-from telegram.ext import Updater, CommandHandler, RegexHandler, ConversationHandler, MessageHandler, Filters
+from telegram.ext import Updater, CommandHandler, RegexHandler, ConversationHandler,
 
 logging = log.get_logger()
 
@@ -236,6 +237,24 @@ def __all_off():
         utils.switch_off(channel)
     return
 
+def _start_thread_water_all(target, time):
+    global t
+    global g_target
+    global g_time
+    g_target = target
+    g_time = time
+    t = threading.Thread(target=_thread_function_water_group, args=(g_target, g_time))
+    t.start()
+    return
+
+
+def _thread_function_water_group(group, duration):
+    for channel in group:
+        utils.switch_on(channel)
+    time.sleep(duration)
+    __all_off()
+    return
+
 
 def _water_all(bot, update):
     logging.info('Duration: {0}'.format(water_time))
@@ -245,10 +264,9 @@ def _water_all(bot, update):
     """ starts separate thread"""
     display.show_switch_group_duration(0, int(water_time))
 
-    for channel in all_groups:
-        utils.switch_on(channel)
-    time.sleep((int(water_time) * int(lib.time_conversion)))
-    __all_off()
+    """ starts separate thread"""
+    _start_thread_water_all(all_groups, (int(water_time) * int(lib.time_conversion)))
+
     update.message.reply_text('{0}{1}{2}'.format(
         _timestamp(), lib.water_off_all.format(water_time), lib.msg_new_choice),
         parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
@@ -334,7 +352,7 @@ def _emergency_stop(bot, update):
 def _start_standby_timer(bot, update):
     global timer_job
     timer_job = jq.run_once(_job_stop_and_restart, conf.standby_timeout, context=update)
-    logging.info("Init standby timer of {0}seconds, added to queue.".format(conf.standby_timeout))
+    logging.info("Init standby timer of {0} seconds, added to queue.".format(conf.standby_timeout))
     return
 
 
