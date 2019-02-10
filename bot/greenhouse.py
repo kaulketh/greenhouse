@@ -271,14 +271,14 @@ def _water(bot, update, channel):
 
     duration = (int(water_time) * int(lib.time_conversion))
     utils.switch_on(channel)
-    while duration > 0:
-        stop_water = update.message.text
-        if stop_water == str(lib.emergency_stop):
-            duration = 0
-            _all_off()
-        time.sleep(1)
-        duration -= 1
-
+    # while duration > 0:
+    #     stop_water = update.message.text
+    #     if stop_water == str(lib.emergency_stop):
+    #         duration = 0
+    #         _all_off()
+    #     time.sleep(1)
+    #     duration -= 1
+    time.sleep(duration)
     utils.switch_off(channel)
     update.message.reply_text('{0}{1}{2}'.format(
         _timestamp(), lib.water_off.format(target, water_time), lib.msg_new_choice),
