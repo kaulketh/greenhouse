@@ -253,13 +253,12 @@ def _water(bot, update, channel):
         stop_water = update.message.text
         logging.warning('duration: ' + str(duration))
         logging.warning('msg: ' + stop_water)
-        if stop_water == str(lib.cancel):
+        if stop_water == str(lib.emergency_stop):
+            duration = 0
             utils.switch_off(channel)
             logging.warning('try to stop!')
-            return STOP_WATER
         time.sleep(1)
         duration -= 1
-
     utils.switch_off(channel)
     update.message.reply_text('{0}{1}{2}'.format(
         _timestamp(), lib.water_off.format(target, water_time), lib.msg_new_choice),
@@ -405,11 +404,7 @@ def main():
                 RegexHandler('^{0}$'.format(lib.stop_bot), _stop)],
 
             DURATION: [RegexHandler('^([0-9]+|{0}|{1})$'.format(str(lib.cancel), str(lib.panic)), _duration),
-                       RegexHandler('^{0}$'.format(lib.stop_bot), _stop)],
-
-            STOP_WATER: [RegexHandler('^{0}$'.format(lib.cancel), _stop)]
-
-
+                       RegexHandler('^({0}|{1})$'.format(lib.stop_bot, lib.emergency_stop), _stop)]
 
                 },
         fallbacks=[CommandHandler('stop', _stop)]

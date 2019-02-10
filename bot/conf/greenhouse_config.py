@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# configs and constants and methods
+# configs and constants
 # author: Thomas Kaulke, kaulketh@gmail.com
 
 from __future__ import absolute_import
@@ -26,7 +26,7 @@ kb1 = [[lib.group1[1], lib.group1[2], lib.group1[3], lib.group3[1]],
        [lib.stop_bot, lib.live_stream, lib.reload]
        ]
 kb2 = [[lib.cancel, lib.stop_bot]]
-kb3 = [[lib.cancel]]
+kb3 = [[lib.emergency_stop]]
 
 # 7-segment display settings
 clk_pin = 32

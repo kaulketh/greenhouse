@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# configs and constants and methods
+# useful methods
 # author: Thomas Kaulke, kaulketh@gmail.com
 
 from __future__ import absolute_import
