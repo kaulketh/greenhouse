@@ -406,15 +406,17 @@ def main():
                     str(lib.panic),
                     str(lib.live_stream),
                     str(lib.reload)), _selection),
-                RegexHandler('^{0}$'.format(lib.stop_bot), _stop)],
+                RegexHandler('^{0}$'.format(lib.stop_bot), _stop),
+                RegexHandler(lib.emergency_stop, _stop)],
 
             DURATION: [RegexHandler('^([0-9]+|{0}|{1})$'.format(str(lib.cancel), str(lib.panic)), _duration),
-                       RegexHandler('^{0}$'.format(lib.stop_bot), _stop)]
+                       RegexHandler('^{0}$'.format(lib.stop_bot), _stop),
+                       RegexHandler(lib.emergency_stop, _stop)]
                 },
         fallbacks=[CommandHandler('stop', _stop), RegexHandler(lib.emergency_stop, _stop)]
     )
-    rgh = RegexHandler(lib.emergency_stop, _stop)
-    dp.add_handler(rgh)
+    # rgh = RegexHandler(lib.emergency_stop, _stop)
+    # dp.add_handler(rgh)
 
     dp.add_handler(ch)
 
