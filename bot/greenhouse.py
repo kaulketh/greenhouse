@@ -9,6 +9,7 @@
 from __future__ import absolute_import
 import os
 import time
+import utils.utils as utils
 import conf.greenhouse_config as conf
 import peripherals.dht.dht as dht
 import peripherals.temperature as core
@@ -31,7 +32,7 @@ group_two = conf.GROUP_02
 group_three = conf.GROUP_03
 
 # api and bot settings
-SELECTION, DURATION, STOP_WATER= range(3)
+SELECTION, DURATION = range(2)
 # LIST_OF_ADMINS = ['mock to test']
 list_of_admins = conf.admins
 token = conf.token
@@ -50,10 +51,10 @@ markup3 = ReplyKeyboardMarkup(conf.kb3, resize_keyboard=True, one_time_keyboard=
 # Start info
 def _init_bot_set_pins():
     logging.info('Initialize bot, setup GPIO pins.')
-    conf.set_pins()
+    utils.set_pins()
     logging.info('Switch all off at start.')
     for member in all_groups:
-        conf.switch_off(member)
+        utils.switch_off(member)
     display.show_standby()
     return
 
@@ -132,7 +133,7 @@ def _selection(bot, update):
         logging.info('Selection: {0}'.format(str(target)))
 
         _start_standby_timer(bot, update)
-        return DURATION, STOP_WATER
+        return DURATION
 
 
 # set water duration
@@ -227,10 +228,10 @@ def _water_all(bot, update):
     """ starts separate thread"""
     display.show_switch_group_duration(0, int(water_time))
     for channel in all_groups:
-        conf.switch_on(channel)
+        utils.switch_on(channel)
     time.sleep((int(water_time) * int(lib.time_conversion)))
     for channel in all_groups:
-        conf.switch_off(channel)
+        utils.switch_off(channel)
     update.message.reply_text('{0}{1}{2}'.format(
         _timestamp(), lib.water_off_all.format(water_time), lib.msg_new_choice),
         parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
@@ -253,13 +254,13 @@ def _water(bot, update, channel):
         logging.warning('duration: ' + str(duration))
         logging.warning('msg: ' + stop_water)
         if stop_water == str(lib.cancel):
-            conf.switch_off(channel)
+            utils.switch_off(channel)
             logging.warning('try to stop!')
             return STOP_WATER
         time.sleep(1)
         duration -= 1
 
-    conf.switch_off(channel)
+    utils.switch_off(channel)
     update.message.reply_text('{0}{1}{2}'.format(
         _timestamp(), lib.water_off.format(target, water_time), lib.msg_new_choice),
         parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
@@ -274,10 +275,10 @@ def _water_group(bot, update, group):
                               parse_mode=ParseMode.MARKDOWN, reply_markup=markup3)
 
     for channel in group:
-        conf.switch_on(channel)
+        utils.switch_on(channel)
     time.sleep((int(water_time) * int(lib.time_conversion)))
     for channel in group:
-        conf.switch_off(channel)
+        utils.switch_off(channel)
     update.message.reply_text('{0}{1}{2}'.format(
         _timestamp(), lib.water_off_group.format(target, water_time), lib.msg_new_choice),
         parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)

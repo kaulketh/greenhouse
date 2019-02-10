@@ -9,6 +9,7 @@
 from __future__ import absolute_import
 import conf.greenhouse_config as conf
 import conf.ext_greenhouse_lib as lib
+import utils.utils as utils
 import peripherals.four_digit.display as display
 import sys
 import time
@@ -46,14 +47,14 @@ Id = sys.argv[1]
 # water a group of targets
 def _water_on_group(group):
     for member in group:
-        conf.switch_on(member)
+        utils.switch_on(member)
     return
 
 
 # water off for a  group of targets
 def _water_off_group(group):
     for member in group:
-        conf.switch_off(member)
+        utils.switch_off(member)
     return
 
 
@@ -78,7 +79,7 @@ def _send_msg(message, parse_mode):
 def _check_pins_state():
     global pins_state
     for pin in group_all:
-        if not conf.get_pin_state(pin):
+        if not utils.get_pin_state(pin):
             display.show_on()
             pins_state = False
             break
@@ -107,19 +108,19 @@ def _handle(msg):
     elif command == lib.cmd_logrotate:
         _send_msg(_read_cmd(lib.logrotate_bot), no_parse_mode)
     elif command == lib.cmd_all_on:
-        _send_msg(conf.get_timestamp() + ' all on', no_parse_mode)
+        _send_msg(utils.get_timestamp() + ' all on', no_parse_mode)
         _water_on_group(group_all)
     elif command == lib.cmd_all_off:
         _send_msg('all off.', no_parse_mode)
         _water_off_group(group_all)
     elif command == lib.cmd_group1_on:
-        _send_msg(conf.get_timestamp() + 'group 1 on', no_parse_mode)
+        _send_msg(utils.get_timestamp() + 'group 1 on', no_parse_mode)
         _water_on_group(group_one)
     elif command == lib.cmd_group1_off:
         _send_msg('group 1 off', no_parse_mode)
         _water_off_group(group_one)
     elif command == lib.cmd_group2_on:
-        _send_msg(conf.get_timestamp() + 'group 2  on', no_parse_mode)
+        _send_msg(utils.get_timestamp() + 'group 2  on', no_parse_mode)
         _water_on_group(group_two)
     elif command == lib.cmd_group2_off:
         _send_msg('group 2 off', no_parse_mode)
@@ -133,7 +134,7 @@ def _handle(msg):
     elif command == lib.cmd_kill:
         # disable camera
         logging.info('Disable camera module.')
-        _read_cmd(conf.disable_camera)
+        _read_cmd(utils.disable_camera)
         pid2 = _read_cmd(lib.get_pid2)
         # logging.info('Got own PID to kill me and prepare the other bot for proper using: {0}'.format(str(pid2)))
         _read_cmd(lib.restart_bot)
@@ -154,7 +155,7 @@ def init_and_start():
     # logging.info('{0} is PID of running default bot, used to kill.'.format(str(pid1)))
     _read_cmd('kill -9 {0}'.format(str(pid1)))
 
-    conf.set_pins()
+    utils.set_pins()
     bot = telepot.Bot(apiToken)
     bot.message_loop(_handle)
     logging.info('I am listening...')

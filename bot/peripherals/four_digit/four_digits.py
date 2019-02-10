@@ -10,7 +10,7 @@
 
 from __future__ import absolute_import
 import math
-import conf.greenhouse_config as conf
+import utils.utils as utils
 from time import sleep
 import logger.logger as log
 logger = log.get_logger()
@@ -37,7 +37,7 @@ STARTADDR = 0xC0
 class TM1637:
     logger.info('Init pin settings for 4-digit-display!')
     global IO
-    IO = conf.set_pins()
+    IO = utils.set_pins()
     __double_point = False
     __clk_pin = 0
     __data_pin = 0
