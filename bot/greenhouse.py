@@ -349,11 +349,11 @@ def _error(bot, update, e):
 
 # time stamps
 def _timestamp():
-    return conf.get_timestamp_line()
+    return utils.get_timestamp_line()
 
 
 def _start_time():
-    return conf.get_timestamp()
+    return utils.get_timestamp()
 
 
 # camera
