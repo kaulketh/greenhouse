@@ -241,9 +241,9 @@ def __all_off():
 def _water_all(bot, update):
     logging.info('Duration: {0}'.format(water_time))
     update.message.reply_text(lib.water_on_all.format(target, water_time),
-                              parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
+                              parse_mode=ParseMode.MARKDOWN, reply_markup=markup3)
 
-    update.message.reply_text('Abbruch', reply_markup=markup3)
+    # update.message.reply_text('Abbruch', reply_markup=markup3)
 
     """ starts separate thread"""
     display.show_switch_group_duration(0, int(water_time))
@@ -434,14 +434,12 @@ def main():
                     str(lib.panic),
                     str(lib.live_stream),
                     str(lib.reload)), _selection),
-                RegexHandler('^{0}$'.format(lib.stop_bot), _stop),
-                emergency_stop_handler],
+                RegexHandler('^{0}$'.format(lib.stop_bot), _stop)],
 
             DURATION: [RegexHandler('^([0-9]+|{0}|{1})$'.format(str(lib.cancel), str(lib.panic)), _duration),
-                       RegexHandler('^{0}$'.format(lib.stop_bot), _stop),
-                       emergency_stop_handler]
+                       RegexHandler('^{0}$'.format(lib.stop_bot), _stop)]
                 },
-        fallbacks=[CommandHandler('stop', _stop), emergency_stop_handler]
+        fallbacks=[CommandHandler('stop', _stop)]
     )
     dp.add_handler(emergency_stop_handler)
 
