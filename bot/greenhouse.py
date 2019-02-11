@@ -98,7 +98,7 @@ def _start(bot, update):
         logging.info('Time unit is \'{0}\''.format(str(lib.time_units_name[lib.time_units_index])))
         display.show_off()
 
-        _start_standby_timer(bot, update)
+        __start_standby_timer(bot, update)
         return SELECTION
 
 
@@ -107,7 +107,7 @@ def _selection(bot, update):
     global target
     target = update.message.text
 
-    _stop_standby_timer(bot, update)
+    __stop_standby_timer(bot, update)
 
     if target == str(lib.panic):
         update.message.reply_text(lib.msg_panic,
@@ -118,13 +118,13 @@ def _selection(bot, update):
     elif target == str(lib.live_stream):
         logging.info('Live URL requested.')
         update.message.reply_text(lib.msg_live.format(str(conf.live)), parse_mode=ParseMode.MARKDOWN)
-        _start_standby_timer(bot, update)
+        __start_standby_timer(bot, update)
         return SELECTION
 
     elif target == str(lib.reload):
         logging.info('Refresh values requested.')
         _message_values(update)
-        _start_standby_timer(bot, update)
+        __start_standby_timer(bot, update)
         return SELECTION
 
     else:
@@ -132,7 +132,7 @@ def _selection(bot, update):
                                   parse_mode=ParseMode.MARKDOWN, reply_markup=markup2)
         logging.info('Selection: {0}'.format(str(target)))
 
-        _start_standby_timer(bot, update)
+        __start_standby_timer(bot, update)
         return DURATION
 
 
@@ -141,7 +141,8 @@ def _duration(bot, update):
     global water_time
     water_time = update.message.text
 
-    _stop_standby_timer(bot, update)
+    __stop_standby_timer(bot, update)
+    __start_emergency_job(bot, update)
 
     if water_time == str(lib.cancel):
         update.message.reply_text(lib.msg_new_choice,
@@ -226,7 +227,7 @@ def _duration(bot, update):
     else:
         update.message.reply_text(lib.msg_choice, reply_markup=markup1)
 
-    _start_standby_timer(bot, update)
+    __start_standby_timer(bot, update)
     return SELECTION
 
 
@@ -338,7 +339,7 @@ def _stop(bot, update):
     global enable_emergency_stop
     enable_emergency_stop = False
     __all_off()
-    _stop_standby_timer(bot, update)
+    __stop_standby_timer(bot, update)
     logging.info('Bot stopped.')
     _cam_off()
     display.show_stop()
@@ -359,7 +360,7 @@ def __set_emergency(bot, update):
     return
 
 
-def __emergency_stop(bot, update):
+def __start_emergency_job(bot, update):
     global emergency_job
     if enable_emergency_stop:
         emergency_job = jq.run_once(_job_stop_and_restart, 0, context=update)
@@ -368,14 +369,14 @@ def __emergency_stop(bot, update):
 
 
 # timer
-def _start_standby_timer(bot, update):
+def __start_standby_timer(bot, update):
     global timer_job
     timer_job = jq.run_once(_job_stop_and_restart, conf.standby_timeout, context=update)
     logging.info("Init standby timer of {0} seconds, added to queue.".format(conf.standby_timeout))
     return
 
 
-def _stop_standby_timer(bot, upadate):
+def __stop_standby_timer(bot, upadate):
     timer_job.schedule_removal()
     logging.info("Timer job removed from the queue.")
     return
