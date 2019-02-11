@@ -349,11 +349,11 @@ def _stop(bot, update):
 
 
 # emergency stop
-def __check_emergency():
+def __check_emergency(bot, update):
     return enable_emergency_stop
 
 
-def __set_emergency():
+def __set_emergency(bot, update):
     global enable_emergency_stop
     enable_emergency_stop = True
     return
