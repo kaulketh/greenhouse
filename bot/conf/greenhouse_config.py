@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# configs and constants
+# configs, command strings and constants
 # author: Thomas Kaulke, kaulketh@gmail.com
 
 from __future__ import absolute_import
@@ -69,7 +69,6 @@ disable_camera = 'sudo service motion stop && sudo rm -rf /home/pi/Monitor/* &'
 
 # gpio check
 run_gpio_check = 'sudo python /home/pi/scripts/TelegramBot/gpio_check.py '
-
 
 
 if __name__ == '__main__':

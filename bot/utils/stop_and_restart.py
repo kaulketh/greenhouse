@@ -19,7 +19,7 @@ token = conf.token
 chat_id = conf.mainId
 
 
-def _read_cmd(cmd):
+def __read_cmd(cmd):
     os.system(cmd + ' > ' + lib.tmp_file + ' 2>&1')
     file = open(lib.tmp_file, 'r')
     data = file.read()
@@ -27,33 +27,18 @@ def _read_cmd(cmd):
     return data
 
 
-def emergency_stop(bot):
-    bot.reply_text(conf.lib.msg_stop, parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
-    logging.warning('Emergency stop, set bot in standby.')
-    _read_cmd(conf.disable_camera)
-    display.show_stop()
-    time.sleep(2)
-    # start new new instance of greenhouse
-    _read_cmd(lib.restart_bot)
-    display.show_standby()
-    # kill the current instance of greenhouse bot
-    pid1 = _read_cmd(lib.get_pid1)
-    _read_cmd('kill -9 {0}'.format(str(pid1)))
-    return
-
-
 def stop_and_restart(update):
-    logging.warning('Timeout reached, set bot in standby.')
-    _read_cmd(conf.disable_camera)
+    logging.warning('Stop and restart, set bot in standby.')
+    __read_cmd(conf.disable_camera)
     display.show_stop()
     time.sleep(2)
     # start new new instance of greenhouse
-    _read_cmd(lib.restart_bot)
+    __read_cmd(lib.restart_bot)
     update.message.reply_text(conf.lib.msg_stop, parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
     display.show_standby()
     # kill the current instance of greenhouse bot
-    pid1 = _read_cmd(lib.get_pid1)
-    _read_cmd('kill -9 {0}'.format(str(pid1)))
+    pid1 = __read_cmd(lib.get_pid1)
+    __read_cmd('kill -9 {0}'.format(str(pid1)))
     return
 
 
