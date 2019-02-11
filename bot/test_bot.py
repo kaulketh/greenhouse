@@ -18,7 +18,7 @@ def stop(bot, update):
 
 def start(bot, update):
     keyboard = [[InlineKeyboardButton("Option 1", callback_data='1'),
-                 InlineKeyboardButton("STOP", callback_data=stop)],
+                 InlineKeyboardButton("STOP", callback_data='emergency')],
                 [InlineKeyboardButton(text='R+',  url='www.rammstein.de')]
                 ]
 
@@ -31,10 +31,12 @@ def start(bot, update):
 def button(bot, update):
     query = update.callback_query
 
-
-    bot.edit_message_text(text=str(query),
+    bot.edit_message_text(text=query.data,
                           chat_id=query.message.chat_id,
                           message_id=query.message.message_id)
+
+    if query == 'emergency':
+        stop(bot, update)
 
 
 def help(bot, update):
