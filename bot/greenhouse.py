@@ -238,6 +238,7 @@ def __all_off():
         utils.switch_off(channel)
     return
 
+
 @run_async
 def __water_all(bot, update):
     logging.info('Duration: {0}'.format(water_time))
@@ -261,6 +262,7 @@ def __water_all(bot, update):
     return
 
 
+@run_async
 def __water(bot, update, channel):
     logging.info('Duration: ' + water_time)
     logging.info('Toggle ' + str(channel))
@@ -281,6 +283,7 @@ def __water(bot, update, channel):
     return
 
 
+@run_async
 def __water_group(bot, update, group):
     logging.info('Duration: ' + water_time)
     logging.info('Toggle ' + str(group))
@@ -346,6 +349,7 @@ def __emergency_stop_handler(bot, update, chat_data):
         return
     if querydata == lib.emergency_stop:
         logging.error("Found emergency stop: " + querydata)
+        query.edit_message_reply_markup(reply_markup=ReplyKeyboardRemove())
         __all_off()
 
 
