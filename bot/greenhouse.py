@@ -239,7 +239,7 @@ def __all_off():
     return
 
 
-def __water_and_check_for_emergency(target, duration):
+def __water_and_check_for_emergency(bot, update, target, duration):
     global count
     count = duration
     if isinstance(target, tuple):
@@ -250,8 +250,8 @@ def __water_and_check_for_emergency(target, duration):
     while count > 0:
         time.sleep(1)
         count -=1
-        logging.warning("Emergency: " + str(enable_emergency_stop))
-        if enable_emergency_stop:
+        logging.warning("Emergency: " + str(__check_emergency(bot, update)))
+        if __check_emergency(bot, update):
             logging.warning("STOPPED")
             count = 0
     __all_off()
@@ -270,7 +270,7 @@ def _water_all(bot, update):
     #     utils.switch_on(channel)
     # time.sleep(int(water_time) * int(lib.time_conversion))
     # __all_off()
-    __water_and_check_for_emergency(all_groups, int(water_time) * int(lib.time_conversion))
+    __water_and_check_for_emergency(bot, update, all_groups, int(water_time) * int(lib.time_conversion))
 
     update.message.reply_text('{0}{1}{2}'.format(
         _timestamp(), lib.water_off_all.format(water_time), lib.msg_new_choice),
@@ -357,6 +357,7 @@ def __check_emergency(bot, update):
 def __set_emergency(bot, update):
     global enable_emergency_stop
     enable_emergency_stop = True
+    update.message.text = lib.emergency_stop
     return
 
 
