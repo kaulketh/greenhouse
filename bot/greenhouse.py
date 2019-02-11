@@ -46,7 +46,7 @@ enable_emergency_stop = False
 # keyboard config
 markup1 = ReplyKeyboardMarkup(conf.kb1, resize_keyboard=True, one_time_keyboard=False)
 markup2 = ReplyKeyboardMarkup(conf.kb2, resize_keyboard=True, one_time_keyboard=False)
-markup3 = InlineKeyboardMarkup(conf.kb3, resize_keyboard=True, one_time_keyboard=False)
+markup3 = InlineKeyboardMarkup(conf.kb3)
 
 
 # Start info
