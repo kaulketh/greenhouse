@@ -142,6 +142,7 @@ def _duration(bot, update):
     water_time = update.message.text
 
     __stop_standby_timer(bot, update)
+
     __start_emergency_check(bot, update)
 
     if water_time == str(lib.cancel):
@@ -354,12 +355,14 @@ def __job_check_emergency(bot, job):
 
 def __start_emergency_stop(bot, update):
     global emergency_job
-    if update.callback_query.data == lib.emergency_stop:
-        logging.error("emergency stop called")
-        emergency_job = jq.run_once(_job_stop_and_restart, 0, context=update)
-        logging.info("Init stop immediately.")
-    else:
-        check_job.schedule_removal()
+    if update is not None:
+        query = update.callback_query
+        if query.data == lib.emergency_stop:
+            logging.error("emergency stop called")
+            emergency_job = jq.run_once(_job_stop_and_restart, 0, context=update)
+            logging.info("Init stop immediately.")
+        else:
+            check_job.schedule_removal()
     return
 
 
