@@ -337,20 +337,28 @@ def _stop(bot, update):
 
 
 # emergency stop
-def __check_emergency(bot, update):
-    query = update.callback_query
-    logging.error(query.data)
-    return query.data
+def __start_emergency_check(bot, update):
+    global check_job
+    check_job = jq.run_repeating(__job_check_emergency, 0.5, context=update)
+    logging.error('emergency check initialized')
+    return
 
 
-def __start_emergency_job(bot, update):
+def __job_check_emergency(bot, job):
+    query = job.context.callback_query.data
+    logging.error(query)
+    __start_emergency_stop(bot, job.context)
+    return
+
+
+def __start_emergency_stop(bot, update):
     global emergency_job
-    #if __check_emergency(bot, update):
-    query = update.callback_query
-    if query.data == conf.lib.emergency_stop:
-        logging.error("emergency stop")
-        # emergency_job = jq.run_once(_job_stop_and_restart, 0, context=update)
+    if update.callback_query.data == lib.emergency_stop:
+        logging.error("emergency stop called")
+        emergency_job = jq.run_once(_job_stop_and_restart, 0, context=update)
         logging.info("Init stop immediately.")
+    else:
+        check_job.schedule_removal()
     return
 
 
@@ -414,11 +422,10 @@ def main():
     global jq
     jq = updater.job_queue
     logging.info('Init job queue.')
-    jq.run_repeating(__check_emergency,1,name='Check for emergency stop')
 
     dp = updater.dispatcher
 
-    emergency_stop_handler = CallbackQueryHandler(__start_emergency_job)
+    emergency_stop_handler = CallbackQueryHandler(__start_emergency_check)
     # RegexHandler(lib.emergency_stop, __set_emergency)
 
     ch = ConversationHandler(
