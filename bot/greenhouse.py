@@ -346,8 +346,8 @@ def __start_emergency_check(bot, update):
 
 
 def __job_check_emergency(bot, job):
-    query = job.context.callback_query.data
-    logging.error(query)
+    # query = job.context.callback_query.data
+    # logging.error(query)
     __start_emergency_stop(bot, job.context)
     return
 
