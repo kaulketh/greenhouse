@@ -9,7 +9,6 @@
 from __future__ import absolute_import
 import os
 import time
-import threading
 import utils.utils as utils
 import conf.greenhouse_config as conf
 import peripherals.dht.dht as dht
@@ -237,24 +236,6 @@ def __all_off():
         utils.switch_off(channel)
     return
 
-def _start_thread_water_all(target, time):
-    global t
-    global g_target
-    global g_time
-    g_target = target
-    g_time = time
-    t = threading.Thread(target=_thread_function_water_group, args=(g_target, g_time))
-    t.start()
-    return
-
-
-def _thread_function_water_group(group, duration):
-    for channel in group:
-        utils.switch_on(channel)
-    time.sleep(duration)
-    __all_off()
-    return
-
 
 def _water_all(bot, update):
     logging.info('Duration: {0}'.format(water_time))
@@ -413,6 +394,8 @@ def main():
 
     dp = updater.dispatcher
 
+    emergency_stop_handler = RegexHandler(lib.emergency_stop, _emergency_stop)
+
     ch = ConversationHandler(
         entry_points=[CommandHandler('start', _start)],
         states={
@@ -434,16 +417,15 @@ def main():
                     str(lib.live_stream),
                     str(lib.reload)), _selection),
                 RegexHandler('^{0}$'.format(lib.stop_bot), _stop),
-                RegexHandler(lib.emergency_stop, _emergency_stop)],
+                emergency_stop_handler],
 
             DURATION: [RegexHandler('^([0-9]+|{0}|{1})$'.format(str(lib.cancel), str(lib.panic)), _duration),
                        RegexHandler('^{0}$'.format(lib.stop_bot), _stop),
-                       RegexHandler(lib.emergency_stop, _emergency_stop)]
+                       emergency_stop_handler]
                 },
-        fallbacks=[CommandHandler('stop', _stop), RegexHandler(lib.emergency_stop, _emergency_stop)]
+        fallbacks=[CommandHandler('stop', _stop), emergency_stop_handler]
     )
-    # rgh = RegexHandler(lib.emergency_stop, _stop)
-    # dp.add_handler(rgh)
+    dp.add_handler(emergency_stop_handler)
 
     dp.add_handler(ch)
 
