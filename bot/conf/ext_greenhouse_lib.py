@@ -55,7 +55,10 @@ get_pid1 = 'ps -o pid,args -C python | awk \'/greenhouse.py/ { print $1 }\''
 get_pid2 = 'ps -o pid,args -C python | awk \'/ext_greenhouse.py/ { print $1 }\''
 
 restart_bot = 'python /home/pi/scripts/TelegramBot/greenhouse.py &'
-update_bot = 'rm /lastGreenhouseCommit.id && bash /home/pi/scripts/TelegramBot/update_bot.sh ' \
+
+"""Ensure same file names in update_bot.sh!"""
+"""Ensure same file names in peripherals/oled/display.py!"""
+update_bot = 'rm /greenhouseRepoCommit.id && bash /home/pi/scripts/TelegramBot/update_bot.sh ' \
              + str(token) + ' ' + str(thk) + ' &'
 
 backup_all = 'tar -zcf /home/pi/backups/greenhouse.tgz --exclude=\'*.pyc\' /home/pi/scripts/TelegramBot/ &'
