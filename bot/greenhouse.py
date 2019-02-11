@@ -241,7 +241,9 @@ def __all_off():
 def _water_all(bot, update):
     logging.info('Duration: {0}'.format(water_time))
     update.message.reply_text(lib.water_on_all.format(target, water_time),
-                              parse_mode=ParseMode.MARKDOWN, reply_markup=markup3)
+                              parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
+
+    update.message.reply_text('Abbruch', reply_markup=markup3)
 
     """ starts separate thread"""
     display.show_switch_group_duration(0, int(water_time))
@@ -262,7 +264,11 @@ def _water(bot, update, channel):
     logging.info('Duration: ' + water_time)
     logging.info('Toggle ' + str(channel))
     update.message.reply_text(lib.water_on.format(target, water_time),
-                              parse_mode=ParseMode.MARKDOWN, reply_markup=markup3)
+                              parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
+
+    update.message.reply_text('Abbruch', reply_markup=markup3)
+
+
     utils.switch_on(channel)
     time.sleep(int(water_time) * int(lib.time_conversion))
     utils.switch_off(channel)
@@ -278,7 +284,9 @@ def _water_group(bot, update, group):
     logging.info('Duration: ' + water_time)
     logging.info('Toggle ' + str(group))
     update.message.reply_text(lib.water_on_group.format(target, water_time),
-                              parse_mode=ParseMode.MARKDOWN, reply_markup=markup3)
+                              parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
+
+    update.message.reply_text('Abbruch', reply_markup=markup3)
 
     for channel in group:
         utils.switch_on(channel)
