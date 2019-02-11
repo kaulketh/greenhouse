@@ -7,7 +7,7 @@ from subprocess import Popen, PIPE
 import sys
 import logger.logger as log
 
-logging = log.get_logger('GPIO check')
+logging = log.get_logger()
 
 pin_to_check = int(sys.argv[1])
 gpios = (21, 22, 23, 24, 25, 27, 28, 29)

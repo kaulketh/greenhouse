@@ -8,6 +8,7 @@ from PIL import Image, ImageFont, ImageDraw
 from lib_oled96 import Ssd1306
 from smbus import SMBus
 
+
 # Display setup, methods and members
 """ 0 = Raspberry Pi 1, 1 = Raspberry Pi > 1 """
 i2cbus = SMBus(1)
@@ -19,12 +20,28 @@ top = 7
 switch_time = 15
 
 
+"""Ensure same file names in update_bot.sh!"""
 def get_last_commit():
-        commit = open("/lastGreenhouseCommit.id").read()
-        branch = open("/defaultGreenhouseBranch.name").read()
-        commit = commit[0:6]
-        commit = commit + " " + branch.replace("\n", "")
-        return commit
+    commit = None
+    branch = None
+
+    try:
+        commit = open("/greenhouseRepoCommit.id").read()
+        if commit is None:
+            commit = '-------'
+        else:
+            commit = commit[0:7]
+        branch = open("/greenhouseRepoBranch.name").read()
+        if branch is None:
+            branch = '-------'
+        else:
+            branch = branch.replace("\n", "")
+    except Exception:
+        build = '!!!ERROR!!!'
+        return build
+
+    build = commit + " " + branch
+    return build
 
 
 def get_core_temp():

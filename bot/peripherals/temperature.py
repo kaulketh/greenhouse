@@ -6,7 +6,7 @@ from __future__ import absolute_import
 import conf.greenhouse_config as conf
 import logger.logger as log
 
-logging = log.get_logger('temperature')
+logging = log.get_logger()
 
 temp = 0
 one = 0
