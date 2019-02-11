@@ -343,10 +343,11 @@ def __start_emergency_job(bot, update):
     query = update.callback_query
     if query.data == conf.lib.emergency_stop:
         logging.error("emergency stop")
-        _stop(bot, update)
+        global updater
+        updater.stop()
         # emergency_job = jq.run_once(_job_stop_and_restart, 0, context=update)
         logging.info("Init stop immediately.")
-    return
+    return ConversationHandler.END
 
 
 # timer
