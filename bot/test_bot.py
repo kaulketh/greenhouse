@@ -35,8 +35,10 @@ def button(bot, update):
                           chat_id=query.message.chat_id,
                           message_id=query.message.message_id)
 
-    if query == 'emergency':
+    if query.data == 'emergency':
+        print("stopped")
         stop(bot, update)
+
 
 
 def help(bot, update):

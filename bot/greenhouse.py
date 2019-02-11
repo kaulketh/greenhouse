@@ -17,8 +17,8 @@ import peripherals.stop_and_restart as stop_and_restart
 import peripherals.four_digit.display as display
 import logger.logger as log
 
-from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove, ParseMode
-from telegram.ext import Updater, CommandHandler, RegexHandler, ConversationHandler
+from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove, ParseMode, InlineKeyboardMarkup
+from telegram.ext import Updater, CommandHandler, RegexHandler, ConversationHandler, CallbackQueryHandler
 
 logging = log.get_logger()
 
@@ -46,7 +46,7 @@ enable_emergency_stop = False
 # keyboard config
 markup1 = ReplyKeyboardMarkup(conf.kb1, resize_keyboard=True, one_time_keyboard=False)
 markup2 = ReplyKeyboardMarkup(conf.kb2, resize_keyboard=True, one_time_keyboard=False)
-markup3 = ReplyKeyboardMarkup(conf.kb3, resize_keyboard=True, one_time_keyboard=False)
+markup3 = InlineKeyboardMarkup(conf.kb3, resize_keyboard=True, one_time_keyboard=False)
 
 
 # Start info
@@ -142,7 +142,6 @@ def _duration(bot, update):
     water_time = update.message.text
 
     __stop_standby_timer(bot, update)
-    __start_emergency_job(bot, update)
 
     if water_time == str(lib.cancel):
         update.message.reply_text(lib.msg_new_choice,
@@ -239,25 +238,6 @@ def __all_off():
     return
 
 
-def __water_and_check_for_emergency(bot, update, target, duration):
-    global count
-    count = duration
-    if isinstance(target, tuple):
-        for channel in target:
-            utils.switch_on(channel)
-        else:
-            utils.switch_on(target)
-    while count > 0:
-        time.sleep(1)
-        count -=1
-        logging.warning("Emergency: " + str(__check_emergency(bot, update)))
-        if __check_emergency(bot, update):
-            logging.warning("STOPPED")
-            count = 0
-    __all_off()
-    return
-
-
 def _water_all(bot, update):
     logging.info('Duration: {0}'.format(water_time))
     update.message.reply_text(lib.water_on_all.format(target, water_time),
@@ -266,11 +246,10 @@ def _water_all(bot, update):
     """ starts separate thread"""
     display.show_switch_group_duration(0, int(water_time))
 
-    # for channel in all_groups:
-    #     utils.switch_on(channel)
-    # time.sleep(int(water_time) * int(lib.time_conversion))
-    # __all_off()
-    __water_and_check_for_emergency(bot, update, all_groups, int(water_time) * int(lib.time_conversion))
+    for channel in all_groups:
+        utils.switch_on(channel)
+    time.sleep(int(water_time) * int(lib.time_conversion))
+    __all_off()
 
     update.message.reply_text('{0}{1}{2}'.format(
         _timestamp(), lib.water_off_all.format(water_time), lib.msg_new_choice),
@@ -350,21 +329,13 @@ def _stop(bot, update):
 
 
 # emergency stop
-def __check_emergency(bot, update):
-    return enable_emergency_stop
-
-
-def __set_emergency(bot, update):
-    global enable_emergency_stop
-    enable_emergency_stop = True
-    return
-
-
 def __start_emergency_job(bot, update):
     global emergency_job
-    if __check_emergency(bot, update):
+    #if __check_emergency(bot, update):
+    query = update.callback_query
+    if query.data == conf.lib.emergency_stop:
         emergency_job = jq.run_once(_job_stop_and_restart, 0, context=update)
-        logging.info("Init stop immediately.".format(conf.standby_timeout))
+        logging.info("Init stop immediately.")
     return
 
 
@@ -428,11 +399,12 @@ def main():
     global jq
     jq = updater.job_queue
     logging.info('Init job queue.')
-    jq.run_repeating(__check_emergency,1,name='Check for emergency stop')
+    # jq.run_repeating(__check_emergency,1,name='Check for emergency stop')
 
     dp = updater.dispatcher
 
-    emergency_stop_handler = RegexHandler(lib.emergency_stop, __set_emergency)
+    emergency_stop_handler = CallbackQueryHandler(__start_emergency_job)
+    # RegexHandler(lib.emergency_stop, __set_emergency)
 
     ch = ConversationHandler(
         entry_points=[CommandHandler('start', _start)],
