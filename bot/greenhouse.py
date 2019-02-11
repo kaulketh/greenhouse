@@ -238,7 +238,7 @@ def __all_off():
         utils.switch_off(channel)
     return
 
-
+@run_async
 def _water_all(bot, update):
     logging.info('Duration: {0}'.format(water_time))
     update.message.reply_text(lib.water_on_all.format(target, water_time),
