@@ -140,6 +140,8 @@ def __selection(bot, update):
 # set water duration
 def __duration(bot, update):
     global water_time
+    global g_duration_update
+    g_duration_update = update
     water_time = update.message.text
 
     __stop_standby_timer(bot, update)
@@ -344,28 +346,14 @@ def __stop(bot, update):
 @run_async
 def __emergency_stop_handler(bot, update, chat_data):
     query = update.callback_query
-    querydata = query.data
-    if not querydata:
+    query_data = query.data
+    if not query_data:
         return
-    if querydata == lib.emergency_stop:
-        logging.error("Found emergency stop: " + querydata)
+    if query_data == lib.emergency_stop:
+        logging.error("Found emergency stop: " + query_data)
         __all_off()
-        __start_emergency_stop(bot, update)
+        __start_emergency_stop(bot, g_duration_update)
 
-
-# TODO: check if required
-def __start_emergency_check(bot, update):
-    global check_job
-    check_job = jq.run_repeating(__job_check_emergency, 0.5, context=update)
-    logging.error('emergency check initialized')
-    return
-
-# TODO: check if required
-def __job_check_emergency(bot, job):
-    # query = job.context.callback_query.data
-    # logging.error(query)
-    __start_emergency_stop(bot, job.context)
-    return
 
 # TODO: check if required
 def __start_emergency_stop(bot, update):
