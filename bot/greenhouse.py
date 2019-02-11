@@ -349,8 +349,8 @@ def __emergency_stop_handler(bot, update, chat_data):
         return
     if querydata == lib.emergency_stop:
         logging.error("Found emergency stop: " + querydata)
-        query.edit_message_reply_markup(reply_markup=ReplyKeyboardRemove())
         __all_off()
+        __start_emergency_stop(bot, update)
 
 
 # TODO: check if required
@@ -370,14 +370,9 @@ def __job_check_emergency(bot, job):
 # TODO: check if required
 def __start_emergency_stop(bot, update):
     global emergency_job
-    if update is not None:
-        query = update.callback_query
-        if query.data == lib.emergency_stop:
-            logging.error("emergency stop called")
-            emergency_job = jq.run_once(__job_stop_and_restart, 0, context=update)
-            logging.info("Init stop immediately.")
-        else:
-            check_job.schedule_removal()
+    logging.error("emergency stop called")
+    emergency_job = jq.run_once(__job_stop_and_restart, 0, context=update)
+    logging.info("Init stop immediately.")
     return
 
 
