@@ -357,7 +357,6 @@ def __check_emergency(bot, update):
 def __set_emergency(bot, update):
     global enable_emergency_stop
     enable_emergency_stop = True
-    update.message.text = lib.emergency_stop
     return
 
 
