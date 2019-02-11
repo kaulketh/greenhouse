@@ -142,6 +142,7 @@ def _duration(bot, update):
     water_time = update.message.text
 
     __stop_standby_timer(bot, update)
+    __start_emergency_check(bot, update)
 
     if water_time == str(lib.cancel):
         update.message.reply_text(lib.msg_new_choice,
@@ -243,7 +244,7 @@ def _water_all(bot, update):
     update.message.reply_text(lib.water_on_all.format(target, water_time),
                               parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
 
-    update.message.reply_text(update.query.data, reply_markup=markup3)
+    update.message.reply_text('Abbruch', reply_markup=markup3)
 
     """ starts separate thread"""
     display.show_switch_group_duration(0, int(water_time))
