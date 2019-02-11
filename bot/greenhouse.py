@@ -429,8 +429,9 @@ def main():
 
     dp = updater.dispatcher
 
-    emergency_stop_handler = CallbackQueryHandler(__start_emergency_check)
-    # RegexHandler(lib.emergency_stop, __set_emergency)
+    emergency_stop_handler = CallbackQueryHandler(
+        __start_emergency_check,
+        pattern='^{0}$'.format(str(lib.emergency_stop)))
 
     ch = ConversationHandler(
         entry_points=[CommandHandler('start', _start)],
