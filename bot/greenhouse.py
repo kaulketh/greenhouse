@@ -19,6 +19,7 @@ import logger.logger as log
 
 from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove, ParseMode, InlineKeyboardMarkup
 from telegram.ext import Updater, CommandHandler, RegexHandler, ConversationHandler, CallbackQueryHandler
+from telegram.ext.dispatcher import run_async
 
 logging = log.get_logger()
 
@@ -142,8 +143,6 @@ def _duration(bot, update):
     water_time = update.message.text
 
     __stop_standby_timer(bot, update)
-
-    __start_emergency_check(bot, update)
 
     if water_time == str(lib.cancel):
         update.message.reply_text(lib.msg_new_choice,
@@ -339,20 +338,31 @@ def _stop(bot, update):
 
 
 # emergency stop
+@run_async
+def __emergency_stop_handler(bot, update, chat_data):
+    query = update.callback_query
+    querydata = query.data
+    if not querydata:
+        return
+    if querydata == lib.emergency_stop:
+        logging.error("Found emergency stop: " + querydata)
+
+
+# TODO: check if required
 def __start_emergency_check(bot, update):
     global check_job
     check_job = jq.run_repeating(__job_check_emergency, 0.5, context=update)
     logging.error('emergency check initialized')
     return
 
-
+# TODO: check if required
 def __job_check_emergency(bot, job):
     # query = job.context.callback_query.data
     # logging.error(query)
     __start_emergency_stop(bot, job.context)
     return
 
-
+# TODO: check if required
 def __start_emergency_stop(bot, update):
     global emergency_job
     if update is not None:
@@ -430,8 +440,9 @@ def main():
     dp = updater.dispatcher
 
     emergency_stop_handler = CallbackQueryHandler(
-        __start_emergency_check,
-        pattern='^{0}$'.format(str(lib.emergency_stop)))
+        __emergency_stop_handler,
+        pattern='^{0}$'.format(str(lib.emergency_stop)),
+        pass_chat_data=True)
 
     ch = ConversationHandler(
         entry_points=[CommandHandler('start', _start)],
