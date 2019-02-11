@@ -41,6 +41,7 @@ water_time = lib.empty
 user_id = lib.empty
 jq = None
 timer_job = None
+enable_emergency_stop = False
 
 # keyboard config
 markup1 = ReplyKeyboardMarkup(conf.kb1, resize_keyboard=True, one_time_keyboard=False)
@@ -237,6 +238,25 @@ def __all_off():
     return
 
 
+def __water_and_check_for_emergency(target, duration):
+    global count
+    count = duration
+    while count > 0:
+        if isinstance(target, tuple):
+            for channel in target:
+                utils.switch_on(channel)
+        else:
+            utils.switch_on(target)
+        time.sleep(1)
+        count -=1
+        logging.warning(enable_emergency_stop)
+        if enable_emergency_stop:
+            logging.warning("STOPPED")
+            count = 0
+    __all_off()
+    return
+
+
 def _water_all(bot, update):
     logging.info('Duration: {0}'.format(water_time))
     update.message.reply_text(lib.water_on_all.format(target, water_time),
@@ -245,10 +265,11 @@ def _water_all(bot, update):
     """ starts separate thread"""
     display.show_switch_group_duration(0, int(water_time))
 
-    for channel in all_groups:
-        utils.switch_on(channel)
-    time.sleep(int(water_time) * int(lib.time_conversion))
-    __all_off()
+    # for channel in all_groups:
+    #     utils.switch_on(channel)
+    # time.sleep(int(water_time) * int(lib.time_conversion))
+    # __all_off()
+    __water_and_check_for_emergency(all_groups, int(water_time) * int(lib.time_conversion))
 
     update.message.reply_text('{0}{1}{2}'.format(
         _timestamp(), lib.water_off_all.format(water_time), lib.msg_new_choice),
@@ -325,9 +346,12 @@ def _stop(bot, update):
 
 
 def _emergency_stop(bot, update):
+    global enable_emergency_stop
+    enable_emergency_stop = True
     global timer_job
-    timer_job = jq.run_once(_job_stop_and_restart, 0, context=update)
-    logging.info("Init standby immediately.".format(conf.standby_timeout))
+    if enable_emergency_stop:
+        timer_job = jq.run_once(_job_stop_and_restart, 0, context=update)
+        logging.info("Init standby immediately.".format(conf.standby_timeout))
     return
 
 
