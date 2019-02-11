@@ -41,7 +41,7 @@ water_time = lib.empty
 user_id = lib.empty
 jq = None
 timer_job = None
-enable_emergency_stop = False
+
 
 # keyboard config
 markup1 = ReplyKeyboardMarkup(conf.kb1, resize_keyboard=True, one_time_keyboard=False)
