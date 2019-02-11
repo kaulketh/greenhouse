@@ -244,6 +244,7 @@ def __all_off():
 @run_async
 def __water_all(bot, update):
     logging.info('Duration: {0}'.format(water_time))
+    __stop_standby_timer(bot, update)
     update.message.reply_text(lib.water_on_all.format(target, water_time),
                               parse_mode=ParseMode.MARKDOWN, reply_markup=markup3)
 
@@ -264,8 +265,9 @@ def __water_all(bot, update):
 
 @run_async
 def __water(bot, update, channel):
-    logging.info('Duration: ' + water_time)
-    logging.info('Toggle ' + str(channel))
+    logging.info('Duration: {0}'.format(water_time))
+    logging.info('Toggle {0}'.format(str(channel)))
+    __stop_standby_timer(bot, update)
     update.message.reply_text(lib.water_on.format(target, water_time),
                               parse_mode=ParseMode.MARKDOWN, reply_markup=markup3)
 
@@ -282,8 +284,9 @@ def __water(bot, update, channel):
 
 @run_async
 def __water_group(bot, update, group):
-    logging.info('Duration: ' + water_time)
-    logging.info('Toggle ' + str(group))
+    logging.info('Duration: {0}'.format(water_time))
+    logging.info('Toggle {0}'.format(str(group)))
+    __stop_standby_timer(bot, update)
     update.message.reply_text(lib.water_on_group.format(target, water_time),
                               parse_mode=ParseMode.MARKDOWN, reply_markup=markup3)
 
