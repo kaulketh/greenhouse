@@ -249,7 +249,7 @@ def __water_and_check_for_emergency(target, duration):
             utils.switch_on(target)
         time.sleep(1)
         count -=1
-        logging.warning(enable_emergency_stop)
+        logging.warning("Emergency: " + str(enable_emergency_stop))
         if enable_emergency_stop:
             logging.warning("STOPPED")
             count = 0
@@ -286,6 +286,7 @@ def _water(bot, update, channel):
     utils.switch_on(channel)
     time.sleep(int(water_time) * int(lib.time_conversion))
     utils.switch_off(channel)
+
     update.message.reply_text('{0}{1}{2}'.format(
         _timestamp(), lib.water_off.format(target, water_time), lib.msg_new_choice),
         parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
@@ -334,6 +335,8 @@ def _message_values(update):
 
 # stop bot
 def _stop(bot, update):
+    global enable_emergency_stop
+    enable_emergency_stop = False
     __all_off()
     _stop_standby_timer(bot, update)
     logging.info('Bot stopped.')
@@ -345,13 +348,22 @@ def _stop(bot, update):
     return ConversationHandler.END
 
 
-def _emergency_stop(bot, update):
+# emergency stop
+def __check_emergency():
+    return enable_emergency_stop
+
+
+def __set_emergency():
     global enable_emergency_stop
     enable_emergency_stop = True
-    global timer_job
+    return
+
+
+def __emergency_stop(bot, update):
+    global emergency_job
     if enable_emergency_stop:
-        timer_job = jq.run_once(_job_stop_and_restart, 0, context=update)
-        logging.info("Init standby immediately.".format(conf.standby_timeout))
+        emergency_job = jq.run_once(_job_stop_and_restart, 0, context=update)
+        logging.info("Init stop immediately.".format(conf.standby_timeout))
     return
 
 
@@ -415,10 +427,12 @@ def main():
     global jq
     jq = updater.job_queue
     logging.info('Init job queue.')
+    jq.run_repeating(__check_emergency,1,name='Check for emergency stop')
+    jq.run_repeating(__emergency_stop, 1, name='Emergency stop if required')
 
     dp = updater.dispatcher
 
-    emergency_stop_handler = RegexHandler(lib.emergency_stop, _emergency_stop)
+    emergency_stop_handler = RegexHandler(lib.emergency_stop, __set_emergency)
 
     ch = ConversationHandler(
         entry_points=[CommandHandler('start', _start)],
