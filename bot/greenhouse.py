@@ -260,6 +260,7 @@ def __water_all(bot, update):
         __timestamp(), lib.water_off_all.format(water_time), lib.msg_new_choice),
         parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
     display.show_off()
+    __start_standby_timer(bot, update)
     return
 
 
@@ -279,6 +280,7 @@ def __water(bot, update, channel):
         __timestamp(), lib.water_off.format(target, water_time), lib.msg_new_choice),
         parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
     display.show_off()
+    __start_standby_timer(bot, update)
     return
 
 
@@ -299,6 +301,7 @@ def __water_group(bot, update, group):
         __timestamp(), lib.water_off_group.format(target, water_time), lib.msg_new_choice),
         parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
     display.show_off()
+    __start_standby_timer(bot, update)
     return
 
 
