@@ -5,7 +5,6 @@
 
 from __future__ import absolute_import
 import conf.access as access
-from telegram import InlineKeyboardButton
 
 # language selection
 """ for English import greenhouse_lib_english """

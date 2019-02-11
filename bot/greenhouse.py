@@ -13,12 +13,12 @@ import utils.utils as utils
 import conf.greenhouse_config as conf
 import peripherals.dht.dht as dht
 import peripherals.temperature as core
-import peripherals.stop_and_restart as stop_and_restart
+import utils.stop_and_restart as stop_and_restart
 import peripherals.four_digit.display as display
 import logger.logger as log
 
-from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove, ParseMode, InlineKeyboardMarkup
-from telegram.ext import Updater, CommandHandler, RegexHandler, ConversationHandler, CallbackQueryHandler
+from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove, ParseMode
+from telegram.ext import Updater, CommandHandler, RegexHandler, ConversationHandler
 from telegram.ext.dispatcher import run_async
 
 logging = log.get_logger()
@@ -47,7 +47,7 @@ timer_job = None
 # keyboard config
 markup1 = ReplyKeyboardMarkup(conf.kb1, resize_keyboard=True, one_time_keyboard=False)
 markup2 = ReplyKeyboardMarkup(conf.kb2, resize_keyboard=True, one_time_keyboard=False)
-markup3 = ReplyKeyboardMarkup(conf.kb3, resize_keyboard=True, one_time_keyboard=False)
+markup3 = ReplyKeyboardMarkup(conf.kb3, resize_keyboard=True, one_time_keyboard=True)
 
 
 # Start info
@@ -301,7 +301,7 @@ def __water_group(bot, update, group):
 
 # humidity and temperature
 def __message_values(update):
-    """to avoid refresh intervals shorter than 3 seconds"""
+    # to avoid refresh intervals shorter than 3 seconds
     time.sleep(3)
     dht.get_values()
     if dht.temperature == 0:
@@ -338,22 +338,18 @@ def __stop(bot, update):
 # emergency stop
 @run_async
 def __emergency_stop_handler(bot, update, chat_data):
-    query = update.callback_query
-    query_data = query.data
-    if not query_data:
+    emergency = update.message.text
+    if not emergency:
         return
-    if query_data == lib.emergency_stop:
-        logging.error("Found emergency stop: " + query_data)
+    if emergency == lib.emergency_stop:
         __all_off()
         __start_emergency_stop(bot, g_duration_update)
 
 
-# TODO: check if required
 def __start_emergency_stop(bot, update):
     global emergency_job
-    logging.error("emergency stop called")
     emergency_job = jq.run_once(__job_stop_and_restart, 0, context=update)
-    logging.info("Init stop immediately.")
+    logging.info("Initialize emergency stop immediately.")
     return
 
 
@@ -420,14 +416,9 @@ def main():
 
     dp = updater.dispatcher
 
-
     emergency_stop_handler = RegexHandler('^{0}$'.format(str(lib.emergency_stop)),
                                           __emergency_stop_handler,
                                           pass_chat_data=True)
-        # __emergency_stop_handler,
-        # pattern='^{0}$'.format(str(lib.emergency_stop)),
-        # pass_chat_data=True)
-
     ch = ConversationHandler(
         entry_points=[CommandHandler('start', __start)],
         states={
