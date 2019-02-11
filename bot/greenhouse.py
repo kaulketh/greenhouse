@@ -19,7 +19,7 @@ import peripherals.four_digit.display as display
 import logger.logger as log
 
 from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove, ParseMode
-from telegram.ext import Updater, CommandHandler, RegexHandler, ConversationHandler,
+from telegram.ext import Updater, CommandHandler, RegexHandler, ConversationHandler
 
 logging = log.get_logger()
 
@@ -264,8 +264,10 @@ def _water_all(bot, update):
     """ starts separate thread"""
     display.show_switch_group_duration(0, int(water_time))
 
-    """ starts separate thread"""
-    _start_thread_water_all(all_groups, (int(water_time) * int(lib.time_conversion)))
+    for channel in all_groups:
+        utils.switch_on(channel)
+    time.sleep(int(water_time) * int(lib.time_conversion))
+    __all_off()
 
     update.message.reply_text('{0}{1}{2}'.format(
         _timestamp(), lib.water_off_all.format(water_time), lib.msg_new_choice),

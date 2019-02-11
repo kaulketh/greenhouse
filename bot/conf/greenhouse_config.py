@@ -71,6 +71,5 @@ disable_camera = 'sudo service motion stop && sudo rm -rf /home/pi/Monitor/* &'
 run_gpio_check = 'sudo python /home/pi/scripts/TelegramBot/gpio_check.py '
 
 
-
 if __name__ == '__main__':
     pass
