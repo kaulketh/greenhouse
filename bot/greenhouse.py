@@ -243,7 +243,7 @@ def _water_all(bot, update):
     update.message.reply_text(lib.water_on_all.format(target, water_time),
                               parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
 
-    update.message.reply_text(update.message.chat_id, reply_markup=markup3)
+    update.message.reply_text(update.query.data, reply_markup=markup3)
 
     """ starts separate thread"""
     display.show_switch_group_duration(0, int(water_time))
@@ -337,17 +337,21 @@ def _stop(bot, update):
 
 
 # emergency stop
+def __check_emergency(bot, update):
+    query = update.callback_query
+    logging.error(query.data)
+    return query.data
+
+
 def __start_emergency_job(bot, update):
     global emergency_job
     #if __check_emergency(bot, update):
     query = update.callback_query
     if query.data == conf.lib.emergency_stop:
         logging.error("emergency stop")
-        global updater
-        updater.stop()
         # emergency_job = jq.run_once(_job_stop_and_restart, 0, context=update)
         logging.info("Init stop immediately.")
-    return ConversationHandler.END
+    return
 
 
 # timer
@@ -410,7 +414,7 @@ def main():
     global jq
     jq = updater.job_queue
     logging.info('Init job queue.')
-    # jq.run_repeating(__check_emergency,1,name='Check for emergency stop')
+    jq.run_repeating(__check_emergency,1,name='Check for emergency stop')
 
     dp = updater.dispatcher
 
