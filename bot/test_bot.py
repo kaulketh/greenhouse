@@ -12,9 +12,13 @@ import logger.logger as log
 
 logger = log.get_logger('test bot')
 
+def stop(bot, update):
+    Updater.stop(bot)
+    return
 
 def start(bot, update):
-    keyboard = [[InlineKeyboardButton("Option 1", callback_data='1'), InlineKeyboardButton("Option 2", callback_data='2')],
+    keyboard = [[InlineKeyboardButton("Option 1", callback_data='1'),
+                 InlineKeyboardButton("STOP", callback_data=stop)],
                 [InlineKeyboardButton(text='R+',  url='www.rammstein.de')]
                 ]
 
@@ -23,11 +27,12 @@ def start(bot, update):
     update.message.reply_text('Please choose:', reply_markup=reply_markup)
 
 
+
 def button(bot, update):
     query = update.callback_query
 
 
-    bot.edit_message_text(text="Selected option: {}".format(query.data),
+    bot.edit_message_text(text=str(query),
                           chat_id=query.message.chat_id,
                           message_id=query.message.message_id)
 
