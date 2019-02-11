@@ -420,10 +420,13 @@ def main():
 
     dp = updater.dispatcher
 
-    emergency_stop_handler = CallbackQueryHandler(
-        __emergency_stop_handler,
-        pattern='^{0}$'.format(str(lib.emergency_stop)),
-        pass_chat_data=True)
+
+    emergency_stop_handler = RegexHandler('^{0}$'.format(str(lib.emergency_stop)),
+                                          __emergency_stop_handler,
+                                          pass_chat_data=True)
+        # __emergency_stop_handler,
+        # pattern='^{0}$'.format(str(lib.emergency_stop)),
+        # pass_chat_data=True)
 
     ch = ConversationHandler(
         entry_points=[CommandHandler('start', __start)],
