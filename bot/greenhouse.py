@@ -429,7 +429,6 @@ def main():
     jq = updater.job_queue
     logging.info('Init job queue.')
     jq.run_repeating(__check_emergency,1,name='Check for emergency stop')
-    jq.run_repeating(__emergency_stop, 1, name='Emergency stop if required')
 
     dp = updater.dispatcher
 
