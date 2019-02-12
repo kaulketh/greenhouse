@@ -1,6 +1,10 @@
-#!/usr/bin/python
+#!/usr/bin/python3.5
 # -*- coding: utf-8 -*-
-# author: Thomas Kaulke, kaulketh@gmail.com
+# temperature.py
+"""
+script to get core temperature
+author: Thomas Kaulke, kaulketh@gmail.com
+"""
 
 from __future__ import absolute_import
 import conf.greenhouse_config as conf

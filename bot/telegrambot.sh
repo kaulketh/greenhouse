@@ -1,4 +1,6 @@
 #!/bin/sh
+# telegrambot.sh
+
 # enable autostart
 # author: Thomas Kaulke, kaulketh@gmail.com
 

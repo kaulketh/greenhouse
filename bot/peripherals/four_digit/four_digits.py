@@ -1,12 +1,16 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# author: sd582 - https://forum-raspberrypi.de/user/24027-sd582/
-# http://www.sc2web.net/Downloads/tm1637.zip
-# https://forum-raspberrypi.de/forum/thread/15042-led-4-segment-i2c-display/?postID=137411#post137411
-# +
-# author: KyleKing - https://github.com/KyleKing
-# https://github.com/timwaizenegger/raspberrypi-examples/blob/master/actor-led-7segment-4numbers/tm1637.py
-# adaptions: Thomas Kaulke, kaulketh@gmail.com
+# four_digits.py
+"""
+author: sd582 - https://forum-raspberrypi.de/user/24027-sd582/
+http://www.sc2web.net/Downloads/tm1637.zip
+https://forum-raspberrypi.de/forum/thread/15042-led-4-segment-i2c-display/?postID=137411#post137411
+&
+author: KyleKing - https://github.com/KyleKing
+https://github.com/timwaizenegger/raspberrypi-examples/blob/master/actor-led-7segment-4numbers/tm1637.py
+
+minor adaptions: Thomas Kaulke, kaulketh@gmail.com
+"""
 
 from __future__ import absolute_import
 import math

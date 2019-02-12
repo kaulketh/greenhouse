@@ -1,4 +1,6 @@
 #!/bin/sh
+# update_bot.sh
+
 # Clone from repository if required and update all, commits will compared before
 # author: Thomas Kaulke, kaulketh@gmail.com
 

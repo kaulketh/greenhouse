@@ -1,6 +1,9 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# author: Thomas Kaulke, kaulketh@gmail.com
+# monitor.py
+"""
+author: Thomas Kaulke, kaulketh@gmail.com
+"""
 
 import os
 import time

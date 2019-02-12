@@ -1,7 +1,11 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# useful methods
-# author: Thomas Kaulke, kaulketh@gmail.com
+# utils.py
+
+"""
+useful methods
+author: Thomas Kaulke, kaulketh@gmail.com
+"""
 
 from __future__ import absolute_import
 import time

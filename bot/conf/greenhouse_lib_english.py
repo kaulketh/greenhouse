@@ -1,6 +1,9 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# author: Thomas Kaulke, kaulketh@gmail.com
+# greenhouse_lib_english.py
+"""
+author: Thomas Kaulke, kaulketh@gmail.com
+"""
 
 empty = ''
 space = ' '

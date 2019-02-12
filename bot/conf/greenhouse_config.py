@@ -1,7 +1,11 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# configs, command strings and constants
-# author: Thomas Kaulke, kaulketh@gmail.com
+# greenhouse_config.py
+
+"""
+configs, command strings and constants
+author: Thomas Kaulke, kaulketh@gmail.com
+"""
 
 from __future__ import absolute_import
 import conf.access as access

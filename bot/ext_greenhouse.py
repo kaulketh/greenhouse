@@ -1,10 +1,12 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# script for "panic" mode - extended bot
-# using telepot as Python framework for Telegram Bot API
-# https://telepot.readthedocs.io/en/latest/reference.html
-# author: Thomas Kaulke, kaulketh@gmail.com
-
+# ext_greenhouse.py
+"""
+script for "panic" mode - extended bot
+using telepot as Python framework for Telegram Bot API
+https://telepot.readthedocs.io/en/latest/reference.html
+author: Thomas Kaulke, kaulketh@gmail.com
+"""
 
 from __future__ import absolute_import
 import conf.greenhouse_config as conf
@@ -125,7 +127,6 @@ def __handle(msg):
         logging.info('Disable camera module.')
         utils.read_cmd(conf.disable_camera, lib.tmp_file)
         pid2 = utils.read_cmd(lib.get_pid2, lib.tmp_file)
-        # logging.info('Got own PID to kill me and prepare the other bot for proper using: {0}'.format(str(pid2)))
         utils.read_cmd(lib.restart_bot, lib.tmp_file)
         __send_msg(conf.lib.msg_stop, markdown)
         utils.read_cmd('kill -9 ' + pid2, lib.tmp_file)
@@ -144,9 +145,8 @@ def __init_and_start():
     apiToken = conf.token
     chat_id = sys.argv[1]
 
-    # kill the still running greenhouse bot script
+   # kill the still running greenhouse bot script.
     pid1 = utils.read_cmd(lib.get_pid1, lib.tmp_file)
-    # logging.info('{0} is PID of running default bot, used to kill.'.format(str(pid1)))
     utils.read_cmd('kill -9 {0}'.format(str(pid1)), lib.tmp_file)
 
     utils.set_pins()
@@ -166,7 +166,6 @@ def __init_and_start():
         except Exception:
             logging.warning('Any error occurs')
             display.show_error()
-
 
 
 if __name__ == '__main__':

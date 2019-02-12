@@ -1,7 +1,10 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# Timeout: Kill running process after given time and sends a message
-# author: Thomas Kaulke, kaulketh@gmail.com
+# stop_and_restart.py
+"""
+Kill running process after given time and reply message
+author: Thomas Kaulke, kaulketh@gmail.com
+"""
 
 from __future__ import absolute_import
 from telegram import (ReplyKeyboardRemove, ParseMode)

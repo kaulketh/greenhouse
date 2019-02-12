@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# lib_oled96.py
 
 # Substantially derived from code by (c) 2015 Richard Hull The MIT License (MIT)
 # https://github.com/rm-hull/ssd1306:
@@ -18,6 +19,10 @@
 # This makes this one same library file work with either Raspberry Pi or Virtual GPIO system.
 # Hull's (clever) auto-displaying "canvas" is replaced by a persistent draw object
 # which can be incrementally changed. This canvas needs coded "display()" calls to push to the hardware.
+
+"""
+minor adaptions: Thomas Kaulke, kaulketh@gmail.com
+"""
 
 from __future__ import absolute_import
 from PIL import Image, ImageDraw
