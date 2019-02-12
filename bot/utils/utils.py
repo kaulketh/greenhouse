@@ -5,6 +5,7 @@
 
 from __future__ import absolute_import
 import time
+import os
 import RPi.GPIO as GPIO
 import logger.logger as log
 
@@ -53,6 +54,15 @@ def set_pins():
     # comment if warnings required
     GPIO.setwarnings(False)
     return GPIO
+
+
+# Execute bash command, assign default output (stdout 1 and stderr 2) to file, read in variable and get back
+def read_cmd(cmd, tmp_file):
+    os.system(cmd + ' > ' + tmp_file + ' 2>&1')
+    file = open(tmp_file, 'r')
+    data = file.read()
+    file.close()
+    return data
 
 
 if __name__ == '__main__':

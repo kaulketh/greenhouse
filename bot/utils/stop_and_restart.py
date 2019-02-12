@@ -11,6 +11,7 @@ import conf.ext_greenhouse_lib as lib
 import conf.greenhouse_config as conf
 import peripherals.four_digit.display as display
 import logger.logger as log
+import utils.utils as utils
 
 logging = log.get_logger()
 
@@ -19,26 +20,18 @@ token = conf.token
 chat_id = conf.mainId
 
 
-def __read_cmd(cmd):
-    os.system(cmd + ' > ' + lib.tmp_file + ' 2>&1')
-    file = open(lib.tmp_file, 'r')
-    data = file.read()
-    file.close()
-    return data
-
-
 def stop_and_restart(update):
     logging.warning('Stop and restart, set bot in standby.')
-    __read_cmd(conf.disable_camera)
+    utils.read_cmd(conf.disable_camera)
     display.show_stop()
     time.sleep(2)
     # start new new instance of greenhouse
-    __read_cmd(lib.restart_bot)
+    utils.read_cmd(lib.restart_bot)
     update.message.reply_text(conf.lib.msg_stop, parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
     display.show_standby()
     # kill the current instance of greenhouse bot
-    pid1 = __read_cmd(lib.get_pid1)
-    __read_cmd('kill -9 {0}'.format(str(pid1)))
+    pid1 = utils.read_cmd(lib.get_pid1)
+    utils.read_cmd('kill -9 {0}'.format(str(pid1)))
     return
 
 
