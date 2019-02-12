@@ -1,7 +1,10 @@
 #!/usr/bin/python3.5
 # -*- coding: utf-8 -*-
-# logging tool
-# author: Thomas Kaulke, kaulketh@gmail.com
+# logger.py
+"""
+logging tool
+author: Thomas Kaulke, kaulketh@gmail.com
+"""
 
 import logging
 import os

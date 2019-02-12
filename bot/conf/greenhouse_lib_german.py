@@ -1,6 +1,9 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# author: Thomas Kaulke, kaulketh@gmail.com
+# greenhouse_lib_german.py
+"""
+author: Thomas Kaulke, kaulketh@gmail.com
+"""
 
 empty = ''
 space = ' '
@@ -37,7 +40,7 @@ core = 'Kern-Temperatur'
 msg_live = '[Hier gehts zum Live Stream]({})'
 msg_temperature = '`{}Aktuelle Werte\n{}, {}\n{}`'
 msg_welcome = '`Hallo {}!`'
-msg_stop = '` S T A N D B Y  `'
+msg_stop = '` S T A N D B Y  \n Neustart ->` /start'
 msg_duration = '`Schaltzeit für \'{}\' in ' + time_units_name[time_units_index] + ' angeben:`'
 water_on = '`\'{}\' wird jetzt für {}' + time_units_sign[time_units_index] + ' eingeschaltet.`'
 water_on_group = '`{} werden jetzt für {}' + time_units_sign[time_units_index] + ' eingeschalten.`'

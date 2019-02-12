@@ -1,6 +1,10 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# author: Thomas Kaulke, kaulketh@gmail.com
+# ext_greenhouse_lib.py
+
+"""
+author: Thomas Kaulke, kaulketh@gmail.com
+"""
 
 from __future__ import absolute_import
 from conf.access import token, thk

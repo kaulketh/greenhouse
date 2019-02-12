@@ -1,6 +1,9 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# author: Thomas Kaulke, kaulketh@gmail.com
+# oled.display.py
+"""
+author: Thomas Kaulke, kaulketh@gmail.com
+"""
 
 import subprocess
 from time import sleep
