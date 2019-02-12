@@ -72,7 +72,7 @@ def __check_pins_state():
             break
         else:
             display.show_off()
-            __send_msg('Relais at pin {} is closed!'.format(str(pin)), no_parse_mode)
+            __send_msg('All closed!', no_parse_mode)
             pins_state = True
     return
 
