@@ -68,10 +68,12 @@ def __check_pins_state():
         if not utils.get_pin_state(pin):
             display.show_on()
             pins_state = False
+            __send_msg('Something is still open!', no_parse_mode)
             break
         else:
             display.show_off()
             pins_state = True
+            __send_msg('All closed!', no_parse_mode)
     return
 
 
@@ -112,7 +114,7 @@ def __handle(msg):
         __send_msg('group 2 off', no_parse_mode)
         __water_off_group(group_two)
     elif command == lib.cmd_group3_on:
-        __send_msg(conf.get_timestamp() + 'group 3 on', no_parse_mode)
+        __send_msg(utils.get_timestamp() + 'group 3 on', no_parse_mode)
         __water_on_group(group_three)
     elif command == lib.cmd_group3_off:
         __send_msg('group 3 off', no_parse_mode)
