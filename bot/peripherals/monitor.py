@@ -7,7 +7,7 @@ import time
 import sys
 
 
-def _measure_temp():
+def __measure_temp():
     global temp
     temp = os.popen("vcgencmd measure_temp").readline()
     temp = temp.replace("temp=", "")
@@ -15,7 +15,7 @@ def _measure_temp():
     return temp
 
 
-def _send_msg(msg):
+def __send_msg(msg):
     os.system('curl -s -k https://api.telegram.org/bot{0}/sendMessage -d text="{1}" -d chat_id={2}'
               .format(bot, str(msg), str(chat)))
     return
@@ -28,8 +28,8 @@ def main():
     temp_limit = 75
     message = 'Warning, you Greenhouse Raspi reaches a temperature over {}°C! Current temperature is about {}°C!'
     while True:
-        if int(_measure_temp()) > temp_limit:
-            _send_msg(message.format(str(temp_limit), str(temp)))
+        if int(__measure_temp()) > temp_limit:
+            __send_msg(message.format(str(temp_limit), str(temp)))
         time.sleep(10)
 
 
