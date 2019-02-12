@@ -1,7 +1,10 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# [#11] Add and implement the measurement of temperature and humidity
-# author: Thomas Kaulke, kaulketh@gmail.com
+# dht.py
+"""
+[#11] Add and implement the measurement of temperature and humidity
+author: Thomas Kaulke, kaulketh@gmail.com
+"""
 
 from __future__ import absolute_import
 import Adafruit_DHT
@@ -9,11 +12,9 @@ import conf.greenhouse_config as conf
 import logger.logger as log
 
 logging = log.get_logger()
-
 lib = conf.lib
 sensor = Adafruit_DHT.DHT22
 pin = conf.DHT_PIN
-
 
 
 def get_values():

@@ -1,6 +1,9 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# author: Thomas Kaulke, kaulketh@gmail.com
+# greenhouse_lib_english.py
+"""
+author: Thomas Kaulke, kaulketh@gmail.com
+"""
 
 empty = ''
 space = ' '
@@ -38,7 +41,7 @@ core = 'Core temperature'
 msg_live = '[Click here for the live stream]({})'
 msg_temperature = '`{}Current values\n{}, {}\n{}`'
 msg_welcome = '`Hello {}!`'
-msg_stop = '` S T A N D B Y  `'
+msg_stop = '` S T A N D B Y  \n Restart ->` /start'
 msg_duration = '`Specify switching time for \'{}\' in ' + time_units_name[time_units_index] + ':`'
 water_on = '`\'{}\' is switched on for {}' + time_units_sign[time_units_index] + '.`'
 water_on_group = '`{} are switched on for {}' + time_units_sign[time_units_index] + '.`'
