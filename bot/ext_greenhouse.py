@@ -68,12 +68,12 @@ def __check_pins_state():
         if not utils.get_pin_state(pin):
             display.show_on()
             pins_state = False
-            __send_msg('Something is still open!', no_parse_mode)
+            __send_msg('Attention, something is still opened!', no_parse_mode)
             break
         else:
             display.show_off()
             pins_state = True
-            __send_msg('All closed!', no_parse_mode)
+            __send_msg('Relais at pin {} is closed!'.format(str(pin)), no_parse_mode)
     return
 
 
