@@ -5,7 +5,6 @@
 
 from __future__ import absolute_import
 from telegram import (ReplyKeyboardRemove, ParseMode)
-import os
 import time
 import conf.ext_greenhouse_lib as lib
 import conf.greenhouse_config as conf
@@ -22,16 +21,16 @@ chat_id = conf.mainId
 
 def stop_and_restart(update):
     logging.warning('Stop and restart, set bot in standby.')
-    utils.read_cmd(conf.disable_camera)
+    utils.read_cmd(conf.disable_camera, lib.tmp_file)
     display.show_stop()
     time.sleep(2)
     # start new new instance of greenhouse
-    utils.read_cmd(lib.restart_bot)
+    utils.read_cmd(lib.restart_bot, lib.tmp_file)
     update.message.reply_text(conf.lib.msg_stop, parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
     display.show_standby()
     # kill the current instance of greenhouse bot
-    pid1 = utils.read_cmd(lib.get_pid1)
-    utils.read_cmd('kill -9 {0}'.format(str(pid1)))
+    pid1 = utils.read_cmd(lib.get_pid1, lib.tmp_file)
+    utils.read_cmd('kill -9 {0}'.format(str(pid1)), lib.tmp_file)
     return
 
 
