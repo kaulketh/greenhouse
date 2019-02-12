@@ -67,12 +67,10 @@ def __check_pins_state():
     for pin in group_all:
         if not utils.get_pin_state(pin):
             display.show_on()
-            __send_msg('Something is still open!', no_parse_mode)
             pins_state = False
             break
         else:
             display.show_off()
-            __send_msg('All closed!', no_parse_mode)
             pins_state = True
     return
 
