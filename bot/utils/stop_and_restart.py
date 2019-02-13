@@ -9,7 +9,7 @@ author: Thomas Kaulke, kaulketh@gmail.com
 from __future__ import absolute_import
 from telegram import (ReplyKeyboardRemove, ParseMode)
 import time
-import conf.ext_greenhouse_lib as lib
+import conf.lib_ext_greenhouse as lib
 import conf.greenhouse_config as conf
 import peripherals.four_digit.display as display
 import logger.logger as log
