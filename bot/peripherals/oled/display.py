@@ -4,13 +4,13 @@
 """
 author: Thomas Kaulke, kaulketh@gmail.com
 """
-
+from __future__ import absolute_import
 import subprocess
 from time import sleep
 from PIL import Image, ImageFont, ImageDraw
-from lib_oled96 import Ssd1306
 from smbus import SMBus
-from ...conf.lib_global import commit_id, cloned_branch, bot_dir
+from peripherals.oled.lib_oled96 import Ssd1306
+from conf.lib_global import commit_id, cloned_branch, bot_dir, latest_release
 
 
 # Display setup, methods and members
@@ -24,7 +24,20 @@ top = 7
 switch_time = 15
 
 
-def get_last_commit():
+def __get_release():
+    try:
+        release = open(str(latest_release)).read()
+        if release is None:
+            release = '-----'
+        else:
+            release = release
+    except Exception:
+        release = '-----'
+        return release
+
+    return release
+
+def __get_last_commit():
     commit = None
     branch = None
 
@@ -47,7 +60,7 @@ def get_last_commit():
     return build
 
 
-def get_core_temp():
+def __get_core_temp():
     temp = int(open('/sys/class/thermal/thermal_zone0/temp').read())
     one = str(temp).__getitem__(0)
     two = str(temp).__getitem__(1)
@@ -60,23 +73,23 @@ font = ImageFont.truetype(str(bot_dir) + 'peripherals/oled/fonts/arial.ttf', 12)
 font2 = ImageFont.truetype(str(bot_dir) + 'peripherals/oled/fonts/FreeSans.ttf', 12)
 
 
-def animate(time):
+def __animate(time):
     # Display clear
     oled.cls()
     oled.display()
     # header
-    draw.text((18, top), "GREENHOUSE", font=font, fill=1)
+    draw.text((10, top), "GREENHOUSE " + __get_release(), font=font, fill=1)
     # build
-    draw.text((left, top + 18), "Build: " + get_last_commit(), font=font2, fill=1)
+    draw.text((left, top + 18), "Build: " + __get_last_commit(), font=font2, fill=1)
     # line
     draw.line((left, top + 35, oled.width - left + 128, top + 35), fill=1)
     # core temp
-    draw.text((left, top + 45), "Core Temperature: " + get_core_temp(), font=font2, fill=1)
+    draw.text((left, top + 45), "Core Temperature: " + __get_core_temp(), font=font2, fill=1)
     oled.display()
     sleep(time)
 
 
-def show_pi(time):
+def __show_pi(time):
     oled.cls()
     # image inverted
     draw.rectangle((32, top - 3, 95, 63), outline=1, fill=1)
@@ -85,7 +98,7 @@ def show_pi(time):
     sleep(time)
 
 
-def show_state(time):
+def __show_state(time):
     oled.cls()
     oled.display()
     """
@@ -116,9 +129,9 @@ if __name__ == '__main__':
     while True:
 
         try:
-            animate(switch_time)
-            show_pi(3)
-            show_state(switch_time)
+            __animate(switch_time)
+            __show_pi(3)
+            __show_state(switch_time)
 
         except KeyboardInterrupt:
             print('Oled interrupted.')

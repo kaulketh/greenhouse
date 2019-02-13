@@ -14,6 +14,7 @@ log='/update_bot.log'
 commit_id='/greenhouseRepoCommit.id'
 cloned_branch='/greenhouseRepoBranch.name'
 bot_dir='/home/pi/scripts/TelegramBot/'
+latest_release='/greenhouseLatestRelease.id'
 wait=3
 
 # function display usage
@@ -47,6 +48,9 @@ fi
 commit=$(curl -s https://api.github.com/repos/${owner}/${project}/commits/${branch} --insecure | grep -Po '(?<="sha":)(.*?)(?=,)' -m 1 | sed "s/\"//g" | sed -e 's/^[[:space:]]*//' | sed -e 's/[.]*$//')
 # get saved commit
 last_commit=$(cat ${commit_id})
+#get latest release
+release=$(curl -s https://api.github.com/repos/${owner}/${project}/releases/latest --insecure| grep -Po '"tag_name": "\K.*?(?=")')
+echo ${release} > ${latest_release}
 
 
 # all output to log file
