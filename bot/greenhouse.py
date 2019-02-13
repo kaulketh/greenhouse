@@ -331,8 +331,6 @@ def __message_values(update):
 
 # stop bot
 def __stop(bot, update):
-    global enable_emergency_stop
-    enable_emergency_stop = False
     __all_off()
     __stop_standby_timer(bot, update)
     logging.info('Bot stopped.')
