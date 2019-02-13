@@ -1,24 +1,24 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# greenhouse_lib_english.py
+# lib_english.py
 """
 author: Thomas Kaulke, kaulketh@gmail.com
 """
 
-empty = ''
-space = ' '
-colon_space = ': '
-pipe_space = '| '
-line_break = '\n'
+from .lib_global import *
+empty = empty
+space = space
+colon_space = colon_space
+pipe_space = pipe_space
+line_break = line_break
 decimal = '.'
 
-# time unit
-# time units settings (0 == seconds, 1 == minutes)
-time_units_index = 0
-time_units_name = ('seconds', 'minutes')
-time_units_sign = ('s', 'm')
-time_units_conversion = (1, 60)
-time_conversion = time_units_conversion[time_units_index]
+# time units
+time_units_index = time_units_index
+time_units_name = ('seconds', 'minutes', 'hours')
+time_units_sign = time_units_sign
+time_units_conversion = time_units_conversion
+time_conversion = time_conversion
 
 # commands and descriptions
 panic = 'Panic'
