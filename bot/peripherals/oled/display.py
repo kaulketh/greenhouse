@@ -10,6 +10,7 @@ from time import sleep
 from PIL import Image, ImageFont, ImageDraw
 from lib_oled96 import Ssd1306
 from smbus import SMBus
+from ...conf.lib_global import commit_id, cloned_branch, bot_dir
 
 
 # Display setup, methods and members
@@ -23,24 +24,23 @@ top = 7
 switch_time = 15
 
 
-"""Ensure same file names in update_bot.sh!"""
 def get_last_commit():
     commit = None
     branch = None
 
     try:
-        commit = open("/greenhouseRepoCommit.id").read()
+        commit = open(str(commit_id)).read()
         if commit is None:
             commit = '-------'
         else:
             commit = commit[0:7]
-        branch = open("/greenhouseRepoBranch.name").read()
+        branch = open(str(cloned_branch)).read()
         if branch is None:
             branch = '-------'
         else:
             branch = branch.replace("\n", "")
     except Exception:
-        build = '!!!ERROR!!!'
+        build = '---ERROR---'
         return build
 
     build = commit + " " + branch
@@ -56,8 +56,8 @@ def get_core_temp():
 
 
 # Fonts
-font = ImageFont.truetype('/home/pi/scripts/TelegramBot/peripherals/oled/fonts/arial.ttf', 12)
-font2 = ImageFont.truetype('/home/pi/scripts/TelegramBot/peripherals/oled/fonts/FreeSans.ttf', 12)
+font = ImageFont.truetype(str(bot_dir) + 'peripherals/oled/fonts/arial.ttf', 12)
+font2 = ImageFont.truetype(str(bot_dir) + 'peripherals/oled/fonts/FreeSans.ttf', 12)
 
 
 def animate(time):
@@ -80,7 +80,7 @@ def show_pi(time):
     oled.cls()
     # image inverted
     draw.rectangle((32, top - 3, 95, 63), outline=1, fill=1)
-    draw.bitmap((32, top - 3), Image.open('/home/pi/scripts/TelegramBot/peripherals/oled/pi_logo.png'), fill=0)
+    draw.bitmap((32, top - 3), Image.open(str(bot_dir) + 'peripherals/oled/pi_logo.png'), fill=0)
     oled.display()
     sleep(time)
 
