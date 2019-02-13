@@ -4,13 +4,21 @@
 """
 author: Thomas Kaulke, kaulketh@gmail.com
 """
-from __future__ import absolute_import
+
+# TODO: improve and fix imports, load vars from global lib!!!
+# from __future__ import absolute_import
+# import conf.lib_global as lib
 import subprocess
 from time import sleep
 from PIL import Image, ImageFont, ImageDraw
 from smbus import SMBus
-from peripherals.oled.lib_oled96 import Ssd1306
-from conf.lib_global import commit_id, cloned_branch, bot_dir, latest_release
+from lib_oled96 import Ssd1306
+
+
+latest_release = '/greenhouseLatestRelease.id'
+commit_id = '/greenhouseRepoCommit.id'
+cloned_branch = '/greenhouseRepoBranch.name'
+bot_dir = '/home/pi/scripts/TelegramBot/'
 
 
 # Display setup, methods and members
@@ -34,13 +42,10 @@ def __get_release():
     except Exception:
         release = '-----'
         return release
-
     return release
 
-def __get_last_commit():
-    commit = None
-    branch = None
 
+def __get_last_commit():
     try:
         commit = open(str(commit_id)).read()
         if commit is None:
@@ -78,7 +83,7 @@ def __animate(time):
     oled.cls()
     oled.display()
     # header
-    draw.text((10, top), "GREENHOUSE " + __get_release(), font=font, fill=1)
+    draw.text((8, top), "GREENHOUSE V" + __get_release(), font=font, fill=1)
     # build
     draw.text((left, top + 18), "Build: " + __get_last_commit(), font=font2, fill=1)
     # line
