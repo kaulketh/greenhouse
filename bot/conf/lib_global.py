@@ -32,6 +32,7 @@ time_conversion = time_units_conversion[time_units_index]
 file_log_greenhouse = '/greenhouse.log'
 file_log_debug = '/greenhouse_console.log'
 file_log_update = '/update_bot.log'
+latest_release = '/greenhouseLatestRelease.id'
 commit_id = '/greenhouseRepoCommit.id'
 cloned_branch = '/greenhouseRepoBranch.name'
 bot_dir = '/home/pi/scripts/TelegramBot/'

@@ -106,7 +106,7 @@ def __start(bot, update):
         return SELECTION
 
 
-""" set the target, member of group or group """
+# set the target, member of group or group
 def __selection(bot, update):
     global target
     target = update.message.text
@@ -140,7 +140,7 @@ def __selection(bot, update):
         return DURATION
 
 
-""" set water duration """
+# set water duration
 def __duration(bot, update):
     global water_time
     global g_duration_update
@@ -236,7 +236,7 @@ def __duration(bot, update):
     return SELECTION
 
 
-""" watering targets """
+# watering targets
 def __all_off():
     logging.info('Switch all off.')
     for channel in all_groups:
@@ -308,9 +308,7 @@ def __water_group(bot, update, group):
     return
 
 
-""" 
- get humidity and temperature values 
-"""
+# get humidity and temperature values
 def __message_values(update):
     """  to avoid refresh intervals shorter than 3 seconds """
     time.sleep(3)
@@ -345,10 +343,8 @@ def __stop(bot, update):
     display.show_standby()
     return ConversationHandler.END
 
-
-""" 
- [#39] Implement emergency stop
-"""
+ 
+# [#39] Implement emergency stop
 @run_async
 def __emergency_stop_handler(bot, update, chat_data):
     emergency = update.message.text
@@ -366,10 +362,7 @@ def __start_emergency_stop(bot, update):
     return
 
 
-""" 
- [#30] implement standby 
- init after given time without user activity 
-"""
+# [#30] implement standby  init after given time without user activity
 def __start_standby_timer(bot, update):
     global timer_job
     timer_job = jq.run_once(__job_stop_and_restart, conf.standby_timeout, context=update)
@@ -383,9 +376,7 @@ def __stop_standby_timer(bot, upadate):
     return
 
 
-""" 
- job to stop and restart application 
-"""
+# job to stop and restart application
 def __job_stop_and_restart(bot, job):
     logging.warning("Job: Stop and restart called!")
     stop_and_restart.stop_and_restart(job.context)

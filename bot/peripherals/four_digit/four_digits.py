@@ -19,7 +19,7 @@ from time import sleep
 import logger.logger as log
 logger = log.get_logger()
 
-""" http://www.uize.com/examples/seven-segment-display.html """
+# http://www.uize.com/examples/seven-segment-display.html
 #               0    1     2     3     4     5     6     7     8     9
 hex_digits = [0x3f, 0x06, 0x5b, 0x4f, 0x66, 0x6d, 0x7d, 0x07, 0x7f, 0x6f,
               # A    b     C     d     E     F     G     H     h     I
@@ -39,8 +39,7 @@ STARTADDR = 0xC0
 
 
 class TM1637:
-    logger.info('Init pin settings for 4-digit-display!')
-    global IO
+    logger.info('Init pin settings four digits display!')
     IO = utils.set_pins()
     __double_point = False
     __clk_pin = 0

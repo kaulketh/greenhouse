@@ -24,7 +24,6 @@
 minor adaptions: Thomas Kaulke, kaulketh@gmail.com
 """
 
-from __future__ import absolute_import
 from PIL import Image, ImageDraw
 
 
@@ -103,7 +102,7 @@ class Ssd1306:
                 buf.append(byte)
                 i -= 1
 
-        self._data(buf) # push out the whole lot
+        self._data(buf)  # push out the whole lot
 
     def cls(self):
         self.canvas.rectangle((0, 0, self.width-1, self.height-1), outline=0, fill=0)
