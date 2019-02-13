@@ -4,21 +4,22 @@
 """
 author: Thomas Kaulke, kaulketh@gmail.com
 """
+from __future__ import absolute_import
+import conf.lib_global as globals
 
-from .lib_global import *
-empty = empty
-space = space
-colon_space = colon_space
-pipe_space = pipe_space
-line_break = line_break
+empty = globals.empty
+space = globals.space
+colon_space = globals.colon_space
+pipe_space = globals.pipe_space
+line_break = globals.line_break
 decimal = '.'
 
 # time units
-time_units_index = time_units_index
+time_units_index = globals.time_units_index
 time_units_name = ('seconds', 'minutes', 'hours')
-time_units_sign = time_units_sign
-time_units_conversion = time_units_conversion
-time_conversion = time_conversion
+time_units_sign = globals.time_units_sign
+time_units_conversion = globals.time_units_conversion
+time_conversion = globals.time_conversion
 
 # commands and descriptions
 panic = 'Panic'
@@ -35,7 +36,6 @@ group3 = ('Channel 4 and 5', 'Channel 4', 'Channel 5')
 temp = 'Temperature'
 hum = 'Humidity'
 core = 'Core temperature'
-
 
 # messages
 msg_live = '[Click here for the live stream]({})'
