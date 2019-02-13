@@ -83,7 +83,7 @@ def __animate(time):
     oled.cls()
     oled.display()
     # header
-    draw.text((8, top), "GREENHOUSE V" + __get_release(), font=font, fill=1)
+    draw.text((left, top), "GREENHOUSE v" + __get_release(), font=font, fill=1)
     # build
     draw.text((left, top + 18), "Build: " + __get_last_commit(), font=font2, fill=1)
     # line
