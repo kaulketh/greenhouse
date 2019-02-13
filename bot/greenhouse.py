@@ -3,13 +3,12 @@
 # greenhouse.py
 
 """
-main script for greenhouse bot
-using telegram.ext as Python framework for Telegram Bot API
-https://core.telegram.org/api#bot-api
-original: author: Stefan Weigert  http://www.stefan-weigert.de/php_loader/raspi.php
-adapted: author: Thomas Kaulke, kaulketh@gmail.com
+ main script for greenhouse bot
+ using telegram.ext as Python framework for Telegram Bot API
+ https://core.telegram.org/api#bot-api
+ original: author: Stefan Weigert  http://www.stefan-weigert.de/php_loader/raspi.php
+ adapted: Thomas Kaulke, kaulketh@gmail.com
 """
-
 from __future__ import absolute_import
 import os
 import time
@@ -91,7 +90,7 @@ def __start(bot, update):
         return ConversationHandler.END
     else:
         display.show_run()
-        logging.info('Bot started.')
+        logging.info('Bot started...')
         __message_values(update)
         __cam_on()
         display.show_ready()
@@ -309,7 +308,9 @@ def __water_group(bot, update, group):
     return
 
 
-""" humidity and temperature """
+""" 
+ get humidity and temperature values 
+"""
 def __message_values(update):
     """  to avoid refresh intervals shorter than 3 seconds """
     time.sleep(3)
@@ -345,8 +346,9 @@ def __stop(bot, update):
     return ConversationHandler.END
 
 
-""" [#39] Implement emergency stop"""
-"""# emergency stop """
+""" 
+ [#39] Implement emergency stop
+"""
 @run_async
 def __emergency_stop_handler(bot, update, chat_data):
     emergency = update.message.text
@@ -364,21 +366,26 @@ def __start_emergency_stop(bot, update):
     return
 
 
-""" [#30] implement standby after given time without user activity """
+""" 
+ [#30] implement standby 
+ init after given time without user activity 
+"""
 def __start_standby_timer(bot, update):
     global timer_job
     timer_job = jq.run_once(__job_stop_and_restart, conf.standby_timeout, context=update)
-    logging.info("Init standby timer of {0} seconds, added to queue.".format(conf.standby_timeout))
+    logging.warning("Init standby timer of {0} seconds, added to queue.".format(conf.standby_timeout))
     return
 
 
 def __stop_standby_timer(bot, upadate):
     timer_job.schedule_removal()
-    logging.info("Timer job removed from the queue.")
+    logging.warning("Timer job removed from the queue.")
     return
 
 
-""" job to stop and restart application """
+""" 
+ job to stop and restart application 
+"""
 def __job_stop_and_restart(bot, job):
     logging.warning("Job: Stop and restart called!")
     stop_and_restart.stop_and_restart(job.context)

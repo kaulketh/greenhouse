@@ -11,6 +11,12 @@ colon_space = ': '
 pipe_space = '| '
 line_break = '\n'
 
+""" language settings
+0 - English
+1 - German
+"""
+language_index = 1
+
 """ time units settings 
 0 == seconds
 1 == minutes
