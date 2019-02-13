@@ -161,67 +161,67 @@ def __duration(bot, update):
         os.system(conf.run_extended_greenhouse + str(user_id))
 
     elif target == str(lib.group1[1]):
-        """ starts separate thread"""
+        """ starts separate thread """
         display.show_switch_channel_duration(1, int(water_time))
 
         __water(bot, update, group_one[0])
 
     elif target == str(lib.group1[2]):
-        """ starts separate thread"""
+        """ starts separate thread """
         display.show_switch_channel_duration(2, int(water_time))
 
         __water(bot, update, group_one[1])
 
     elif target == str(lib.group1[3]):
-        """ starts separate thread"""
+        """ starts separate thread """
         display.show_switch_channel_duration(3, int(water_time))
 
         __water(bot, update, group_one[2])
 
     elif target == str(lib.group2[1]):
-        """ starts separate thread"""
+        """ starts separate thread """
         display.show_switch_channel_duration(6, int(water_time))
 
         __water(bot, update, group_two[0])
 
     elif target == str(lib.group2[2]):
-        """ starts separate thread"""
+        """ starts separate thread """
         display.show_switch_channel_duration(7, int(water_time))
 
         __water(bot, update, group_two[1])
 
     elif target == str(lib.group2[3]):
-        """ starts separate thread"""
+        """ starts separate thread """
         display.show_switch_channel_duration(8, int(water_time))
 
         __water(bot, update, group_two[2])
 
     elif target == str(lib.group1[0]):
-        """ starts separate thread"""
+        """ starts separate thread """
         display.show_switch_group_duration(1, int(water_time))
 
         __water_group(bot, update, group_one)
 
     elif target == str(lib.group2[0]):
-        """ starts separate thread"""
+        """ starts separate thread """
         display.show_switch_group_duration(2, int(water_time))
 
         __water_group(bot, update, group_two)
 
     elif target == str(lib.group3[1]):
-        """ starts separate thread"""
+        """ starts separate thread """
         display.show_switch_channel_duration(4, int(water_time))
 
         __water(bot, update, group_three[0])
 
     elif target == str(lib.group3[2]):
-        """ starts separate thread"""
+        """ starts separate thread """
         display.show_switch_channel_duration(5, int(water_time))
 
         __water(bot, update, group_three[1])
 
     elif target == str(lib.group3[0]):
-        """ starts separate thread"""
+        """ starts separate thread """
         display.show_switch_group_duration(3, int(water_time))
 
         __water_group(bot, update, group_three)
@@ -251,7 +251,7 @@ def __water_all(bot, update):
     update.message.reply_text(lib.water_on_all.format(target, water_time),
                               parse_mode=ParseMode.MARKDOWN, reply_markup=markup3)
 
-    """ starts separate thread"""
+    """ starts separate thread """
     display.show_switch_group_duration(0, int(water_time))
 
     for channel in all_groups:
