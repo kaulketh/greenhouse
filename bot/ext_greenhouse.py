@@ -10,7 +10,7 @@ author: Thomas Kaulke, kaulketh@gmail.com
 
 from __future__ import absolute_import
 import conf.greenhouse_config as conf
-import conf.ext_greenhouse_lib as lib
+import conf.lib_ext_greenhouse as lib
 import utils.utils as utils
 import peripherals.four_digit.display as display
 import sys

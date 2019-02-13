@@ -1,24 +1,25 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# greenhouse_lib_english.py
+# lib_english.py
 """
 author: Thomas Kaulke, kaulketh@gmail.com
 """
+from __future__ import absolute_import
+import conf.lib_global as global_lib
 
-empty = ''
-space = ' '
-colon_space = ': '
-pipe_space = '| '
-line_break = '\n'
+empty = global_lib.empty
+space = global_lib.space
+colon_space = global_lib.colon_space
+pipe_space = global_lib.pipe_space
+line_break = global_lib.line_break
 decimal = '.'
 
-# time unit
-# time units settings (0 == seconds, 1 == minutes)
-time_units_index = 0
-time_units_name = ('seconds', 'minutes')
-time_units_sign = ('s', 'm')
-time_units_conversion = (1, 60)
-time_conversion = time_units_conversion[time_units_index]
+# time units
+time_units_index = global_lib.time_units_index
+time_units_name = ('seconds', 'minutes', 'hours')
+time_units_sign = global_lib.time_units_sign
+time_units_conversion = global_lib.time_units_conversion
+time_conversion = global_lib.time_conversion
 
 # commands and descriptions
 panic = 'Panic'
@@ -35,7 +36,6 @@ group3 = ('Channel 4 and 5', 'Channel 4', 'Channel 5')
 temp = 'Temperature'
 hum = 'Humidity'
 core = 'Core temperature'
-
 
 # messages
 msg_live = '[Click here for the live stream]({})'

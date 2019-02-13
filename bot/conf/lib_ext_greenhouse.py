@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# ext_greenhouse_lib.py
+# lib_ext_greenhouse.py
 
 """
 author: Thomas Kaulke, kaulketh@gmail.com
@@ -8,8 +8,9 @@ author: Thomas Kaulke, kaulketh@gmail.com
 
 from __future__ import absolute_import
 from conf.access import token, thk
+from conf.lib_global import line_break, commit_id, bot_dir, bot_backup
 
-newline = '\n'
+newline = line_break
 cmd_prefix = '/'
 cmd_restart = '{0}RESTART'.format(cmd_prefix)
 cmd_update = '{0}UPDATE'.format(cmd_prefix)
@@ -53,20 +54,17 @@ msg_update = 'Update forced manually, info is available in separate log file.'
 tmp_file = 'cmd.tmp'
 del_tmp = 'rm -r ' + tmp_file
 
-# get_pid1 = 'pgrep -lfo greenhouse.py | awk \'{print $1}\''
 get_pid1 = 'ps -o pid,args -C python | awk \'/greenhouse.py/ { print $1 }\''
-# get_pid2 = 'pgrep -lfo ext_greenhouse.py | awk \'{print $1}\''
 get_pid2 = 'ps -o pid,args -C python | awk \'/ext_greenhouse.py/ { print $1 }\''
 
-restart_bot = 'python /home/pi/scripts/TelegramBot/greenhouse.py &'
+restart_bot = 'python ' + str(bot_dir) + 'greenhouse.py &'
 
-"""Ensure same file names in update_bot.sh!"""
-"""Ensure same file names in peripherals/oled/display.py!"""
-update_bot = 'rm /greenhouseRepoCommit.id && bash /home/pi/scripts/TelegramBot/update_bot.sh ' \
+update_bot = 'rm '+ str(commit_id) + ' && bash ' + str(bot_dir) + 'update_bot.sh ' \
              + str(token) + ' ' + str(thk) + ' &'
 
-backup_all = 'tar -zcf /home/pi/backups/greenhouse.tgz --exclude=\'*.pyc\' /home/pi/scripts/TelegramBot/ &'
+backup_all = 'tar -zcf ' + str(bot_backup) + ' --exclude=\'*.pyc\' ' + str(bot_dir) + ' &'
 logrotate_bot = 'logrotate -f /etc/logrotate.conf &'
+
 
 if __name__ == '__main__':
     pass
