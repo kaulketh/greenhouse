@@ -13,7 +13,7 @@ from conf.lib_global import language_index
  language settings
  import required lib
  set index in global library 
- """
+"""
 if language_index == 0:
     import conf.lib_english as lib
 elif language_index == 1:
