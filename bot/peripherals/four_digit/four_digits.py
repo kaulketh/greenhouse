@@ -40,6 +40,7 @@ STARTADDR = 0xC0
 
 class TM1637:
     logger.info('Init pin settings four digits display!')
+    global IO
     IO = utils.set_pins()
     __double_point = False
     __clk_pin = 0
