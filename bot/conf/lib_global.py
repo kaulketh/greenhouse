@@ -4,16 +4,6 @@
 """
 author: Thomas Kaulke, kaulketh@gmail.com
 """
-from __future__ import absolute_import
-
-# language selection
-"""
-language settings 
-English  = import conf.lib_english as lib 
-"""
-import conf.lib_german as lib
-
-lib = lib
 
 empty = ''
 space = ' '

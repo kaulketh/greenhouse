@@ -5,21 +5,21 @@
 author: Thomas Kaulke, kaulketh@gmail.com
 """
 from __future__ import absolute_import
-import conf.lib_global as globals
+import conf.lib_global as global_lib
 
-empty = globals.empty
-space = globals.space
-colon_space = globals.colon_space
-pipe_space = globals.pipe_space
-line_break = globals.line_break
+empty = global_lib.empty
+space = global_lib.space
+colon_space = global_lib.colon_space
+pipe_space = global_lib.pipe_space
+line_break = global_lib.line_break
 decimal = '.'
 
 # time units
-time_units_index = globals.time_units_index
+time_units_index = global_lib.time_units_index
 time_units_name = ('seconds', 'minutes', 'hours')
-time_units_sign = globals.time_units_sign
-time_units_conversion = globals.time_units_conversion
-time_conversion = globals.time_conversion
+time_units_sign = global_lib.time_units_sign
+time_units_conversion = global_lib.time_units_conversion
+time_conversion = global_lib.time_conversion
 
 # commands and descriptions
 panic = 'Panic'

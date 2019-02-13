@@ -9,7 +9,9 @@ author: Thomas Kaulke, kaulketh@gmail.com
 
 from __future__ import absolute_import
 import conf.access as access
-from .lib_global import lib
+
+"""language settings, import required lib"""
+import conf.lib_german as lib
 
 # API Token and Chat Id's from external file
 admins = [access.thk, access.annett]
