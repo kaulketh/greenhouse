@@ -186,15 +186,15 @@ cd ~/wiringPi
 
 _**Make them executable and chown root:root!**_
 * access.py - external file, content will not provided, contains api token, chat IDs and other sensitive data
-* [greenhouse_config.py](bot/conf/greenhouse_config.py) - contains settings and properties
+* [greenhouse_config.py](bot/conf/greenhouse_config.py) - settings and properties
 * [greenhouse.py](bot/greenhouse.py) - main bot
-* [lib_global.py](bot/conf/lib_global.py) - global constants and time settings 
-* [lib_german.py](bot/conf/lib_german.py) - file with constants, contains strings for descriptions and messages
+* [lib_global.py](bot/conf/lib_global.py) - global constants and settings 
+* [lib_german.py](bot/conf/lib_german.py) - constants, strings for descriptions and messages
 * [ext_greenhouse.py](bot/ext_greenhouse.py) - extended bot
-* [lib_ext_greenhouse.py](bot/conf/lib_ext_greenhouse.py) - some constants, contains strings for commands and texts
-* [lib_english.py](bot/conf/lib_english.py) - English translation of German version, if required adapt import in config!
+* [lib_ext_greenhouse.py](bot/conf/lib_ext_greenhouse.py) - constants, strings for commands and texts
+* [lib_english.py](bot/conf/lib_english.py) - English translation of German version, is set in global lib
 * [gpio_check.py](bot/peripherals/gpio_check.py) - to check state of GPIOs and logs state, in case it is wished
-* [update_bot.sh](bot/update_bot.sh) - to updates all scripts from this repository by using last commit ID
+* [update_bot.sh](bot/update_bot.sh) - to updates all scripts from this repository by using last commit and branch
    
 ---
 ### 12. Enable autostart of the bot application
