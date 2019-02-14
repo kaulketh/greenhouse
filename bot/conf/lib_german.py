@@ -4,8 +4,8 @@
 """
 author: Thomas Kaulke, kaulketh@gmail.com
 """
-from __future__ import absolute_import
-import conf.lib_global as global_lib
+
+import lib_global as global_lib
 
 empty = global_lib.empty
 space = global_lib.space

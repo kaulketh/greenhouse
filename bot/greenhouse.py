@@ -13,18 +13,18 @@ from __future__ import absolute_import
 import os
 import time
 import utils.utils as utils
-import conf.greenhouse_config as conf
+import conf
+import logger
 import peripherals.dht.dht as dht
 import peripherals.temperature as core
 import utils.stop_and_restart as stop_and_restart
 import peripherals.four_digit.display as display
-import logger.logger as log
 
 from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove, ParseMode
 from telegram.ext import Updater, CommandHandler, RegexHandler, ConversationHandler
 from telegram.ext.dispatcher import run_async
 
-logging = log.get_logger()
+logging = logger.get_logger()
 
 # used library
 lib = conf.lib

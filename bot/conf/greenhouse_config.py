@@ -6,9 +6,8 @@
 configs, command strings and constants
 author: Thomas Kaulke, kaulketh@gmail.com
 """
-from __future__ import absolute_import
-import conf.access as access
-from conf.lib_global import language_index
+import access as access
+from lib_global import language_index
 """
  language settings
  import required lib
