@@ -13,7 +13,7 @@ from telegram.ext import Updater, CommandHandler, CallbackQueryHandler
 logger = logger.get_logger('test bot')
 
 btn = ( "Alle", "Kanal 1", "Kanal 2", "Kanal 3","Kanal 4", "Kanal 5", "Kanal 6", "Kanal 7", "Kanal 8")
-
+selection = ()
 
 def __get_inline_kbd_btn(text, callback):
     return InlineKeyboardButton(text, callback_data=callback)
@@ -30,20 +30,29 @@ def start(bot, update):
     #     [InlineKeyboardButton("Option 1", callback_data='1'), InlineKeyboardButton("Option 2", callback_data='2')],
     #                     [InlineKeyboardButton(text='R+',  url='www.rammstein.de')]
     # ]
-
+    global reply_markup
+    global markup
     reply_markup = InlineKeyboardMarkup(keyboard)
     markup = ReplyKeyboardMarkup(keyboard)
 
-    update.message.reply_text('Please choose:', reply_markup=reply_markup)
+    update.message.reply_text(' Grouping, please select: ', reply_markup=reply_markup)
 
 
 def button(bot, update):
+    #global selection
     query = update.callback_query
+    selection.__add__(query.data)
 
-
-    bot.edit_message_text(text="Selected option: {}".format(query.data),
+    bot.edit_message_text(text="Selected: {}".format(query.data),
                           chat_id=query.message.chat_id,
                           message_id=query.message.message_id)
+
+    # update.message.reply_text(' Grouping, please select: ', reply_markup=reply_markup)
+
+    for x  in selection:
+        logger.warning("selected:" + str(x))
+
+    start(bot, update)
 
 
 def help(bot, update):
