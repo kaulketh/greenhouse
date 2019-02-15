@@ -9,14 +9,13 @@ author: Thomas Kaulke, kaulketh@gmail.com
 from __future__ import absolute_import
 from telegram import (ReplyKeyboardRemove, ParseMode)
 import time
-import logger
 import conf.lib_ext_greenhouse as lib
 import conf.greenhouse_config as conf
 import peripherals.four_digit.display as display
+import logger.logger as log
 import utils.utils as utils
-from ..greenhouse import get_values_message
 
-logging = logger.get_logger()
+logging = log.get_logger()
 
 # API token and chat Id
 token = conf.token
@@ -30,8 +29,6 @@ def stop_and_restart(update):
     time.sleep(2)
     # start new new instance of greenhouse
     utils.read_cmd(lib.restart_bot, lib.tmp_file)
-
-    get_values_message(update)
     update.message.reply_text(conf.lib.msg_stop, parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
     display.show_standby()
     # kill the current instance of greenhouse bot

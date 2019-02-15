@@ -336,7 +336,6 @@ def __stop(bot, update):
     logging.info('Bot stopped.')
     __cam_off()
     display.show_stop()
-    __message_values(update)
     update.message.reply_text(lib.msg_stop, parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
     time.sleep(2)
     display.show_standby()
@@ -410,11 +409,6 @@ def __cam_on():
 def __cam_off():
     logging.info('Disable camera module.')
     os.system(conf.disable_camera)
-    return
-
-
-def get_values_message(update):
-    __message_values(update)
     return
 
 
