@@ -11,6 +11,12 @@ colon_space = ': '
 pipe_space = '| '
 line_break = '\n'
 
+"""
+timeout if no user activity 
+"""
+timeout = 60
+
+
 """ language settings
 0 - English
 1 - German

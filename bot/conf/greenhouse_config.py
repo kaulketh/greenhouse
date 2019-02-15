@@ -6,9 +6,8 @@
 configs, command strings and constants
 author: Thomas Kaulke, kaulketh@gmail.com
 """
-from __future__ import absolute_import
-import conf.access as access
-from conf.lib_global import language_index
+import access as access
+from lib_global import language_index, timeout
 """
  language settings
  import required lib
@@ -25,7 +24,9 @@ else:
 admins = [access.thk, access.annett]
 mainId = access.thk
 token = access.token
-standby_timeout = 60
+
+
+standby_timeout = timeout
 
 
 # keyboard configs

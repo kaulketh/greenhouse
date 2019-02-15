@@ -6,9 +6,8 @@
 author: Thomas Kaulke, kaulketh@gmail.com
 """
 
-from __future__ import absolute_import
-from conf.access import token, thk
-from conf.lib_global import line_break, commit_id, bot_dir, bot_backup
+from .access import token, thk
+from .lib_global import line_break, commit_id, bot_dir, bot_backup
 
 newline = line_break
 cmd_prefix = '/'
