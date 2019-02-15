@@ -19,6 +19,23 @@ def __get_inline_kbd_btn(text, callback):
     return InlineKeyboardButton(text, callback_data=callback)
 
 
+def __build_kbd(callback=None):
+    keyboard = []
+    row = []
+    count = 0
+    for b in btn:
+        if btn.count(b) == int(callback):
+            next(b)
+        while count < 3:
+            row.append(__get_inline_kbd_btn(b,btn.count(b)))
+            keyboard.append(row)
+        count +=1
+        if count == 3:
+            count = 0
+
+    return InlineKeyboardMarkup(keyboard)
+
+
 def start(bot, update):
     keyboard =  [
         [__get_inline_kbd_btn(btn[1],"1"), __get_inline_kbd_btn(btn[2],"2"), __get_inline_kbd_btn(btn[3],"3")],
@@ -26,10 +43,6 @@ def start(bot, update):
         [__get_inline_kbd_btn(btn[7],"7"), __get_inline_kbd_btn(btn[8],"8"), __get_inline_kbd_btn(btn[0],"0")],
          ]
 
-    # inline_keyboard = [
-    #     [InlineKeyboardButton("Option 1", callback_data='1'), InlineKeyboardButton("Option 2", callback_data='2')],
-    #                     [InlineKeyboardButton(text='R+',  url='www.rammstein.de')]
-    # ]
     global reply_markup
     global markup
     reply_markup = InlineKeyboardMarkup(keyboard)
@@ -41,17 +54,14 @@ def start(bot, update):
 def button(bot, update):
     global selection
     query = update.callback_query
-    selection += (query.data,)
+    selection += (int(query.data),)
 
     bot.edit_message_text(text="Selected: {}".format(query.data),
                           chat_id=query.message.chat_id,
                           message_id=query.message.message_id)
 
-    # update.message.reply_text(' Grouping, please select: ', reply_markup=reply_markup)
-
-    logger.warning("currently selected: " + selection)
-
-    start(bot, update)
+    update.message.reply_text(selection, reply_markup=__build_kbd(int(query.data)))
+    logger.warning(selection)
 
 
 def help(bot, update):
