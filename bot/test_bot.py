@@ -21,14 +21,15 @@ def __get_inline_kbd_btn(text, callback):
 
 def start(bot, update):
     keyboard =  [
-        [btn[1], btn[2], btn[3]],
-        [btn[4], btn[5], btn[6]],
-        [btn[7], btn[8], btn[0]]
+        [__get_inline_kbd_btn(btn[1],"1"), __get_inline_kbd_btn(btn[2],"2"), __get_inline_kbd_btn(btn[3],"3")],
+        [__get_inline_kbd_btn(btn[4],"4"), __get_inline_kbd_btn(btn[5],"5"), __get_inline_kbd_btn(btn[6],"6")],
+        [__get_inline_kbd_btn(btn[7],"7"), __get_inline_kbd_btn(btn[8],"8"), __get_inline_kbd_btn(btn[0],"0")],
          ]
 
-    # inline_keyboard = [[InlineKeyboardButton("Option 1", callback_data='1'),
-    #                     InlineKeyboardButton("Option 2", callback_data='2')],
-    #                    [InlineKeyboardButton(text='R+',  url='www.rammstein.de')]]
+    # inline_keyboard = [
+    #     [InlineKeyboardButton("Option 1", callback_data='1'), InlineKeyboardButton("Option 2", callback_data='2')],
+    #                     [InlineKeyboardButton(text='R+',  url='www.rammstein.de')]
+    # ]
 
     reply_markup = InlineKeyboardMarkup(keyboard)
     markup = ReplyKeyboardMarkup(keyboard)
