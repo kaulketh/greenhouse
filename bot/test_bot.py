@@ -50,7 +50,7 @@ def button(bot, update):
     # update.message.reply_text(' Grouping, please select: ', reply_markup=reply_markup)
 
     for x  in selection:
-        logger.warning("selected:" + str(x))
+        logger.warning("selected: " + str(x))
 
     start(bot, update)
 
