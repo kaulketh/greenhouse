@@ -7,19 +7,31 @@
 from __future__ import absolute_import
 import conf
 import logger
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ParseMode
 from telegram.ext import Updater, CommandHandler, CallbackQueryHandler
 
 logger = logger.get_logger('test bot')
 
+btn = ( "Alle", "Kanal 1", "Kanal 2", "Kanal 3","Kanal 4", "Kanal 5", "Kanal 6", "Kanal 7", "Kanal 8")
+
+
+def __get_inline_kbd_btn(text, callback):
+    return InlineKeyboardButton(text, callback_data=callback)
+
 
 def start(bot, update):
-    keyboard = [[InlineKeyboardButton("Option 1", callback_data='1'),
-                 InlineKeyboardButton("Option 2", callback_data='2')],
+    keyboard =  [
+        [btn[1], btn[2], btn[3]],
+        [btn[4], btn[5], btn[6]],
+        [btn[7], btn[8], btn[0]]
+         ]
 
-                [InlineKeyboardButton(text='R+',  url='www.rammstein.de')]]
+    # inline_keyboard = [[InlineKeyboardButton("Option 1", callback_data='1'),
+    #                     InlineKeyboardButton("Option 2", callback_data='2')],
+    #                    [InlineKeyboardButton(text='R+',  url='www.rammstein.de')]]
 
     reply_markup = InlineKeyboardMarkup(keyboard)
+    markup = ReplyKeyboardMarkup(keyboard)
 
     update.message.reply_text('Please choose:', reply_markup=reply_markup)
 
