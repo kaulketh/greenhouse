@@ -39,9 +39,9 @@ def start(bot, update):
 
 
 def button(bot, update):
-    #global selection
+    global selection
     query = update.callback_query
-    selection.__add__(query.data)
+    selection += (query.data,)
 
     bot.edit_message_text(text="Selected: {}".format(query.data),
                           chat_id=query.message.chat_id,
@@ -49,8 +49,7 @@ def button(bot, update):
 
     # update.message.reply_text(' Grouping, please select: ', reply_markup=reply_markup)
 
-    for x  in selection:
-        logger.warning("selected: " + str(x))
+    logger.warning("currently selected: " + selection)
 
     start(bot, update)
 
