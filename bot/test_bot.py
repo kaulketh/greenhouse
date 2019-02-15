@@ -28,9 +28,9 @@ def __build_kbd(callback=None):
             next(b)
         while count < 3:
             row.append(__get_inline_kbd_btn(b,btn.count(b)))
-            keyboard.append(row)
-        count +=1
+            count +=1
         if count == 3:
+            keyboard.append(row)
             count = 0
 
     return InlineKeyboardMarkup(keyboard)
@@ -52,15 +52,19 @@ def start(bot, update):
 
 
 def button(bot, update):
+    old_update = update
     global selection
     query = update.callback_query
-    selection += (int(query.data),)
+    added_selection = int(query.data)
+    selection += (added_selection,)
 
     bot.edit_message_text(text="Selected: {}".format(query.data),
                           chat_id=query.message.chat_id,
                           message_id=query.message.message_id)
 
-    update.message.reply_text(selection, reply_markup=__build_kbd(int(query.data)))
+    reply_markup = __build_kbd(added_selection)
+    old_update.message.reply_text(selection, reply_markup=reply_markup)
+
     logger.warning(selection)
 
 
