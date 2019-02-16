@@ -19,28 +19,28 @@ def __get_inline_kbd_btn(text, callback):
     return InlineKeyboardButton(text, callback_data=callback)
 
 
-def __build_kbd(callback=None):
-    keyboard = []
-    row = []
-    count = 0
-    for b in btn:
-        if btn.count(b) == int(callback):
-            next(b)
-        while count < 3:
-            row.append(__get_inline_kbd_btn(b,btn.count(b)))
-            count +=1
-        if count == 3:
-            keyboard.append(row)
-            count = 0
-
-    return InlineKeyboardMarkup(keyboard)
+# def __build_kbd(callback=None):
+#     keyboard = []
+#     row = []
+#     count = 0
+#     for b in btn:
+#         if btn.count(b) == int(callback):
+#             next(btn.count(b))
+#         while count < 3:
+#             row.append(__get_inline_kbd_btn(b,btn.count(b)))
+#             count +=1
+#         if count == 3:
+#             keyboard.append(row)
+#             count = 0
+#
+#     return InlineKeyboardMarkup(keyboard)
 
 
 def start(bot, update):
     keyboard =  [
-        [__get_inline_kbd_btn(btn[1],"1"), __get_inline_kbd_btn(btn[2],"2"), __get_inline_kbd_btn(btn[3],"3")],
-        [__get_inline_kbd_btn(btn[4],"4"), __get_inline_kbd_btn(btn[5],"5"), __get_inline_kbd_btn(btn[6],"6")],
-        [__get_inline_kbd_btn(btn[7],"7"), __get_inline_kbd_btn(btn[8],"8"), __get_inline_kbd_btn(btn[0],"0")],
+        [InlineKeyboardButton(btn[1],"1"), InlineKeyboardButton(btn[2],"2"), InlineKeyboardButton(btn[3],"3")],
+        [InlineKeyboardButton(btn[4],"4"), InlineKeyboardButton(btn[5],"5"), InlineKeyboardButton(btn[6],"6")],
+        [InlineKeyboardButton(btn[7],"7"), InlineKeyboardButton(btn[8],"8"), InlineKeyboardButton(btn[0],"0")],
          ]
 
     global reply_markup
@@ -52,18 +52,15 @@ def start(bot, update):
 
 
 def button(bot, update):
-    old_update = update
     global selection
     query = update.callback_query
     added_selection = int(query.data)
     selection += (added_selection,)
 
-    bot.edit_message_text(text="Selected: {}".format(query.data),
+    bot.edit_message_text(text="Selected: {} - Summary: {}".format(query.data, selection),
                           chat_id=query.message.chat_id,
-                          message_id=query.message.message_id)
-
-    reply_markup = __build_kbd(added_selection)
-    old_update.message.reply_text(selection, reply_markup=reply_markup)
+                          message_id=query.message.message_id,
+                          reply_markup=reply_markup)
 
     logger.warning(selection)
 
