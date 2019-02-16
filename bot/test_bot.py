@@ -8,7 +8,7 @@ from __future__ import absolute_import
 import conf
 import logger
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ParseMode
-from telegram.ext import Updater, CommandHandler, CallbackQueryHandler
+from telegram.ext import Updater, CommandHandler, CallbackQueryHandler, ConversationHandler
 
 logger = logger.get_logger('test bot')
 
@@ -80,9 +80,16 @@ def error(bot, update, error):
 def main():
     # Create the Updater and pass it your bot's token.
     updater = Updater(conf.token)
+    updater.dispatcher.add_handler(
+        ConversationHandler(entry_points=[CommandHandler('start', start), CommandHandler('help', help)],
+                            states=[add_handler(CallbackQueryHandler(button, pass_chat_data=True))],
+                            fallbacks=[CommandHandler('stop', ConversationHandler.END)]
+        )
+    )
 
-    updater.dispatcher.add_handler(CommandHandler('start', start))
-    updater.dispatcher.add_handler(CallbackQueryHandler(button))
+
+    #updater.dispatcher.add_handler(CommandHandler('start', start))
+    #updater.dispatcher.add_handler(CallbackQueryHandler(button))
     updater.dispatcher.add_handler(CommandHandler('help', help))
     updater.dispatcher.add_error_handler(error)
 
