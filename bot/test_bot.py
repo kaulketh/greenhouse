@@ -64,6 +64,8 @@ def button(bot, update):
     global selection
     query = update.callback_query
     added_selection = int(query.data)
+
+    logger.warning(added_selection)
     selection += (added_selection,)
 
     bot.edit_message_text(text="Selected: {} - Summary: {}".format(query.data, selection),
@@ -80,7 +82,7 @@ def help(bot, update):
 
 def error(bot, update, error):
     """Log Errors caused by Updates."""
-    logger.warning('Update "%s" caused error "%s"', update, error)
+    logger.error('Update "%s" caused error "%s"', update, error)
 
 
 def main():
