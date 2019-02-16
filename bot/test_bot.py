@@ -7,7 +7,7 @@
 from __future__ import absolute_import
 import conf
 import logger
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ParseMode
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ParseMode, KeyboardButton
 from telegram.ext import Updater, CommandHandler, CallbackQueryHandler
 
 logger = logger.get_logger('test bot')
@@ -15,10 +15,12 @@ logger = logger.get_logger('test bot')
 btn = ( "Alle", "Kanal 1", "Kanal 2", "Kanal 3","Kanal 4", "Kanal 5", "Kanal 6", "Kanal 7", "Kanal 8")
 selection = ()
 
-def __get_inline_kbd_btn(text, callback):
+def __get_inline_btn(text, callback):
     return InlineKeyboardButton(text, callback_data=callback)
 
 
+def __get_kbd_btn(text, callback):
+    return KeyboardButton(text, callback_data=callback)
 # def __build_kbd(callback=None):
 #     keyboard = []
 #     row = []
@@ -37,16 +39,23 @@ def __get_inline_kbd_btn(text, callback):
 
 
 def start(bot, update):
-    keyboard =  [
-        [__get_inline_kbd_btn(btn[1],"1"), __get_inline_kbd_btn(btn[2],"2"), __get_inline_kbd_btn(btn[3],"3")],
-        [__get_inline_kbd_btn(btn[4],"4"), __get_inline_kbd_btn(btn[5],"5"), __get_inline_kbd_btn(btn[6],"6")],
-        [__get_inline_kbd_btn(btn[7],"7"), __get_inline_kbd_btn(btn[8],"8"), __get_inline_kbd_btn(btn[0],"0")],
+    inline_keyboard =  [
+        [__get_inline_btn(btn[1], "1"), __get_inline_btn(btn[2], "2"), __get_inline_btn(btn[3], "3")],
+        [__get_inline_btn(btn[4], "4"), __get_inline_btn(btn[5], "5"), __get_inline_btn(btn[6], "6")],
+        [__get_inline_btn(btn[7], "7"), __get_inline_btn(btn[8], "8"), __get_inline_btn(btn[0], "0")],
          ]
+
+    reply_keyboard = [
+        [__get_kbd_btn(btn[1], "1"), __get_kbd_btn(btn[2], "2"), __get_kbd_btn(btn[3], "3")],
+        [__get_kbd_btn(btn[4], "4"), __get_kbd_btn(btn[5], "5"), __get_kbd_btn(btn[6], "6")],
+        [__get_kbd_btn(btn[7], "7"), __get_kbd_btn(btn[8], "8"), __get_kbd_btn(btn[0], "0")],
+        [__get_kbd_btn('Water group: {}'.format(selection),'water')]
+    ]
 
     global reply_markup
     global markup
-    reply_markup = InlineKeyboardMarkup(keyboard)
-    markup = ReplyKeyboardMarkup(keyboard)
+    #reply_markup = InlineKeyboardMarkup(inline_keyboard)
+    reply_markup = ReplyKeyboardMarkup(reply_keyboard)
 
     update.message.reply_text(' Grouping, please select: ', reply_markup=reply_markup)
 
