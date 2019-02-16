@@ -38,9 +38,9 @@ def __get_inline_kbd_btn(text, callback):
 
 def start(bot, update):
     keyboard =  [
-        [InlineKeyboardButton(btn[1],"1"), InlineKeyboardButton(btn[2],"2"), InlineKeyboardButton(btn[3],"3")],
-        [InlineKeyboardButton(btn[4],"4"), InlineKeyboardButton(btn[5],"5"), InlineKeyboardButton(btn[6],"6")],
-        [InlineKeyboardButton(btn[7],"7"), InlineKeyboardButton(btn[8],"8"), InlineKeyboardButton(btn[0],"0")],
+        [__get_inline_kbd_btn(btn[1],"1"), __get_inline_kbd_btn(btn[2],"2"), __get_inline_kbd_btn(btn[3],"3")],
+        [__get_inline_kbd_btn(btn[4],"4"), __get_inline_kbd_btn(btn[5],"5"), __get_inline_kbd_btn(btn[6],"6")],
+        [__get_inline_kbd_btn(btn[7],"7"), __get_inline_kbd_btn(btn[8],"8"), __get_inline_kbd_btn(btn[0],"0")],
          ]
 
     global reply_markup
