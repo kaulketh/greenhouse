@@ -68,9 +68,15 @@ def button(bot, update):
     logger.warning(added_selection)
     selection += (added_selection,)
 
-    bot.edit_message_text(text="Selected: {} - Summary: {}".format(query.data, selection),
+
+    # bot.edit_message_text(text="Selected: {} - Summary: {}".format(query.data, selection),
+    #                       chat_id=query.message.chat_id,
+    #                       message_id=query.message.message_id,
+    #                       reply_markup=reply_markup)
+
+    bot.send_message(text="Selected: {} - Summary: {}".format(query.data, selection),
                           chat_id=query.message.chat_id,
-                          message_id=query.message.message_id,
+                          reply_to_message_id=query.message.message_id,
                           reply_markup=reply_markup)
 
     logger.warning(selection)
