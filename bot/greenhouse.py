@@ -435,7 +435,7 @@ def main():
         entry_points=[CommandHandler('start', __start)],
         states={
             SELECTION: [RegexHandler(
-                '^({0}|{1}|{2}|{3}|{4}|{5}|{6}|{7}|{8}|{9}|{10}|{11}|{12}|{13}|{14})$'.format(
+                '^({0}|{1}|{2}|{3}|{4}|{5}|{6}|{7}|{8}|{9}|{10}|{11}|{12}|{13})$'.format(
                     str(lib.group1[0]),
                     str(lib.group1[1]),
                     str(lib.group1[2]),
@@ -447,7 +447,7 @@ def main():
                     str(lib.group3[0]),
                     str(lib.group3[1]),
                     str(lib.group3[2]),
-                    str(lib.all_channels),
+                   # str(lib.all_channels),
                     str(lib.panic),
                     str(lib.live_stream),
                     str(lib.reload)), __selection),

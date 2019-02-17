@@ -8,7 +8,6 @@ author: Thomas Kaulke, kaulketh@gmail.com
 
 
 from __future__ import absolute_import
-from ..greenhouse import SELECTION, DURATION
 import conf
 import logger
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ParseMode
@@ -48,7 +47,7 @@ def button(bot, update):
     elif query == "Fertig":
         return selection
     elif query == "Abbruch":
-        return SELECTION
+        return greenhouse.SELECTION
 
 
 def __get_inline_btn(text, callback):
