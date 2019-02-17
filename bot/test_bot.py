@@ -41,11 +41,13 @@ def __get_kbd_btn(text, callback):
 
 def __store_message_id(bot, update):
     global message_ids
-    if update.message.message_id is not None:
-        message_ids += update.message.message_id
-    if update.callback_query.message.message_id is not None:
-        message_ids += update.callback_query.message.message_id
-    logger.critical(message_ids)
+    try:
+        if update.message.message_id is not None:
+            message_ids += str(update.message.message_id)
+        if update.callback_query.message.message_id is not None:
+            message_ids += str(update.callback_query.message.message_id)
+    finally:
+        logger.critical(message_ids)
     return
 
 
