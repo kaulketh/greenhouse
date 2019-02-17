@@ -98,7 +98,7 @@ def __show_pi(time):
     oled.cls()
     # image inverted
     draw.rectangle((32, top - 3, 95, 63), outline=1, fill=1)
-    draw.bitmap((32, top - 3), Image.open(str(bot_dir) + 'peripherals/oled/pi_logo.png'), fill=0)
+    draw.bitmap((32, top - 3), Image.open(str(bot_dir) + 'peripherals/oled/chili.png'), fill=0)
     oled.display()
     sleep(time)
 
