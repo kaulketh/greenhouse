@@ -447,11 +447,12 @@ def main():
                     str(lib.group3[0]),
                     str(lib.group3[1]),
                     str(lib.group3[2]),
-                   # str(lib.all_channels),
                     str(lib.panic),
                     str(lib.live_stream),
                     str(lib.reload)), __selection),
-                RegexHandler('^{0}$'.format(lib.stop_bot), __stop)],
+                RegexHandler('^{0}$'.format(lib.stop_bot), __stop),
+                RegexHandler('^{0}$'.format(lib.all_channels),grouping.group)
+            ],
 
             DURATION: [RegexHandler('^([0-9]+|{0}|{1})$'.format(str(lib.cancel), str(lib.panic)), __duration),
                        RegexHandler('^{0}$'.format(lib.stop_bot), __stop)]
