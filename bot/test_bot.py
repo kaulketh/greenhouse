@@ -14,6 +14,7 @@ logger = logger.get_logger('test bot')
 
 btn = ( "Alle", "Kanal 1", "Kanal 2", "Kanal 3","Kanal 4", "Kanal 5", "Kanal 6", "Kanal 7", "Kanal 8")
 selection = ()
+message_ids = ()
 
 def __get_inline_btn(text, callback):
     return InlineKeyboardButton(text, callback_data=callback)
@@ -38,6 +39,16 @@ def __get_kbd_btn(text, callback):
 #     return InlineKeyboardMarkup(keyboard)
 
 
+def __store_message_id(bot, update):
+    global message_ids
+    if update.message.message_id is not None:
+        message_ids += update.message.message_id
+    if update.callback_query.message.message_id is not None:
+        message_ids += update.callback_query.message.message_id
+    logger.critical(message_ids)
+    return
+
+
 def start(bot, update):
     inline_keyboard =  [
         [__get_inline_btn(btn[1], "1"), __get_inline_btn(btn[2], "2"), __get_inline_btn(btn[3], "3")],
@@ -54,36 +65,40 @@ def start(bot, update):
 
     global reply_markup
     global markup
-    #reply_markup = InlineKeyboardMarkup(inline_keyboard)
-    reply_markup = ReplyKeyboardMarkup(reply_keyboard)
+    reply_markup = InlineKeyboardMarkup(inline_keyboard)
+    #reply_markup = ReplyKeyboardMarkup(reply_keyboard)
 
     update.message.reply_text(' Grouping, please select: ', reply_markup=reply_markup)
+    __store_message_id(bot, update)
 
 
 def button(bot, update):
     global selection
     query = update.callback_query
+    __store_message_id(bot, update)
     added_selection = int(query.data)
 
     logger.warning(added_selection)
     selection += (added_selection,)
 
 
-    # bot.edit_message_text(text="Selected: {} - Summary: {}".format(query.data, selection),
-    #                       chat_id=query.message.chat_id,
-    #                       message_id=query.message.message_id,
-    #                       reply_markup=reply_markup)
-
-    bot.send_message(text="Selected: {} - Summary: {}".format(query.data, selection),
+    bot.edit_message_text(text="Selected: {} - Summary: {}".format(query.data, selection),
                           chat_id=query.message.chat_id,
-                          reply_to_message_id=query.message.message_id,
+                          message_id=query.message.message_id,
                           reply_markup=reply_markup)
+    __store_message_id(bot, update)
+
+    # bot.send_message(text="Selected: {} - Summary: {}".format(query.data, selection),
+    #                       chat_id=query.message.chat_id,
+    #                       reply_to_message_id=query.message.message_id,
+    #                       reply_markup=reply_markup)
 
     logger.warning(selection)
 
 
 def help(bot, update):
     update.message.reply_text("Use /start to test this bot.")
+    __store_message_id(bot, update)
 
 
 def error(bot, update, error):
