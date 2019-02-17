@@ -33,8 +33,8 @@ def group(bot, update):
 def button(bot, update):
     global selection
     query = update.callback_query
-    if not query == "Fertig" or not query == "Abbruch":
-        added_selection = int(query.data)
+    added_selection = query.data
+    if not added_selection == "Fertig" or not added_selection == "Abbruch":
         logger.info(added_selection)
         if not selection.__contains__(added_selection):
             selection += (added_selection,)
@@ -43,10 +43,12 @@ def button(bot, update):
                               chat_id=query.message.chat_id,
                               message_id=query.message.message_id,
                               reply_markup=reply_markup)
+
         logger.info(selection)
-    elif query == "Fertig":
+
+    elif added_selection == "Fertig":
         return selection
-    elif query == "Abbruch":
+    elif added_selection == "Abbruch":
         return greenhouse.SELECTION
 
 
