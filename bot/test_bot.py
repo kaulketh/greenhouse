@@ -45,7 +45,7 @@ def delete(bot, update):
             bot.delete_message(update.message.chat_id, id)
         finally:
             logger.critical(message_ids)
-    return
+    return bot.stop
 
 
 def __store_message_id(bot, update):
@@ -68,13 +68,6 @@ def start(bot, update):
         [__get_inline_btn(btn[4], "4"), __get_inline_btn(btn[5], "5"), __get_inline_btn(btn[6], "6")],
         [__get_inline_btn(btn[7], "7"), __get_inline_btn(btn[8], "8"), __get_inline_btn(btn[0], "0")],
          ]
-
-    reply_keyboard = [
-        [__get_kbd_btn(btn[1], "1"), __get_kbd_btn(btn[2], "2"), __get_kbd_btn(btn[3], "3")],
-        [__get_kbd_btn(btn[4], "4"), __get_kbd_btn(btn[5], "5"), __get_kbd_btn(btn[6], "6")],
-        [__get_kbd_btn(btn[7], "7"), __get_kbd_btn(btn[8], "8"), __get_kbd_btn(btn[0], "0")],
-        [__get_kbd_btn('Water group: {}'.format(selection),'water')]
-    ]
 
     global reply_markup
     global markup

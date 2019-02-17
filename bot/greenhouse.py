@@ -18,10 +18,11 @@ import logger
 import peripherals.dht.dht as dht
 import peripherals.temperature as core
 import utils.stop_and_restart as stop_and_restart
+import utils.grouping as grouping
 import peripherals.four_digit.display as display
 
 from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove, ParseMode
-from telegram.ext import Updater, CommandHandler, RegexHandler, ConversationHandler
+from telegram.ext import Updater, CommandHandler, RegexHandler, ConversationHandler, CallbackQueryHandler
 from telegram.ext.dispatcher import run_async
 
 logging = logger.get_logger()
@@ -48,8 +49,8 @@ timer_job = None
 
 
 # keyboard config
-markup1 = ReplyKeyboardMarkup(conf.kb1, resize_keyboard=True, one_time_keyboard=False)
-markup2 = ReplyKeyboardMarkup(conf.kb2, resize_keyboard=True, one_time_keyboard=False)
+markup1 = ReplyKeyboardMarkup(conf.kb1, resize_keyboard=True, one_time_keyboard=True)
+markup2 = ReplyKeyboardMarkup(conf.kb2, resize_keyboard=True, one_time_keyboard=True)
 markup3 = ReplyKeyboardMarkup(conf.kb3, resize_keyboard=True, one_time_keyboard=True)
 
 
@@ -227,7 +228,8 @@ def __duration(bot, update):
         __water_group(bot, update, group_three)
 
     elif target == str(lib.all_channels):
-        __water_all(bot, update)
+        grouping.group(bot, update)
+        #__water_all(bot, update)
 
     else:
         update.message.reply_text(lib.msg_choice, reply_markup=markup1)
@@ -424,6 +426,8 @@ def main():
 
     dp = updater.dispatcher
 
+    group_handler = CallbackQueryHandler(grouping.button)
+
     emergency_stop_handler = RegexHandler('^{0}$'.format(str(lib.emergency_stop)),
                                           __emergency_stop_handler,
                                           pass_chat_data=True)
@@ -454,6 +458,8 @@ def main():
                 },
         fallbacks=[CommandHandler('stop', __stop)]
     )
+    dp.add_handler(group_handler)
+
     dp.add_handler(emergency_stop_handler)
 
     dp.add_handler(ch)
