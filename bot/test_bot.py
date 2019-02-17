@@ -16,6 +16,7 @@ btn = ( "Alle", "Kanal 1", "Kanal 2", "Kanal 3","Kanal 4", "Kanal 5", "Kanal 6",
 selection = ()
 message_ids = ()
 
+
 def __get_inline_btn(text, callback):
     return InlineKeyboardButton(text, callback_data=callback)
 
@@ -37,15 +38,22 @@ def __get_kbd_btn(text, callback):
 #             count = 0
 #
 #     return InlineKeyboardMarkup(keyboard)
+def delete(bot, update):
+    global message_ids
+    for id in message_ids:
+        bot.delete_message(update.message.chat_id, id)
+    return
 
 
 def __store_message_id(bot, update):
     global message_ids
     try:
-        if update.message.message_id is not None:
-            message_ids += str(update.message.message_id)
-        if update.callback_query.message.message_id is not None:
-            message_ids += str(update.callback_query.message.message_id)
+        if update.message is not None:
+            if not message_ids.__contains__(update.message.message_id):
+                message_ids += (update.message.message_id,)
+        if update.callback_query is not None:
+            if not message_ids.__contains__(update.callback_query.message.message_id):
+                message_ids += (update.callback_query.message.message_id,)
     finally:
         logger.critical(message_ids)
     return
@@ -113,6 +121,7 @@ def main():
     updater = Updater(conf.token)
 
     updater.dispatcher.add_handler(CommandHandler('start', start))
+    updater.dispatcher.add_handler(CommandHandler('delete', delete))
     updater.dispatcher.add_handler(CallbackQueryHandler(button))
     updater.dispatcher.add_handler(CommandHandler('help', help))
     updater.dispatcher.add_error_handler(error)
