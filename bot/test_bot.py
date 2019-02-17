@@ -41,7 +41,10 @@ def __get_kbd_btn(text, callback):
 def delete(bot, update):
     global message_ids
     for id in message_ids:
-        bot.delete_message(update.message.chat_id, id)
+        try:
+            bot.delete_message(update.message.chat_id, id)
+        finally:
+            logger.critical(message_ids)
     return
 
 
