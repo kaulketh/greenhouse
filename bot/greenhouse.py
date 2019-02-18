@@ -18,10 +18,9 @@ import logger
 import peripherals.dht.dht as dht
 import peripherals.temperature as core
 import utils.stop_and_restart as stop_and_restart
-import utils.grouping as grouping
 import peripherals.four_digit.display as display
 
-from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove, ParseMode
+from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove, ParseMode, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Updater, CommandHandler, RegexHandler, ConversationHandler, CallbackQueryHandler
 from telegram.ext.dispatcher import run_async
 
@@ -52,6 +51,10 @@ timer_job = None
 markup1 = ReplyKeyboardMarkup(conf.kb1, resize_keyboard=True, one_time_keyboard=True)
 markup2 = ReplyKeyboardMarkup(conf.kb2, resize_keyboard=True, one_time_keyboard=True)
 markup3 = ReplyKeyboardMarkup(conf.kb3, resize_keyboard=True, one_time_keyboard=True)
+
+# grouping
+btn = ("Alle", "Kanal 1", "Kanal 2", "Kanal 3", "Kanal 4", "Kanal 5", "Kanal 6", "Kanal 7", "Kanal 8")
+selection = ()
 
 
 # Start info
@@ -228,8 +231,8 @@ def __duration(bot, update):
         __water_group(bot, update, group_three)
 
     elif target == str(lib.all_channels):
-        grouping.group(bot, update)
         #__water_all(bot, update)
+        __group(bot, update)
 
     else:
         update.message.reply_text(lib.msg_choice, reply_markup=markup1)
@@ -414,6 +417,46 @@ def __cam_off():
     return
 
 
+# grouping
+def __button(bot, update):
+    global selection
+    query = update.callback_query
+    added_selection = query.data
+    if not added_selection == "Fertig" or not added_selection == "Abbruch":
+        logger.info(added_selection)
+        if not selection.__contains__(added_selection):
+            selection += (added_selection,)
+
+        bot.edit_message_text(text="Selected: {} - Summary: {}".format(query.data, selection),
+                              chat_id=query.message.chat_id,
+                              message_id=query.message.message_id,
+                              reply_markup=reply_markup)
+
+        logger.info(selection)
+
+    elif added_selection == "Fertig":
+        logger.info("current slection: " + str(selection))
+        # return selection
+    elif added_selection == "Abbruch":
+        return SELECTION
+
+
+def __get_inline_btn(text, callback):
+    return InlineKeyboardButton(text, callback_data=callback)
+
+
+def __group(bot, update):
+    inline_keyboard = [
+        [__get_inline_btn(btn[1], "1"), __get_inline_btn(btn[2], "2"), __get_inline_btn(btn[3], "3"), __get_inline_btn(btn[4], "4")],
+        [__get_inline_btn(btn[5], "5"), __get_inline_btn(btn[6], "6"), __get_inline_btn(btn[7], "7"), __get_inline_btn(btn[8], "8")],
+        [__get_inline_btn("Fertig", "Fertig"), __get_inline_btn("Abbruch", "Abbruch")]
+    ]
+
+    global reply_markup
+    reply_markup = InlineKeyboardMarkup(inline_keyboard)
+    update.message.reply_text(' Grouping, please select: ', reply_markup=reply_markup)
+
+
 def main():
     __init_bot_set_pins()
 
@@ -426,7 +469,7 @@ def main():
 
     dp = updater.dispatcher
 
-    group_handler = CallbackQueryHandler(grouping.button)
+    group_handler = CallbackQueryHandler(__button)
 
     emergency_stop_handler = RegexHandler('^{0}$'.format(str(lib.emergency_stop)),
                                           __emergency_stop_handler,
