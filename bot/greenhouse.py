@@ -416,11 +416,11 @@ def __button(bot, update):
 
     elif added_selection == 'Fertig':
         logger.info("current selection: " + str(selection))
-        return SELECTION
+        __duration(bot, update)
 
     elif added_selection == lib.cancel:
         selection = ()
-        return SELECTION
+        __selection(bot, update)
 
 
 def __get_inline_btn(text, callback):
