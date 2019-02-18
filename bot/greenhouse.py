@@ -199,7 +199,6 @@ def __duration(bot, update):
 
         __water(bot, update, group_two[2])
 
-
     elif target == str(lib.group3[1]):
         """ starts separate thread """
         display.show_switch_channel_duration(4, int(water_time))
@@ -216,7 +215,6 @@ def __duration(bot, update):
         # __water_all(bot, update)
         # __group(bot, update)
         logger.warning("all channels..." + str(selection))
-
 
     else:
         update.message.reply_text(lib.msg_choice, reply_markup=markup1)
@@ -406,7 +404,7 @@ def __button(bot, update):
     global selection
     query = update.callback_query
     added_selection = str(query.data)
-    if not added_selection.__eq__('Fertig') or not added_selection.__eq__(lib.cancel):
+    if not (added_selection == 'Fertig' or added_selection == str(lib.cancel)):
         logger.info(added_selection)
         if not selection.__contains__(added_selection):
             selection += (int(added_selection),)
@@ -432,8 +430,10 @@ def __get_inline_btn(text, callback):
 
 def __group(bot, update):
     inline_keyboard = [
-        [__get_inline_btn(lib.group1[1], '1'), __get_inline_btn(lib.group1[2], '2'), __get_inline_btn(lib.group1[3], '3'), __get_inline_btn(lib.group3[1], '4')],
-        [__get_inline_btn(lib.group3[2], '5'), __get_inline_btn(lib.group2[1], '6'), __get_inline_btn(lib.group2[2], '7'), __get_inline_btn(lib.group2[3], '8')],
+        [__get_inline_btn(lib.group1[1], '1'), __get_inline_btn(lib.group1[2], '2'),
+         __get_inline_btn(lib.group1[3], '3'), __get_inline_btn(lib.group3[1], '4')],
+        [__get_inline_btn(lib.group3[2], '5'), __get_inline_btn(lib.group2[1], '6'),
+         __get_inline_btn(lib.group2[2], '7'), __get_inline_btn(lib.group2[3], '8')],
         [__get_inline_btn('Fertig', 'Fertig'), __get_inline_btn(lib.cancel, 'Abbruch')]
     ]
 
@@ -476,7 +476,7 @@ def main():
                     str(lib.live_stream),
                     str(lib.reload)), __selection),
                 RegexHandler('^{0}$'.format(lib.stop_bot), __stop),
-                RegexHandler('^{0}$'.format(lib.all_channels),__group)
+                RegexHandler('^{0}$'.format(lib.all_channels), __group)
             ],
 
             DURATION: [RegexHandler('^([0-9]+|{0}|{1})$'.format(str(lib.cancel), str(lib.panic)), __duration),
