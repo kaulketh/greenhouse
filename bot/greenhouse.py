@@ -407,8 +407,7 @@ def __button(bot, update):
     if not (added_selection == 'Fertig' or added_selection == str(lib.cancel)):
         if not selection.__contains__(int(added_selection)):
             selection += (int(added_selection),)
-
-        bot.edit_message_text(text="Selected: {} - Summary: {}".format(added_selection, selection),
+            bot.edit_message_text(text="Selected: {} - Summary: {}".format(added_selection, selection),
                               chat_id=query.message.chat_id,
                               message_id=query.message.message_id,
                               reply_markup=reply_markup)
@@ -429,6 +428,7 @@ def __get_inline_btn(text, callback):
 
 
 def __group(bot, update):
+    __stop_standby_timer(bot, update)
     inline_keyboard = [
         [__get_inline_btn(lib.group1[1], '1'), __get_inline_btn(lib.group1[2], '2'),
          __get_inline_btn(lib.group1[3], '3'), __get_inline_btn(lib.group3[1], '4')],
