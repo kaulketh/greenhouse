@@ -11,10 +11,11 @@ from __future__ import absolute_import
 import time
 import os
 import RPi.GPIO as GPIO
-import logger.logger as log
+import logger
 
 """logging is configured in logger package in logger.ini"""
-logging = log.get_logger()
+logging = logger.get_logger()
+
 
 # switch functions
 def switch_on(pin):

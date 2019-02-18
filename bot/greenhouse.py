@@ -200,17 +200,6 @@ def __duration(bot, update):
 
         __water(bot, update, group_two[2])
 
-    elif target == str(lib.group1[0]):
-        """ starts separate thread """
-        display.show_switch_group_duration(1, int(water_time))
-
-        __water_group(bot, update, group_one)
-
-    elif target == str(lib.group2[0]):
-        """ starts separate thread """
-        display.show_switch_group_duration(2, int(water_time))
-
-        __water_group(bot, update, group_two)
 
     elif target == str(lib.group3[1]):
         """ starts separate thread """
@@ -224,15 +213,11 @@ def __duration(bot, update):
 
         __water(bot, update, group_three[1])
 
-    elif target == str(lib.group3[0]):
-        """ starts separate thread """
-        display.show_switch_group_duration(3, int(water_time))
-
-        __water_group(bot, update, group_three)
-
     elif target == str(lib.all_channels):
-        #__water_all(bot, update)
-        __group(bot, update)
+        # __water_all(bot, update)
+        # __group(bot, update)
+        logging.warning("all channels..." + str(selection))
+
 
     else:
         update.message.reply_text(lib.msg_choice, reply_markup=markup1)
@@ -478,23 +463,20 @@ def main():
         entry_points=[CommandHandler('start', __start)],
         states={
             SELECTION: [RegexHandler(
-                '^({0}|{1}|{2}|{3}|{4}|{5}|{6}|{7}|{8}|{9}|{10}|{11}|{12}|{13})$'.format(
-                    str(lib.group1[0]),
+                '^({0}|{1}|{2}|{3}|{4}|{5}|{6}|{7}|{8}|{9}|{10})$'.format(
                     str(lib.group1[1]),
                     str(lib.group1[2]),
                     str(lib.group1[3]),
-                    str(lib.group2[0]),
                     str(lib.group2[1]),
                     str(lib.group2[2]),
                     str(lib.group2[3]),
-                    str(lib.group3[0]),
                     str(lib.group3[1]),
                     str(lib.group3[2]),
                     str(lib.panic),
                     str(lib.live_stream),
                     str(lib.reload)), __selection),
                 RegexHandler('^{0}$'.format(lib.stop_bot), __stop),
-                RegexHandler('^{0}$'.format(lib.all_channels),grouping.group)
+                RegexHandler('^{0}$'.format(lib.all_channels),__group)
             ],
 
             DURATION: [RegexHandler('^([0-9]+|{0}|{1})$'.format(str(lib.cancel), str(lib.panic)), __duration),
