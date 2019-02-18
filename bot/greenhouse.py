@@ -401,6 +401,7 @@ def __cam_off():
 
 
 # grouping
+@run_async
 def __button(bot, update):
     global selection
     query = update.callback_query
@@ -419,7 +420,7 @@ def __button(bot, update):
         logger.info("current selection: " + str(selection))
         bot.send_message(text=lib.msg_duration.format(selection),
                          chat_id=query.message.chat_id,
-                         reply_to_message_id=query.message.message_id,
+                         #reply_to_message_id=query.message.message_id,
                          parse_mode=ParseMode.MARKDOWN,
                          reply_markup=markup2)
         logger.info('Selection: {0}'.format(str(selection)))
@@ -431,7 +432,7 @@ def __button(bot, update):
         selection = ()
         bot.send_message(text=lib.msg_new_choice,
                          chat_id=query.message.chat_id,
-                         reply_to_message_id=query.message.message_id,
+                         #reply_to_message_id=query.message.message_id,
                          parse_mode=ParseMode.MARKDOWN,
                          reply_markup=markup1)
         logger.info(lib.msg_new_choice)
@@ -442,7 +443,7 @@ def __button(bot, update):
 def __get_inline_btn(text, callback):
     return InlineKeyboardButton(text, callback_data=callback)
 
-
+@run_async
 def __group(bot, update):
     __stop_standby_timer(bot, update)
     inline_keyboard = [
