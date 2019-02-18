@@ -406,7 +406,7 @@ def __button(bot, update):
     global selection
     query = update.callback_query
     added_selection = str(query.data)
-    if added_selection != 'Fertig' or added_selection != lib.cancel:
+    if not added_selection.__eq__('Fertig') or not added_selection.__eq__(lib.cancel):
         logger.info(added_selection)
         if not selection.__contains__(added_selection):
             selection += (int(added_selection),)
