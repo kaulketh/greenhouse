@@ -213,7 +213,7 @@ def __duration(bot, update):
 
     elif target == str(lib.all_channels):
 
-        logger.warning("slected to water..." + str(selection))
+        logger.warning("selected to water..." + str(selection))
         __water_group(bot, update, selection)
         # __group(bot, update)
 
@@ -424,8 +424,8 @@ def __button(bot, update):
                          parse_mode=ParseMode.MARKDOWN,
                          reply_markup=markup2)
         logger.info('Selection: {0}'.format(str(selection)))
-
         __start_standby_timer(bot, update)
+        water_time = update.message.text
         return DURATION
 
     elif added_selection == lib.cancel:
