@@ -406,23 +406,23 @@ def __button(bot, update):
     global selection
     query = update.callback_query
     added_selection = str(query.data)
-    if not added_selection == "Fertig" or not added_selection == "Abbruch":
+    if added_selection != 'Fertig' or added_selection != lib.cancel:
         logger.info(added_selection)
         if not selection.__contains__(added_selection):
-            selection += (added_selection,)
+            selection += (int(added_selection),)
 
-        bot.edit_message_text(text="Selected: {} - Summary: {}".format(query.data, selection),
+        bot.edit_message_text(text="Selected: {} - Summary: {}".format(added_selection, selection),
                               chat_id=query.message.chat_id,
                               message_id=query.message.message_id,
                               reply_markup=reply_markup)
 
         logger.info(selection)
 
-    elif added_selection == "Fertig":
+    elif added_selection == 'Fertig':
         logger.info("current slection: " + str(selection))
         return SELECTION
 
-    elif added_selection == "Abbruch":
+    elif added_selection == lib.cancel:
         return SELECTION
 
 
