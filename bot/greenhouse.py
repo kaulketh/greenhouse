@@ -406,7 +406,7 @@ def __cam_off():
 def __button(bot, update):
     global selection
     query = update.callback_query
-    added_selection = query.data
+    added_selection = str(query.data)
     if not added_selection == "Fertig" or not added_selection == "Abbruch":
         logger.info(added_selection)
         if not selection.__contains__(added_selection):

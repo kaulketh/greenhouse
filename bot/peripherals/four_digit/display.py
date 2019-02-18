@@ -174,6 +174,7 @@ def __switch_channel_duration(channel, duration):
     return
 
 
+# TODO: update function accordingly new grouping!
 def __switch_group_duration(group, duration):
     global g_display
     g_display = tm1637.TM1637(clk=clk_pin, dio=dio_pin, brightness=brightness)
