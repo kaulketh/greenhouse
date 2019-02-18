@@ -24,7 +24,7 @@ from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove, ParseMode, Inline
 from telegram.ext import Updater, CommandHandler, RegexHandler, ConversationHandler, CallbackQueryHandler
 from telegram.ext.dispatcher import run_async
 
-logging = logger.get_logger()
+logger = logger.get_logger()
 
 # used library
 lib = conf.lib
@@ -59,9 +59,9 @@ selection = ()
 
 # Start info
 def __init_bot_set_pins():
-    logging.info('Initialize bot, setup GPIO pins.')
+    logger.info('Initialize bot, setup GPIO pins.')
     utils.set_pins()
-    logging.info('Switch all off at start.')
+    logger.info('Switch all off at start.')
     __all_off()
     display.show_standby()
     return
@@ -87,23 +87,23 @@ def __start(bot, update):
 
     if user_id not in list_of_admins:
         display.show_stop()
-        logging.info('Not allowed access by: {0} - {1},{2}'.format(
+        logger.info('Not allowed access by: {0} - {1},{2}'.format(
             str(user_id), update.message.from_user.last_name, update.message.from_user.first_name))
         update.message.reply_text(lib.private_warning.format(
             update.message.from_user.first_name, update.message.chat_id), parse_mode=ParseMode.MARKDOWN)
         return ConversationHandler.END
     else:
         display.show_run()
-        logging.info('Bot started...')
+        logger.info('Bot started...')
         __message_values(update)
         __cam_on()
         display.show_ready()
         update.message.reply_text('{0}{1}{2}'.format(
             lib.msg_welcome.format(update.message.from_user.first_name), lib.space, lib.msg_choice),
             parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
-        logging.info('Bot is using by: {0} - {1},{2}'.format(
+        logger.info('Bot is using by: {0} - {1},{2}'.format(
             str(user_id), update.message.from_user.last_name, update.message.from_user.first_name))
-        logging.info('Time unit is \'{0}\''.format(str(lib.time_units_name[lib.time_units_index])))
+        logger.info('Time unit is \'{0}\''.format(str(lib.time_units_name[lib.time_units_index])))
         display.show_off()
 
         __start_standby_timer(bot, update)
@@ -120,17 +120,17 @@ def __selection(bot, update):
     if target == str(lib.panic):
         update.message.reply_text(lib.msg_panic,
                                   parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
-        logging.info(lib.msg_panic)
+        logger.info(lib.msg_panic)
         os.system(conf.run_extended_greenhouse + str(user_id))
 
     elif target == str(lib.live_stream):
-        logging.info('Live URL requested.')
+        logger.info('Live URL requested.')
         update.message.reply_text(lib.msg_live.format(str(conf.live)), parse_mode=ParseMode.MARKDOWN)
         __start_standby_timer(bot, update)
         return SELECTION
 
     elif target == str(lib.reload):
-        logging.info('Refresh values requested.')
+        logger.info('Refresh values requested.')
         __message_values(update)
         __start_standby_timer(bot, update)
         return SELECTION
@@ -138,7 +138,7 @@ def __selection(bot, update):
     else:
         update.message.reply_text(lib.msg_duration.format(target),
                                   parse_mode=ParseMode.MARKDOWN, reply_markup=markup2)
-        logging.info('Selection: {0}'.format(str(target)))
+        logger.info('Selection: {0}'.format(str(target)))
 
         __start_standby_timer(bot, update)
         return DURATION
@@ -156,12 +156,12 @@ def __duration(bot, update):
     if water_time == str(lib.cancel):
         update.message.reply_text(lib.msg_new_choice,
                                   parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
-        logging.info(lib.msg_new_choice)
+        logger.info(lib.msg_new_choice)
 
     elif water_time == str(lib.panic):
         update.message.reply_text(lib.msg_panic,
                                   parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
-        logging.info(lib.msg_panic)
+        logger.info(lib.msg_panic)
         os.system(conf.run_extended_greenhouse + str(user_id))
 
     elif target == str(lib.group1[1]):
@@ -216,7 +216,7 @@ def __duration(bot, update):
     elif target == str(lib.all_channels):
         # __water_all(bot, update)
         # __group(bot, update)
-        logging.warning("all channels..." + str(selection))
+        logger.warning("all channels..." + str(selection))
 
 
     else:
@@ -228,7 +228,7 @@ def __duration(bot, update):
 
 # watering targets
 def __all_off():
-    logging.info('Switch all off.')
+    logger.info('Switch all off.')
     for channel in all_groups:
         utils.switch_off(channel)
     return
@@ -236,7 +236,7 @@ def __all_off():
 
 @run_async
 def __water_all(bot, update):
-    logging.info('Duration: {0}'.format(water_time))
+    logger.info('Duration: {0}'.format(water_time))
     __stop_standby_timer(bot, update)
     update.message.reply_text(lib.water_on_all.format(target, water_time),
                               parse_mode=ParseMode.MARKDOWN, reply_markup=markup3)
@@ -259,8 +259,8 @@ def __water_all(bot, update):
 
 @run_async
 def __water(bot, update, channel):
-    logging.info('Duration: {0}'.format(water_time))
-    logging.info('Toggle {0}'.format(str(channel)))
+    logger.info('Duration: {0}'.format(water_time))
+    logger.info('Toggle {0}'.format(str(channel)))
     __stop_standby_timer(bot, update)
     update.message.reply_text(lib.water_on.format(target, water_time),
                               parse_mode=ParseMode.MARKDOWN, reply_markup=markup3)
@@ -279,8 +279,8 @@ def __water(bot, update, channel):
 
 @run_async
 def __water_group(bot, update, group):
-    logging.info('Duration: {0}'.format(water_time))
-    logging.info('Toggle {0}'.format(str(group)))
+    logger.info('Duration: {0}'.format(water_time))
+    logger.info('Toggle {0}'.format(str(group)))
     __stop_standby_timer(bot, update)
     update.message.reply_text(lib.water_on_group.format(target, water_time),
                               parse_mode=ParseMode.MARKDOWN, reply_markup=markup3)
@@ -323,7 +323,7 @@ def __message_values(update):
 def __stop(bot, update):
     __all_off()
     __stop_standby_timer(bot, update)
-    logging.info('Bot stopped.')
+    logger.info('Bot stopped.')
     __cam_off()
     display.show_stop()
     update.message.reply_text(lib.msg_stop, parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
@@ -346,7 +346,7 @@ def __emergency_stop_handler(bot, update, chat_data):
 def __start_emergency_stop(bot, update):
     global emergency_job
     emergency_job = jq.run_once(__job_stop_and_restart, 0, context=update)
-    logging.warning("Initialize emergency stop immediately.")
+    logger.warning("Initialize emergency stop immediately.")
     return
 
 
@@ -354,26 +354,26 @@ def __start_emergency_stop(bot, update):
 def __start_standby_timer(bot, update):
     global timer_job
     timer_job = jq.run_once(__job_stop_and_restart, conf.standby_timeout, context=update)
-    logging.warning("Init standby timer of {0} seconds, added to queue.".format(conf.standby_timeout))
+    logger.warning("Init standby timer of {0} seconds, added to queue.".format(conf.standby_timeout))
     return
 
 
 def __stop_standby_timer(bot, upadate):
     timer_job.schedule_removal()
-    logging.warning("Timer job removed from the queue.")
+    logger.warning("Timer job removed from the queue.")
     return
 
 
 # job to stop and restart application
 def __job_stop_and_restart(bot, job):
-    logging.warning("Job: Stop and restart called!")
+    logger.warning("Job: Stop and restart called!")
     stop_and_restart.stop_and_restart(job.context)
     return
 
 
 # error
 def __error(bot, update, e):
-    logging.error('Update "{0}" caused error "{1}"'.format(update, e))
+    logger.error('Update "{0}" caused error "{1}"'.format(update, e))
     display.show_error()
     __cam_off()
     conf.GPIO.cleanup()
@@ -391,13 +391,13 @@ def __start_time():
 
 # camera
 def __cam_on():
-    logging.info('Enable camera module.')
+    logger.info('Enable camera module.')
     os.system(conf.enable_camera)
     return
 
 
 def __cam_off():
-    logging.info('Disable camera module.')
+    logger.info('Disable camera module.')
     os.system(conf.disable_camera)
     return
 
@@ -450,7 +450,7 @@ def main():
 
     global jq
     jq = updater.job_queue
-    logging.info('Init job queue.')
+    logger.info('Init job queue.')
 
     dp = updater.dispatcher
 
