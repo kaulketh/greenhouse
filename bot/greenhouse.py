@@ -212,9 +212,10 @@ def __duration(bot, update):
         __water(bot, update, group_three[1])
 
     elif target == str(lib.all_channels):
-        # __water_all(bot, update)
+
+        logger.warning("slected to water..." + str(selection))
+        __water_group(bot, update, selection)
         # __group(bot, update)
-        logger.warning("all channels..." + str(selection))
 
     else:
         update.message.reply_text(lib.msg_choice, reply_markup=markup1)
@@ -408,19 +409,27 @@ def __button(bot, update):
         if not selection.__contains__(int(added_selection)):
             selection += (int(added_selection),)
             bot.edit_message_text(text="Selected: {} - Summary: {}".format(added_selection, selection),
-                              chat_id=query.message.chat_id,
-                              message_id=query.message.message_id,
-                              reply_markup=reply_markup)
+                                  chat_id=query.message.chat_id,
+                                  message_id=query.message.message_id,
+                                  reply_markup=reply_markup)
 
         logger.info(selection)
 
     elif added_selection == 'Fertig':
         logger.info("current selection: " + str(selection))
-        __duration(bot, update)
+        update.message.reply_text(lib.msg_duration.format(selection),
+                                  parse_mode=ParseMode.MARKDOWN, reply_markup=markup2)
+        logger.info('Selection: {0}'.format(str(selection)))
+
+        __start_standby_timer(bot, update)
+        return DURATION
 
     elif added_selection == lib.cancel:
         selection = ()
-        __selection(bot, update)
+        update.message.reply_text(lib.msg_new_choice,
+                                  parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
+        logger.info(lib.msg_new_choice)
+        return SELECTION
 
 
 def __get_inline_btn(text, callback):
@@ -430,10 +439,10 @@ def __get_inline_btn(text, callback):
 def __group(bot, update):
     __stop_standby_timer(bot, update)
     inline_keyboard = [
-        [__get_inline_btn(lib.group1[1], '1'), __get_inline_btn(lib.group1[2], '2'),
-         __get_inline_btn(lib.group1[3], '3'), __get_inline_btn(lib.group3[1], '4')],
-        [__get_inline_btn(lib.group3[2], '5'), __get_inline_btn(lib.group2[1], '6'),
-         __get_inline_btn(lib.group2[2], '7'), __get_inline_btn(lib.group2[3], '8')],
+        [__get_inline_btn(lib.group1[1], conf.RELAIS_01), __get_inline_btn(lib.group1[2], conf.RELAIS_02),
+         __get_inline_btn(lib.group1[3], conf.RELAIS_03), __get_inline_btn(lib.group3[1], conf.RELAIS_04)],
+        [__get_inline_btn(lib.group3[2], conf.RELAIS_05), __get_inline_btn(lib.group2[1], conf.RELAIS_06),
+         __get_inline_btn(lib.group2[2], conf.RELAIS_07), __get_inline_btn(lib.group2[3], conf.RELAIS_08)],
         [__get_inline_btn('Fertig', 'Fertig'), __get_inline_btn(lib.cancel, lib.cancel)]
     ]
 
