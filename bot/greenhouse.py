@@ -52,8 +52,7 @@ markup1 = ReplyKeyboardMarkup(conf.kb1, resize_keyboard=True, one_time_keyboard=
 markup2 = ReplyKeyboardMarkup(conf.kb2, resize_keyboard=True, one_time_keyboard=True)
 markup3 = ReplyKeyboardMarkup(conf.kb3, resize_keyboard=True, one_time_keyboard=True)
 
-# grouping
-btn = ("Alle", "Kanal 1", "Kanal 2", "Kanal 3", "Kanal 4", "Kanal 5", "Kanal 6", "Kanal 7", "Kanal 8")
+# for grouping
 selection = ()
 
 
@@ -421,7 +420,8 @@ def __button(bot, update):
 
     elif added_selection == "Fertig":
         logger.info("current slection: " + str(selection))
-        # return selection
+        return SELECTION
+
     elif added_selection == "Abbruch":
         return SELECTION
 
@@ -432,9 +432,9 @@ def __get_inline_btn(text, callback):
 
 def __group(bot, update):
     inline_keyboard = [
-        [__get_inline_btn(btn[1], "1"), __get_inline_btn(btn[2], "2"), __get_inline_btn(btn[3], "3"), __get_inline_btn(btn[4], "4")],
-        [__get_inline_btn(btn[5], "5"), __get_inline_btn(btn[6], "6"), __get_inline_btn(btn[7], "7"), __get_inline_btn(btn[8], "8")],
-        [__get_inline_btn("Fertig", "Fertig"), __get_inline_btn("Abbruch", "Abbruch")]
+        [__get_inline_btn(lib.group1[1], '1'), __get_inline_btn(lib.group1[2], '2'), __get_inline_btn(lib.group1[3], '3'), __get_inline_btn(lib.group3[1], '4')],
+        [__get_inline_btn(lib.group3[2], '5'), __get_inline_btn(lib.group2[1], '6'), __get_inline_btn(lib.group2[2], '7'), __get_inline_btn(lib.group2[3], '8')],
+        [__get_inline_btn('Fertig', 'Fertig'), __get_inline_btn(lib.cancel, 'Abbruch')]
     ]
 
     global reply_markup
