@@ -405,8 +405,7 @@ def __button(bot, update):
     query = update.callback_query
     added_selection = str(query.data)
     if not (added_selection == 'Fertig' or added_selection == str(lib.cancel)):
-        logger.info(added_selection)
-        if not selection.__contains__(added_selection):
+        if not selection.__contains__(int(added_selection)):
             selection += (int(added_selection),)
 
         bot.edit_message_text(text="Selected: {} - Summary: {}".format(added_selection, selection),
@@ -417,10 +416,11 @@ def __button(bot, update):
         logger.info(selection)
 
     elif added_selection == 'Fertig':
-        logger.info("current slection: " + str(selection))
+        logger.info("current selection: " + str(selection))
         return SELECTION
 
     elif added_selection == lib.cancel:
+        selection = ()
         return SELECTION
 
 
@@ -434,7 +434,7 @@ def __group(bot, update):
          __get_inline_btn(lib.group1[3], '3'), __get_inline_btn(lib.group3[1], '4')],
         [__get_inline_btn(lib.group3[2], '5'), __get_inline_btn(lib.group2[1], '6'),
          __get_inline_btn(lib.group2[2], '7'), __get_inline_btn(lib.group2[3], '8')],
-        [__get_inline_btn('Fertig', 'Fertig'), __get_inline_btn(lib.cancel, 'Abbruch')]
+        [__get_inline_btn('Fertig', 'Fertig'), __get_inline_btn(lib.cancel, lib.cancel)]
     ]
 
     global reply_markup
