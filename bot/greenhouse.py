@@ -431,6 +431,8 @@ def __button(bot, update):
                          parse_mode=ParseMode.MARKDOWN,
                          reply_markup=markup2)
         logger.info(lib.msg_grouping_selection.format(str(selection)))
+        logger.info(target)
+        logger.info(water_time)
         __duration(bot, g_grouping_update)
 
     elif added_selection == lib.cancel:
