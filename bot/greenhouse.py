@@ -417,15 +417,16 @@ def __button(bot, update):
         logger.info(selection)
 
     elif added_selection == 'Fertig':
-        logger.info("current selection: " + str(selection))
+        logger.info('current selection:  ' + str(selection))
         logger.info('current water time: ' + str(water_time))
+        logger.info('current target:     ' + str(target))
         bot.delete_message(chat_id=query.message.chat_id,
                                   message_id=query.message.message_id)
         bot.send_message(text=lib.msg_duration.format(selection),
                          chat_id=query.message.chat_id,
                          parse_mode=ParseMode.MARKDOWN,
                          reply_markup=markup2)
-        logger.info('Selection: {0}'.format(str(selection)))
+        logger.info('Grouped selection: {0}'.format(str(selection)))
         return
 
     elif added_selection == lib.cancel:
