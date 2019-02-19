@@ -374,7 +374,7 @@ def __error(bot, update, e):
     logger.error('Update "{0}" caused error "{1}"'.format(update, e))
     display.show_error()
     __cam_off()
-    conf.GPIO.cleanup()
+    utils.GPIO.cleanup()
     return ConversationHandler.END
 
 
@@ -401,7 +401,6 @@ def __cam_off():
 
 
 # grouping
-@run_async
 def __button(bot, update):
     global selection
     query = update.callback_query
@@ -443,7 +442,7 @@ def __button(bot, update):
 def __get_inline_btn(text, callback):
     return InlineKeyboardButton(text, callback_data=callback)
 
-@run_async
+
 def __group(bot, update):
     __stop_standby_timer(bot, update)
     inline_keyboard = [
