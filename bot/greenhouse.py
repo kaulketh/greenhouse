@@ -427,17 +427,19 @@ def __button(bot, update, chat_data):
         logger.info('current target:     ' + str(target))
         bot.delete_message(chat_id=query.message.chat_id,
                            message_id=query.message.message_id)
-        bot.send_message(text=lib.msg_duration.format(selection),
-                         chat_id=query.message.chat_id,
-                         parse_mode=ParseMode.MARKDOWN,
-                         reply_markup=markup2)
-
-        # water_time = g_group_update.message.text
-        logger.info(lib.msg_grouping_selection.format(str(selection)))
-        logger.info(target)
-        logger.info(water_time)
-        # __duration(bot, g_group_update)
-        return DURATION
+        __selection(bot, g_group_update)
+        #return SELECTION
+        # bot.send_message(text=lib.msg_duration.format(selection),
+        #                  chat_id=query.message.chat_id,
+        #                  parse_mode=ParseMode.MARKDOWN,
+        #                  reply_markup=markup2)
+        #
+        # # water_time = g_group_update.message.text
+        # logger.info(lib.msg_grouping_selection.format(str(selection)))
+        # logger.info(target)
+        # logger.info(water_time)
+        # # __duration(bot, g_group_update)
+        # return DURATION
 
     elif added_selection == lib.cancel:
         selection = ()
