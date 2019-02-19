@@ -431,9 +431,8 @@ def __button(bot, update):
                          parse_mode=ParseMode.MARKDOWN,
                          reply_markup=markup2)
         logger.info(lib.msg_grouping_selection.format(str(selection)))
-        global water_time
-        water_time =  g_grouping_update.message.text
-        return DURATION
+        __duration(bot, g_grouping_update)
+
     elif added_selection == lib.cancel:
         selection = ()
         bot.delete_message(chat_id=query.message.chat_id,
