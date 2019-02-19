@@ -401,7 +401,6 @@ def __cam_off():
 
 
 # grouping
-@run_async
 def __button(bot, update):
     global selection
     query = update.callback_query
@@ -450,7 +449,7 @@ def __button(bot, update):
 def __get_inline_btn(text, callback):
     return InlineKeyboardButton(text, callback_data=callback)
 
-@run_async
+
 def __group(bot, update):
     __stop_standby_timer(bot, update)
     inline_keyboard = [
