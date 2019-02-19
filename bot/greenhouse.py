@@ -419,6 +419,7 @@ def __button(bot, update):
 
         logger.info(selection)
     elif added_selection == str(lib.btn_finished):
+        global water_time
         global target
         target = lib.grouping
         logger.info('current selection:  ' + str(selection))
@@ -430,10 +431,12 @@ def __button(bot, update):
                          chat_id=query.message.chat_id,
                          parse_mode=ParseMode.MARKDOWN,
                          reply_markup=markup2)
+
+        water_time = g_duration_update.message.text
         logger.info(lib.msg_grouping_selection.format(str(selection)))
         logger.info(target)
         logger.info(water_time)
-        __duration(bot, g_grouping_update)
+        __duration(bot, g_duration_update)
 
     elif added_selection == lib.cancel:
         selection = ()
@@ -453,8 +456,6 @@ def __get_inline_btn(text, callback):
 
 def __group(bot, update):
     global selection
-    global g_grouping_update
-    g_grouping_update = update
     selection = ()
     logger.info('Grouping mode called.')
     inline_keyboard = [
