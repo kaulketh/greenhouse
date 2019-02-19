@@ -29,6 +29,10 @@ stop_bot = 'Beenden'
 live_stream = 'Schau mal!'
 reload = 'Aktualisieren'
 emergency_stop = 'NOT - STOP'
+grouping = 'Gruppieren'
+btn_finished = 'Fertig'
+btn_cancel = cancel
+
 group1 = ('Kanal 1 bis 3', 'Kanal 1', 'Kanal 2', 'Kanal 3')
 group2 = ('Kanal 6 bis 8', 'Kanal 6', 'Kanal 7', 'Kanal 8')
 group3 = ('Kanal 4 und 5', 'Kanal 4', 'Kanal 5')
@@ -38,6 +42,8 @@ hum = 'Luftfeuchtigkeit'
 core = 'Kern-Temperatur'
 
 # messages
+msg_grouping = '`Gruppierung, bitte auswählen!`'
+msg_grouping_selection = '`Auswahl: {}`'
 msg_live = '[Hier gehts zum Live Stream]({})'
 msg_temperature = '`{}Aktuelle Werte\n{}, {}\n{}`'
 msg_welcome = '`Hallo {}!`'

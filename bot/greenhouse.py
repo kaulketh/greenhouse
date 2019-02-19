@@ -406,17 +406,17 @@ def __button(bot, update):
     global selection
     query = update.callback_query
     added_selection = str(query.data)
-    if not (added_selection == 'Fertig' or added_selection == str(lib.cancel)):
+    if not (added_selection == str(lib.btn_finished) or added_selection == str(lib.cancel)):
         if not selection.__contains__(int(added_selection)):
             selection += (int(added_selection),)
-            bot.edit_message_text(text="Selected: {} - Summary: {}".format(added_selection, selection),
+            bot.edit_message_text(text=lib.msg_grouping_selection.format(selection),
                                   chat_id=query.message.chat_id,
                                   message_id=query.message.message_id,
                                   reply_markup=reply_markup)
 
         logger.info(selection)
 
-    elif added_selection == 'Fertig':
+    elif added_selection == str(lib.btn_finished):
         logger.info('current selection:  ' + str(selection))
         logger.info('current water time: ' + str(water_time))
         logger.info('current target:     ' + str(target))
@@ -426,8 +426,8 @@ def __button(bot, update):
                          chat_id=query.message.chat_id,
                          parse_mode=ParseMode.MARKDOWN,
                          reply_markup=markup2)
-        logger.info('Grouped selection: {0}'.format(str(selection)))
-        return
+        logger.info(lib.msg_grouping_selection.format(str(selection)))
+        return DURATION
 
     elif added_selection == lib.cancel:
         selection = ()
@@ -452,12 +452,12 @@ def __group(bot, update):
          __get_inline_btn(lib.group1[3], conf.RELAIS_03), __get_inline_btn(lib.group3[1], conf.RELAIS_04)],
         [__get_inline_btn(lib.group3[2], conf.RELAIS_05), __get_inline_btn(lib.group2[1], conf.RELAIS_06),
          __get_inline_btn(lib.group2[2], conf.RELAIS_07), __get_inline_btn(lib.group2[3], conf.RELAIS_08)],
-        [__get_inline_btn('Fertig', 'Fertig'), __get_inline_btn(lib.cancel, lib.cancel)]
+        [__get_inline_btn(lib.btn_finished, lib.btn_finished), __get_inline_btn(lib.btn_cancel, lib.btn_cancel)]
     ]
 
     global reply_markup
     reply_markup = InlineKeyboardMarkup(inline_keyboard)
-    update.message.reply_text(' Grouping, please select: ', reply_markup=reply_markup)
+    update.message.reply_text(lib.msg_grouping, reply_markup=reply_markup)
 
 
 def main():
@@ -492,13 +492,28 @@ def main():
                     str(lib.group3[2]),
                     str(lib.panic),
                     str(lib.live_stream),
-                    str(lib.reload)), __selection),
-                RegexHandler('^{0}$'.format(lib.stop_bot), __stop),
-                RegexHandler('^{0}$'.format(lib.all_channels), __group)
+                    str(lib.reload)),
+                __selection),
+                RegexHandler(
+                    '^{0}$'.format(
+                        lib.stop_bot),
+                    __stop),
+                RegexHandler(
+                    '^{0}$'.format(
+                        lib.grouping),
+                    __group)
             ],
 
-            DURATION: [RegexHandler('^([0-9]+|{0}|{1})$'.format(str(lib.cancel), str(lib.panic)), __duration),
-                       RegexHandler('^{0}$'.format(lib.stop_bot), __stop)]
+            DURATION: [RegexHandler(
+                '^([0-9]+|{0}|{1}|{2})$'.format(
+                    str(lib.cancel),
+                    str(lib.panic),
+                    str(lib.btn_finished)),
+                __duration),
+                       RegexHandler(
+                           '^{0}$'.format(
+                               lib.stop_bot),
+                           __stop)]
                 },
         fallbacks=[CommandHandler('stop', __stop)]
     )
