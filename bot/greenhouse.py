@@ -124,7 +124,8 @@ def __selection(bot, update):
 
     elif target == str(lib.live_stream):
         logger.info('Live URL requested.')
-        update.message.reply_text(lib.msg_live.format(str(conf.live)), parse_mode=ParseMode.MARKDOWN)
+        update.message.reply_text(lib.msg_live.format(str(conf.live)),
+                                  parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
         __start_standby_timer(bot, update)
         return SELECTION
 
@@ -313,7 +314,7 @@ def __message_values(update):
 
     core_temp = (lib.core + lib.colon_space + core.get_temperature())
     update.message.reply_text(lib.msg_temperature.format(
-        __start_time(), temp, hum, core_temp), parse_mode=ParseMode.MARKDOWN)
+        __start_time(), temp, hum, core_temp), parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
     return
 
 
@@ -416,19 +417,16 @@ def __button(bot, update):
         logger.info(selection)
 
     elif added_selection == 'Fertig':
-        #global water_time
         logger.info("current selection: " + str(selection))
         logger.info('current water time: ' + str(water_time))
-        #water_time = update.message.text
         bot.delete_message(chat_id=query.message.chat_id,
                                   message_id=query.message.message_id)
         bot.send_message(text=lib.msg_duration.format(selection),
                          chat_id=query.message.chat_id,
-                         # reply_to_message_id=query.message.message_id,
                          parse_mode=ParseMode.MARKDOWN,
                          reply_markup=markup2)
         logger.info('Selection: {0}'.format(str(selection)))
-        return DURATION
+        return
 
     elif added_selection == lib.cancel:
         selection = ()
@@ -447,6 +445,7 @@ def __get_inline_btn(text, callback):
 
 
 def __group(bot, update):
+    logger.info('Grouping mode called.')
     inline_keyboard = [
         [__get_inline_btn(lib.group1[1], conf.RELAIS_01), __get_inline_btn(lib.group1[2], conf.RELAIS_02),
          __get_inline_btn(lib.group1[3], conf.RELAIS_03), __get_inline_btn(lib.group3[1], conf.RELAIS_04)],
