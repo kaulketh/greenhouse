@@ -112,6 +112,8 @@ def __start(bot, update):
 # set the target, member of group or group
 def __selection(bot, update):
     global target
+    global g_selection_update
+    g_selection_update = update
     target = update.message.text
 
     __stop_standby_timer(bot, update)
@@ -416,20 +418,22 @@ def __button(bot, update):
                                   reply_markup=reply_markup)
 
         logger.info(selection)
-
     elif added_selection == str(lib.btn_finished):
+        global target
+        target = lib.grouping
         logger.info('current selection:  ' + str(selection))
         logger.info('current water time: ' + str(water_time))
         logger.info('current target:     ' + str(target))
         bot.delete_message(chat_id=query.message.chat_id,
-                                  message_id=query.message.message_id)
+                           message_id=query.message.message_id)
         bot.send_message(text=lib.msg_duration.format(selection),
                          chat_id=query.message.chat_id,
                          parse_mode=ParseMode.MARKDOWN,
                          reply_markup=markup2)
         logger.info(lib.msg_grouping_selection.format(str(selection)))
+        global water_time
+        water_time =  g_grouping_update.message.text
         return DURATION
-
     elif added_selection == lib.cancel:
         selection = ()
         bot.delete_message(chat_id=query.message.chat_id,
@@ -447,6 +451,10 @@ def __get_inline_btn(text, callback):
 
 
 def __group(bot, update):
+    global selection
+    global g_grouping_update
+    g_grouping_update = update
+    selection = ()
     logger.info('Grouping mode called.')
     inline_keyboard = [
         [__get_inline_btn(lib.group1[1], conf.RELAIS_01), __get_inline_btn(lib.group1[2], conf.RELAIS_02),
