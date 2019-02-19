@@ -401,6 +401,7 @@ def __cam_off():
 
 
 # grouping
+@run_async
 def __button(bot, update):
     global selection
     query = update.callback_query
@@ -419,22 +420,26 @@ def __button(bot, update):
         global water_time
         logger.info("current selection: " + str(selection))
         logger.info('current water time: ' + str(water_time))
+        water_time = update.message.text
+        bot.delete_message(chat_id=query.message.chat_id,
+                                  message_id=query.message.message_id)
         bot.send_message(text=lib.msg_duration.format(selection),
                          chat_id=query.message.chat_id,
-                         reply_to_message_id=query.message.message_id,
+                         # reply_to_message_id=query.message.message_id,
                          parse_mode=ParseMode.MARKDOWN,
                          reply_markup=markup2)
         logger.info('Selection: {0}'.format(str(selection)))
         __start_standby_timer(bot, update)
-        water_time = update.message.text
         logger.info(water_time)
         return DURATION
 
     elif added_selection == lib.cancel:
         selection = ()
+        bot.delete_message(chat_id=query.message.chat_id,
+                           message_id=query.message.message_id)
         bot.send_message(text=lib.msg_new_choice,
                          chat_id=query.message.chat_id,
-                         reply_to_message_id=query.message.message_id,
+                         # reply_to_message_id=query.message.message_id,
                          parse_mode=ParseMode.MARKDOWN,
                          reply_markup=markup1)
         logger.info(lib.msg_new_choice)
@@ -445,7 +450,7 @@ def __button(bot, update):
 def __get_inline_btn(text, callback):
     return InlineKeyboardButton(text, callback_data=callback)
 
-
+@run_async
 def __group(bot, update):
     __stop_standby_timer(bot, update)
     inline_keyboard = [
