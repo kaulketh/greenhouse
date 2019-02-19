@@ -16,8 +16,8 @@ from __future__ import absolute_import
 import math
 import utils.utils as utils
 from time import sleep
-import logger.logger as log
-logger = log.get_logger()
+import logger as logger
+logger = logger.get_logger()
 
 # http://www.uize.com/examples/seven-segment-display.html
 #               0    1     2     3     4     5     6     7     8     9
@@ -41,7 +41,7 @@ STARTADDR = 0xC0
 class TM1637:
     logger.info('Init pin settings four digits display!')
     global IO
-    IO = utils.set_pins()
+    IO = utils.GPIO
     __double_point = False
     __clk_pin = 0
     __data_pin = 0

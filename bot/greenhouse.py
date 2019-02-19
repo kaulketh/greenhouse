@@ -416,22 +416,25 @@ def __button(bot, update):
         logger.info(selection)
 
     elif added_selection == 'Fertig':
+        global water_time
         logger.info("current selection: " + str(selection))
+        logger.info('current water time: ' + str(water_time))
         bot.send_message(text=lib.msg_duration.format(selection),
                          chat_id=query.message.chat_id,
-                         #reply_to_message_id=query.message.message_id,
+                         reply_to_message_id=query.message.message_id,
                          parse_mode=ParseMode.MARKDOWN,
                          reply_markup=markup2)
         logger.info('Selection: {0}'.format(str(selection)))
         __start_standby_timer(bot, update)
         water_time = update.message.text
+        logger.info(water_time)
         return DURATION
 
     elif added_selection == lib.cancel:
         selection = ()
         bot.send_message(text=lib.msg_new_choice,
                          chat_id=query.message.chat_id,
-                         #reply_to_message_id=query.message.message_id,
+                         reply_to_message_id=query.message.message_id,
                          parse_mode=ParseMode.MARKDOWN,
                          reply_markup=markup1)
         logger.info(lib.msg_new_choice)
