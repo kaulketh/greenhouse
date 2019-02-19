@@ -428,7 +428,6 @@ def __button(bot, update):
                          parse_mode=ParseMode.MARKDOWN,
                          reply_markup=markup2)
         logger.info('Selection: {0}'.format(str(selection)))
-        __start_standby_timer(bot, update)
         return DURATION
 
     elif added_selection == lib.cancel:
@@ -440,7 +439,6 @@ def __button(bot, update):
                          parse_mode=ParseMode.MARKDOWN,
                          reply_markup=markup1)
         logger.info(lib.msg_new_choice)
-        __start_standby_timer(bot, update)
         return SELECTION
 
 
@@ -449,7 +447,6 @@ def __get_inline_btn(text, callback):
 
 
 def __group(bot, update):
-    __stop_standby_timer(bot, update)
     inline_keyboard = [
         [__get_inline_btn(lib.group1[1], conf.RELAIS_01), __get_inline_btn(lib.group1[2], conf.RELAIS_02),
          __get_inline_btn(lib.group1[3], conf.RELAIS_03), __get_inline_btn(lib.group3[1], conf.RELAIS_04)],
@@ -461,7 +458,6 @@ def __group(bot, update):
     global reply_markup
     reply_markup = InlineKeyboardMarkup(inline_keyboard)
     update.message.reply_text(' Grouping, please select: ', reply_markup=reply_markup)
-    __start_standby_timer(bot, update)
 
 
 def main():
