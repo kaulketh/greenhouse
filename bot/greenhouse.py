@@ -212,7 +212,7 @@ def __duration(bot, update):
 
         __water(bot, update, group_three[1])
 
-    elif target == str(lib.all_channels):
+    elif target == str(lib.grouping):
 
         logger.warning("selected to water..." + str(selection))
         __water_group(bot, update, selection)
@@ -412,6 +412,7 @@ def __button(bot, update):
             bot.edit_message_text(text=lib.msg_grouping_selection.format(selection),
                                   chat_id=query.message.chat_id,
                                   message_id=query.message.message_id,
+                                  parse_mode=ParseMode.MARKDOWN,
                                   reply_markup=reply_markup)
 
         logger.info(selection)
@@ -457,7 +458,7 @@ def __group(bot, update):
 
     global reply_markup
     reply_markup = InlineKeyboardMarkup(inline_keyboard)
-    update.message.reply_text(lib.msg_grouping, reply_markup=reply_markup)
+    update.message.reply_text(lib.msg_grouping, reply_markup=reply_markup, parse_mode=ParseMode.MARKDOWN)
 
 
 def main():
