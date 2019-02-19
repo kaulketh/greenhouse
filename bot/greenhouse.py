@@ -359,7 +359,7 @@ def __start_standby_timer(bot, update):
     return
 
 
-def __stop_standby_timer(bot, upadate):
+def __stop_standby_timer(bot, update):
     timer_job.schedule_removal()
     logger.warning("Timer job removed from the queue.")
     return
@@ -404,7 +404,7 @@ def __cam_off():
 
 
 # grouping
-def __button(bot, update):
+def __button(bot, update, chat_data):
     global selection
     query = update.callback_query
     added_selection = str(query.data)
@@ -432,7 +432,7 @@ def __button(bot, update):
                          parse_mode=ParseMode.MARKDOWN,
                          reply_markup=markup2)
 
-        water_time = g_group_update.message.text
+        # water_time = g_group_update.message.text
         logger.info(lib.msg_grouping_selection.format(str(selection)))
         logger.info(target)
         logger.info(water_time)
@@ -486,7 +486,7 @@ def main():
 
     dp = updater.dispatcher
 
-    group_handler = CallbackQueryHandler(__button)
+    group_handler = CallbackQueryHandler(__button, pass_chat_data=True)
 
     emergency_stop_handler = RegexHandler('^{0}$'.format(str(lib.emergency_stop)),
                                           __emergency_stop_handler,
