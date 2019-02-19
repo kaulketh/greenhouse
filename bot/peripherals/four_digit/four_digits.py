@@ -37,11 +37,10 @@ ADDR_FIXED = 0x44
 STARTADDR = 0xC0
 # DEBUG = False
 
+logger.info('Init pin settings four digits display!')
+IO = utils.set_pins()
 
 class TM1637:
-    logger.info('Init pin settings four digits display!')
-    global IO
-    IO = utils.GPIO
     __double_point = False
     __clk_pin = 0
     __data_pin = 0
