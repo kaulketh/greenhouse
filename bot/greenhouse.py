@@ -425,7 +425,7 @@ def __button(bot, update, chat_data):
         logger.info('current target:     ' + str(target))
         bot.delete_message(chat_id=query.message.chat_id,
                            message_id=query.message.message_id)
-        return DURATION
+        return
         #return SELECTION
         # bot.send_message(text=lib.msg_duration.format(selection),
         #                  chat_id=query.message.chat_id,
@@ -472,6 +472,14 @@ def __group(bot, update):
     update.message.reply_text(lib.msg_grouping, reply_markup=reply_markup, parse_mode=ParseMode.MARKDOWN)
 
 
+def __group_duration_handler(bot, update, chat_data):
+    target = update.message.text
+    if not target:
+        return
+    if target == lib.grouping:
+        __duration(bot, update)
+
+
 def main():
     __init_bot_set_pins()
 
@@ -486,7 +494,7 @@ def main():
 
     group_handler = CallbackQueryHandler(__button, pass_chat_data=True)
     group_duration_handler = RegexHandler('^{0}$'.format(str(lib.btn_finished)),
-                                          __duration)
+                                          __group_duration_handler,pass_chat_data=True, pass_update_queue=True)
 
     emergency_stop_handler = RegexHandler('^{0}$'.format(str(lib.emergency_stop)),
                                           __emergency_stop_handler,
