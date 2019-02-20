@@ -46,7 +46,6 @@ user_id = lib.empty
 jq = None
 timer_job = None
 
-
 # keyboard config
 markup1 = ReplyKeyboardMarkup(conf.kb1, resize_keyboard=True, one_time_keyboard=True)
 markup2 = ReplyKeyboardMarkup(conf.kb2, resize_keyboard=True, one_time_keyboard=True)
@@ -112,6 +111,8 @@ def __start(bot, update):
 # set the target, member of group or group
 def __selection(bot, update):
     global target
+    global g_selection_update
+    g_selection_update = update
     target = update.message.text
 
     __stop_standby_timer(bot, update)
@@ -136,12 +137,15 @@ def __selection(bot, update):
         return SELECTION
 
     else:
-        update.message.reply_text(lib.msg_duration.format(target),
-                                  parse_mode=ParseMode.MARKDOWN, reply_markup=markup2)
-        logger.info('Selection: {0}'.format(str(target)))
+        return __selected_target(bot, update, target)
 
-        __start_standby_timer(bot, update)
-        return DURATION
+
+def __selected_target(bot, update, selected_target):
+    update.message.reply_text(lib.msg_duration.format(selected_target),
+                              parse_mode=ParseMode.MARKDOWN, reply_markup=markup2)
+    logger.info('Selection: {0}'.format(str(selected_target)))
+    __start_standby_timer(bot, update)
+    return DURATION
 
 
 # set water duration
@@ -417,16 +421,14 @@ def __button(bot, update, chat_data):
 
         logger.info(selection)
     elif added_selection == str(lib.btn_finished):
-        global water_time
         global target
         target = lib.grouping
         logger.info('current selection:  ' + str(selection))
-        logger.info('current water time: ' + str(water_time))
         logger.info('current target:     ' + str(target))
         bot.delete_message(chat_id=query.message.chat_id,
                            message_id=query.message.message_id)
-        return
-        #return SELECTION
+
+        return __selected_target(bot, g_selection_update, target)
         # bot.send_message(text=lib.msg_duration.format(selection),
         #                  chat_id=query.message.chat_id,
         #                  parse_mode=ParseMode.MARKDOWN,
@@ -472,14 +474,6 @@ def __group(bot, update):
     update.message.reply_text(lib.msg_grouping, reply_markup=reply_markup, parse_mode=ParseMode.MARKDOWN)
 
 
-def __group_duration_handler(bot, update, chat_data):
-    target = update.message.text
-    if not target:
-        return
-    if target == lib.grouping:
-        __duration(bot, update)
-
-
 def main():
     __init_bot_set_pins()
 
@@ -493,8 +487,6 @@ def main():
     dp = updater.dispatcher
 
     group_handler = CallbackQueryHandler(__button, pass_chat_data=True)
-    group_duration_handler = RegexHandler('^{0}$'.format(str(lib.btn_finished)),
-                                          __group_duration_handler,pass_chat_data=True, pass_update_queue=True)
 
     emergency_stop_handler = RegexHandler('^{0}$'.format(str(lib.emergency_stop)),
                                           __emergency_stop_handler,
@@ -539,7 +531,6 @@ def main():
         fallbacks=[CommandHandler('stop', __stop)]
     )
     dp.add_handler(group_handler)
-    dp.add_handler(group_duration_handler)
 
     dp.add_handler(emergency_stop_handler)
 
