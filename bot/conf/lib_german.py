@@ -29,7 +29,7 @@ stop_bot = 'Beenden'
 live_stream = 'Schau mal!'
 reload = 'Aktualisieren'
 emergency_stop = 'NOT - STOP'
-grouping = 'Gruppieren'
+grouping = 'Gruppierung'
 btn_finished = 'Fertig'
 btn_cancel = cancel
 

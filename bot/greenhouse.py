@@ -112,8 +112,6 @@ def __start(bot, update):
 # set the target, member of group or group
 def __selection(bot, update):
     global target
-    global g_selection_update
-    g_selection_update = update
     target = update.message.text
 
     __stop_standby_timer(bot, update)
@@ -427,7 +425,7 @@ def __button(bot, update, chat_data):
         logger.info('current target:     ' + str(target))
         bot.delete_message(chat_id=query.message.chat_id,
                            message_id=query.message.message_id)
-        __selection(bot, g_group_update)
+        return DURATION
         #return SELECTION
         # bot.send_message(text=lib.msg_duration.format(selection),
         #                  chat_id=query.message.chat_id,
@@ -458,8 +456,6 @@ def __get_inline_btn(text, callback):
 
 
 def __group(bot, update):
-    global g_group_update
-    g_group_update = update
     global selection
     selection = ()
     logger.info('Grouping mode called.')
@@ -489,6 +485,9 @@ def main():
     dp = updater.dispatcher
 
     group_handler = CallbackQueryHandler(__button, pass_chat_data=True)
+    group_duration_handler = RegexHandler('^{0}$'.format(str(lib.grouping)),
+                                          __duration,
+                                          pass_chat_data=True)
 
     emergency_stop_handler = RegexHandler('^{0}$'.format(str(lib.emergency_stop)),
                                           __emergency_stop_handler,
@@ -521,10 +520,9 @@ def main():
             ],
 
             DURATION: [RegexHandler(
-                '^([0-9]+|{0}|{1}|{2})$'.format(
+                '^([0-9]+|{0}|{1})$'.format(
                     str(lib.cancel),
-                    str(lib.panic),
-                    str(lib.btn_finished)),
+                    str(lib.panic)),
                 __duration),
                        RegexHandler(
                            '^{0}$'.format(
@@ -534,6 +532,7 @@ def main():
         fallbacks=[CommandHandler('stop', __stop)]
     )
     dp.add_handler(group_handler)
+    dp.add_handler(group_duration_handler)
 
     dp.add_handler(emergency_stop_handler)
 
