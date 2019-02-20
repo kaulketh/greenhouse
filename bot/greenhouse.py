@@ -111,8 +111,6 @@ def __start(bot, update):
 # set the target, member of group or group
 def __selection(bot, update):
     global target
-    global g_selection_update
-    g_selection_update = update
     target = update.message.text
 
     __stop_standby_timer(bot, update)
@@ -217,10 +215,8 @@ def __duration(bot, update):
         __water(bot, update, group_three[1])
 
     elif target == str(lib.grouping):
-
         logger.warning("selected to water..." + str(selection))
         __water_group(bot, update, selection)
-        # __group(bot, update)
 
     else:
         update.message.reply_text(lib.msg_choice, reply_markup=markup1)
@@ -237,6 +233,7 @@ def __all_off():
     return
 
 
+# TODO: check if still needed!
 @run_async
 def __water_all(bot, update):
     logger.info('Duration: {0}'.format(water_time))
@@ -427,19 +424,7 @@ def __button(bot, update, chat_data):
         logger.info('current target:     ' + str(target))
         bot.delete_message(chat_id=query.message.chat_id,
                            message_id=query.message.message_id)
-
-        return __selected_target(bot, g_selection_update, target)
-        # bot.send_message(text=lib.msg_duration.format(selection),
-        #                  chat_id=query.message.chat_id,
-        #                  parse_mode=ParseMode.MARKDOWN,
-        #                  reply_markup=markup2)
-        #
-        # # water_time = g_group_update.message.text
-        # logger.info(lib.msg_grouping_selection.format(str(selection)))
-        # logger.info(target)
-        # logger.info(water_time)
-        # # __duration(bot, g_group_update)
-        # return DURATION
+        return __selected_target(bot, g_group_update, target)
 
     elif added_selection == lib.cancel:
         selection = ()
@@ -458,6 +443,8 @@ def __get_inline_btn(text, callback):
 
 
 def __group(bot, update):
+    global g_group_update
+    g_group_update = update
     global selection
     selection = ()
     logger.info('Grouping mode called.')
@@ -471,7 +458,7 @@ def __group(bot, update):
 
     global reply_markup
     reply_markup = InlineKeyboardMarkup(inline_keyboard)
-    update.message.reply_text(lib.msg_grouping, reply_markup=reply_markup, parse_mode=ParseMode.MARKDOWN)
+    g_group_update.message.reply_text(lib.msg_grouping, reply_markup=reply_markup, parse_mode=ParseMode.MARKDOWN)
 
 
 def main():
