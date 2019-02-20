@@ -485,9 +485,8 @@ def main():
     dp = updater.dispatcher
 
     group_handler = CallbackQueryHandler(__button, pass_chat_data=True)
-    group_duration_handler = RegexHandler('^{0}$'.format(str(lib.grouping)),
-                                          __duration,
-                                          pass_chat_data=True)
+    group_duration_handler = RegexHandler('^{0}$'.format(str(lib.btn_finished)),
+                                          __duration)
 
     emergency_stop_handler = RegexHandler('^{0}$'.format(str(lib.emergency_stop)),
                                           __emergency_stop_handler,
