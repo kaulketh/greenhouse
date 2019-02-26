@@ -18,8 +18,10 @@ import time
 import telepot
 import os
 import logger.logger as log
+import peripherals.monitor as monitor
 
 logging = log.get_logger()
+threading.Thread(target=monitor.main).start()
 
 pins_state = False
 
