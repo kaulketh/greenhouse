@@ -3,17 +3,15 @@
 # monitor.py
 # author: Thomas Kaulke, kaulketh@gmail.com
 # Temperature monitoring
-# Will be started by cron job after reboot.
-# e.g. @reboot sleep 60 && sudo python /home/pi/scripts/TelegramBot/peripherals/monitor.py <bot_token> <chat_id>
-
 
 from __future__ import absolute_import
+from telegram.ext.dispatcher import run_async
 import os
 import time
 import sys
-import utils.utils as utils
-import conf
+from conf import temperature_warn, temperature_min, temperature_max, fan_pin, check_interval
 import logger
+from utils.utils import set_pins, switch_on, switch_off
 
 logger = logger.get_logger()
 
@@ -35,27 +33,28 @@ def __send_msg(msg):
 # TODO: if fan pin is set in greenhouse_config.py, activate/uncomment fan switching
 def __check_if_fan_required():
     temperature = int(__measure_temp())
-    if temperature > conf.temperature_max:
-        logger.info("Heat dissipation: Fan on")
-        # utils.switch_on(conf.fan_pin)
-    if temperature < conf.temperature_min:
+    if temperature > temperature_max:
+        logger.warning("Heat dissipation: Fan on")
+        # switch_on(fan_pin)
+    if temperature < temperature_min:
         logger.info("Heat dissipation: Fan off")
-        # utils.switch_off(conf.fan_pin)
+        # switch_off(fan_pin)
     return
 
 
+@run_async
 def main():
-    utils.set_pins()
+    set_pins()
     global bot, chat
     bot = sys.argv[1]
     chat = sys.argv[2]
-    temp_limit = conf.temperature_warn
+    temp_limit = temperature_warn
     message = 'Warning, you Greenhouse Raspi reaches a temperature over {}°C! Current temperature is about {}°C!'
     while True:
         __check_if_fan_required()
         if int(__measure_temp()) > temp_limit:
             __send_msg(message.format(str(temp_limit), str(temp)))
-        time.sleep(conf.check_interval)
+        time.sleep(check_interval)
 
 
 if __name__ == '__main__':

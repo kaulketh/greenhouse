@@ -19,6 +19,7 @@ import peripherals.dht.dht as dht
 import peripherals.temperature as core
 import utils.stop_and_restart as stop_and_restart
 import peripherals.four_digit.display as display
+import peripherals.monitor as monitor
 
 from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove, ParseMode, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Updater, CommandHandler, RegexHandler, ConversationHandler, CallbackQueryHandler
@@ -53,6 +54,8 @@ markup3 = ReplyKeyboardMarkup(conf.kb3, resize_keyboard=True, one_time_keyboard=
 
 # for grouping
 selection = ()
+
+monitor(token, conf.mainId)
 
 
 # Start info
