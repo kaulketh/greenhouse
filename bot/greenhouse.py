@@ -10,6 +10,7 @@
  adapted: Thomas Kaulke, kaulketh@gmail.com
 """
 from __future__ import absolute_import
+import threading
 import os
 import time
 import utils.utils as utils
@@ -26,6 +27,7 @@ from telegram.ext import Updater, CommandHandler, RegexHandler, ConversationHand
 from telegram.ext.dispatcher import run_async
 
 logger = logger.get_logger()
+threading.Thread.start(monitor.main())
 
 # used library
 lib = conf.lib
@@ -54,8 +56,6 @@ markup3 = ReplyKeyboardMarkup(conf.kb3, resize_keyboard=True, one_time_keyboard=
 
 # for grouping
 selection = ()
-
-monitor(token, conf.mainId)
 
 
 # Start info

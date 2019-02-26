@@ -5,11 +5,10 @@
 # Temperature monitoring
 
 from __future__ import absolute_import
-from telegram.ext.dispatcher import run_async
 import os
 import time
 import sys
-from conf import temperature_warn, temperature_min, temperature_max, fan_pin, check_interval
+from conf import temperature_warn, temperature_min, temperature_max, fan_pin, check_interval, mainId, token
 import logger
 from utils.utils import set_pins, switch_on, switch_off
 
@@ -42,12 +41,11 @@ def __check_if_fan_required():
     return
 
 
-@run_async
 def main():
     set_pins()
     global bot, chat
-    bot = sys.argv[1]
-    chat = sys.argv[2]
+    bot = token
+    chat = mainId
     temp_limit = temperature_warn
     message = 'Warning, you Greenhouse Raspi reaches a temperature over {}°C! Current temperature is about {}°C!'
     while True:
