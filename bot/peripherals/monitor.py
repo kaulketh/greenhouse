@@ -42,6 +42,7 @@ def __check_if_fan_required():
 
 
 def main():
+    logger.info('Temperature monitoring started.')
     set_pins()
     global bot, chat
     bot = token
@@ -56,4 +57,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    pass

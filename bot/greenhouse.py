@@ -27,7 +27,7 @@ from telegram.ext import Updater, CommandHandler, RegexHandler, ConversationHand
 from telegram.ext.dispatcher import run_async
 
 logger = logger.get_logger()
-threading.Thread.start(monitor.main())
+threading.Thread(target=monitor.main).start()
 
 # used library
 lib = conf.lib
