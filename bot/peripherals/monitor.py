@@ -45,6 +45,7 @@ def __check_if_fan_required():
 
 
 def main():
+    utils.set_pins()
     global bot, chat
     bot = sys.argv[1]
     chat = sys.argv[2]
