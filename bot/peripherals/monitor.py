@@ -32,6 +32,8 @@ def __send_msg(msg):
 # TODO: if fan pin is set in greenhouse_config.py, activate/uncomment fan switching
 def __check_if_fan_required():
     temperature = int(__measure_temp())
+    # TODO: remove if pin set!
+    logger.warning('Current core temp: {}°C'.format(temperature))
     if temperature > temperature_max:
         logger.warning("Heat dissipation: Fan on")
         # switch_on(fan_pin)
