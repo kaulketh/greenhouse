@@ -22,7 +22,8 @@ import threading
 import peripherals.monitor as monitor
 
 logging = log.get_logger()
-threading.Thread(target=monitor.main).start()
+thread = threading.Thread(target=monitor.main, name='temperature monitoring')
+thread.start()
 
 pins_state = False
 

@@ -107,7 +107,7 @@ def show_switch_channel_duration(channel, duration):
     global g_duration
     g_duration = duration
     g_channel = channel
-    thread = threading.Thread(target=__switch_channel_duration, args=(g_channel, g_duration))
+    thread = threading.Thread(target=__switch_channel_duration, args=(g_channel, g_duration), name='switch display')
     thread.start()
 
 
@@ -133,7 +133,7 @@ def show_switch_group_duration(group, duration):
     global g_duration
     g_duration = duration
     g_group = group
-    thread = threading.Thread(target=__switch_group_duration, args=(g_group, g_duration))
+    thread = threading.Thread(target=__switch_group_duration, args=(g_group, g_duration), name='switch display')
     thread.start()
 
 
