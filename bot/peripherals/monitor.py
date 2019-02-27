@@ -34,15 +34,14 @@ def __send_msg(msg, bot, chat):
 
 
 def __fan_control(temp):
-    if temp >= temperature_max:
+    if temp >= temperature_max and int(utils.get_pin_state(fan_pin)) == 0:
         logger.warning('Current core temperature: {}°C'.format(str(temp)))
-        if int(utils.get_pin_state(fan_pin)) == 0:
-            logger.warning("Heat dissipation: Fan on")
-            utils.switch_out_high(fan_pin)
-    if temp <= temperature_min:
-        if int(utils.get_pin_state(fan_pin)) == 1:
-            logger.info("Heat dissipation: Fan off")
-            utils.switch_out_low(fan_pin)
+        utils.switch_out_high(fan_pin)
+        logger.warning("Heat dissipation: Fan switched on")
+    if temp <= temperature_min and int(utils.get_pin_state(fan_pin)) == 1:
+        logger.info('Core temperature: {}°C'.format(str(temp)))
+        utils.switch_out_low(fan_pin)
+        logger.info("Heat dissipation: Fan switched off")
     return
 
 
