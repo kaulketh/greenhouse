@@ -22,7 +22,7 @@ import threading
 import peripherals.monitor as monitor
 
 logging = log.get_logger()
-thread = threading.Thread(target=monitor.main, name='temperature monitoring')
+thread = threading.Thread(target=monitor.main, name='ext bot temperature monitoring')
 thread.start()
 
 pins_state = False

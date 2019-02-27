@@ -20,12 +20,11 @@ message = 'Warning, you Greenhouse Raspi reaches a temperature over {}°C! Curre
 def __calc_core_temp():
     temp1 = os.popen("vcgencmd measure_temp").readline()
     temp1 = temp1.replace("temp=", "")
-    temp1 = int(temp1[0:2])
+    temp1 = round(float(temp1[0:4]), 4)
     temp2 = open('/sys/class/thermal/thermal_zone0/temp').read()
-    temp2 = int(temp2[0:2])
+    temp2 = round((int(temp2))/1000, 4)
     temp = (temp1 + temp2) / 2
-    temp = int(temp[0:2])
-    return temp
+    return int(temp)
 
 
 def __send_msg(msg, bot, chat):
@@ -35,6 +34,7 @@ def __send_msg(msg, bot, chat):
 
 
 def __fan_control():
+
     if __calc_core_temp >= temperature_max:
         logger.warning('Current core temperature: {}°C'.format(str(__calc_core_temp())))
         if int(utils.get_pin_state(fan_pin)) == 0:
