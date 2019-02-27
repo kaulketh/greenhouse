@@ -30,19 +30,18 @@ def __send_msg(msg):
     return
 
 
-# TODO: if fan pin is set in greenhouse_config.py, activate/uncomment fan switching
 def __check_if_fan_required():
     temperature = int(__measure_temp())
     # TODO: remove if pin set!
     logger.warning('Current core temp: {}°C'.format(temperature))
     if temperature > temperature_max:
         logger.warning("Heat dissipation: Fan on")
-        GPIO.setup(fan_pin, GPIO.OUT)
-        GPIO.output(fan_pin, GPIO.HIGH)
+        GPIO.output(fan_pin, True)
     if temperature < temperature_min:
         logger.info("Heat dissipation: Fan off")
-        GPIO.setup(fan_pin, GPIO.OUT)
-        GPIO.output(fan_pin, GPIO.LOW)
+        GPIO.output(fan_pin, False)
+    else:
+        GPIO.output(fan_pin, False)
     return
 
 
@@ -50,6 +49,8 @@ def main():
     logger.info('Temperature monitoring started.')
     GPIO.setmode(GPIO.BOARD)
     GPIO.setwarnings(False)
+    GPIO.setup(fan_pin, GPIO.OUT)
+    GPIO.output(fan_pin, False)
     logger.info('Set GPIO mode: GPIO.BOARD')
     global bot, chat
     bot = token
