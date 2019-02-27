@@ -33,14 +33,13 @@ def __send_msg(msg, bot, chat):
     return
 
 
-def __fan_control():
-
-    if __calc_core_temp >= temperature_max:
-        logger.warning('Current core temperature: {}°C'.format(str(__calc_core_temp())))
+def __fan_control(temp):
+    if temp >= temperature_max:
+        logger.warning('Current core temperature: {}°C'.format(str(temp)))
         if int(utils.get_pin_state(fan_pin)) == 0:
             logger.warning("Heat dissipation: Fan on")
             utils.switch_out_high(fan_pin)
-    if __calc_core_temp <= temperature_min:
+    if temp <= temperature_min:
         if int(utils.get_pin_state(fan_pin)) == 1:
             logger.info("Heat dissipation: Fan off")
             utils.switch_out_low(fan_pin)
@@ -51,9 +50,10 @@ def main():
     logger.info('Temperature monitoring started.')
     utils.set_pins()
     while True:
-        __fan_control()
-        if __calc_core_temp() > temperature_warn:
-            __send_msg(message.format(str(temperature_warn), str(__calc_core_temp())), token, mainId)
+        current_temp = __calc_core_temp()
+        __fan_control(current_temp)
+        if current_temp > temperature_warn:
+            __send_msg(message.format(str(temperature_warn), str(current_temp)), token, mainId)
         time.sleep(check_interval)
 
 
