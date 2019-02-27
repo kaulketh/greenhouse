@@ -14,6 +14,7 @@ import utils.utils as utils
 
 
 logger = logger.get_logger()
+message = 'Warning, you Greenhouse Raspi reaches a temperature over {}°C! Current temperature is about {}°C!'
 
 
 def __measure_temp():
@@ -30,16 +31,17 @@ def __send_msg(msg):
     return
 
 
-def __check_if_fan_required():
+def __fan_control():
     temperature = int(__measure_temp())
-    # TODO: remove if pin set!
-    logger.warning('Current core temp: {}°C'.format(temperature))
-    if temperature > temperature_max:
-        logger.warning("Heat dissipation: Fan on")
-        utils.switch_out_high(fan_pin)
-    if temperature < temperature_min:
-        logger.info("Heat dissipation: Fan off")
-        utils.switch_out_low(fan_pin)
+    if temperature >= temperature_max:
+        logger.warning('Current core temp: {}°C'.format(temperature))
+        if int(utils.get_pin_state(fan_pin)) ==0:
+            logger.warning("Heat dissipation: Fan on")
+            utils.switch_out_high(fan_pin)
+    if temperature <= temperature_min:
+        if int(utils.get_pin_state(fan_pin)) ==1:
+            logger.info("Heat dissipation: Fan off")
+            utils.switch_out_low(fan_pin)
     return
 
 
@@ -50,9 +52,8 @@ def main():
     bot = token
     chat = mainId
     temp_limit = temperature_warn
-    message = 'Warning, you Greenhouse Raspi reaches a temperature over {}°C! Current temperature is about {}°C!'
     while True:
-        __check_if_fan_required()
+        __fan_control()
         if int(__measure_temp()) > temp_limit:
             __send_msg(message.format(str(temp_limit), str(temp)))
         time.sleep(check_interval)
