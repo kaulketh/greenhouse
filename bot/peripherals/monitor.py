@@ -36,12 +36,10 @@ def __check_if_fan_required():
     logger.warning('Current core temp: {}°C'.format(temperature))
     if temperature > temperature_max:
         logger.warning("Heat dissipation: Fan on")
-        utils.switch_on(fan_pin)
+        utils.switch_off(fan_pin)
     if temperature < temperature_min:
         logger.info("Heat dissipation: Fan off")
-        utils.switch_off(fan_pin)
-    else:
-        utils.switch_off(fan_pin)
+        utils.switch_on(fan_pin)
     return
 
 

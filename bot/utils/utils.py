@@ -19,7 +19,7 @@ logging = logger.get_logger()
 
 # switch functions
 def switch_on(pin):
-    logging.info('switch on: ' + str(pin))
+    logging.info('switch to LOW: ' + str(pin))
     GPIO.setup(pin, GPIO.OUT)
     GPIO.output(pin, GPIO.LOW)
     # os.system(run_gpio_check + str(pin))
@@ -27,7 +27,7 @@ def switch_on(pin):
 
 
 def switch_off(pin):
-    logging.info('switch off: ' + str(pin))
+    logging.info('switch to HIGH: ' + str(pin))
     GPIO.setup(pin, GPIO.OUT)
     GPIO.output(pin, GPIO.HIGH)
     # os.system(run_gpio_check + str(pin))
