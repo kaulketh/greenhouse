@@ -19,7 +19,7 @@ logging = logger.get_logger()
 
 # switch functions
 def switch_on(pin):
-    logging.info('switch to LOW: ' + str(pin))
+    logging.info('switch relais on: ' + str(pin))
     GPIO.setup(pin, GPIO.OUT)
     GPIO.output(pin, GPIO.LOW)
     # os.system(run_gpio_check + str(pin))
@@ -27,11 +27,25 @@ def switch_on(pin):
 
 
 def switch_off(pin):
-    logging.info('switch to HIGH: ' + str(pin))
+    logging.info('switch relais off: ' + str(pin))
     GPIO.setup(pin, GPIO.OUT)
     GPIO.output(pin, GPIO.HIGH)
     # os.system(run_gpio_check + str(pin))
     GPIO.cleanup(pin)
+    return
+
+
+def switch_out_high(pin):
+    logging.info('switch {} OUT HIGH'.format(str(pin)))
+    GPIO.setup(pin, GPIO.OUT)
+    GPIO.output(pin, GPIO.HIGH)
+    return
+
+
+def switch_out_low(pin):
+    logging.info('switch {} OUT LOW'.format(str(pin)))
+    GPIO.setup(pin, GPIO.OUT)
+    GPIO.output(pin, GPIO.LOW)
     return
 
 
@@ -44,7 +58,7 @@ def get_timestamp_line():
     return time.strftime('`[%d.%m.%Y %H:%M:%S]\n---------------------\n`')
 
 
-# gets the state of pin, if 0 is switched on
+# gets the state of pin, if 0 is switched to LOW
 def get_pin_state(pin):
     GPIO.setup(pin, GPIO.OUT)
     return GPIO.input(pin)
