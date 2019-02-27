@@ -10,7 +10,7 @@ import time
 import sys
 from conf import temperature_warn, temperature_min, temperature_max, fan_pin, check_interval, mainId, token
 import logger
-import RPi.GPIO as GPIO
+import utils.utils as utils
 
 
 logger = logger.get_logger()
@@ -36,22 +36,18 @@ def __check_if_fan_required():
     logger.warning('Current core temp: {}°C'.format(temperature))
     if temperature > temperature_max:
         logger.warning("Heat dissipation: Fan on")
-        GPIO.output(fan_pin, True)
+        utils.switch_on(fan_pin)
     if temperature < temperature_min:
         logger.info("Heat dissipation: Fan off")
-        GPIO.output(fan_pin, False)
+        utils.switch_off(fan_pin)
     else:
-        GPIO.output(fan_pin, False)
+        utils.switch_off(fan_pin)
     return
 
 
 def main():
     logger.info('Temperature monitoring started.')
-    GPIO.setmode(GPIO.BOARD)
-    GPIO.setwarnings(False)
-    GPIO.setup(fan_pin, GPIO.OUT)
-    GPIO.output(fan_pin, False)
-    logger.info('Set GPIO mode: GPIO.BOARD')
+    utils.set_pins()
     global bot, chat
     bot = token
     chat = mainId
