@@ -81,11 +81,10 @@ disable_camera = 'sudo service motion stop && sudo rm -rf /home/pi/Monitor/* &'
 # gpio check
 run_gpio_check = 'sudo python /home/pi/scripts/TelegramBot/gpio_check.py '
 
-# TODO: select real pin for fan!
-# heat dissipation, temperature monitoring
+# heat dissipation, temperature monitoring, fan control
 temperature_warn = 75
-temperature_min = 41
-temperature_max = 43
+temperature_min = 43
+temperature_max = 45
 fan_pin = 12
 check_interval = 10
 
