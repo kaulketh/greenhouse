@@ -1,41 +1,60 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 # monitor.py
-"""
-author: Thomas Kaulke, kaulketh@gmail.com
-"""
+# author: Thomas Kaulke, kaulketh@gmail.com
+# Temperature monitoring and fan control
 
+from __future__ import absolute_import
 import os
 import time
 import sys
+from conf import temperature_warn, temperature_min, temperature_max, fan_pin, check_interval, mainId, token
+import logger
+import utils.utils as utils
 
 
-def __measure_temp():
-    global temp
-    temp = os.popen("vcgencmd measure_temp").readline()
-    temp = temp.replace("temp=", "")
-    temp = temp[0:2]
-    return temp
+logger = logger.get_logger()
+message = 'Warning, you Greenhouse Raspi reaches a temperature over {}°C! Current temperature is about {}°C!'
 
 
-def __send_msg(msg):
+def __calc_core_temp():
+    temp1 = os.popen("vcgencmd measure_temp").readline()
+    temp1 = temp1.replace("temp=", "")
+    temp1 = round(float(temp1[0:4]), 4)
+    temp2 = open('/sys/class/thermal/thermal_zone0/temp').read()
+    temp2 = round((int(temp2))/1000, 4)
+    temp = (temp1 + temp2) / 2
+    return int(temp)
+
+
+def __send_msg(msg, bot, chat):
     os.system('curl -s -k https://api.telegram.org/bot{0}/sendMessage -d text="{1}" -d chat_id={2}'
-              .format(bot, str(msg), str(chat)))
+              .format(str(bot), str(msg), str(chat)))
+    return
+
+
+def __fan_control(temp):
+    if temp >= temperature_max and int(utils.get_pin_state(fan_pin)) == 0:
+        logger.warning('Current core temperature: {}°C'.format(str(temp)))
+        utils.switch_out_high(fan_pin)
+        logger.warning("Heat dissipation: Fan switched on")
+    if temp <= temperature_min and int(utils.get_pin_state(fan_pin)) == 1:
+        logger.info('Core temperature: {}°C'.format(str(temp)))
+        utils.switch_out_low(fan_pin)
+        logger.info("Heat dissipation: Fan switched off")
     return
 
 
 def main():
-    global bot, chat
-    bot = sys.argv[1]
-    chat = sys.argv[2]
-    temp_limit = 75
-    message = 'Warning, you Greenhouse Raspi reaches a temperature over {}°C! Current temperature is about {}°C!'
+    logger.info('Temperature monitoring started.')
+    utils.set_pins()
     while True:
-        if int(__measure_temp()) > temp_limit:
-            __send_msg(message.format(str(temp_limit), str(temp)))
-        time.sleep(10)
+        current_temp = __calc_core_temp()
+        __fan_control(current_temp)
+        if current_temp > temperature_warn:
+            __send_msg(message.format(str(temperature_warn), str(current_temp)), token, mainId)
+        time.sleep(check_interval)
 
 
 if __name__ == '__main__':
-    main()
-
+    pass

@@ -33,7 +33,7 @@ standby_timeout = timeout
 kb1 = [[lib.group1[1], lib.group1[2], lib.group1[3], lib.group3[1]],
        [lib.group3[2], lib.group2[1], lib.group2[2], lib.group2[3]],
        # [lib.group1[0], lib.group3[0], lib.group2[0]],
-       # [lib.all_channels],
+       [lib.grouping],
        [lib.stop_bot, lib.live_stream, lib.reload]
        ]
 kb2 = [[lib.cancel, lib.stop_bot]]
@@ -81,6 +81,12 @@ disable_camera = 'sudo service motion stop && sudo rm -rf /home/pi/Monitor/* &'
 # gpio check
 run_gpio_check = 'sudo python /home/pi/scripts/TelegramBot/gpio_check.py '
 
+# heat dissipation, temperature monitoring, fan control
+temperature_warn = 75
+temperature_min = 40
+temperature_max = 60
+fan_pin = 12
+check_interval = 10
 
 if __name__ == '__main__':
     pass
