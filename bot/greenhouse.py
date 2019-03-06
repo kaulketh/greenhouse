@@ -428,6 +428,7 @@ def __button(bot, update, chat_data):
         logger.info('current target:     ' + str(target))
         bot.delete_message(chat_id=query.message.chat_id,
                            message_id=query.message.message_id)
+        logger.warning(g_group_update)
         return __selected_target(bot, g_group_update, target)
 
     elif added_selection == lib.cancel:
@@ -524,7 +525,8 @@ def main():
                                lib.stop_bot),
                            __stop)]
                 },
-        fallbacks=[CommandHandler('stop', __stop)]
+        fallbacks=[CommandHandler('stop', __stop)],
+        allow_reentry=True
     )
     dp.add_handler(group_handler)
 
