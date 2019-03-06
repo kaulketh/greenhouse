@@ -516,9 +516,10 @@ def main():
             ],
 
             DURATION: [RegexHandler(
-                '^([0-9]+|{0}|{1})$'.format(
+                '^([0-9]+|{0}|{1}|{2})$'.format(
                     str(lib.cancel),
-                    str(lib.panic)),
+                    str(lib.panic),
+                    str(selection)),
                 __duration),
                        RegexHandler(
                            '^{0}$'.format(
