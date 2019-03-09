@@ -466,7 +466,7 @@ def __group(bot, update):
 
     global reply_markup
     reply_markup = InlineKeyboardMarkup(inline_keyboard)
-    g_group_update.message.reply_text(lib.msg_grouping, reply_markup=reply_markup, parse_mode=ParseMode.MARKDOWN)
+    update.message.reply_text(lib.msg_grouping, reply_markup=reply_markup, parse_mode=ParseMode.MARKDOWN)
     __start_standby_timer(bot, update)
 
 
