@@ -491,7 +491,7 @@ def main():
         entry_points=[CommandHandler('start', __start)],
         states={
             SELECTION: [RegexHandler(
-                '^({0}|{1}|{2}|{3}|{4}|{5}|{6}|{7}|{8}|{9}|{10}|{11}|{12})$'.format(
+                '^({0}|{1}|{2}|{3}|{4}|{5}|{6}|{7}|{8}|{9}|{10}|{11})$'.format(
                     str(lib.group1[1]),
                     str(lib.group1[2]),
                     str(lib.group1[3]),
@@ -503,7 +503,6 @@ def main():
                     str(lib.panic),
                     str(lib.live_stream),
                     str(lib.reload),
-                    str(lib.cancel),
                     str(selection)),
                 __selection),
                 RegexHandler(
@@ -513,11 +512,7 @@ def main():
                 RegexHandler(
                     '^{0}$'.format(
                         lib.grouping),
-                    __group),
-                RegexHandler(
-                    '^{0}$'.format(
-                        lib.btn_finished),
-                    __selection, pass_chat_data=True)
+                    __group)
             ],
 
             DURATION: [RegexHandler(
