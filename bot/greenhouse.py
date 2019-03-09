@@ -487,7 +487,7 @@ def main():
         entry_points=[CommandHandler('start', __start)],
         states={
             SELECTION: [RegexHandler(
-                '^({0}|{1}|{2}|{3}|{4}|{5}|{6}|{7}|{8}|{9}|{10}|{11})$'.format(
+                '^({0}|{1}|{2}|{3}|{4}|{5}|{6}|{7}|{8}|{9}|{10}|{11}|{12})$'.format(
                     str(lib.group1[1]),
                     str(lib.group1[2]),
                     str(lib.group1[3]),
@@ -499,7 +499,8 @@ def main():
                     str(lib.panic),
                     str(lib.live_stream),
                     str(lib.reload),
-                    str(lib.cancel)),
+                    str(lib.cancel),
+                    str(selection)),
                 __selection),
                 RegexHandler(
                     '^{0}$'.format(
@@ -516,10 +517,9 @@ def main():
             ],
 
             DURATION: [RegexHandler(
-                '^([0-9]+|{0}|{1}|{2})$'.format(
+                '^([0-9]+|{0}|{1})$'.format(
                     str(lib.cancel),
-                    str(lib.panic),
-                    str(selection)),
+                    str(lib.panic)),
                 __duration),
                        RegexHandler(
                            '^{0}$'.format(
