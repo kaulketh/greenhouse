@@ -19,8 +19,6 @@
 * https://www.amazon.de/8-Kanal-Optokoppler-8-Channel-Arduino-Raspberry/dp/B00AEIDWXK
 * https://www.amazon.de/gp/product/B01C2IN2U2/ref=oh_aui_detailpage_o00_s00?ie=UTF8&psc=1
 
-### Supports relay card
-* [EM-MP 45N - 2943712](https://phoenixcontact.de/online/portal/de/?uri=pxc-oc-itemdetail:pid=2943712&library=usen&pcck=P-01-13-01-01&tab=1&selectedCategory=ALL)
 
 ### Power connectors, plugs and sockets for valves
 * [SACC-E-M12FSS-4P-M16XL/0,5 PE | 1411605](https://www.phoenixcontact.com/online/portal/de?uri=pxc-oc-itemdetail:pid=1411605&library=dede&tab=1)
