@@ -8,7 +8,7 @@ author: Thomas Kaulke, kaulketh@gmail.com
 from __future__ import absolute_import
 import threading
 from time import sleep
-from conf.greenhouse_config import clk_pin, dio_pin, brightness, lib
+from conf import clk_pin, dio_pin, brightness, lib
 import peripherals.four_digit.four_digits as tm1637
 import peripherals.temperature as core_temp
 
@@ -107,7 +107,7 @@ def show_switch_channel_duration(channel, duration):
     global g_duration
     g_duration = duration
     g_channel = channel
-    thread = threading.Thread(target=__switch_channel_duration, args=(g_channel, g_duration))
+    thread = threading.Thread(target=__switch_channel_duration, args=(g_channel, g_duration), name='switch display')
     thread.start()
 
 
@@ -133,7 +133,7 @@ def show_switch_group_duration(group, duration):
     global g_duration
     g_duration = duration
     g_group = group
-    thread = threading.Thread(target=__switch_group_duration, args=(g_group, g_duration))
+    thread = threading.Thread(target=__switch_group_duration, args=(g_group, g_duration), name='switch display')
     thread.start()
 
 
@@ -174,6 +174,7 @@ def __switch_channel_duration(channel, duration):
     return
 
 
+# TODO: update function accordingly new grouping!
 def __switch_group_duration(group, duration):
     global g_display
     g_display = tm1637.TM1637(clk=clk_pin, dio=dio_pin, brightness=brightness)
