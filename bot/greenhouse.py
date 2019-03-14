@@ -433,7 +433,7 @@ def __button(bot, update, chat_data):
                          chat_id=query.message.chat_id,
                          parse_mode=ParseMode.MARKDOWN,
                          reply_markup=markup2)
-        logger.info('Grouped selection: {0} {1}'.format(str(target),str(selection)))
+        logger.info('Grouped selection: {0} {1}'.format(str(target), str(selection)))
         return DURATION
 
     elif added_selection == lib.cancel:
