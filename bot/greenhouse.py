@@ -421,6 +421,7 @@ def __button(bot, update, chat_data):
                                   reply_markup=reply_markup)
 
         logger.info(selection)
+
     elif added_selection == str(lib.btn_finished):
         global target
         target = lib.grouping
@@ -428,7 +429,12 @@ def __button(bot, update, chat_data):
         logger.info('current target:     ' + str(target))
         bot.delete_message(chat_id=query.message.chat_id,
                            message_id=query.message.message_id)
-        return __selected_target(bot, g_group_update, target)
+        bot.send_message(text=lib.msg_duration.format(target),
+                         chat_id=query.message.chat_id,
+                         parse_mode=ParseMode.MARKDOWN,
+                         reply_markup=markup2)
+        logger.info('Grouped selection: {0} {1}'.format(str(target), str(selection)))
+        return DURATION
 
     elif added_selection == lib.cancel:
         selection = ()
@@ -447,8 +453,6 @@ def __get_inline_btn(text, callback):
 
 
 def __group(bot, update):
-    global g_group_update
-    g_group_update = update
     global selection
     selection = ()
     logger.info('Grouping mode called.')
@@ -462,7 +466,8 @@ def __group(bot, update):
 
     global reply_markup
     reply_markup = InlineKeyboardMarkup(inline_keyboard)
-    g_group_update.message.reply_text(lib.msg_grouping, reply_markup=reply_markup, parse_mode=ParseMode.MARKDOWN)
+    update.message.reply_text(lib.msg_grouping, reply_markup=reply_markup, parse_mode=ParseMode.MARKDOWN)
+    __start_standby_timer(bot, update)
 
 
 def main():
@@ -498,7 +503,7 @@ def main():
                     str(lib.panic),
                     str(lib.live_stream),
                     str(lib.reload),
-                    str(lib.cancel)),
+                    str(selection)),
                 __selection),
                 RegexHandler(
                     '^{0}$'.format(
@@ -507,11 +512,7 @@ def main():
                 RegexHandler(
                     '^{0}$'.format(
                         lib.grouping),
-                    __group),
-                RegexHandler(
-                    '^{0}$'.format(
-                        lib.btn_finished),
-                    __selection, pass_chat_data=True)
+                    __group)
             ],
 
             DURATION: [RegexHandler(
@@ -524,7 +525,8 @@ def main():
                                lib.stop_bot),
                            __stop)]
                 },
-        fallbacks=[CommandHandler('stop', __stop)]
+        fallbacks=[CommandHandler('stop', __stop)],
+        allow_reentry=True
     )
     dp.add_handler(group_handler)
 
