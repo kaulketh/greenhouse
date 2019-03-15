@@ -432,8 +432,8 @@ def __push_button(bot, update, chat_data):
                          parse_mode=ParseMode.MARKDOWN,
                          reply_markup=markup2)
         logger.info('Grouped selection: {0} {1}'.format(str(target), str(selection)))
-        logger.warning(selection.__len__)
-        if selection.__len__ < 1:
+        logger.warning(len(selection))
+        if len(selection) < 1:
             return __cancel_grouping(bot, query)
         else:
             return DURATION
