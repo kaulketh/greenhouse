@@ -504,7 +504,7 @@ def main():
             DURATION: [RegexHandler('^([0-9]+|{0}|{1})$'.format(str(lib.cancel), str(lib.panic)), __duration),
                        RegexHandler('^{0}$'.format(lib.stop_bot), __stop)],
 
-            GROUPING: [CallbackQueryHandler(__push_button),
+            GROUPING: [CallbackQueryHandler(__push_button, pass_chat_data=True),
                        RegexHandler('^({0}|{1}|{2})$'.format(
                            str(lib.cancel), str(lib.btn_finished), str(selection)),
                            __selection)]
