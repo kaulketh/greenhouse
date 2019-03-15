@@ -513,7 +513,7 @@ def main():
             },
         fallbacks=[CommandHandler('stop', __stop)],
         allow_reentry=True,
-        per_message=True,
+        per_message=False,
         per_chat=True,
         per_user=True
     )
