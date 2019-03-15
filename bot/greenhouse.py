@@ -40,7 +40,7 @@ group_two = conf.GROUP_02
 group_three = conf.GROUP_03
 
 # api and bot settings
-SELECTION, DURATION = range(2)
+SELECTION, DURATION, GROUP = range(3)
 # LIST_OF_ADMINS = ['mock to test']
 list_of_admins = conf.admins
 token = conf.token
@@ -434,7 +434,7 @@ def __button(bot, update, chat_data):
                          parse_mode=ParseMode.MARKDOWN,
                          reply_markup=markup2)
         logger.info('Grouped selection: {0} {1}'.format(str(target), str(selection)))
-        return DURATION
+        return GROUP
 
     elif added_selection == lib.cancel:
         selection = ()
@@ -491,7 +491,7 @@ def main():
         entry_points=[CommandHandler('start', __start)],
         states={
             SELECTION: [RegexHandler(
-                '^({0}|{1}|{2}|{3}|{4}|{5}|{6}|{7}|{8}|{9}|{10}|{11})$'.format(
+                '^({0}|{1}|{2}|{3}|{4}|{5}|{6}|{7}|{8}|{9}|{10})$'.format(
                     str(lib.group1[1]),
                     str(lib.group1[2]),
                     str(lib.group1[3]),
@@ -502,8 +502,7 @@ def main():
                     str(lib.group3[2]),
                     str(lib.panic),
                     str(lib.live_stream),
-                    str(lib.reload),
-                    str(selection)),
+                    str(lib.reload)),
                 __selection),
                 RegexHandler(
                     '^{0}$'.format(
@@ -523,8 +522,14 @@ def main():
                        RegexHandler(
                            '^{0}$'.format(
                                lib.stop_bot),
-                           __stop)]
-                },
+                           __stop)
+            ],
+            GROUP: [RegexHandler(
+                '^({0})$'.format(
+                    str(selection)),
+                __selection)
+            ]
+            },
         fallbacks=[CommandHandler('stop', __stop)],
         allow_reentry=True
     )
