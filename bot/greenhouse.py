@@ -483,8 +483,6 @@ def main():
 
     dp = updater.dispatcher
 
-    # group_handler = CallbackQueryHandler(__push_button, pass_chat_data=True)
-
     emergency_stop_handler = RegexHandler('^{0}$'.format(str(lib.emergency_stop)),
                                           __emergency_stop_handler,
                                           pass_chat_data=True)
@@ -511,10 +509,10 @@ def main():
             },
         fallbacks=[CommandHandler('stop', __stop)],
         allow_reentry=True,
+        per_message=True,
         per_chat=True,
         per_user=True
     )
-    # dp.add_handler(group_handler)
 
     dp.add_handler(emergency_stop_handler)
 
