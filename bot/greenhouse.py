@@ -221,7 +221,7 @@ def __duration(bot, update):
 
     elif target == str(lib.grouping):
         """ starts separate thread """
-        show_switch_group_duration(int(water_time))
+        display.show_switch_group_duration(int(water_time))
 
         __water_group(bot, update, selection)
 
