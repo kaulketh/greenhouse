@@ -110,7 +110,7 @@ def show_switch_channel_duration(channel, duration):
 
 def show_group():
     __disable_colon(True)
-    display.show(group)
+    display.show(grp)
     return
 
 
