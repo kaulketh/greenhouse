@@ -219,7 +219,7 @@ def __duration(bot, update):
         __water(bot, update, group_three[1])
 
     elif target == str(lib.grouping):
-        logger.warning("selected to water..." + str(selection))
+        # TODO: display group!
         __water_group(bot, update, selection)
 
     else:
@@ -425,8 +425,6 @@ def __push_button(bot, update, chat_data):
     elif added_selection == str(lib.btn_finished):
         global target
         target = lib.grouping
-        logger.info('current selection:  ' + str(selection))
-        logger.info('current target:     ' + str(target))
         bot.delete_message(chat_id=query.message.chat_id,
                            message_id=query.message.message_id)
         bot.send_message(text=lib.msg_duration.format(target),
@@ -434,22 +432,25 @@ def __push_button(bot, update, chat_data):
                          parse_mode=ParseMode.MARKDOWN,
                          reply_markup=markup2)
         logger.info('Grouped selection: {0} {1}'.format(str(target), str(selection)))
-        return DURATION
+        if selection.__len__() < 1:
+            __cancel_grouping(bot, query)
+        else:
+            return DURATION
 
     elif added_selection == lib.cancel:
-        selection = ()
-        bot.delete_message(chat_id=query.message.chat_id,
-                           message_id=query.message.message_id)
-        bot.send_message(text=lib.msg_new_choice,
-                         chat_id=query.message.chat_id,
-                         parse_mode=ParseMode.MARKDOWN,
-                         reply_markup=markup1)
-        logger.info(lib.msg_new_choice)
-        return SELECTION
+        __cancel_grouping(bot, query)
 
 
-def __get_inline_btn(text, callback):
-    return InlineKeyboardButton(text, callback_data=callback)
+def __cancel_grouping(bot, query):
+    global selection
+    selection = ()
+    bot.delete_message(chat_id=query.message.chat_id,
+                       message_id=query.message.message_id)
+    bot.send_message(text=lib.msg_new_choice,
+                     chat_id=query.message.chat_id,
+                     parse_mode=ParseMode.MARKDOWN,
+                     reply_markup=markup1)
+    return SELECTION
 
 
 def __group_menu(bot, update):
@@ -467,8 +468,11 @@ def __group_menu(bot, update):
     global reply_markup
     reply_markup = InlineKeyboardMarkup(inline_keyboard)
     update.message.reply_text(lib.msg_grouping, reply_markup=reply_markup, parse_mode=ParseMode.MARKDOWN)
-    __start_standby_timer(bot, update)
     return GROUPING
+
+
+def __get_inline_btn(text, callback):
+    return InlineKeyboardButton(text, callback_data=callback)
 
 
 def main():
