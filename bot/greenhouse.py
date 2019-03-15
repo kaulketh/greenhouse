@@ -148,6 +148,7 @@ def __selected_target(bot, update, selected_target):
     logger.info('Selection: {0}'.format(str(selected_target)))
     __start_standby_timer(bot, update)
     return DURATION
+# end: set targets
 
 
 # set water duration
@@ -237,30 +238,6 @@ def __all_off():
     return
 
 
-# TODO: check if still needed!
-@run_async
-def __water_all(bot, update):
-    logger.info('Duration: {0}'.format(water_time))
-    __stop_standby_timer(bot, update)
-    update.message.reply_text(lib.water_on_all.format(target, water_time),
-                              parse_mode=ParseMode.MARKDOWN, reply_markup=markup3)
-
-    """ starts separate thread """
-    display.show_switch_group_duration(0, int(water_time))
-
-    for channel in all_groups:
-        utils.switch_on(channel)
-    time.sleep(int(water_time) * int(lib.time_conversion))
-    __all_off()
-
-    update.message.reply_text('{0}{1}{2}'.format(
-        __timestamp(), lib.water_off_all.format(water_time), lib.msg_new_choice),
-        parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
-    display.show_off()
-    __start_standby_timer(bot, update)
-    return
-
-
 @run_async
 def __water(bot, update, channel):
     logger.info('Duration: {0}'.format(water_time))
@@ -286,7 +263,7 @@ def __water_group(bot, update, group):
     logger.info('Duration: {0}'.format(water_time))
     logger.info('Toggle {0}'.format(str(group)))
     __stop_standby_timer(bot, update)
-    update.message.reply_text(lib.water_on_group.format(target, water_time),
+    update.message.reply_text(lib.water_on.format(target, water_time),
                               parse_mode=ParseMode.MARKDOWN, reply_markup=markup3)
 
     for channel in group:
@@ -295,11 +272,12 @@ def __water_group(bot, update, group):
     for channel in group:
         utils.switch_off(channel)
     update.message.reply_text('{0}{1}{2}'.format(
-        __timestamp(), lib.water_off_group.format(target, water_time), lib.msg_new_choice),
+        __timestamp(), lib.water_off.format(target, water_time), lib.msg_new_choice),
         parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
     display.show_off()
     __start_standby_timer(bot, update)
     return
+# end watering targets
 
 
 # get humidity and temperature values
@@ -350,27 +328,29 @@ def __emergency_stop_handler(bot, update, chat_data):
 def __start_emergency_stop(bot, update):
     global emergency_job
     emergency_job = jq.run_once(__job_stop_and_restart, 0, context=update)
-    logger.warning("Initialize emergency stop immediately.")
+    logger.info("Initialize emergency stop immediately.")
     return
+# end: emergency stop
 
 
 # [#30] implement standby  init after given time without user activity
 def __start_standby_timer(bot, update):
     global timer_job
     timer_job = jq.run_once(__job_stop_and_restart, conf.standby_timeout, context=update)
-    logger.warning("Init standby timer of {0} seconds, added to queue.".format(conf.standby_timeout))
+    logger.info("Init standby timer of {0} seconds, added to queue.".format(conf.standby_timeout))
     return
 
 
 def __stop_standby_timer(bot, update):
     timer_job.schedule_removal()
-    logger.warning("Timer job removed from the queue.")
+    logger.info("Timer job removed from the queue.")
     return
+# end: standby
 
 
 # job to stop and restart application
 def __job_stop_and_restart(bot, job):
-    logger.warning("Job: Stop and restart called!")
+    logger.info("Job: Stop and restart called!")
     stop_and_restart.stop_and_restart(job.context)
     return
 
@@ -391,6 +371,7 @@ def __timestamp():
 
 def __start_time():
     return utils.get_timestamp()
+# end: time stamps
 
 
 # camera
@@ -404,6 +385,7 @@ def __cam_off():
     logger.info('Disable camera module.')
     os.system(conf.disable_camera)
     return
+# end: camera
 
 
 # [#31] grouping
@@ -464,7 +446,8 @@ def __group_menu(bot, update):
 
 def __get_inline_btn(text, callback):
     return InlineKeyboardButton(text, callback_data=callback)
-# end grouping
+# end: grouping
+
 
 def main():
     __init_bot_set_pins()
