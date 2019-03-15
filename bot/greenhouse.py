@@ -40,7 +40,7 @@ group_two = conf.GROUP_02
 group_three = conf.GROUP_03
 
 # api and bot settings
-SELECTION, DURATION, GROUP = range(3)
+SELECTION, DURATION, GROUPING = range(3)
 # LIST_OF_ADMINS = ['mock to test']
 list_of_admins = conf.admins
 token = conf.token
@@ -434,7 +434,7 @@ def __button(bot, update, chat_data):
                          parse_mode=ParseMode.MARKDOWN,
                          reply_markup=markup2)
         logger.info('Grouped selection: {0} {1}'.format(str(target), str(selection)))
-        return GROUP
+        return GROUPING
 
     elif added_selection == lib.cancel:
         selection = ()
@@ -524,14 +524,16 @@ def main():
                                lib.stop_bot),
                            __stop)
             ],
-            GROUP: [RegexHandler(
+            GROUPING: [RegexHandler(
                 '^({0})$'.format(
                     str(selection)),
                 __selection)
             ]
             },
         fallbacks=[CommandHandler('stop', __stop)],
-        allow_reentry=True
+        allow_reentry=True,
+        per_chat=True,
+        per_user=True
     )
     dp.add_handler(group_handler)
 
