@@ -407,7 +407,7 @@ def __cam_off():
 
 
 # grouping
-def __button(bot, update, chat_data):
+def __push_button(bot, update, chat_data):
     global selection
     query = update.callback_query
     added_selection = str(query.data)
@@ -434,7 +434,7 @@ def __button(bot, update, chat_data):
                          parse_mode=ParseMode.MARKDOWN,
                          reply_markup=markup2)
         logger.info('Grouped selection: {0} {1}'.format(str(target), str(selection)))
-        return GROUPING
+        return DURATION
 
     elif added_selection == lib.cancel:
         selection = ()
@@ -452,7 +452,7 @@ def __get_inline_btn(text, callback):
     return InlineKeyboardButton(text, callback_data=callback)
 
 
-def __group(bot, update):
+def __group_menu(bot, update):
     global selection
     selection = ()
     logger.info('Grouping mode called.')
@@ -468,6 +468,7 @@ def __group(bot, update):
     reply_markup = InlineKeyboardMarkup(inline_keyboard)
     update.message.reply_text(lib.msg_grouping, reply_markup=reply_markup, parse_mode=ParseMode.MARKDOWN)
     __start_standby_timer(bot, update)
+    return GROUPING
 
 
 def main():
@@ -482,7 +483,7 @@ def main():
 
     dp = updater.dispatcher
 
-    group_handler = CallbackQueryHandler(__button, pass_chat_data=True)
+    # group_handler = CallbackQueryHandler(__push_button, pass_chat_data=True)
 
     emergency_stop_handler = RegexHandler('^{0}$'.format(str(lib.emergency_stop)),
                                           __emergency_stop_handler,
@@ -490,52 +491,30 @@ def main():
     ch = ConversationHandler(
         entry_points=[CommandHandler('start', __start)],
         states={
-            SELECTION: [RegexHandler(
-                '^({0}|{1}|{2}|{3}|{4}|{5}|{6}|{7}|{8}|{9}|{10})$'.format(
-                    str(lib.group1[1]),
-                    str(lib.group1[2]),
-                    str(lib.group1[3]),
-                    str(lib.group2[1]),
-                    str(lib.group2[2]),
-                    str(lib.group2[3]),
-                    str(lib.group3[1]),
-                    str(lib.group3[2]),
-                    str(lib.panic),
-                    str(lib.live_stream),
-                    str(lib.reload)),
+            SELECTION: [RegexHandler('^({0}|{1}|{2}|{3}|{4}|{5}|{6}|{7}|{8}|{9}|{10})$'.format(
+                str(lib.group1[1]), str(lib.group1[2]), str(lib.group1[3]),
+                str(lib.group2[1]), str(lib.group2[2]), str(lib.group2[3]),
+                str(lib.group3[1]), str(lib.group3[2]),
+                str(lib.panic), str(lib.live_stream), str(lib.reload)),
                 __selection),
-                RegexHandler(
-                    '^{0}$'.format(
-                        lib.stop_bot),
-                    __stop),
-                RegexHandler(
-                    '^{0}$'.format(
-                        lib.grouping),
-                    __group)
-            ],
 
-            DURATION: [RegexHandler(
-                '^([0-9]+|{0}|{1})$'.format(
-                    str(lib.cancel),
-                    str(lib.panic)),
-                __duration),
-                       RegexHandler(
-                           '^{0}$'.format(
-                               lib.stop_bot),
-                           __stop)
-            ],
-            GROUPING: [RegexHandler(
-                '^({0})$'.format(
-                    str(selection)),
-                __selection)
-            ]
+                RegexHandler('^{0}$'.format(lib.stop_bot), __stop),
+                RegexHandler('^{0}$'.format(lib.grouping), __group_menu)],
+
+            DURATION: [RegexHandler('^([0-9]+|{0}|{1})$'.format(str(lib.cancel), str(lib.panic)), __duration),
+                       RegexHandler('^{0}$'.format(lib.stop_bot), __stop)],
+
+            GROUPING: [CallbackQueryHandler(__push_button),
+                       RegexHandler('^({0}|{1}|{2})$'.format(
+                           str(lib.cancel), str(lib.btn_finished), str(selection)),
+                           __selection)]
             },
         fallbacks=[CommandHandler('stop', __stop)],
         allow_reentry=True,
         per_chat=True,
         per_user=True
     )
-    dp.add_handler(group_handler)
+    # dp.add_handler(group_handler)
 
     dp.add_handler(emergency_stop_handler)
 
