@@ -406,11 +406,12 @@ def __cam_off():
     return
 
 
-# grouping
+# [#31] grouping
 def __push_button(bot, update, chat_data):
     global selection
     query = update.callback_query
     added_selection = str(query.data)
+
     if not (added_selection == str(lib.btn_finished) or added_selection == str(lib.cancel)):
         if not selection.__contains__(int(added_selection)):
             selection += (int(added_selection),)
@@ -420,9 +421,7 @@ def __push_button(bot, update, chat_data):
                                   parse_mode=ParseMode.MARKDOWN,
                                   reply_markup=reply_markup)
 
-        logger.info(selection)
-
-    elif added_selection == str(lib.btn_finished):
+    elif added_selection == str(lib.btn_finished) and len(selection) > 0:
         global target
         target = lib.grouping
         bot.delete_message(chat_id=query.message.chat_id,
@@ -432,26 +431,17 @@ def __push_button(bot, update, chat_data):
                          parse_mode=ParseMode.MARKDOWN,
                          reply_markup=markup2)
         logger.info('Grouped selection: {0} {1}'.format(str(target), str(selection)))
-        logger.warning(len(selection))
-        if len(selection) < 1:
-            return __cancel_grouping(bot, query)
-        else:
-            return DURATION
+        return DURATION
 
     elif added_selection == lib.cancel:
-        return __cancel_grouping(bot, query)
-
-
-def __cancel_grouping(bot, query):
-    global selection
-    selection = ()
-    bot.delete_message(chat_id=query.message.chat_id,
-                       message_id=query.message.message_id)
-    bot.send_message(text=lib.msg_new_choice,
-                     chat_id=query.message.chat_id,
-                     parse_mode=ParseMode.MARKDOWN,
-                     reply_markup=markup1)
-    return SELECTION
+        selection = ()
+        bot.delete_message(chat_id=query.message.chat_id,
+                           message_id=query.message.message_id)
+        bot.send_message(text=lib.msg_new_choice,
+                         chat_id=query.message.chat_id,
+                         parse_mode=ParseMode.MARKDOWN,
+                         reply_markup=markup1)
+        return SELECTION
 
 
 def __group_menu(bot, update):
@@ -474,7 +464,7 @@ def __group_menu(bot, update):
 
 def __get_inline_btn(text, callback):
     return InlineKeyboardButton(text, callback_data=callback)
-
+# end grouping
 
 def main():
     __init_bot_set_pins()
@@ -514,7 +504,6 @@ def main():
             },
         fallbacks=[CommandHandler('stop', __stop)],
         allow_reentry=True,
-        per_message=False,
         per_chat=True,
         per_user=True
     )
