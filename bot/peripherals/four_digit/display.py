@@ -17,14 +17,14 @@ display = tm1637.TM1637(clk=clk_pin, dio=dio_pin, brightness=brightness)
 on = [38, 0, 24, 38]
 off = [38, 0, 15, 15]
 boot = [11, 26, 26, 39]
-error = [38, 14, 28, 28]
+err = [38, 14, 28, 28]
 stop = [29, 39, 0, 27]
 run = [38, 28, 40, 24]
-standby = [29, 39, 11, 32]
-update = [30, 27, 13, 39]
-extended = [27, 24, 1, 49]
-ready = [38, 28, 13, 32]
-group = [38, 16, 28, 27]
+stby = [29, 39, 11, 32]
+updt = [30, 27, 13, 39]
+pnic = [27, 24, 1, 49]
+rdy = [38, 28, 13, 32]
+grp = [38, 16, 28, 27]
 
 
 def show_duration(duration):
@@ -36,25 +36,25 @@ def show_duration(duration):
 
 def show_ready():
     __disable_colon(True)
-    display.show(ready)
+    display.show(rdy)
     return
 
 
 def show_extended():
     __disable_colon(True)
-    display.show(extended)
+    display.show(pnic)
     return
 
 
 def show_update():
     __disable_colon(True)
-    display.show(update)
+    display.show(updt)
     return
 
 
 def show_standby():
     __disable_colon(True)
-    display.show(standby)
+    display.show(stby)
     return
 
 
@@ -72,7 +72,7 @@ def show_stop():
 
 def show_error():
     __disable_colon(True)
-    display.show(error)
+    display.show(err)
     return
 
 
@@ -117,11 +117,9 @@ def show_group():
 def show_switch_group_duration(duration):
     duration = duration * lib.time_conversion
     global thread
-    global g_group
     global g_duration
     g_duration = duration
-    g_group = group
-    thread = threading.Thread(target=__switch_group_duration, args=(g_group, g_duration), name='switch display')
+    thread = threading.Thread(target=__switch_group_duration, args=g_duration, name='switch display')
     thread.start()
 
 
@@ -167,7 +165,7 @@ def __switch_group_duration(duration):
     g_display = tm1637.TM1637(clk=clk_pin, dio=dio_pin, brightness=brightness)
     g_display.show_doublepoint(False)
     while duration > 0:
-        display.show(group)
+        g_display.show(grp)
         sleep(1)
         duration -= 1
         g_display.show_remain_int(duration)
