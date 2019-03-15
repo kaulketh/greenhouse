@@ -29,7 +29,7 @@ cmd_kill = '{0}kill'.format(cmd_prefix)
 msg_help = 'Usage and possible commands in special mode:{0}' \
            '{1} - this info{0}' \
            '{2} - restart the whole RSBPi{0}' \
-           '{3} - force update{0}' \
+           '{3} - force update from repository{0}' \
            '{4} - force archiving and cleaning of log files{0}' \
            '{5} - stop this mode{0}' \
            '{6} - switch all on{0}' \
