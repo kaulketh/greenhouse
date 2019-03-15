@@ -119,7 +119,7 @@ def show_switch_group_duration(duration):
     global thread
     global g_duration
     g_duration = duration
-    thread = threading.Thread(target=__switch_group_duration, args=g_duration, name='switch display')
+    thread = threading.Thread(target=__switch_group_duration, args=(g_duration,), name='switch display')
     thread.start()
 
 
