@@ -433,11 +433,11 @@ def __group_menu(bot, update):
     selection = ()
     logger.info('Grouping mode called.')
     inline_keyboard = [
-        [__get_inline_btn(lib.group1[1], conf.RELAIS_01), __get_inline_btn(lib.group1[2], conf.RELAIS_02),
-         __get_inline_btn(lib.group1[3], conf.RELAIS_03), __get_inline_btn(lib.group3[1], conf.RELAIS_04)],
-        [__get_inline_btn(lib.group3[2], conf.RELAIS_05), __get_inline_btn(lib.group2[1], conf.RELAIS_06),
-         __get_inline_btn(lib.group2[2], conf.RELAIS_07), __get_inline_btn(lib.group2[3], conf.RELAIS_08)],
-        [__get_inline_btn(lib.btn_finished, lib.btn_finished), __get_inline_btn(lib.btn_cancel, lib.btn_cancel)]
+        [__get_btn(lib.group1[1], conf.RELAIS_01), __get_btn(lib.group1[2], conf.RELAIS_02),
+         __get_btn(lib.group1[3], conf.RELAIS_03), __get_btn(lib.group3[1], conf.RELAIS_04)],
+        [__get_btn(lib.group3[2], conf.RELAIS_05), __get_btn(lib.group2[1], conf.RELAIS_06),
+         __get_btn(lib.group2[2], conf.RELAIS_07), __get_btn(lib.group2[3], conf.RELAIS_08)],
+        [__get_btn(lib.btn_finished, lib.btn_finished), __get_btn(lib.btn_cancel, lib.btn_cancel)]
     ]
 
     global reply_markup
@@ -446,8 +446,8 @@ def __group_menu(bot, update):
     return GROUPING
 
 
-def __get_inline_btn(text, callback):
-    return InlineKeyboardButton(text, callback_data=callback)
+def __get_btn(text, callback):
+    return InlineKeyboardButton('{0}({1})'.format(text, callback), callback_data=callback)
 # end: grouping
 
 

@@ -14,7 +14,7 @@ line_break = '\n'
 """
 timeout if no user activity 
 """
-timeout = 600
+timeout = 60
 
 
 """ language settings
