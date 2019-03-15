@@ -14,10 +14,6 @@ import peripherals.temperature as core_temp
 
 display = tm1637.TM1637(clk=clk_pin, dio=dio_pin, brightness=brightness)
 
-group1 = [12, 1, 34, 3]
-group2 = [12, 6, 34, 8]
-group3 = [12, 4, 34, 5]
-all_channels = [38, 10, 22, 22]
 on = [38, 0, 24, 38]
 off = [38, 0, 15, 15]
 boot = [11, 26, 26, 39]
@@ -28,6 +24,7 @@ standby = [29, 39, 11, 32]
 update = [30, 27, 13, 39]
 extended = [27, 24, 1, 49]
 ready = [38, 28, 13, 32]
+group = [38, 16, 28, 27]
 
 
 def show_duration(duration):
@@ -111,22 +108,13 @@ def show_switch_channel_duration(channel, duration):
     thread.start()
 
 
-def show_group(group):
+def show_group():
     __disable_colon(True)
-    if group == 1:
-        display.show(group1)
-    elif group == 2:
-        display.show(group2)
-    elif group == 3:
-        display.show(group3)
-    elif group == 0:
-        display.show(all_channels)
-    else:
-        display.clear()
+    display.show(group)
     return
 
 
-def show_switch_group_duration(group, duration):
+def show_switch_group_duration(duration):
     duration = duration * lib.time_conversion
     global thread
     global g_group
@@ -174,22 +162,12 @@ def __switch_channel_duration(channel, duration):
     return
 
 
-# TODO: update function accordingly new grouping!
-def __switch_group_duration(group, duration):
+def __switch_group_duration(duration):
     global g_display
     g_display = tm1637.TM1637(clk=clk_pin, dio=dio_pin, brightness=brightness)
     g_display.show_doublepoint(False)
     while duration > 0:
-        if group == 1:
-            display.show(group1)
-        elif group == 2:
-            display.show(group2)
-        elif group == 3:
-            display.show(group3)
-        elif group == 0:
-            display.show(all_channels)
-        else:
-            display.clear()
+        display.show(group)
         sleep(1)
         duration -= 1
         g_display.show_remain_int(duration)
