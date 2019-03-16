@@ -8,18 +8,21 @@ bot=$1
 chat=$2
 project=greenhouse
 owner=kaulketh
-log='/update_bot.log'
-### Ensure same file names in peripherals/oled/display.py! ###
-### Ensure same file names in conf/ext_greenhouse.py! ###
-commit_id='/greenhouseRepoCommit.id'
-cloned_branch='/greenhouseRepoBranch.name'
-bot_dir='/home/pi/scripts/TelegramBot/'
-latest_release='/greenhouseLatestRelease.id'
+
+# path to main config library
+config='/home/pi/scripts/TelegramBot/conf/lib_global.py'
+
+log=$(python $config file_log_update)
+commit_id=$(python $config commit_id)
+cloned_branch=$(python $config cloned_branch)
+bot_dir=$(python $config bot_dir)
+latest_release=$(python $config latest_release)
+
 wait=3
 
 # function display usage
 display_usage() {
-echo "Failed! Paremeter is missing."
+echo "Failed! Parameter is missing."
 echo "Usage only possible at least with Telegram bot API token and Chat ID!"
 }
 
@@ -48,7 +51,7 @@ fi
 commit=$(curl -s https://api.github.com/repos/${owner}/${project}/commits/${branch} --insecure | grep -Po '(?<="sha":)(.*?)(?=,)' -m 1 | sed "s/\"//g" | sed -e 's/^[[:space:]]*//' | sed -e 's/[.]*$//')
 # get saved commit
 last_commit=$(cat ${commit_id})
-#get latest release
+# get latest release
 release=$(curl -s https://api.github.com/repos/${owner}/${project}/releases/latest --insecure| grep -Po '"tag_name": "\K.*?(?=")')
 echo ${release} > ${latest_release}
 

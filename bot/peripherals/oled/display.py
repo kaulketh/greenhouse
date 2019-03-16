@@ -5,9 +5,8 @@
 author: Thomas Kaulke, kaulketh@gmail.com
 """
 
-# TODO: improve and fix imports, load vars from global lib!!!
-# from __future__ import absolute_import
-# import conf.lib_global as lib
+from __future__ import absolute_import
+from conf import get_path
 import subprocess
 from time import sleep
 from PIL import Image, ImageFont, ImageDraw
@@ -15,10 +14,10 @@ from smbus import SMBus
 from lib_oled96 import Ssd1306
 
 
-latest_release = '/greenhouseLatestRelease.id'
-commit_id = '/greenhouseRepoCommit.id'
-cloned_branch = '/greenhouseRepoBranch.name'
-bot_dir = '/home/pi/scripts/TelegramBot/'
+latest_release = get_path('latest_release')
+commit_id = get_path('commit_id')
+cloned_branch = get_path('cloned_branch')
+bot_dir = get_path('bot_dir')
 
 
 # Display setup, methods and members

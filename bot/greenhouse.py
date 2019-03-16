@@ -360,9 +360,12 @@ def __job_stop_and_restart(bot, job):
 # error
 def __error(bot, update, e):
     logger.error('Update "{0}" caused error "{1}"'.format(update, e))
-    display.show_error()
-    __cam_off()
-    utils.GPIO.cleanup()
+    try:
+        display.show_error()
+        __cam_off()
+        utils.GPIO.cleanup()
+    except Exception:
+        logging.warning('Any error occurs!')
     return ConversationHandler.END
 
 
