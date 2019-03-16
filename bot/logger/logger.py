@@ -14,13 +14,13 @@ from conf import get_path
 
 logger_ini = 'logger.ini'
 
-this_folder = os.path.dirname(os.path.abspath(__file__))
-config_file = os.path.join(this_folder, logger_ini)
-
 CONFIG = ConfigParser.ConfigParser()
-CONFIG.read(config_file)
+CONFIG.read(logger_ini)
 CONFIG.set('handler_stream_handler', 'args', value=get_path('file_log_debug'))
 CONFIG.set('handler_file_handler', 'args', value=get_path('file_log_greenhouse'))
+
+this_folder = os.path.dirname(os.path.abspath(__file__))
+config_file = os.path.join(this_folder, logger_ini)
 
 fileConfig(config_file)
 
