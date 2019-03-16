@@ -149,7 +149,7 @@ def __init_and_start():
     apiToken = conf.token
     chat_id = sys.argv[1]
 
-   # kill the still running greenhouse bot script.
+    # kill the still running greenhouse bot script.
     pid1 = utils.read_cmd(lib.get_pid1, lib.tmp_file)
     utils.read_cmd('kill -9 {0}'.format(str(pid1)), lib.tmp_file)
 
