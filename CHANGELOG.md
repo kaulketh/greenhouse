@@ -15,9 +15,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### changes
 - minor code changes
 
-##[1.5.3] - 2019-02-13
-##[1.5.2]
-##[1.5.1]
+## [1.5.3] - 2019-02-13
+## [1.5.2]
+## [1.5.1]
 ### changes
 - minor improvements and changes
 
