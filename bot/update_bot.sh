@@ -9,7 +9,8 @@ chat=$2
 project=greenhouse
 owner=kaulketh
 
-config='conf/lib_global.py'
+# path to main config library
+config='/home/pi/scripts/TelegramBot/conf/lib_global.py'
 ### Ensure same file names in peripherals/oled/display.py! ###
 
 log=$(python $config file_log_update)
