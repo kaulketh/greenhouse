@@ -11,18 +11,12 @@ owner=kaulketh
 
 # path to main config library
 config='/home/pi/scripts/TelegramBot/conf/lib_global.py'
-### Ensure same file names in peripherals/oled/display.py! ###
 
 log=$(python $config file_log_update)
-#log='/update_bot.log'
 commit_id=$(python $config commit_id)
-# commit_id='/greenhouseRepoCommit.id'
 cloned_branch=$(python $config cloned_branch)
-# cloned_branch='/greenhouseRepoBranch.name'
 bot_dir=$(python $config bot_dir)
-# bot_dir='/home/pi/scripts/TelegramBot/'
 latest_release=$(python $config latest_release)
-# latest_release='/greenhouseLatestRelease.id'
 
 wait=3
 
