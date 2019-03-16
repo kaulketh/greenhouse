@@ -35,27 +35,25 @@ time_units_conversion = (1, 60, 3600)
 time_units_sign = ('s', 'm', 'h')
 time_conversion = time_units_conversion[time_units_index]
 
-
-# TODO: make accessible in bash and vice versa!!!!
-# file_log_greenhouse = '/greenhouse.log'
-# file_log_debug = '/greenhouse_console.log'
-# file_log_update = '/update_bot.log'
-# latest_release = '/greenhouseLatestRelease.id'
-# commit_id = '/greenhouseRepoCommit.id'
-# cloned_branch = '/greenhouseRepoBranch.name'
-# bot_dir = '/home/pi/scripts/TelegramBot/'
-# bot_backup = '/home/pi/backups/greenhouse.tgz'
-
 file_paths = {
-        'file_log_greenhouse' : '/greenhouse.log',
-        'file_log_debug' : '/greenhouse_console.log',
-        'file_log_update' : '/update_bot.log',
-        'latest_release' : '/greenhouseLatestRelease.id',
-        'commit_id' : '/greenhouseRepoCommit.id',
-        'cloned_branch' : '/greenhouseRepoBranch.name',
-        'bot_dir' : '/home/pi/scripts/TelegramBot/',
-        'bot_backup' : '/home/pi/backups/greenhouse.tgz'
+        'file_log_greenhouse': '/greenhouse.log',
+        'file_log_debug': '/greenhouse_console.log',
+        'file_log_update': '/update_bot.log',
+        'latest_release': '/greenhouseLatestRelease.id',
+        'commit_id': '/greenhouseRepoCommit.id',
+        'cloned_branch': '/greenhouseRepoBranch.name',
+        'bot_dir': '/home/pi/scripts/TelegramBot/',
+        'bot_backup': '/home/pi/backups/greenhouse.tgz'
     }
+
+file_log_greenhouse = file_paths['file_log_greenhouse']
+file_log_debug = file_paths['file_log_debug']
+file_log_update = file_paths['file_log_update']
+latest_release = file_paths['latest_release']
+commit_id = file_paths['commit_id']
+cloned_branch = file_paths['cloned_branch']
+bot_dir = file_paths['bot_dir']
+bot_backup = file_paths['bot_backup']
 
 
 def get_path(var):
