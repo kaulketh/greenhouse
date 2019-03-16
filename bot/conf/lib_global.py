@@ -37,19 +37,31 @@ time_conversion = time_units_conversion[time_units_index]
 
 
 # TODO: make accessible in bash and vice versa!!!!
-file_log_greenhouse = '/greenhouse.log'
-file_log_debug = '/greenhouse_console.log'
-file_log_update = '/update_bot.log'
-latest_release = '/greenhouseLatestRelease.id'
-commit_id = '/greenhouseRepoCommit.id'
-cloned_branch = '/greenhouseRepoBranch.name'
-bot_dir = '/home/pi/scripts/TelegramBot/'
-bot_backup = '/home/pi/backups/greenhouse.tgz'
+# file_log_greenhouse = '/greenhouse.log'
+# file_log_debug = '/greenhouse_console.log'
+# file_log_update = '/update_bot.log'
+# latest_release = '/greenhouseLatestRelease.id'
+# commit_id = '/greenhouseRepoCommit.id'
+# cloned_branch = '/greenhouseRepoBranch.name'
+# bot_dir = '/home/pi/scripts/TelegramBot/'
+# bot_backup = '/home/pi/backups/greenhouse.tgz'
+
+file_paths = {
+        'file_log_greenhouse' : '/greenhouse.log',
+        'file_log_debug' : '/greenhouse_console.log',
+        'file_log_update' : '/update_bot.log',
+        'latest_release' : '/greenhouseLatestRelease.id',
+        'commit_id' : '/greenhouseRepoCommit.id',
+        'cloned_branch' : '/greenhouseRepoBranch.name',
+        'bot_dir' : '/home/pi/scripts/TelegramBot/',
+        'bot_backup' : '/home/pi/backups/greenhouse.tgz'
+    }
 
 
-def __get_var():
-    print(sys.argv[1])
+def get_path(var):
+    if file_paths.__contains__(var):
+        print(file_paths[var])
 
 
 if __name__ == '__main__':
-    __get_var()
+    get_path(sys.argv[1])
