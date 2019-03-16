@@ -1,4 +1,16 @@
-Release 1.5
+Release v1.6.1 (2019-03-16)
+- imports improved
+
+Release v1.6 (2019-03-16)
+[#31] feature grouping added
+- minor code changes
+
+Release 1.5.3 (2019-02-13)
+Release 1.5.2
+Release 1.5.1
+- minor improvements and changes
+
+Release 1.5 (2019-02-11)
 [#39] emergency stop implemented
-start/stop standby timer improved
-code refactored and some changes
+- start/stop standby timer improved
+- code refactored and some changes
