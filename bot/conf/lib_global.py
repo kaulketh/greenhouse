@@ -5,6 +5,8 @@
 author: Thomas Kaulke, kaulketh@gmail.com
 """
 
+import sys
+
 empty = ''
 space = ' '
 colon_space = ': '
@@ -45,5 +47,9 @@ bot_dir = '/home/pi/scripts/TelegramBot/'
 bot_backup = '/home/pi/backups/greenhouse.tgz'
 
 
+def __get_var():
+    print(sys.argv[1])
+
+
 if __name__ == '__main__':
-    pass
+    __get_var()
