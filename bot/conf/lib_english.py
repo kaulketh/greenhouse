@@ -41,7 +41,7 @@ core = 'Core temperature'
 
 # messages
 msg_grouping = '`Grouping, please select`'
-msg_grouping_selection = '`Selected group: {}`'
+msg_grouping_selection = '`Selected group {}`'
 msg_live = '[Click here for the live stream]({})'
 msg_temperature = '`{}Current values\n{}, {}\n{}`'
 msg_welcome = '`Hello {}!`'
