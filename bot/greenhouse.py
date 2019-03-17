@@ -173,7 +173,7 @@ def __grouping(bot, update, chat_data):
                               chat_id=query.message.chat_id,
                               message_id=query.message.message_id,
                               parse_mode=ParseMode.MARKDOWN)
-        bot.send_message(text=lib.msg_duration.format(target +'(' + selection + ')'),
+        bot.send_message(text=lib.msg_duration.format(target +'(' + str(selection) + ')'),
                          chat_id=query.message.chat_id,
                          parse_mode=ParseMode.MARKDOWN,
                          reply_markup=markup2)
