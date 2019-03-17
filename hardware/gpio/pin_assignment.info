@@ -1,0 +1,27 @@
+# pin assignment
+# +-----+-----+---------+----------+---Pi 3---+----------+---------+-----+-----+
+# | BCM | wPi |   Name  | ASSIGNED | Physical | ASSIGNED | Name    | wPi | BCM |
+# +-----+-----+---------+----------+----++----+----------+---------+-----+-----+
+# |     |     |    3.3v | DHT22/FAN|  1 || 2  |OLED      | 5v      |     |     |
+# |   2 |   8 |   SDA.1 |  OLED SDA|  3 || 4  |RELAIS MOD| 5v      |     |     |
+# |   3 |   9 |   SCL.1 |  OLED SCL|  5 || 6  |RELAIS MOD| 0v      |     |     |
+# |   4 |   7 | GPIO. 7 | DHT22 OUT|  7 || 8  |LED POWER | TxD     | 15  | 14  |
+# |     |     |      0v |      OLED|  9 || 10 |LED PIACT | RxD     | 16  | 15  |
+# |  17 |   0 | GPIO. 0 |          | 11 || 12 |FAN TR B  | GPIO. 1 | 1   | 18  |
+# |  27 |   2 | GPIO. 2 |          | 13 || 14 |FAN TR E  | 0v      |     |     |
+# |  22 |   3 | GPIO. 3 |          | 15 || 16 |LED HDDACT| GPIO. 4 | 4   | 23  |
+# |     |     |    3.3v |     4-DIG| 17 || 18 |LED NETACT| GPIO. 5 | 5   | 24  |
+# |  10 |  12 |    MOSI |          | 19 || 20 |          | 0v      |     |     |
+# |   9 |  13 |    MISO |          | 21 || 22 |4-DIG DIO | GPIO. 6 | 6   | 25  |
+# |  11 |  14 |    SCLK |          | 23 || 24 |          | CE0     | 10  | 8   |
+# |     |     |      0v |     4-DIG| 25 || 26 |          | CE1     | 11  | 7   |
+# |   0 |  30 |   SDA.0 |          | 27 || 28 |          | SCL.0   | 31  | 1   |
+# |   5 |  21 | GPIO.21 | RELAIS_01| 29 || 30 |          | 0v      |     |     |
+# |   6 |  22 | GPIO.22 | RELAIS_02| 31 || 32 |4-DIG CLK | GPIO.26 | 26  | 12  |
+# |  13 |  23 | GPIO.23 | RELAIS_03| 33 || 34 |LED GROUND| 0v      |     |     |
+# |  19 |  24 | GPIO.24 | RELAIS_04| 35 || 36 |RELAIS_06 | GPIO.27 | 27  | 16  |
+# |  26 |  25 | GPIO.25 | RELAIS_05| 37 || 38 |RELAIS_07 | GPIO.28 | 28  | 20  |
+# |     |     |      0v |     DHT22| 39 || 40 |RELAIS_08 | GPIO.29 | 29  | 21  |
+# +-----+-----+---------+----------+----++----+----------+---------+-----+-----+
+# | BCM | wPi |   Name  | ASSIGNED | Physical | ASSIGNED | Name    | wPi | BCM |
+# +-----+-----+---------+----------+---Pi 3---+----------+---------+-----+-----+
