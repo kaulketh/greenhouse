@@ -1,30 +1,41 @@
 # My Greenhouse
-
+> Control a greenhouse by using Telegram app and a RaspberryPi.
 ---
 
 > Thank you for inspiring me, [Stefan Weigert](https://www.stefan-weigert.de/php_loader/raspi.php) and [Felix Stern](https://tutorials-raspberrypi.de/automatisches-raspberry-pi-gewaechshaus-selber-bauen/)
 
 ---
+> This repository is used to gather and show information and experiences during the building of a smart control possibility.
+> I did not reinvent the wheel.
+> All code is written or adapted by myself and w/o any copyrights. I have tried to use no copyright protected stuff.
+> Almost everything published already exists, to be found on the net, and was adapted and used only by me accordingly.
+> Feel free to use, adapt, download or copy all the published stuff.
+> Main programming language is Python and shell scripting is used also.  
 
-### Main steps
+> And please excuse the mistakes made and violations of any conventions, I am new to this matter.
+> Do not be afraid to correct or improve me and inform me accordingly.
 
-1. [Telegram app](#1-telegram-app)
-2. [Raspberry Pi OS](#2-raspberry-pi-os-image)
-3. [First boot](#3-boot-raspi-and-connect-via-ssh)
-4. [Configure IP](#4-configure-static-ip)
-5. [Updates and main config](#5-make-updates-and-adapt-main-config)
-6. [Dyn dns client](#6-install-and-configure-dyn-dns-client-ddclient)
-7. [Remote ftp access](#7-install-and-configure-remote-ftp-if-required)
-8. [Live stream](#8-configure-the-live-stream)
-9. [Router port forwarding](#9-configure-port-forwarding-in-router-accordingly-the-dns-and-port-settings)
-10. [Required packages](#10-install-required-packages-python-python-telegram-bot-telepot-and-wiringpi)
-11. [Add/create scripts](#11-add-scripts-in-pi-user-directory)
-12. [Autostart](#12-enable-autostart-of-the-bot-application)
-13. [Additionals](#13-additional-functionalities)
+### Table of Contents
+
+- [Telegram app](#1-telegram-app)
+- Raspberry Pi
+    - [Raspberry Pi OS](#raspberry-pi-os-image)
+    - [First boot](#boot-raspi-and-connect-via-ssh)
+    - [Configure IP](#configure-static-ip)
+    - [Updates and main config](#make-updates-and-adapt-main-config)
+    - [Dyn dns client](#install-and-configure-dyn-dns-client-ddclient)
+    - [Remote ftp access](#install-and-configure-remote-ftp-if-required)
+    - [Live stream](#configure-the-live-stream)
+- [Router port forwarding](#configure-port-forwarding-in-router-accordingly-the-dns-and-port-settings)
+- [Required packages](#install-required-packages-python-python-telegram-bot-telepot-and-wiringpi)
+- [Add/create scripts](#add-scripts-in-pi-user-directory)
+- [Autostart](#enable-autostart-of-the-bot-application)
+- [Additionals](#additional-functionalities)
+- [Hardware](https://github.com/kaulketh/greenhouse/blob/master/hardware/HARDWARE.md)
 
 ---
 	
-### 1. Telegram app
+### Telegram app
 ##### Install the app and create bot
 
 ```
@@ -39,7 +50,7 @@ ChatID:	<chat_id>
 
 ---
 
-### 2. Raspberry Pi OS image
+### Raspberry Pi OS image
 * download [latest stretch lite w/o desktop](https://downloads.raspberrypi.org/raspbian_lite_latest) 
 * prepare sd card / flash image, e.g. use [Etcher](https://etcher.io/?ref=etcher_footer) 
 * _**enable SSH access**_ 
@@ -48,11 +59,11 @@ ChatID:	<chat_id>
 
 ---
 
-### 3. Boot raspi and connect via ssh
+### Boot raspi and connect via ssh
 
 ---
 			
-### 4. Configure (static) IP
+### Configure (static) IP
 ##### adapt /etc/[dhcpcd.conf](configs/dhcpcd.conf)
 
 ```
@@ -71,7 +82,7 @@ _**Retest and doublecheck network conection and settings before executing next s
 
 ---
 
-### 5. Make updates and adapt main config
+### Make updates and adapt main config
 
 ```
 sudo apt-get update --yes && sudo apt-get upgrade --yes
@@ -83,7 +94,7 @@ sudo rpi-update //update firmware
 sudo reboot
 ```
 ---
-### 6. Install and configure dyn dns client (ddclient)
+### Install and configure dyn dns client (ddclient)
 #### ignore config let it empty e.g can be configured due next steps
 ```
 sudo apt-get update
@@ -109,7 +120,7 @@ sudo nano /etc/ddclient.conf
  
 ---
 
-### 7. Install and configure remote ftp if required
+### Install and configure remote ftp if required
 ```
 sudo apt-get install pure-ftpd
 sudo groupadd ftpgroup
@@ -125,7 +136,7 @@ sudo service pure-ftpd restart
 * [how-to remote access](https://www.raspberrypi.org/documentation/remote-access/ftp.md)
  
 ---
-### 8. Configure the live stream
+### Configure the live stream
 ##### install motion and update /etc/motion/[motion.conf](configs/motion.conf)
 ```	
 sudo apt-get install motion -y
@@ -142,11 +153,11 @@ sudo service motion start
 
 ---
 
-### 9. Configure port forwarding in router accordingly the dns and port settings
+### Configure port forwarding in router accordingly the dns and port settings
 ##### [my live url](http://greenhouse.my.to:8082/)
 
 ---					
-### 10. Install required packages (python, python-telegram-bot, python-pip, telepot and wiringpi)
+### Install required packages (python, python-telegram-bot, python-pip, telepot and wiringpi)
 ```
 sudo apt-get install build-essential python-dev python-pip python-smbus python-openssl git --yes //python
 sudo pip install python-telegram-bot
@@ -181,7 +192,7 @@ cd ~/wiringPi
 
 ---
 
-### 11. Add scripts in pi user directory
+### Add scripts in pi user directory
 ##### e.g in this case in scripts/TelegramBot
 
 _**Make them executable and chown root:root!**_
@@ -197,7 +208,7 @@ _**Make them executable and chown root:root!**_
 * [update_bot.sh](bot/update_bot.sh) - to updates all scripts from this repository by using last commit and branch
    
 ---
-### 12. Enable autostart of the bot application
+### Enable autostart of the bot application
 ##### Add the program as service. To enable autostart add it to the init.d directory, insert [telegrambot.sh](bot/telegrambot.sh) in **/etc/init.d** as root and execute commands as followed.
 
 ```
@@ -210,7 +221,7 @@ sudo reboot
 
 ---
 
-### 13. Additional functionality
+### Additional functionality
 ##### Add as required or wished
 
 ##### Crontabs examples
@@ -254,4 +265,10 @@ sudo nano /etc/logrotate.conf
 	dateext
 	create 644 root root
 }
-```	
+```
+
+## License
+
+[![License](https://img.shields.io/badge/license-The%20Unlicense-red.svg)](https://unlicense.org/)
+
+- **[License](https://github.com/kaulketh/greenhouse/blob/master/LICENSE    )**
