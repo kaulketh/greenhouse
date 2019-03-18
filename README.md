@@ -6,7 +6,7 @@
 > Thank you for inspiring me, [Stefan Weigert](https://www.stefan-weigert.de/php_loader/raspi.php) and [Felix Stern](https://tutorials-raspberrypi.de/automatisches-raspberry-pi-gewaechshaus-selber-bauen/)
 
 ---
-> [![license](https://img.shields.io/badge/license-The%20Unlicense-red.svg)](https://unlicense.org/) ![release](https://img.shields.io/github/release/kaulketh/greenhouse.svg)
+> ![release](https://img.shields.io/github/release/kaulketh/greenhouse.svg) ![size](https://img.shields.io/github/repo-size/kaulketh/greenhouse.svg) ![commit](https://img.shields.io/github/last-commit/kaulketh/greenhouse.svg) ![platform](https://img.shields.io/badge/platform-linux-blue.svg) ![python](https://img.shields.io/pypi/pyversions/telepot.svg?color=darkgreen&style=flat) [![license](https://img.shields.io/github/license/kaulketh/greenhouse.svg?color=darkred)](https://unlicense.org/) 
 
 > This repository is used to gather and show information and experiences during the building of a smart control possibility.
 > All code is written or adapted by myself and w/o any copyrights. I have tried to use no copyright protected stuff.
@@ -273,9 +273,9 @@ sudo nano /etc/logrotate.conf
 	create 644 root root
 }
 ```
-
+---
 ## License
 
-[![License](https://img.shields.io/badge/license-The%20Unlicense-red.svg)](https://unlicense.org/)
+[![license](https://img.shields.io/github/license/kaulketh/greenhouse.svg?color=darkred)](https://unlicense.org/)
 
 - **[License](https://github.com/kaulketh/greenhouse/blob/master/LICENSE    )**
