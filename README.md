@@ -1,24 +1,25 @@
 # My Greenhouse
-> Control a greenhouse by using Telegram app and a RaspberryPi.
+> Control a greenhouse by using Telegram app and a Raspberry Pi.
+> I did not reinvent the wheel.
 ---
 
 > Thank you for inspiring me, [Stefan Weigert](https://www.stefan-weigert.de/php_loader/raspi.php) and [Felix Stern](https://tutorials-raspberrypi.de/automatisches-raspberry-pi-gewaechshaus-selber-bauen/)
 
 ---
+> [![license](https://img.shields.io/badge/license-The%20Unlicense-red.svg)](https://unlicense.org/) ![release](https://img.shields.io/github/release/kaulketh/greenhouse.svg)
+
 > This repository is used to gather and show information and experiences during the building of a smart control possibility.
-> I did not reinvent the wheel.
 > All code is written or adapted by myself and w/o any copyrights. I have tried to use no copyright protected stuff.
 > Almost everything published already exists, to be found on the net, and was adapted and used only by me accordingly.
-> Feel free to use, adapt, download or copy all the published stuff.
-> Main programming language is Python and shell scripting is used also.  
 
 > And please excuse the mistakes made and violations of any conventions, I am new to this matter.
 > Do not be afraid to correct or improve me and inform me accordingly.
 
-### Table of Contents
 
-- [Telegram app](#1-telegram-app)
-- Raspberry Pi
+### Table of Contents
+- [Installation and usage](#Installation-and-usage)
+- [Telegram app](#telegram-app)
+- Raspberry Pi requirements
     - [Raspberry Pi OS](#raspberry-pi-os-image)
     - [First boot](#boot-raspi-and-connect-via-ssh)
     - [Configure IP](#configure-static-ip)
@@ -27,13 +28,19 @@
     - [Remote ftp access](#install-and-configure-remote-ftp-if-required)
     - [Live stream](#configure-the-live-stream)
 - [Router port forwarding](#configure-port-forwarding-in-router-accordingly-the-dns-and-port-settings)
-- [Required packages](#install-required-packages-python-python-telegram-bot-telepot-and-wiringpi)
+- [Required packages](#install-required-packages-python-python-telegram-bot-python-pip-telepot-and-wiringpi)
 - [Add/create scripts](#add-scripts-in-pi-user-directory)
 - [Autostart](#enable-autostart-of-the-bot-application)
-- [Additionals](#additional-functionalities)
+- [Additional](#additional-functionality)
 - [Hardware](https://github.com/kaulketh/greenhouse/blob/master/hardware/HARDWARE.md)
+- [License](#License)
 
 ---
+### Installation and usage
+> Currently no installation routine is planned.
+> Feel free to use, adapt, download or copy all the published stuff.
+> Main programming language is Python and shell scripting is used also. 
+
 	
 ### Telegram app
 ##### Install the app and create bot
