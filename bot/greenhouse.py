@@ -475,7 +475,7 @@ def main():
 
     dp = updater.dispatcher
 
-    help_command = CommandHandler('help', __help),
+    help_command = CommandHandler('help', __help)
 
     emergency_stop_handler = RegexHandler('^{0}$'.format(str(lib.emergency_stop)),
                                           __emergency_stop_handler,
