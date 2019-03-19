@@ -6,18 +6,12 @@ author: Thomas Kaulke, kaulketh@gmail.com
 """
 
 from __future__ import absolute_import
-from conf import get_path
+import utils.utils as utils
 import subprocess
 from time import sleep
 from PIL import Image, ImageFont, ImageDraw
 from smbus import SMBus
 from lib_oled96 import Ssd1306
-
-
-latest_release = get_path('latest_release')
-commit_id = get_path('commit_id')
-cloned_branch = get_path('cloned_branch')
-bot_dir = get_path('bot_dir')
 
 
 # Display setup, methods and members
@@ -30,38 +24,17 @@ left = 5
 top = 7
 switch_time = 15
 
+# Fonts
+font = ImageFont.truetype(str(bot_dir) + 'peripherals/oled/fonts/arial.ttf', 12)
+font2 = ImageFont.truetype(str(bot_dir) + 'peripherals/oled/fonts/FreeSans.ttf', 12)
+
 
 def __get_release():
-    try:
-        release = open(str(latest_release)).read()
-        if release is None:
-            release = '-----'
-        else:
-            release = release
-    except Exception:
-        release = '-----'
-        return release
-    return release
+    return utils.get_release()
 
 
 def __get_last_commit():
-    try:
-        commit = open(str(commit_id)).read()
-        if commit is None:
-            commit = '-------'
-        else:
-            commit = commit[0:7]
-        branch = open(str(cloned_branch)).read()
-        if branch is None:
-            branch = '-------'
-        else:
-            branch = branch.replace("\n", "")
-    except Exception:
-        build = '---ERROR---'
-        return build
-
-    build = commit + " " + branch
-    return build
+    return utils.get_last_commit()
 
 
 def __get_core_temp():
@@ -70,11 +43,6 @@ def __get_core_temp():
     two = str(temp).__getitem__(1)
     temp_str = '{0}{1}{2}{3}'.format(one, two, c, 'C')
     return temp_str
-
-
-# Fonts
-font = ImageFont.truetype(str(bot_dir) + 'peripherals/oled/fonts/arial.ttf', 12)
-font2 = ImageFont.truetype(str(bot_dir) + 'peripherals/oled/fonts/FreeSans.ttf', 12)
 
 
 def __animate(time):
