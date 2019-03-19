@@ -91,7 +91,7 @@ def get_release():
         if release is None:
             release = '-----'
         else:
-            release = release
+            release = release.replace("\n", "")
     except Exception:
         release = '-----'
         return release
@@ -119,7 +119,7 @@ def get_last_commit():
 
 
 def get_release_info():
-    return get_release() + ':' + get_last_commit()
+    return conf.application_name + conf.space + get_release() + ':' + get_last_commit()
 
 
 if __name__ == '__main__':

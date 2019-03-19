@@ -7,6 +7,7 @@ author: Thomas Kaulke, kaulketh@gmail.com
 
 from __future__ import absolute_import
 import utils.utils as utils
+import conf
 import subprocess
 from time import sleep
 from PIL import Image, ImageFont, ImageDraw
@@ -50,7 +51,7 @@ def __animate(time):
     oled.cls()
     oled.display()
     # header
-    draw.text((left, top), "GREENHOUSE v" + __get_release(), font=font, fill=1)
+    draw.text((left, top), conf.application_name + conf.space + __get_release(), font=font, fill=1)
     # build
     draw.text((left, top + 18), "Build: " + __get_last_commit(), font=font2, fill=1)
     # line
