@@ -119,7 +119,7 @@ def get_last_commit():
 
 
 def get_release_info():
-    return conf.application_name + conf.space + get_release() + ':' + get_last_commit()
+    return conf.application_name + conf.space + get_release() + ' Build:' + get_last_commit()
 
 
 if __name__ == '__main__':
