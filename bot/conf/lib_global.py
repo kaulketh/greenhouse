@@ -7,17 +7,13 @@ author: Thomas Kaulke, kaulketh@gmail.com
 
 import sys
 
+application_name = 'GREENHOUSE'
+
 empty = ''
 space = ' '
 colon_space = ': '
 pipe_space = '| '
 line_break = '\n'
-
-"""
-timeout if no user activity 
-"""
-timeout = 120
-
 
 """ language settings
 0 - English

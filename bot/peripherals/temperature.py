@@ -7,10 +7,10 @@ author: Thomas Kaulke, kaulketh@gmail.com
 """
 
 from __future__ import absolute_import
-import conf.greenhouse_config as conf
-import logger.logger as log
+import conf
+import logger
 
-logging = log.get_logger()
+logging = logger.get_logger()
 
 temp = 0
 one = 0

@@ -12,7 +12,7 @@
 # Defaulst-Stop:        0 1 6
 # Short-Description:    Greenhouse bot start script, please refer etc/init.d/telegrambot.sh
 # Description:          Start /home/pi/scripts/TelegramBot/greenhouse.py
-#                       to control rapsberrypi by admins mobile via telegram app.
+#                       to control Raspberry Pi by admins mobile via telegram app.
 #
 ### END INIT INFO
 

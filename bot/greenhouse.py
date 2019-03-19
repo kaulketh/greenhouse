@@ -458,6 +458,12 @@ def __cam_off():
 # end: camera
 
 
+# release info
+def __message_release_info(bot, update):
+    update.message.reply_text('`' + utils.get_release_info() + '`', parse_mode=ParseMode.MARKDOWN)
+    return
+
+
 def main():
     __init_bot_set_pins()
 
@@ -469,6 +475,8 @@ def main():
     logger.info('Init job queue.')
 
     dp = updater.dispatcher
+
+    help_commandhandler = CommandHandler('help', __message_release_info)
 
     emergency_stop_handler = RegexHandler('^{0}$'.format(str(lib.emergency_stop)),
                                           __emergency_stop_handler,
@@ -501,6 +509,8 @@ def main():
     )
 
     dp.add_handler(emergency_stop_handler)
+
+    dp.add_handler(help_commandhandler)
 
     dp.add_handler(ch)
 

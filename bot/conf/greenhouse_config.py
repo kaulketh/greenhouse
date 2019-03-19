@@ -7,7 +7,7 @@ configs, command strings and constants
 author: Thomas Kaulke, kaulketh@gmail.com
 """
 import access as access
-from lib_global import language_index, timeout
+from lib_global import language_index
 """
  language settings
  import required lib
@@ -26,7 +26,8 @@ mainId = access.thk
 token = access.token
 
 
-standby_timeout = timeout
+# timeout if no user activity
+standby_timeout = 120
 
 
 # keyboard configs

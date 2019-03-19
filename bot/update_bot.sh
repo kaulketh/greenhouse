@@ -12,11 +12,11 @@ owner=kaulketh
 # path to main config library
 config='/home/pi/scripts/TelegramBot/conf/lib_global.py'
 
-log=$(python $config file_log_update)
-commit_id=$(python $config commit_id)
-cloned_branch=$(python $config cloned_branch)
-bot_dir=$(python $config bot_dir)
-latest_release=$(python $config latest_release)
+log=$(python ${config} file_log_update)
+commit_id=$(python ${config} commit_id)
+cloned_branch=$(python ${config} cloned_branch)
+bot_dir=$(python ${config} bot_dir)
+latest_release=$(python ${config} latest_release)
 
 wait=3
 

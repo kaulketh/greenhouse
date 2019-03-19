@@ -8,18 +8,18 @@ author: Thomas Kaulke, kaulketh@gmail.com
 """
 
 from __future__ import absolute_import
+import conf
 import time
 import os
 import RPi.GPIO as GPIO
 import logger
 
-"""logging is configured in logger package in logger.ini"""
-logging = logger.get_logger()
+logger = logger.get_logger()
 
 
 # switch functions
 def switch_on(pin):
-    logging.info('switch relais on: ' + str(pin))
+    logger.info('switch relais on: ' + str(pin))
     GPIO.setup(pin, GPIO.OUT)
     GPIO.output(pin, GPIO.LOW)
     # os.system(run_gpio_check + str(pin))
@@ -27,7 +27,7 @@ def switch_on(pin):
 
 
 def switch_off(pin):
-    logging.info('switch relais off: ' + str(pin))
+    logger.info('switch relais off: ' + str(pin))
     GPIO.setup(pin, GPIO.OUT)
     GPIO.output(pin, GPIO.HIGH)
     # os.system(run_gpio_check + str(pin))
@@ -36,14 +36,14 @@ def switch_off(pin):
 
 
 def switch_out_high(pin):
-    logging.info('switch {} OUT HIGH'.format(str(pin)))
+    logger.info('switch {} OUT HIGH'.format(str(pin)))
     GPIO.setup(pin, GPIO.OUT)
     GPIO.output(pin, GPIO.HIGH)
     return
 
 
 def switch_out_low(pin):
-    logging.info('switch {} OUT LOW'.format(str(pin)))
+    logger.info('switch {} OUT LOW'.format(str(pin)))
     GPIO.setup(pin, GPIO.OUT)
     GPIO.output(pin, GPIO.LOW)
     return
@@ -67,7 +67,7 @@ def get_pin_state(pin):
 # to use Raspberry Pi board pin numbers
 def set_pins():
     GPIO.setmode(GPIO.BOARD)
-    logging.info('Set GPIO mode: GPIO.BOARD')
+    logger.info('Set GPIO mode: GPIO.BOARD')
     # to use GPIO instead board pin numbers, then please adapt pin definition
     # GPIO.setmode(GPIO.BCM)
     # comment if warnings required
@@ -82,6 +82,44 @@ def read_cmd(cmd, tmp_file):
     data = file.read()
     file.close()
     return data
+
+
+# Provide release version information
+def get_release():
+    try:
+        release = open(str(conf.latest_release)).read()
+        if release is None:
+            release = '-----'
+        else:
+            release = release.replace("\n", "")
+    except Exception:
+        release = '-----'
+        return release
+    return release
+
+
+def get_last_commit():
+    try:
+        commit = open(str(conf.commit_id)).read()
+        if commit is None:
+            commit = '-------'
+        else:
+            commit = commit[0:7]
+        branch = open(str(conf.cloned_branch)).read()
+        if branch is None:
+            branch = '-------'
+        else:
+            branch = branch.replace("\n", "")
+    except Exception:
+        build = '---ERROR---'
+        return build
+
+    build = commit + " " + branch
+    return build
+
+
+def get_release_info():
+    return conf.application_name + conf.space + get_release() + ' Build:' + get_last_commit()
 
 
 if __name__ == '__main__':
