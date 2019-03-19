@@ -15,6 +15,7 @@
 
 > And please excuse the mistakes made and violations of any conventions, I am new to this matter.
 > Do not be afraid to correct or improve me and inform me accordingly.
+> Consider and refer [Contributor Covenant Code of Conduct!](https://github.com/kaulketh/greenhouse/blob/master/CODE_OF_CONDUCT.md)
 
 
 ### Table of Contents
