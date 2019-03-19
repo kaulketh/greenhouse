@@ -430,7 +430,7 @@ def __error(bot, update, e):
         __cam_off()
         utils.GPIO.cleanup()
     except Exception:
-        logging.warning('Any error occurs!')
+        logger.warning('Any error occurs!')
     return ConversationHandler.END
 
 
