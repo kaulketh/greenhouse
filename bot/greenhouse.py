@@ -457,9 +457,10 @@ def __cam_off():
     return
 # end: camera
 
-# help
-def __help(bot, update):
-    update.message.reply_text('Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.', parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
+
+# release info
+def __message_release_info(bot, update):
+    update.message.reply_text('`' + utils.get_release_info() + '`', parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
     return
 
 
@@ -475,7 +476,7 @@ def main():
 
     dp = updater.dispatcher
 
-    help_command = CommandHandler('help', __help)
+    help_commandhandler = CommandHandler('help', __message_release_info)
 
     emergency_stop_handler = RegexHandler('^{0}$'.format(str(lib.emergency_stop)),
                                           __emergency_stop_handler,
@@ -509,7 +510,7 @@ def main():
 
     dp.add_handler(emergency_stop_handler)
 
-    dp.add_handler(help_command)
+    dp.add_handler(help_commandhandler)
 
     dp.add_handler(ch)
 
