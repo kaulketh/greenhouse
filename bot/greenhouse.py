@@ -460,7 +460,7 @@ def __cam_off():
 
 # release info
 def __message_release_info(bot, update):
-    update.message.reply_text('`' + utils.get_release_info() + '`', parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
+    update.message.reply_text('`' + utils.get_release_info() + '`', parse_mode=ParseMode.MARKDOWN)
     return
 
 

@@ -8,17 +8,13 @@ author: Thomas Kaulke, kaulketh@gmail.com
 """
 
 from __future__ import absolute_import
-from conf import get_path
+import conf
 import time
 import os
 import RPi.GPIO as GPIO
 import logger
 
 logger = logger.get_logger()
-latest_release = get_path('latest_release')
-commit_id = get_path('commit_id')
-cloned_branch = get_path('cloned_branch')
-bot_dir = get_path('bot_dir')
 
 
 # switch functions
@@ -91,7 +87,7 @@ def read_cmd(cmd, tmp_file):
 # Provide release version information
 def get_release():
     try:
-        release = open(str(latest_release)).read()
+        release = open(str(conf.latest_release)).read()
         if release is None:
             release = '-----'
         else:
@@ -104,12 +100,12 @@ def get_release():
 
 def get_last_commit():
     try:
-        commit = open(str(commit_id)).read()
+        commit = open(str(conf.commit_id)).read()
         if commit is None:
             commit = '-------'
         else:
             commit = commit[0:7]
-        branch = open(str(cloned_branch)).read()
+        branch = open(str(conf.cloned_branch)).read()
         if branch is None:
             branch = '-------'
         else:
