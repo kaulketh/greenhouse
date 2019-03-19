@@ -3,6 +3,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.6.3](https://github.com/kaulketh/greenhouse/tree/v1.6.3) - 2019-03-19
+### changes
+* minor changes and improvments
+### added
+* release info with /help command
+
 ## [v1.6.2](https://github.com/kaulketh/greenhouse/tree/v1.6.2) - 2019-03-17
 ### changes
 * update: HARDWARE.md
@@ -10,7 +16,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### added
 * Changelog.md
 * [#2](https://github.com/kaulketh/greenhouse/issues/2) resolved
-
 
 ## [v1.6.1](https://github.com/kaulketh/greenhouse/tree/v1.6.1) - 2019-03-16
 ### changes
