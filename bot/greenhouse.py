@@ -270,9 +270,9 @@ def __all_off():
 
 @run_async
 def __water(bot, update, channel):
+    #__stop_standby_timer(bot, update)
     logger.info('Duration: {0}'.format(water_time))
     logger.info('Toggle {0}'.format(str(channel)))
-    __stop_standby_timer(bot, update)
     __reply(update, lib.water_on.format(target, water_time), markup3)
     utils.switch_on(channel)
     time.sleep(int(water_time) * int(lib.time_conversion))
@@ -280,15 +280,15 @@ def __water(bot, update, channel):
     __reply(update,
             '{0}{1}{2}'.format(__timestamp(), lib.water_off.format(target, water_time), lib.msg_new_choice), markup1)
     display.show_off()
-    __start_standby_timer(bot, update)
+    #__start_standby_timer(bot, update)
     return
 
 
 @run_async
 def __water_group(bot, update, group):
+    #__stop_standby_timer(bot, update)
     logger.info('Duration: {0}'.format(water_time))
     logger.info('Toggle {0}'.format(str(group)))
-    __stop_standby_timer(bot, update)
     __reply(update, lib.water_on.format(target, water_time), markup3)
     for channel in group:
         utils.switch_on(channel)
@@ -298,7 +298,7 @@ def __water_group(bot, update, group):
     __reply(update,
             '{0}{1}{2}'.format(__timestamp(), lib.water_off.format(target, water_time), lib.msg_new_choice), markup1)
     display.show_off()
-    __start_standby_timer(bot, update)
+    #__start_standby_timer(bot, update)
     return
 # end watering targets
 
