@@ -179,10 +179,10 @@ def __group_menu(bot, update):
     selection = ()
     logger.info('Grouping mode called.')
     inline_keyboard = [
-        [__get_btn(lib.channel_1, conf.RELAIS_01), __get_btn(lib.channel_2, conf.RELAIS_02),
-         __get_btn(lib.channel_3, conf.RELAIS_03), __get_btn(lib.channel_4, conf.RELAIS_04)],
-        [__get_btn(lib.channel_5, conf.RELAIS_05), __get_btn(lib.channel_6, conf.RELAIS_06),
-         __get_btn(lib.channel_7, conf.RELAIS_07), __get_btn(lib.channel_8, conf.RELAIS_08)],
+        [__get_btn(lib.channel_1, conf.RELAY_01), __get_btn(lib.channel_2, conf.RELAY_02),
+         __get_btn(lib.channel_3, conf.RELAY_03), __get_btn(lib.channel_4, conf.RELAY_04)],
+        [__get_btn(lib.channel_5, conf.RELAY_05), __get_btn(lib.channel_6, conf.RELAY_06),
+         __get_btn(lib.channel_7, conf.RELAY_07), __get_btn(lib.channel_8, conf.RELAY_08)],
         [InlineKeyboardButton(lib.btn_finished, callback_data=lib.btn_finished),
          InlineKeyboardButton(lib.btn_cancel, callback_data=lib.btn_cancel)]
     ]
