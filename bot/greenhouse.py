@@ -34,10 +34,7 @@ thread.start()
 lib = conf.lib
 
 # define pins
-all_groups = conf.GROUP_ALL
-group_one = conf.GROUP_01
-group_two = conf.GROUP_02
-group_three = conf.GROUP_03
+
 
 # api and bot settings
 SELECTION, DURATION, GROUPING = range(3)
@@ -116,13 +113,12 @@ def __start(bot, update):
 def __selection(bot, update):
     global target
     target = update.message.text
-
     __stop_standby_timer(bot, update)
 
     if target == str(lib.panic):
+        logger.info('Panic mode called.')
         update.message.reply_text(lib.msg_panic,
                                   parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
-        logger.info(lib.msg_panic)
         os.system(conf.run_extended_greenhouse + str(user_id))
 
     elif target == str(lib.live_stream):
@@ -192,14 +188,15 @@ def __grouping(bot, update, chat_data):
 
 
 def __group_menu(bot, update):
+    __stop_standby_timer(bot, update)
     global selection
     selection = ()
     logger.info('Grouping mode called.')
     inline_keyboard = [
-        [__get_btn(lib.group1[1], conf.RELAIS_01), __get_btn(lib.group1[2], conf.RELAIS_02),
-         __get_btn(lib.group1[3], conf.RELAIS_03), __get_btn(lib.group3[1], conf.RELAIS_04)],
-        [__get_btn(lib.group3[2], conf.RELAIS_05), __get_btn(lib.group2[1], conf.RELAIS_06),
-         __get_btn(lib.group2[2], conf.RELAIS_07), __get_btn(lib.group2[3], conf.RELAIS_08)],
+        [__get_btn(lib.channel_1, conf.RELAIS_01), __get_btn(lib.channel_2, conf.RELAIS_02),
+         __get_btn(lib.channel_3, conf.RELAIS_03), __get_btn(lib.channel_4, conf.RELAIS_04)],
+        [__get_btn(lib.channel_5, conf.RELAIS_05), __get_btn(lib.channel_6, conf.RELAIS_06),
+         __get_btn(lib.channel_7, conf.RELAIS_07), __get_btn(lib.channel_8, conf.RELAIS_08)],
         [InlineKeyboardButton(lib.btn_finished, callback_data=lib.btn_finished),
          InlineKeyboardButton(lib.btn_cancel, callback_data=lib.btn_cancel)]
     ]
@@ -207,6 +204,7 @@ def __group_menu(bot, update):
     global reply_markup
     reply_markup = InlineKeyboardMarkup(inline_keyboard)
     update.message.reply_text(lib.msg_grouping, reply_markup=reply_markup, parse_mode=ParseMode.MARKDOWN)
+    __start_standby_timer(bot, update)
     return GROUPING
 
 
@@ -221,7 +219,6 @@ def __duration(bot, update):
     global g_duration_update
     g_duration_update = update
     water_time = update.message.text
-
     __stop_standby_timer(bot, update)
 
     if water_time == str(lib.cancel):
@@ -235,58 +232,40 @@ def __duration(bot, update):
         logger.info(lib.msg_panic)
         os.system(conf.run_extended_greenhouse + str(user_id))
 
-    elif target == str(lib.group1[1]):
-        """ starts separate thread """
+    elif target == str(lib.channel_1):
         display.show_switch_channel_duration(1, int(water_time))
+        __water(bot, update, conf.RELAIS_01)
 
-        __water(bot, update, group_one[0])
-
-    elif target == str(lib.group1[2]):
-        """ starts separate thread """
+    elif target == str(lib.channel_2):
         display.show_switch_channel_duration(2, int(water_time))
+        __water(bot, update, conf.RELAIS_02)
 
-        __water(bot, update, group_one[1])
-
-    elif target == str(lib.group1[3]):
-        """ starts separate thread """
+    elif target == str(lib.channel_3):
         display.show_switch_channel_duration(3, int(water_time))
+        __water(bot, update, conf.RELAIS_03)
 
-        __water(bot, update, group_one[2])
-
-    elif target == str(lib.group2[1]):
-        """ starts separate thread """
-        display.show_switch_channel_duration(6, int(water_time))
-
-        __water(bot, update, group_two[0])
-
-    elif target == str(lib.group2[2]):
-        """ starts separate thread """
-        display.show_switch_channel_duration(7, int(water_time))
-
-        __water(bot, update, group_two[1])
-
-    elif target == str(lib.group2[3]):
-        """ starts separate thread """
-        display.show_switch_channel_duration(8, int(water_time))
-
-        __water(bot, update, group_two[2])
-
-    elif target == str(lib.group3[1]):
-        """ starts separate thread """
+    elif target == str(lib.channel_4):
         display.show_switch_channel_duration(4, int(water_time))
+        __water(bot, update, conf.RELAIS_04)
 
-        __water(bot, update, group_three[0])
-
-    elif target == str(lib.group3[2]):
-        """ starts separate thread """
+    elif target == str(lib.channel_5):
         display.show_switch_channel_duration(5, int(water_time))
+        __water(bot, update, conf.RELAIS_05)
 
-        __water(bot, update, group_three[1])
+    elif target == str(lib.channel_6):
+        display.show_switch_channel_duration(6, int(water_time))
+        __water(bot, update, conf.RELAIS_06)
+
+    elif target == str(lib.channel_7):
+        display.show_switch_channel_duration(7, int(water_time))
+        __water(bot, update, conf.RELAIS_07)
+
+    elif target == str(lib.channel_8):
+        display.show_switch_channel_duration(8, int(water_time))
+        __water(bot, update, conf.RELAIS_08)
 
     elif target == str(lib.grouping):
-        """ starts separate thread """
         display.show_switch_group_duration(int(water_time))
-
         __water_group(bot, update, selection)
 
     else:
@@ -349,8 +328,8 @@ def __water_group(bot, update, group):
 
 # get humidity and temperature values
 def __message_values(update):
-    """  to avoid refresh intervals shorter than 3 seconds """
     time.sleep(3)
+    """ avoid refresh intervals shorter than 3 seconds! """
     dht.get_values()
     if dht.temperature == 0:
         temp = (lib.temp + lib.colon_space + '------')
@@ -363,8 +342,7 @@ def __message_values(update):
         hum = (lib.hum + lib.colon_space + conf.hum_format).format(dht.humidity)
 
     core_temp = (lib.core + lib.colon_space + core.get_temperature())
-    update.message.reply_text(lib.msg_temperature.format(
-        __start_time(), temp, hum, core_temp), parse_mode=ParseMode.MARKDOWN, reply_markup=markup1)
+    __reply(update, lib.msg_temperature.format(__start_time(), temp, hum, core_temp), markup1)
     return
 
 
@@ -375,7 +353,7 @@ def __stop(bot, update):
     logger.info('Bot stopped.')
     __cam_off()
     display.show_stop()
-    update.message.reply_text(lib.msg_stop, parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
+    __reply(update, lib.msg_stop, ReplyKeyboardRemove())
     time.sleep(2)
     display.show_standby()
     return ConversationHandler.END
@@ -460,7 +438,16 @@ def __cam_off():
 
 # release info
 def __message_release_info(bot, update):
-    update.message.reply_text('`' + utils.get_release_info() + '`', parse_mode=ParseMode.MARKDOWN)
+    __reply(update, '`' + utils.get_release_info() + '`')
+    return
+
+
+# reply message
+def __reply(update, text, markup=None):
+    if markup is None:
+        update.message.reply_text(text, parse_mode=ParseMode.MARKDOWN)
+    else:
+        update.message.reply_text(text, parse_mode=ParseMode.MARKDOWN, reply_markup=markup)
     return
 
 
@@ -476,7 +463,7 @@ def main():
 
     dp = updater.dispatcher
 
-    help_commandhandler = CommandHandler('help', __message_release_info)
+    help_handler = CommandHandler('help', __message_release_info)
 
     emergency_stop_handler = RegexHandler('^{0}$'.format(str(lib.emergency_stop)),
                                           __emergency_stop_handler,
@@ -510,7 +497,7 @@ def main():
 
     dp.add_handler(emergency_stop_handler)
 
-    dp.add_handler(help_commandhandler)
+    dp.add_handler(help_handler)
 
     dp.add_handler(ch)
 

@@ -31,9 +31,15 @@ grouping = 'Grouping'
 btn_finished = 'Finished'
 btn_cancel = cancel
 reload = 'Reload'
-group1 = ('Channel 1 to 3', 'Channel 1', 'Channel 2', 'Channel 3')
-group2 = ('Channel 6 to 8', 'Channel 6', 'Channel 7', 'Channel 8')
-group3 = ('Channel 4 and 5', 'Channel 4', 'Channel 5')
+
+channel_1 = 'Channel 1'
+channel_2 = 'Channel 2'
+channel_3 = 'Channel 3'
+channel_4 = 'Channel 4'
+channel_5 = 'Channel 5'
+channel_6 = 'Channel 6'
+channel_7 = 'Channel 7'
+channel_8 = 'Channel 8'
 
 temp = 'Temperature'
 hum = 'Humidity'

@@ -33,9 +33,14 @@ grouping = 'Gruppierung'
 btn_finished = 'Fertig'
 btn_cancel = cancel
 
-group1 = ('Kanal 1 bis 3', 'Kanal 1', 'Kanal 2', 'Kanal 3')
-group2 = ('Kanal 6 bis 8', 'Kanal 6', 'Kanal 7', 'Kanal 8')
-group3 = ('Kanal 4 und 5', 'Kanal 4', 'Kanal 5')
+channel_1 = 'Kanal 1'
+channel_2 = 'Kanal 2'
+channel_3 = 'Kanal 3'
+channel_4 = 'Kanal 4'
+channel_5 = 'Kanal 5'
+channel_6 = 'Kanal 6'
+channel_7 = 'Kanal 7'
+channel_8 = 'Kanal 8'
 
 temp = 'Temperatur'
 hum = 'Luftfeuchtigkeit'
