@@ -263,8 +263,8 @@ def __duration(bot, update):
 # watering targets
 def __all_off():
     logger.info('Switch all off.')
-    for channel in all_groups:
-        utils.switch_off(channel)
+    for relay in conf.ALL:
+        utils.switch_off(relay)
     return
 
 

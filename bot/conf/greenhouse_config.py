@@ -63,6 +63,8 @@ RELAY_06 = 36
 RELAY_07 = 38
 RELAY_08 = 40
 
+ALL = (RELAY_01, RELAY_02, RELAY_03, RELAY_04, RELAY_05, RELAY_06, RELAY_07, RELAY_08)
+
 # live stream address
 live = access.live
 
