@@ -27,7 +27,7 @@ from telegram.ext import Updater, CommandHandler, RegexHandler, ConversationHand
 from telegram.ext.dispatcher import run_async
 
 logger = logger.get_logger()
-thread = threading.Thread(target=monitor.main, name='main bot temperature monitoring')
+thread = threading.Thread(target=monitor.main, name='MainBot temperature monitoring')
 thread.start()
 
 lib = conf.lib
@@ -47,9 +47,8 @@ markup3 = ReplyKeyboardMarkup(conf.kb3, resize_keyboard=True, one_time_keyboard=
 
 # Start info
 def __init_bot_set_pins():
-    logger.info('Initialize bot, setup GPIO pins.')
+    logger.info('Initializing...')
     utils.set_pins()
-    logger.info('Switch all off at start.')
     __all_off()
     display.show_standby()
     return
@@ -81,7 +80,7 @@ def __start(bot, update):
         return ConversationHandler.END
     else:
         display.show_run()
-        logger.info('Bot started...')
+        logger.info('Started...')
         __message_values(update)
         __cam_on()
         display.show_ready()
@@ -89,9 +88,8 @@ def __start(bot, update):
             update,
             '{0}{1}{2}'.format(lib.msg_welcome.format(update.message.from_user.first_name), lib.space, lib.msg_choice),
             markup1)
-        logger.info('Bot is using by: {0} - {1},{2}'.format(
+        logger.info('Bot usage: {0} - {1},{2}'.format(
             str(user_id), update.message.from_user.last_name, update.message.from_user.first_name))
-        logger.info('Time unit is \'{0}\''.format(str(lib.time_units_name[lib.time_units_index])))
         display.show_off()
 
         __start_standby_timer(bot, update)
@@ -177,7 +175,7 @@ def __group_menu(bot, update):
     __stop_standby_timer(bot, update)
     global selection
     selection = ()
-    logger.info('Grouping mode called.')
+    logger.info('Grouping called.')
     inline_keyboard = [
         [__get_btn(lib.channel_1, conf.RELAY_01), __get_btn(lib.channel_2, conf.RELAY_02),
          __get_btn(lib.channel_3, conf.RELAY_03), __get_btn(lib.channel_4, conf.RELAY_04)],
@@ -262,43 +260,41 @@ def __duration(bot, update):
 
 # watering targets
 def __all_off():
-    logger.info('Switch all off.')
+    logger.info('All off.')
     for relay in conf.ALL:
-        utils.switch_off(relay)
+        utils.switch_out_high(relay)
     return
 
 
 @run_async
 def __water(bot, update, channel):
-    #__stop_standby_timer(bot, update)
-    logger.info('Duration: {0}'.format(water_time))
-    logger.info('Toggle {0}'.format(str(channel)))
+    __stop_standby_timer(bot, update)
+    logger.info('Toggle {0} , Duration {1}'.format(str(channel), str(water_time)))
     __reply(update, lib.water_on.format(target, water_time), markup3)
-    utils.switch_on(channel)
+    utils.switch_out_low(channel)
     time.sleep(int(water_time) * int(lib.time_conversion))
-    utils.switch_off(channel)
+    utils.switch_out_high(channel)
     __reply(update,
             '{0}{1}{2}'.format(__timestamp(), lib.water_off.format(target, water_time), lib.msg_new_choice), markup1)
     display.show_off()
-    #__start_standby_timer(bot, update)
+    __start_standby_timer(bot, update)
     return
 
 
 @run_async
 def __water_group(bot, update, group):
-    #__stop_standby_timer(bot, update)
-    logger.info('Duration: {0}'.format(water_time))
-    logger.info('Toggle {0}'.format(str(group)))
+    __stop_standby_timer(bot, update)
+    logger.info('Toggle {0} , Duration {1}'.format(str(group), str(water_time)))
     __reply(update, lib.water_on.format(target, water_time), markup3)
     for channel in group:
-        utils.switch_on(channel)
+        utils.switch_out_low(channel)
     time.sleep((int(water_time) * int(lib.time_conversion)))
     for channel in group:
-        utils.switch_off(channel)
+        utils.switch_out_high(channel)
     __reply(update,
             '{0}{1}{2}'.format(__timestamp(), lib.water_off.format(target, water_time), lib.msg_new_choice), markup1)
     display.show_off()
-    #__start_standby_timer(bot, update)
+    __start_standby_timer(bot, update)
     return
 # end watering targets
 
@@ -327,7 +323,7 @@ def __message_values(update):
 def __stop(bot, update):
     __all_off()
     __stop_standby_timer(bot, update)
-    logger.info('Bot stopped.')
+    logger.info('Stopped.')
     __cam_off()
     display.show_stop()
     __reply(update, lib.msg_stop, ReplyKeyboardRemove())
@@ -348,18 +344,18 @@ def __emergency_stop_handler(bot, update, chat_data):
 
 
 def __start_emergency_stop(bot, update):
+    logger.warning("Initialize emergency stop immediately.")
     global emergency_job
     emergency_job = jq.run_once(__job_stop_and_restart, 0, context=update)
-    logger.warning("Initialize emergency stop immediately.")
     return
 # end: emergency stop
 
 
 # [#30] implement standby  init after given time without user activity
 def __start_standby_timer(bot, update):
+    logger.info("Init standby timer of {0} seconds, added to queue.".format(conf.standby_timeout))
     global timer_job
     timer_job = jq.run_once(__job_stop_and_restart, conf.standby_timeout, context=update)
-    logger.info("Init standby timer of {0} seconds, added to queue.".format(conf.standby_timeout))
     return
 
 
@@ -383,6 +379,7 @@ def __error(bot, update, e):
     try:
         display.show_error()
         __cam_off()
+        __all_off()
         utils.GPIO.cleanup()
     except Exception:
         logger.warning('Any error occurs!')
