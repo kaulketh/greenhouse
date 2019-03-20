@@ -133,7 +133,6 @@ def __selected_target(bot, update, selected_target):
 
 # [#31] grouping
 def __grouping(bot, update, chat_data):
-    __stop_standby_timer(bot, update)
     global selection
     query = update.callback_query
     btn_click = str(query.data)
@@ -190,6 +189,7 @@ def __group_menu(bot, update):
     reply_markup = InlineKeyboardMarkup(inline_keyboard)
     __reply(update, lib.msg_grouping, reply_markup)
     logger.info('Grouping called.')
+    __stop_standby_timer(bot, update)
     return GROUPING
 
 
