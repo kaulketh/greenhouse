@@ -133,6 +133,7 @@ def __selected_target(bot, update, selected_target):
 
 # [#31] grouping
 def __grouping(bot, update, chat_data):
+    __stop_standby_timer(bot, update)
     global selection
     query = update.callback_query
     btn_click = str(query.data)
@@ -158,6 +159,7 @@ def __grouping(bot, update, chat_data):
                          parse_mode=ParseMode.MARKDOWN,
                          reply_markup=markup2)
         logger.info('Selected: {0} {1}'.format(str(target), str(selection)))
+        __start_standby_timer(bot, update)
         return DURATION
 
     elif btn_click == lib.cancel:
@@ -168,14 +170,13 @@ def __grouping(bot, update, chat_data):
                          chat_id=query.message.chat_id,
                          parse_mode=ParseMode.MARKDOWN,
                          reply_markup=markup1)
+        __start_standby_timer(bot, update)
         return SELECTION
 
 
 def __group_menu(bot, update):
-    __stop_standby_timer(bot, update)
     global selection
     selection = ()
-    logger.info('Grouping called.')
     inline_keyboard = [
         [__get_btn(lib.channel_1, conf.RELAY_01), __get_btn(lib.channel_2, conf.RELAY_02),
          __get_btn(lib.channel_3, conf.RELAY_03), __get_btn(lib.channel_4, conf.RELAY_04)],
@@ -188,7 +189,7 @@ def __group_menu(bot, update):
     global reply_markup
     reply_markup = InlineKeyboardMarkup(inline_keyboard)
     __reply(update, lib.msg_grouping, reply_markup)
-    __start_standby_timer(bot, update)
+    logger.info('Grouping called.')
     return GROUPING
 
 
@@ -252,8 +253,8 @@ def __duration(bot, update):
 
     else:
         __reply(update, lib.msg_choice, markup1)
+        __start_standby_timer(bot, update)
 
-    __start_standby_timer(bot, update)
     return SELECTION
 # end: duration
 
