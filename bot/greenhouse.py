@@ -138,6 +138,7 @@ def __grouping(bot, update, chat_data):
     btn_click = str(query.data)
 
     if not (btn_click == str(lib.btn_finished) or btn_click == str(lib.cancel)):
+        __stop_standby_timer(bot, update)
         if not selection.__contains__(int(btn_click)):
             selection += (int(btn_click),)
             bot.edit_message_text(text=lib.msg_grouping_selection.format(selection),
@@ -145,6 +146,7 @@ def __grouping(bot, update, chat_data):
                                   message_id=query.message.message_id,
                                   parse_mode=ParseMode.MARKDOWN,
                                   reply_markup=reply_markup)
+            __start_standby_timer(bot, update)
 
     elif btn_click == str(lib.btn_finished) and len(selection) > 0:
         __stop_standby_timer(bot, update)
@@ -191,7 +193,6 @@ def __group_menu(bot, update):
     reply_markup = InlineKeyboardMarkup(inline_keyboard)
     __reply(update, lib.msg_grouping, reply_markup)
     logger.info('Grouping called.')
-    __start_standby_timer(bot, update)
     return GROUPING
 
 
