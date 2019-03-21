@@ -278,6 +278,7 @@ def __water(bot, update, channel):
     __reply(update,
             '{0}{1}{2}'.format(__timestamp(), lib.water_off.format(target, water_time), lib.msg_new_choice), markup1)
     display.show_off()
+    __start_standby_timer(bot, update)
     return
 
 
@@ -294,6 +295,7 @@ def __water_group(bot, update, group):
     __reply(update,
             '{0}{1}{2}'.format(__timestamp(), lib.water_off.format(target, water_time), lib.msg_new_choice), markup1)
     display.show_off()
+    __start_standby_timer(bot, update)
     return
 # end watering targets
 
