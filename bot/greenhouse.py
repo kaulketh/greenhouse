@@ -189,6 +189,7 @@ def __group_menu(bot, update):
     reply_markup = InlineKeyboardMarkup(inline_keyboard)
     __reply(update, lib.msg_grouping, reply_markup)
     logger.info('Grouping called.')
+    __stop_standby_timer(bot, update)
     return GROUPING
 
 
@@ -464,16 +465,12 @@ def main():
         per_user=True
     )
 
+    dp.add_error_handler(__error)
     dp.add_handler(emergency_stop_handler)
-
     dp.add_handler(help_handler)
-
     dp.add_handler(ch)
 
-    dp.add_error_handler(__error)
-
     updater.start_polling()
-
     updater.idle()
 
 
