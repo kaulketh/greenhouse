@@ -147,6 +147,7 @@ def __grouping(bot, update, chat_data):
                                   reply_markup=reply_markup)
 
     elif btn_click == str(lib.btn_finished) and len(selection) > 0:
+        __stop_standby_timer(bot, update)
         global target
         target = lib.grouping
         bot.edit_message_text(text=lib.msg_grouping_selection.format(selection),
@@ -162,6 +163,7 @@ def __grouping(bot, update, chat_data):
         return DURATION
 
     elif btn_click == lib.cancel:
+        __stop_standby_timer(bot, update)
         selection = ()
         bot.delete_message(chat_id=query.message.chat_id,
                            message_id=query.message.message_id)
@@ -204,7 +206,6 @@ def __duration(bot, update):
     global g_duration_update
     g_duration_update = update
     water_time = update.message.text
-    __stop_standby_timer(bot, update)
 
     if water_time == str(lib.cancel):
         __reply(update, lib.msg_new_choice, markup1)
@@ -254,7 +255,6 @@ def __duration(bot, update):
     else:
         __reply(update, lib.msg_choice, markup1)
 
-    __start_standby_timer(bot, update)
     return SELECTION
 # end: duration
 
