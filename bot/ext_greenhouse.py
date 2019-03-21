@@ -22,7 +22,7 @@ import threading
 import peripherals.monitor as monitor
 
 logging = log.get_logger()
-thread = threading.Thread(target=monitor.main, name='ext bot temperature monitoring')
+thread = threading.Thread(target=monitor.main, name='ExtendedBot temperature monitoring')
 thread.start()
 
 pins_state = False
@@ -30,20 +30,11 @@ pins_state = False
 markdown = "-d parse_mode='Markdown'"
 no_parse_mode = conf.lib.empty
 
-relais01 = conf.RELAIS_01
-relais02 = conf.RELAIS_02
-relais03 = conf.RELAIS_03
-relais04 = conf.RELAIS_04
-relais05 = conf.RELAIS_05
-relais06 = conf.RELAIS_06
-relais07 = conf.RELAIS_07
-relais08 = conf.RELAIS_08
-
-group_all = (relais01, relais02, relais03, relais04,
-             relais05, relais06, relais07, relais08)
-group_one = (relais01, relais02, relais03)
-group_two = (relais06, relais07, relais08)
-group_three = (relais04, relais05)
+group_all = (conf.RELAY_01, conf.RELAY_02, conf.RELAY_03, conf.RELAY_04,
+             conf.RELAY_05, conf.RELAY_06, conf.RELAY_07, conf.RELAY_08)
+group_one = (conf.RELAY_01, conf.RELAY_02, conf.RELAY_03)
+group_two = (conf.RELAY_06, conf.RELAY_07, conf.RELAY_08)
+group_three = (conf.RELAY_04, conf.RELAY_05)
 
 
 # water a group of targets

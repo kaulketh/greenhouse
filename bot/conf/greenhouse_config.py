@@ -31,8 +31,8 @@ standby_timeout = 120
 
 
 # keyboard configs
-kb1 = [[lib.group1[1], lib.group1[2], lib.group1[3], lib.group3[1]],
-       [lib.group3[2], lib.group2[1], lib.group2[2], lib.group2[3]],
+kb1 = [[lib.channel_1, lib.channel_2, lib.channel_3, lib.channel_4],
+       [lib.channel_5, lib.channel_6, lib.channel_7, lib.channel_8],
        [lib.grouping],
        [lib.stop_bot, lib.live_stream, lib.reload]
        ]
@@ -53,20 +53,17 @@ hum_format = '{:05.2f}%'
 # Raspi core temperature
 core_temp_format = '{0}{1}{4}{2}{3}°C'
 
-# def board pins/channels, refer hardware/raspi_gpio.info
-RELAIS_01 = 29
-RELAIS_02 = 31
-RELAIS_03 = 33
-RELAIS_04 = 35
-RELAIS_05 = 37
-RELAIS_06 = 36
-RELAIS_07 = 38
-RELAIS_08 = 40
+# board pins of relays, refer hardware/raspi_gpio.info
+RELAY_01 = 29
+RELAY_02 = 31
+RELAY_03 = 33
+RELAY_04 = 35
+RELAY_05 = 37
+RELAY_06 = 36
+RELAY_07 = 38
+RELAY_08 = 40
 
-GROUP_ALL = (RELAIS_01, RELAIS_02, RELAIS_03, RELAIS_04, RELAIS_05, RELAIS_06, RELAIS_07, RELAIS_08)
-GROUP_01 = (RELAIS_01, RELAIS_02, RELAIS_03)
-GROUP_02 = (RELAIS_06, RELAIS_07, RELAIS_08)
-GROUP_03 = (RELAIS_04, RELAIS_05)
+ALL = (RELAY_01, RELAY_02, RELAY_03, RELAY_04, RELAY_05, RELAY_06, RELAY_07, RELAY_08)
 
 # live stream address
 live = access.live

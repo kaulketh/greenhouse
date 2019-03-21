@@ -19,7 +19,7 @@ logger = logger.get_logger()
 
 # switch functions
 def switch_on(pin):
-    logger.info('switch relais on: ' + str(pin))
+    logger.info('switch on: ' + str(pin))
     GPIO.setup(pin, GPIO.OUT)
     GPIO.output(pin, GPIO.LOW)
     # os.system(run_gpio_check + str(pin))
@@ -27,7 +27,7 @@ def switch_on(pin):
 
 
 def switch_off(pin):
-    logger.info('switch relais off: ' + str(pin))
+    logger.info('switch off: ' + str(pin))
     GPIO.setup(pin, GPIO.OUT)
     GPIO.output(pin, GPIO.HIGH)
     # os.system(run_gpio_check + str(pin))
@@ -68,7 +68,7 @@ def get_pin_state(pin):
 def set_pins():
     GPIO.setmode(GPIO.BOARD)
     logger.info('Set GPIO mode: GPIO.BOARD')
-    # to use GPIO instead board pin numbers, then please adapt pin definition
+    """ to use GPIO instead board pin numbers, then please adapt pin definition """
     # GPIO.setmode(GPIO.BCM)
     # comment if warnings required
     GPIO.setwarnings(False)

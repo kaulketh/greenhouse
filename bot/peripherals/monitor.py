@@ -14,7 +14,7 @@ import utils.utils as utils
 
 
 logger = logger.get_logger()
-message = 'Warning, you Greenhouse Raspi reaches a temperature over {}°C! Current temperature is about {}°C!'
+message = 'Warning, your RaspberryPi reaches a temperature over {}°C! Current temperature is about {}°C!'
 
 
 def __calc_core_temp():
@@ -35,13 +35,10 @@ def __send_msg(msg, bot, chat):
 
 def __fan_control(temp):
     if temp >= temperature_max and int(utils.get_pin_state(fan_pin)) == 0:
-        logger.warning('Current core temperature: {}°C'.format(str(temp)))
+        logger.warning('Current core temperature: {0}°C {1}'.format(str(temp), "Heat dissipation: Fan on"))
         utils.switch_out_high(fan_pin)
-        logger.warning("Heat dissipation: Fan switched on")
     if temp <= temperature_min and int(utils.get_pin_state(fan_pin)) == 1:
-        logger.info('Core temperature: {}°C'.format(str(temp)))
-        utils.switch_out_low(fan_pin)
-        logger.info("Heat dissipation: Fan switched off")
+        logger.info('Core temperature: {0}°C {1}'.format(str(temp), "Heat dissipation: Fan off"))
     return
 
 
