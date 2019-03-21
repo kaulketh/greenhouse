@@ -138,8 +138,8 @@ def __grouping(bot, update, chat_data):
     btn_click = str(query.data)
 
     if not (btn_click == str(lib.btn_finished) or btn_click == str(lib.cancel)):
-        __stop_standby_timer(bot, update)
         if not selection.__contains__(int(btn_click)):
+            __stop_standby_timer(bot, update)
             selection += (int(btn_click),)
             bot.edit_message_text(text=lib.msg_grouping_selection.format(selection),
                                   chat_id=query.message.chat_id,
