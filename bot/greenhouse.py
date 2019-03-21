@@ -189,7 +189,7 @@ def __group_menu(bot, update):
     reply_markup = InlineKeyboardMarkup(inline_keyboard)
     __reply(update, lib.msg_grouping, reply_markup)
     logger.info('Grouping called.')
-    __stop_standby_timer(bot, update)
+    __start_standby_timer(bot, update)
     return GROUPING
 
 
@@ -269,6 +269,7 @@ def __all_off():
 
 @run_async
 def __water(bot, update, channel):
+    __stop_standby_timer(bot, update)
     logger.info('Toggle {0} , Duration {1}'.format(str(channel), str(water_time)))
     __reply(update, lib.water_on.format(target, water_time), markup3)
     utils.switch_out_low(channel)
@@ -282,6 +283,7 @@ def __water(bot, update, channel):
 
 @run_async
 def __water_group(bot, update, group):
+    __stop_standby_timer(bot, update)
     logger.info('Toggle {0} , Duration {1}'.format(str(group), str(water_time)))
     __reply(update, lib.water_on.format(target, water_time), markup3)
     for channel in group:
