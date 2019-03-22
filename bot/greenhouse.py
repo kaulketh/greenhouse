@@ -4,7 +4,7 @@
 
 """
  main script for greenhouse bot
- using python-telgram-bot as Python framework for Telegram Bot API
+ using python-telegram-bot as Python framework for Telegram Bot API
  https://python-telegram-bot.readthedocs.io/en/stable/telegram.html
  https://github.com/python-telegram-bot
  https://core.telegram.org/api#bot-api
@@ -142,15 +142,26 @@ def __grouping(bot, update, chat_data):
         if not selection.__contains__(int(btn_click)):
             __stop_standby_timer(bot, update)
             selection += (int(btn_click),)
-            __edit_message(lib.msg_grouping_selection.format(selection), query, bot, reply_markup)
+            bot.edit_message_text(text=lib.msg_grouping_selection.format(selection),
+                                  chat_id=query.message.chat_id,
+                                  message_id=query.message.message_id,
+                                  parse_mode=ParseMode.MARKDOWN,
+                                  reply_markup=reply_markup)
             __start_standby_timer(bot, update)
 
     elif btn_click == str(lib.btn_finished) and len(selection) > 0:
         __stop_standby_timer(bot, update)
         global target
         target = lib.grouping
-        __edit_message(lib.msg_grouping_selection.format(selection), query, bot, reply_markup)
-        __send_message(lib.msg_duration.format(target + str(selection)), query, bot, markup2)
+        bot.edit_message_text(text=lib.msg_grouping_selection.format(selection),
+                              chat_id=query.message.chat_id,
+                              message_id=query.message.message_id,
+                              parse_mode=ParseMode.MARKDOWN,
+                              reply_markup=reply_markup)
+        bot.send_message(text=lib.msg_duration.format(target + str(selection)),
+                         chat_id=query.message.chat_id,
+                         parse_mode=ParseMode.MARKDOWN,
+                         reply_markup=markup2)
         logger.info('Selected: {0} {1}'.format(str(target), str(selection)))
         __start_standby_timer(bot, update)
         return DURATION
@@ -428,31 +439,13 @@ def __message_release_info(bot, update):
     return
 
 
-# conversation messages
+# reply message
 def __reply(update, text, markup=None):
     if markup is None:
         update.message.reply_text(text, parse_mode=ParseMode.MARKDOWN)
     else:
         update.message.reply_text(text, parse_mode=ParseMode.MARKDOWN, reply_markup=markup)
     return
-
-
-def __edit_message(text, query, bot, markup):
-    bot.edit_message_text(text=text,
-                          chat_id=query.message.chat_id,
-                          message_id=query.message.message_id,
-                          parse_mode=ParseMode.MARKDOWN,
-                          reply_markup=markup)
-    return
-
-
-def __send_message(text, query, bot, markup):
-    bot.send_message(text=text,
-                     chat_id=query.message.chat_id,
-                     parse_mode=ParseMode.MARKDOWN,
-                     reply_markup=markup)
-    return
-# end: conversation messages
 
 
 def __panic(update):
