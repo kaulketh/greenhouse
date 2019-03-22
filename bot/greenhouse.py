@@ -272,15 +272,15 @@ def __all_off():
 
 
 @run_async
-def __water_selection(bot, update, group):
+def __water_selection(bot, update, *args):
     __stop_standby_timer(bot, update)
-    logger.info('Toggle {0} , Duration {1}'.format(str(group), str(water_time)))
+    logger.info('Toggle {0} , Duration {1}'.format(str(args), str(water_time)))
     __reply(update, lib.water_on.format(target, water_time), markup3)
-    for channel in group:
-        utils.switch_out_low(channel)
-    time.sleep((int(water_time) * int(lib.time_conversion)))
-    for channel in group:
-        utils.switch_out_high(channel)
+    for arg in args:
+        utils.switch_out_low(arg)
+        time.sleep((int(water_time) * int(lib.time_conversion)))
+    for arg in args:
+        utils.switch_out_high(arg)
     __reply(update,
             '{0}{1}{2}'.format(
                 utils.get_timestamp_line(), lib.water_off.format(target, water_time), lib.msg_new_choice),
