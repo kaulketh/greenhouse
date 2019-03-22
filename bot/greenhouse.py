@@ -22,6 +22,7 @@ import utils.stop_and_restart as stop_and_restart
 import peripherals.four_digit.display as display
 import peripherals.monitor as monitor
 
+from telegram.error import TelegramError, Unauthorized, BadRequest, TimedOut, ChatMigrated, NetworkError
 from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove, ParseMode, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Updater, CommandHandler, RegexHandler, ConversationHandler, CallbackQueryHandler
 from telegram.ext.dispatcher import run_async
@@ -383,8 +384,31 @@ def __error(bot, update, e):
         __cam_off()
         __all_off()
         utils.GPIO.cleanup()
-    except Exception:
-        logger.warning('Any error occurs!')
+
+    except Unauthorized:
+        # remove update.message.chat_id from conversation list
+        logger.warning('TelegramError Unauthorized occurs!')
+        pass
+    except BadRequest:
+        # handle malformed requests - read more below!
+        logger.warning('TelegramError BadRequest occurs!')
+        pass
+    except TimedOut:
+        # handle slow connection problems
+        logger.warning('TelegramError TimedOut occurs!')
+        pass
+    except NetworkError:
+        # handle other connection problems
+        logger.warning('TelegramError NetworkError occurs!')
+        pass
+    except ChatMigrated as e:
+        # the chat_id of a group has changed, use e.new_chat_id instead
+        logger.warning('TelegramError ChatMigrated \'{0}\' occurs!'.format(e))
+        pass
+    except TelegramError:
+        # handle all other telegram related errors
+        logger.warning('Any TelegramError occurs!')
+        pass
     return ConversationHandler.END
 
 
