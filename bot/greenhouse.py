@@ -222,39 +222,39 @@ def __duration(bot, update):
 
     elif target == str(lib.channel_1):
         display.show_switch_channel_duration(1, int(water_time))
-        __water(bot, update, conf.RELAY_01)
+        __water_selection(bot, update, conf.RELAY_01)
 
     elif target == str(lib.channel_2):
         display.show_switch_channel_duration(2, int(water_time))
-        __water(bot, update, conf.RELAY_02)
+        __water_selection(bot, update, conf.RELAY_02)
 
     elif target == str(lib.channel_3):
         display.show_switch_channel_duration(3, int(water_time))
-        __water(bot, update, conf.RELAY_03)
+        __water_selection(bot, update, conf.RELAY_03)
 
     elif target == str(lib.channel_4):
         display.show_switch_channel_duration(4, int(water_time))
-        __water(bot, update, conf.RELAY_04)
+        __water_selection(bot, update, conf.RELAY_04)
 
     elif target == str(lib.channel_5):
         display.show_switch_channel_duration(5, int(water_time))
-        __water(bot, update, conf.RELAY_05)
+        __water_selection(bot, update, conf.RELAY_05)
 
     elif target == str(lib.channel_6):
         display.show_switch_channel_duration(6, int(water_time))
-        __water(bot, update, conf.RELAY_06)
+        __water_selection(bot, update, conf.RELAY_06)
 
     elif target == str(lib.channel_7):
         display.show_switch_channel_duration(7, int(water_time))
-        __water(bot, update, conf.RELAY_07)
+        __water_selection(bot, update, conf.RELAY_07)
 
     elif target == str(lib.channel_8):
         display.show_switch_channel_duration(8, int(water_time))
-        __water(bot, update, conf.RELAY_08)
+        __water_selection(bot, update, conf.RELAY_08)
 
     elif target == str(lib.grouping):
         display.show_switch_group_duration(int(water_time))
-        __water_group(bot, update, selection)
+        __water_selection(bot, update, selection)
 
     else:
         __reply(update, lib.msg_choice, markup1)
@@ -272,24 +272,7 @@ def __all_off():
 
 
 @run_async
-def __water(bot, update, channel):
-    __stop_standby_timer(bot, update)
-    logger.info('Toggle {0} , Duration {1}'.format(str(channel), str(water_time)))
-    __reply(update, lib.water_on.format(target, water_time), markup3)
-    utils.switch_out_low(channel)
-    time.sleep(int(water_time) * int(lib.time_conversion))
-    utils.switch_out_high(channel)
-    __reply(update,
-            '{0}{1}{2}'.format(
-                utils.get_timestamp_line(), lib.water_off.format(target, water_time), lib.msg_new_choice),
-            markup1)
-    display.show_off()
-    __start_standby_timer(bot, update)
-    return
-
-
-@run_async
-def __water_group(bot, update, group):
+def __water_selection(bot, update, group):
     __stop_standby_timer(bot, update)
     logger.info('Toggle {0} , Duration {1}'.format(str(group), str(water_time)))
     __reply(update, lib.water_on.format(target, water_time), markup3)
