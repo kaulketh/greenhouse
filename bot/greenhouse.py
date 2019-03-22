@@ -104,9 +104,7 @@ def __selection(bot, update):
     __stop_standby_timer(bot, update)
 
     if target == str(lib.panic):
-        logger.info('Panic mode called.')
-        __reply(update, lib.msg_panic, ReplyKeyboardRemove())
-        os.system(conf.run_extended_greenhouse + str(user_id))
+        __panic(update)
 
     elif target == str(lib.live_stream):
         logger.info('Live URL requested.')
@@ -142,25 +140,15 @@ def __grouping(bot, update, chat_data):
         if not selection.__contains__(int(btn_click)):
             __stop_standby_timer(bot, update)
             selection += (int(btn_click),)
-            bot.edit_message_text(text=lib.msg_grouping_selection.format(selection),
-                                  chat_id=query.message.chat_id,
-                                  message_id=query.message.message_id,
-                                  parse_mode=ParseMode.MARKDOWN,
-                                  reply_markup=reply_markup)
+            __edit_message(lib.msg_grouping_selection.format(selection), query, bot, reply_markup)
             __start_standby_timer(bot, update)
 
     elif btn_click == str(lib.btn_finished) and len(selection) > 0:
         __stop_standby_timer(bot, update)
         global target
         target = lib.grouping
-        bot.edit_message_text(text=lib.msg_grouping_selection.format(selection),
-                              chat_id=query.message.chat_id,
-                              message_id=query.message.message_id,
-                              parse_mode=ParseMode.MARKDOWN)
-        bot.send_message(text=lib.msg_duration.format(target + str(selection)),
-                         chat_id=query.message.chat_id,
-                         parse_mode=ParseMode.MARKDOWN,
-                         reply_markup=markup2)
+        __edit_message(lib.msg_grouping_selection.format(selection), query, bot, reply_markup)
+        __send_message(lib.msg_duration.format(target + str(selection)), query, bot, markup2)
         logger.info('Selected: {0} {1}'.format(str(target), str(selection)))
         __start_standby_timer(bot, update)
         return DURATION
@@ -170,10 +158,8 @@ def __grouping(bot, update, chat_data):
         selection = ()
         bot.delete_message(chat_id=query.message.chat_id,
                            message_id=query.message.message_id)
-        bot.send_message(text=lib.msg_new_choice,
-                         chat_id=query.message.chat_id,
-                         parse_mode=ParseMode.MARKDOWN,
-                         reply_markup=markup1)
+
+        __send_message(lib.msg_new_choice, query, bot, markup1)
         __start_standby_timer(bot, update)
         return SELECTION
 
@@ -214,9 +200,7 @@ def __duration(bot, update):
         logger.info(lib.msg_new_choice)
 
     elif water_time == str(lib.panic):
-        __reply(update, lib.msg_panic, ReplyKeyboardRemove())
-        logger.info(lib.msg_panic)
-        os.system(conf.run_extended_greenhouse + str(user_id))
+        __panic(update)
 
     elif target == str(lib.channel_1):
         display.show_switch_channel_duration(1, int(water_time))
@@ -376,10 +360,10 @@ def __job_stop_and_restart(bot, job):
     return
 
 
-# error
-def __error(bot, update, e):
-    logger.error('Update "{0}" caused error "{1}"'.format(update, e))
+# error handling
+def __error(bot, update, any_error):
     try:
+        logger.error('Update "{0}" caused error "{1}"'.format(update, any_error))
         display.show_error()
         __cam_off()
         __all_off()
@@ -388,27 +372,27 @@ def __error(bot, update, e):
     except Unauthorized:
         # remove update.message.chat_id from conversation list
         logger.warning('TelegramError Unauthorized occurs!')
-        pass
+
     except BadRequest:
         # handle malformed requests - read more below!
         logger.warning('TelegramError BadRequest occurs!')
-        pass
+
     except TimedOut:
         # handle slow connection problems
         logger.warning('TelegramError TimedOut occurs!')
-        pass
+
     except NetworkError:
         # handle other connection problems
         logger.warning('TelegramError NetworkError occurs!')
-        pass
+
     except ChatMigrated as e:
         # the chat_id of a group has changed, use e.new_chat_id instead
         logger.warning('TelegramError ChatMigrated \'{0}\' occurs!'.format(e))
-        pass
+
     except TelegramError:
         # handle all other telegram related errors
         logger.warning('Any TelegramError occurs!')
-        pass
+
     return ConversationHandler.END
 
 
@@ -442,12 +426,37 @@ def __message_release_info(bot, update):
     return
 
 
-# reply message
+# conversation messages
 def __reply(update, text, markup=None):
     if markup is None:
         update.message.reply_text(text, parse_mode=ParseMode.MARKDOWN)
     else:
         update.message.reply_text(text, parse_mode=ParseMode.MARKDOWN, reply_markup=markup)
+    return
+
+
+def __edit_message(text, query, bot, markup):
+    bot.edit_message_text(text=text,
+                          chat_id=query.message.chat_id,
+                          message_id=query.message.message_id,
+                          parse_mode=ParseMode.MARKDOWN,
+                          reply_markup=markup)
+    return
+
+
+def __send_message(text, query, bot, markup):
+    bot.send_message(text=text,
+                     chat_id=query.message.chat_id,
+                     parse_mode=ParseMode.MARKDOWN,
+                     reply_markup=markup)
+    return
+# end: conversation messages
+
+
+def __panic(update):
+    logger.info('Panic mode called.')
+    __reply(update, lib.msg_panic, ReplyKeyboardRemove())
+    os.system(conf.run_extended_greenhouse + str(user_id))
     return
 
 
