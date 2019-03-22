@@ -456,7 +456,7 @@ def main():
                 RegexHandler('^{0}$'.format(lib.stop_bot), __stop),
                 RegexHandler('^{0}$'.format(lib.grouping), __group_menu)],
 
-            DURATION: [RegexHandler('^([0-9]+|{0}|{1})$'.format(str(lib.cancel), str(lib.panic)), __duration),
+            DURATION: [RegexHandler('^([0-9]+|[(0-9)+smhSMH]|{0}|{1})$'.format(str(lib.cancel), str(lib.panic)), __duration),
                        RegexHandler('^{0}$'.format(lib.stop_bot), __stop)],
 
             GROUPING: [CallbackQueryHandler(__grouping, pass_chat_data=True),
