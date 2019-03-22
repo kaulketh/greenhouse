@@ -4,7 +4,9 @@
 
 """
  main script for greenhouse bot
- using telegram.ext as Python framework for Telegram Bot API
+ using python-telgram-bot as Python framework for Telegram Bot API
+ https://python-telegram-bot.readthedocs.io/en/stable/telegram.html
+ https://github.com/python-telegram-bot
  https://core.telegram.org/api#bot-api
  original: author: Stefan Weigert  http://www.stefan-weigert.de/php_loader/raspi.php
  adapted: Thomas Kaulke, kaulketh@gmail.com
