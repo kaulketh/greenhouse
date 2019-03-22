@@ -158,10 +158,12 @@ def __grouping(bot, update, chat_data):
                               message_id=query.message.message_id,
                               parse_mode=ParseMode.MARKDOWN,
                               reply_markup=reply_markup)
+
         bot.send_message(text=lib.msg_duration.format(target + str(selection)),
                          chat_id=query.message.chat_id,
                          parse_mode=ParseMode.MARKDOWN,
                          reply_markup=markup2)
+
         logger.info('Selected: {0} {1}'.format(str(target), str(selection)))
         __start_standby_timer(bot, update)
         return DURATION
@@ -171,8 +173,12 @@ def __grouping(bot, update, chat_data):
         selection = ()
         bot.delete_message(chat_id=query.message.chat_id,
                            message_id=query.message.message_id)
+        bot.send_message(text=lib.msg_new_choice,
+                         chat_id=query.message.chat_id,
+                         parse_mode=ParseMode.MARKDOWN,
+                         reply_markup=markup1)
 
-        __send_message(lib.msg_new_choice, query, bot, markup1)
+        logger.info('Grouping canceled.')
         __start_standby_timer(bot, update)
         return SELECTION
 
