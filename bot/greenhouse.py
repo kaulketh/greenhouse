@@ -85,7 +85,7 @@ def __start(bot, update):
         display.show_run()
         logger.info('Started...')
         __message_values(update)
-        __cam_on()
+        utils.enable_camera()
         display.show_ready()
         __reply(
             update,
@@ -156,8 +156,7 @@ def __grouping(bot, update, chat_data):
         bot.edit_message_text(text=lib.msg_grouping_selection.format(selection),
                               chat_id=query.message.chat_id,
                               message_id=query.message.message_id,
-                              parse_mode=ParseMode.MARKDOWN,
-                              reply_markup=reply_markup)
+                              parse_mode=ParseMode.MARKDOWN)
 
         bot.send_message(text=lib.msg_duration.format(target + str(selection)),
                          chat_id=query.message.chat_id,
@@ -281,7 +280,9 @@ def __water(bot, update, channel):
     time.sleep(int(water_time) * int(lib.time_conversion))
     utils.switch_out_high(channel)
     __reply(update,
-            '{0}{1}{2}'.format(__timestamp(), lib.water_off.format(target, water_time), lib.msg_new_choice), markup1)
+            '{0}{1}{2}'.format(
+                utils.get_timestamp_line(), lib.water_off.format(target, water_time), lib.msg_new_choice),
+            markup1)
     display.show_off()
     __start_standby_timer(bot, update)
     return
@@ -298,7 +299,9 @@ def __water_group(bot, update, group):
     for channel in group:
         utils.switch_out_high(channel)
     __reply(update,
-            '{0}{1}{2}'.format(__timestamp(), lib.water_off.format(target, water_time), lib.msg_new_choice), markup1)
+            '{0}{1}{2}'.format(
+                utils.get_timestamp_line(), lib.water_off.format(target, water_time), lib.msg_new_choice),
+            markup1)
     display.show_off()
     __start_standby_timer(bot, update)
     return
@@ -321,7 +324,7 @@ def __message_values(update):
         hum = (lib.hum + lib.colon_space + conf.hum_format).format(dht.humidity)
 
     core_temp = (lib.core + lib.colon_space + core.get_temperature())
-    __reply(update, lib.msg_temperature.format(__start_time(), temp, hum, core_temp), markup1)
+    __reply(update, lib.msg_temperature.format(utils.get_timestamp(), temp, hum, core_temp), markup1)
     return
 
 
@@ -330,7 +333,7 @@ def __stop(bot, update):
     __all_off()
     __stop_standby_timer(bot, update)
     logger.info('Stopped.')
-    __cam_off()
+    utils.disable_camera()
     display.show_stop()
     __reply(update, lib.msg_stop, ReplyKeyboardRemove())
     time.sleep(2)
@@ -384,59 +387,30 @@ def __error(bot, update, any_error):
     try:
         logger.error('Update "{0}" caused error "{1}"'.format(update, any_error))
         display.show_error()
-        __cam_off()
+        utils.disable_camera()
         __all_off()
-        utils.GPIO.cleanup()
+        # utils.GPIO.cleanup()
 
     except Unauthorized:
         # remove update.message.chat_id from conversation list
         logger.warning('TelegramError Unauthorized occurs!')
-
     except BadRequest:
         # handle malformed requests - read more below!
         logger.warning('TelegramError BadRequest occurs!')
-
     except TimedOut:
         # handle slow connection problems
         logger.warning('TelegramError TimedOut occurs!')
-
     except NetworkError:
         # handle other connection problems
         logger.warning('TelegramError NetworkError occurs!')
-
     except ChatMigrated as e:
         # the chat_id of a group has changed, use e.new_chat_id instead
         logger.warning('TelegramError ChatMigrated \'{0}\' occurs!'.format(e))
-
     except TelegramError:
         # handle all other telegram related errors
         logger.warning('Any TelegramError occurs!')
 
     return ConversationHandler.END
-
-
-# time stamps
-def __timestamp():
-    return utils.get_timestamp_line()
-
-
-def __start_time():
-    return utils.get_timestamp()
-# end: time stamps
-
-
-# camera
-def __cam_on():
-    logger.info('Enable camera module.')
-    os.system(conf.enable_camera)
-    return
-
-
-def __cam_off():
-    logger.info('Disable camera module.')
-    os.system(conf.disable_camera)
-    return
-# end: camera
 
 
 # release info

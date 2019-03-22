@@ -122,5 +122,18 @@ def get_release_info():
     return conf.application_name + conf.space + get_release() + ' Build:' + get_last_commit()
 
 
+# camera module
+def enable_camera():
+    logger.info('Enable camera module.')
+    os.system(conf.enable_camera)
+    return
+
+
+def disable_camera():
+    logger.info('Disable camera module.')
+    os.system(conf.disable_camera)
+    return
+
+
 if __name__ == '__main__':
     pass
