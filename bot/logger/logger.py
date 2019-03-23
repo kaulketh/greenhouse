@@ -11,6 +11,11 @@ import os
 from logging.config import fileConfig
 
 
+this_folder = os.path.dirname(os.path.abspath(__file__))
+config_file = os.path.join(this_folder, 'logger.ini')
+fileConfig(config_file)
+
+
 # enum that contains color codes
 class TerminalColor:
 
@@ -44,7 +49,7 @@ def get_logger(name=None):
     logger = logging.getLogger(name[0:15])
 
     __apply_level_colors(logging.DEBUG, TerminalColor.PURPLE, TerminalColor.GREY)
-    __apply_level_colors(logging.INFO, TerminalColor.LIGHT_BLUE, TerminalColor.BLUE)
+    __apply_level_colors(logging.INFO, TerminalColor.CYAN, TerminalColor.BLUE)
     __apply_level_colors(logging.WARNING, TerminalColor.YELLOW, TerminalColor.WHITE)
     __apply_level_colors(logging.ERROR, TerminalColor.RED, TerminalColor.WHITE)
     __apply_level_colors(logging.CRITICAL, TerminalColor.LIGHT_RED, TerminalColor.RED)
