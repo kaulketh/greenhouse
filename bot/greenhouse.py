@@ -83,7 +83,7 @@ def __start(bot, update):
         return ConversationHandler.END
     else:
         display.show_run()
-        logger.info('\-\e \e[92mStarted...\e[0m')
+        logger.info('\e[92mStarted...\e[0m')
         __message_values(update)
         utils.enable_camera()
         display.show_ready()
@@ -315,7 +315,7 @@ def __message_values(update):
 def __stop(bot, update):
     __all_off()
     __stop_standby_timer(bot, update)
-    logger.info('\-\e \e[31mStopped.\e[0m')
+    logger.info('\e[31mStopped.\e[0m')
     utils.disable_camera()
     display.show_stop()
     __reply(update, lib.msg_stop, ReplyKeyboardRemove())
@@ -336,7 +336,7 @@ def __emergency_stop_handler(bot, update, chat_data):
 
 
 def __start_emergency_stop(bot, update):
-    logger.warning('\-\e \e[93mInitialize emergency stop immediately.\e[0m')
+    logger.warning("\e[93mInitialize emergency stop immediately.\e[0m")
     global emergency_job
     emergency_job = jq.run_once(__job_stop_and_restart, 0, context=update)
     return
@@ -412,7 +412,7 @@ def __reply(update, text, markup=None):
 
 
 def __panic(update):
-    logger.info('\-\e \e[95mPanic mode called.\e[0m')
+    logger.info('\e[95mPanic mode called.\e[0m')
     __reply(update, lib.msg_panic, ReplyKeyboardRemove())
     os.system(conf.run_extended_greenhouse + str(user_id))
     return
