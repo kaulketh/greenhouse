@@ -37,60 +37,48 @@ class TerminalColor:
     LIGHT_GREEN = '\033[1;32m'
 
 
-# the decorator to apply on the logger methods info, warn, ...
-def __add_color(logger_method, msg_color):
-    def wrapper(message, *args, **kwargs):
-        return logger_method(
-            # the coloring is applied here.
-            msg_color+message+TerminalColor.NO_COLOR, *args, **kwargs)
-    return wrapper
-
-
+# the decorator,
+""" https://stackoverflow.com/questions/384076/how-can-i-color-python-logging-output """
 def __add_coloring_to_emit_ansi(logging_method):
     # add methods we need to the class
     def wrapper(*args):
-        levelno = args[1].levelno
-        if levelno >= 50:
+        level_number = args[1].levelno
+        if level_number >= 50:
             """ CRITICAL """
             color = TerminalColor.LIGHT_RED
-            args[1].msg = color + str(args[1].msg)+color
-        elif levelno >= 40:
+
+        elif level_number >= 40:
             """ ERROR """
             color = TerminalColor.RED
-            args[1].msg = color + str(args[1].msg)+color
-        elif levelno >= 30:
+
+        elif level_number >= 30:
             """WARNING """
             color = TerminalColor.YELLOW
-            args[1].msg = color + str(args[1].msg)+color
-        elif levelno >= 20:
+
+        elif level_number >= 20:
             """ INFO """
             color = TerminalColor.CYAN
-            args[1].msg = color + str(args[1].msg)+color
-        elif levelno >= 10:
+
+        elif level_number >= 10:
             """ DEBUG """
             color = TerminalColor.BLUE
-            args[1].msg = color + str(args[1].msg)+color
+
         else:
             """ default """
             color = TerminalColor.GREY
-            args[1].msg = color+str(args[1].msg)+color
         # print "after"
+        args[1].msg = color + str(args[1].msg) + color + TerminalColor.NO_COLOR
         return logging_method(*args)
     return wrapper
 
 
 def get_logger(name=None):
-    # all non-Windows platforms are supporting ANSI escapes
     logging.StreamHandler.emit = __add_coloring_to_emit_ansi(logging.StreamHandler.emit)
+    """ all non-Windows platforms are supporting ANSI escapes """
+
     if name is None:
         name = __name__
     logger = logging.getLogger(name[0:15])
-
-    # for level, color in zip((
-    #       "info", "warning", "error", "debug", "critical"), (
-    #        TerminalColor.GREEN, TerminalColor.YELLOW, TerminalColor.RED, TerminalColor.BLUE, TerminalColor.LIGHT_RED)):
-    #   setattr(logger, level, __add_color(getattr(logger, level), color))
-
     return logger
 
 
