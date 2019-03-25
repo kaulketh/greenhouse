@@ -38,7 +38,7 @@ class TerminalColor:
 
 
 # the decorator to apply on the logger methods info, warn, ...
-def add_color(logger_method, color):
+def __add_color(logger_method, color):
     def wrapper(message, *args, **kwargs):
         return logger_method(
             # the coloring is applied here.
@@ -46,15 +46,39 @@ def add_color(logger_method, color):
     return wrapper
 
 
+def __add_coloring_to_emit_ansi(logging_method):
+    # add methods we need to the class
+    def wrapper(*args):
+        levelno = args[1].levelno
+        if(levelno>=50):
+            color = TerminalColor.LIGHT_RED # CRITICAL
+        elif(levelno>=40):
+            color = TerminalColor.RED # ERROR
+        elif(levelno>=30):
+            color = TerminalColor.YELLOW # WARNING
+        elif(levelno>=20):
+            color = TerminalColor.GREEN # INFO
+        elif(levelno>=10):
+            color = TerminalColor.BLUE # DEBUG
+        else:
+            color = TerminalColor.GREY # normal
+        args[1].msg = color + args[1].msg +  '\x1b[0m'  # normal
+        #print "after"
+        return logging_method(*args)
+    return wrapper
+
+
 def get_logger(name=None):
+    # all non-Windows platforms are supporting ANSI escapes
+    logging.StreamHandler.emit = __add_coloring_to_emit_ansi(logging.StreamHandler.emit)
     if name is None:
         name = __name__
     logger = logging.getLogger(name[0:15])
 
     for level, color in zip((
             "info", "warning", "error", "debug", "critical"), (
-            TerminalColor.CYAN, TerminalColor.YELLOW, TerminalColor.RED, TerminalColor.BLUE, TerminalColor.LIGHT_RED)):
-        setattr(logger, level, add_color(getattr(logger, level), color))
+            TerminalColor.GREEN, TerminalColor.YELLOW, TerminalColor.RED, TerminalColor.BLUE, TerminalColor.LIGHT_RED)):
+        setattr(logger, level, __add_color(getattr(logger, level), color))
 
     return logger
 
