@@ -62,7 +62,7 @@ def __add_coloring_to_emit_ansi(logging_method):
             color = TerminalColor.BLUE  # DEBUG
         else:
             color = TerminalColor.GREY  # normal
-        args[1].msg = color+args[1].msg+TerminalColor.GREY   # normal
+        args[1].msg = color+str(args[1].msg)+TerminalColor.GREY   # normal
         # print "after"
         return logging_method(*args)
     return wrapper
