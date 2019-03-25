@@ -37,12 +37,6 @@ class TerminalColor:
     LIGHT_GREEN = '\033[1;32m'
 
 
-# quick and dirty ;-)
-def __apply_level_colors(level, lvl_color, msg_color):
-    logging.addLevelName(level, "{0}{1}{2}".format(lvl_color, logging.getLevelName(level), msg_color))
-    return
-
-
 # the decorator to apply on the logger methods info, warn, ...
 def add_color(logger_method, color):
     def wrapper(message, *args, **kwargs):
@@ -58,15 +52,9 @@ def get_logger(name=None):
     logger = logging.getLogger(name[0:15])
 
     for level, color in zip((
-            "info", "warning", "error", "debug"), (
-            TerminalColor.GREEN, TerminalColor.YELLOW, TerminalColor.RED, TerminalColor.BLUE)):
+            "info", "warning", "error", "debug", "critical"), (
+            TerminalColor.CYAN, TerminalColor.YELLOW, TerminalColor.RED, TerminalColor.BLUE, TerminalColor.LIGHT_RED)):
         setattr(logger, level, add_color(getattr(logger, level), color))
-
-    # __apply_level_colors(logging.DEBUG, TerminalColor.PURPLE, TerminalColor.GREY)
-    # __apply_level_colors(logging.INFO, TerminalColor.CYAN, TerminalColor.BLUE)
-    # __apply_level_colors(logging.WARNING, TerminalColor.YELLOW, TerminalColor.NO_COLOR)
-    # __apply_level_colors(logging.ERROR, TerminalColor.RED, TerminalColor.WHITE)
-    # __apply_level_colors(logging.CRITICAL, TerminalColor.LIGHT_RED, TerminalColor.RED)
 
     return logger
 
