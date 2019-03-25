@@ -51,18 +51,29 @@ def __add_coloring_to_emit_ansi(logging_method):
     def wrapper(*args):
         levelno = args[1].levelno
         if levelno >= 50:
-            color = TerminalColor.LIGHT_RED  # CRITICAL
+            """ CRITICAL """
+            color = TerminalColor.LIGHT_RED
+            args[1].msg = color + str(args[1].msg)+color
         elif levelno >= 40:
-            color = TerminalColor.RED  # ERROR
+            """ ERROR """
+            color = TerminalColor.RED
+            args[1].msg = color + str(args[1].msg)+color
         elif levelno >= 30:
-            color = TerminalColor.YELLOW  # WARNING
+            """WARNING """
+            color = TerminalColor.YELLOW
+            args[1].msg = color + str(args[1].msg)+color
         elif levelno >= 20:
-            color = TerminalColor.GREEN  # INFO
+            """ INFO """
+            color = TerminalColor.CYAN
+            args[1].msg = color + str(args[1].msg)+color
         elif levelno >= 10:
-            color = TerminalColor.BLUE  # DEBUG
+            """ DEBUG """
+            color = TerminalColor.BLUE
+            args[1].msg = color + str(args[1].msg)+color
         else:
-            color = TerminalColor.GREY  # normal
-        args[1].msg = color+str(args[1].msg)+TerminalColor.GREY   # normal
+            """ default """
+            color = TerminalColor.GREY
+            args[1].msg = color+str(args[1].msg)+color
         # print "after"
         return logging_method(*args)
     return wrapper
@@ -75,10 +86,10 @@ def get_logger(name=None):
         name = __name__
     logger = logging.getLogger(name[0:15])
 
-    for level, color in zip((
-            "info", "warning", "error", "debug", "critical"), (
-            TerminalColor.GREEN, TerminalColor.YELLOW, TerminalColor.RED, TerminalColor.BLUE, TerminalColor.LIGHT_RED)):
-        setattr(logger, level, __add_color(getattr(logger, level), color))
+    # for level, color in zip((
+    #       "info", "warning", "error", "debug", "critical"), (
+    #        TerminalColor.GREEN, TerminalColor.YELLOW, TerminalColor.RED, TerminalColor.BLUE, TerminalColor.LIGHT_RED)):
+    #   setattr(logger, level, __add_color(getattr(logger, level), color))
 
     return logger
 
