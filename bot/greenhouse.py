@@ -372,6 +372,8 @@ def __error(bot, update, any_error):
         display.show_error()
         utils.disable_camera()
         __all_off()
+        display.show_boot()
+        os.system('sudo reboot')
         # utils.GPIO.cleanup()
 
     except Unauthorized:
