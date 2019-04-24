@@ -373,6 +373,7 @@ def __error(bot, update, any_error):
         utils.disable_camera()
         __all_off()
         display.show_boot()
+        logger.error('Reboot required caused by update error.')
         os.system('sudo reboot')
         # utils.GPIO.cleanup()
 
