@@ -135,5 +135,12 @@ def disable_camera():
     return
 
 
+def reboot():
+    # 20170ef [quick and dirty] reboot due update errors
+    logger.error('Reboot required caused by update error.')
+    os.system('sudo reboot')
+    return
+
+
 if __name__ == '__main__':
     pass

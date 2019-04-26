@@ -375,9 +375,7 @@ def __error(bot, update, any_error):
         utils.disable_camera()
         __all_off()
         display.show_boot()
-        # 20170ef [quick and dirty] reboot due update errors
-        logger.error('Reboot required caused by update error.')
-        os.system('sudo reboot')
+        utils.reboot()
         # utils.GPIO.cleanup()
 
     except Unauthorized:
