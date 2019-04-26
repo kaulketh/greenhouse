@@ -135,24 +135,22 @@ def __selected_target(bot, update, selected_target):
 # [#31] grouping
 def __grouping(bot, update, chat_data):
     global selection
-    global g_update
-    g_update =  update
     query = update.callback_query
     btn_click = str(query.data)
 
     if not (btn_click == str(lib.btn_finished) or btn_click == str(lib.cancel)):
         if not selection.__contains__(int(btn_click)):
-            __stop_standby_timer(bot, g_update)
+
             selection += (int(btn_click),)
             bot.edit_message_text(text=lib.msg_grouping_selection.format(selection),
                                   chat_id=query.message.chat_id,
                                   message_id=query.message.message_id,
                                   parse_mode=ParseMode.MARKDOWN,
                                   reply_markup=reply_markup)
-            __start_standby_timer(bot, g_update)
+            __start_standby_timer(bot, update)
 
     elif btn_click == str(lib.btn_finished) and len(selection) > 0:
-        __stop_standby_timer(bot, update)
+
         global target
         target = lib.grouping
         bot.edit_message_text(text=lib.msg_grouping_selection.format(selection),
@@ -170,7 +168,7 @@ def __grouping(bot, update, chat_data):
         return DURATION
 
     elif btn_click == lib.cancel:
-        __stop_standby_timer(bot, update)
+
         selection = ()
         bot.delete_message(chat_id=query.message.chat_id,
                            message_id=query.message.message_id)
@@ -200,6 +198,7 @@ def __group_menu(bot, update):
     reply_markup = InlineKeyboardMarkup(inline_keyboard)
     __reply(update, lib.msg_grouping, reply_markup)
     logger.info('Grouping called.')
+    __stop_standby_timer(bot, update)
     return GROUPING
 
 
@@ -374,6 +373,8 @@ def __error(bot, update, any_error):
         display.show_error()
         utils.disable_camera()
         __all_off()
+        # 20170ef [quick and dirty] reboot due update errors
+        logger.error('Reboot required caused by update error.')
         display.show_boot()
         utils.reboot()
         # utils.GPIO.cleanup()

@@ -27,7 +27,8 @@ token = access.token
 
 
 # timeout if no user activity
-standby_timeout = 120
+# standby_timeout = 120
+standby_timeout = 30
 
 
 # keyboard configs
