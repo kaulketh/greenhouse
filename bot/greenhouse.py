@@ -135,19 +135,21 @@ def __selected_target(bot, update, selected_target):
 # [#31] grouping
 def __grouping(bot, update, chat_data):
     global selection
+    global g_update
+    g_update =  update
     query = update.callback_query
     btn_click = str(query.data)
 
     if not (btn_click == str(lib.btn_finished) or btn_click == str(lib.cancel)):
         if not selection.__contains__(int(btn_click)):
-            __stop_standby_timer(bot, update)
+            __stop_standby_timer(bot, g_update)
             selection += (int(btn_click),)
             bot.edit_message_text(text=lib.msg_grouping_selection.format(selection),
                                   chat_id=query.message.chat_id,
                                   message_id=query.message.message_id,
                                   parse_mode=ParseMode.MARKDOWN,
                                   reply_markup=reply_markup)
-            __start_standby_timer(bot, update)
+            __start_standby_timer(bot, g_update)
 
     elif btn_click == str(lib.btn_finished) and len(selection) > 0:
         __stop_standby_timer(bot, update)
