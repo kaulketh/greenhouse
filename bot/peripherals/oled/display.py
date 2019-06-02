@@ -27,7 +27,7 @@ c = '\''
 left = 5
 top = 7
 switch_time = 15
-#bot_dir = conf.bot_dir
+# bot_dir = conf.bot_dir
 
 # Fonts
 font = ImageFont.truetype(str(bot_dir) + 'peripherals/oled/fonts/arial.ttf', 12)
@@ -48,6 +48,20 @@ def __get_core_temp():
     two = str(temp).__getitem__(1)
     temp_str = '{0}{1}{2}{3}'.format(one, two, c, 'C')
     return temp_str
+
+
+# to test
+def show_pi(time):
+    __show_pi(time)
+
+
+def show_state(time):
+    __show_state(time)
+
+
+def animate(time):
+    __animate(time)
+# test: end
 
 
 def __animate(time):
