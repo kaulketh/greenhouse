@@ -6,19 +6,18 @@ author: Thomas Kaulke, kaulketh@gmail.com
 """
 
 from __future__ import absolute_import
-
-from distutils.command.config import config
-
-import utils.utils as utils
+import logger
+import utils
 import conf
 import subprocess
 from time import sleep
-from PIL import Image, ImageFont, ImageDraw
+from PIL import Image, ImageFont
 from smbus import SMBus
 from lib_oled96 import Ssd1306
 
 
 # Display setup, methods and members
+logger = logger.get_logger()
 """ 0 = Raspberry Pi 1, 1 = Raspberry Pi > 1 """
 i2cbus = SMBus(1)
 oled = Ssd1306(i2cbus)
@@ -27,19 +26,11 @@ c = '\''
 left = 5
 top = 7
 switch_time = 15
-# bot_dir = conf.bot_dir
+bot_dir = conf.bot_dir
 
 # Fonts
 font = ImageFont.truetype(str(bot_dir) + 'peripherals/oled/fonts/arial.ttf', 12)
 font2 = ImageFont.truetype(str(bot_dir) + 'peripherals/oled/fonts/FreeSans.ttf', 12)
-
-
-def __get_release():
-    return utils.get_release()
-
-
-def __get_last_commit():
-    return utils.get_last_commit()
 
 
 def __get_core_temp():
@@ -50,28 +41,14 @@ def __get_core_temp():
     return temp_str
 
 
-# to test
-def show_pi(time):
-    __show_pi(time)
-
-
-def show_state(time):
-    __show_state(time)
-
-
-def animate(time):
-    __animate(time)
-# test: end
-
-
 def __animate(time):
     # Display clear
     oled.cls()
     oled.display()
     # header
-    draw.text((left, top), conf.application_name + conf.space + __get_release(), font=font, fill=1)
+    draw.text((left, top), conf.application_name + conf.space + utils.get_release(), font=font, fill=1)
     # build
-    draw.text((left, top + 18), "Build: " + __get_last_commit(), font=font2, fill=1)
+    draw.text((left, top + 18), "Build: " + utils.get_last_commit(), font=font2, fill=1)
     # line
     draw.line((left, top + 35, oled.width - left + 128, top + 35), fill=1)
     # core temp
@@ -121,7 +98,7 @@ if __name__ == '__main__':
 
         try:
             __animate(switch_time)
-            __show_pi(3)
+            __show_pi(switch_time/5)
             __show_state(switch_time)
 
         except KeyboardInterrupt:
