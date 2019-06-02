@@ -81,8 +81,8 @@ run_gpio_check = 'sudo python /home/pi/scripts/TelegramBot/gpio_check.py '
 
 # heat dissipation, temperature monitoring, fan control
 temperature_warn = 75
-temperature_min = 40
-temperature_max = 50
+temperature_min = 50
+temperature_max = 55
 fan_pin = 12
 check_interval = 10
 
