@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# four.digit.display.py
+# four_digit.display.py
 """"
 author: Thomas Kaulke, kaulketh@gmail.com
 """
@@ -9,7 +9,7 @@ from __future__ import absolute_import
 import threading
 from time import sleep
 from conf import clk_pin, dio_pin, brightness, lib
-import four_digits as tm1637
+import peripherals.four_digits as tm1637
 import peripherals.temperature as core_temp
 
 display = tm1637.TM1637(clk=clk_pin, dio=dio_pin, brightness=brightness)

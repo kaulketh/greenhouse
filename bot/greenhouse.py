@@ -16,13 +16,10 @@ from __future__ import absolute_import
 import os
 import threading
 import time
-
-# import utils.utils as utils
 import conf
 import logger
-import peripherals.dht.dht as dht
-# import utils.stop_and_restart as stop_and_restart
-import peripherals.four_digit.display as display
+import peripherals.dht as dht
+import peripherals.display as display
 import peripherals.monitor as monitor
 import peripherals.temperature as core
 import utils

@@ -1,9 +1,9 @@
-# utils.__init__py
+# peripherals.__init__py
 """
 author: Thomas Kaulke, kaulketh@gmail.com
 """
-
 from .four_digit import display
 from .dht import dht
 from .oled import display as oled
 from .temperature import *
+from .four_digit import four_digits
