@@ -6,15 +6,16 @@ author: Thomas Kaulke, kaulketh@gmail.com
 """
 
 from __future__ import absolute_import
-import logger
-import utils
-import conf
+
 import subprocess
 from time import sleep
-from PIL import Image, ImageFont
-from smbus import SMBus
-from lib_oled96 import Ssd1306
 
+import conf
+import logger
+import utils
+from PIL import Image, ImageFont
+from lib_oled96 import Ssd1306
+from smbus import SMBus
 
 # Display setup, methods and members
 logger = logger.get_logger()

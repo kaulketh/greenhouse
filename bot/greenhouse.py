@@ -12,20 +12,22 @@
  adapted: Thomas Kaulke, kaulketh@gmail.com
 """
 from __future__ import absolute_import
-import threading
+
 import os
+import threading
 import time
-import utils.utils as utils
+
+# import utils.utils as utils
 import conf
 import logger
 import peripherals.dht.dht as dht
-import peripherals.temperature as core
-import utils.stop_and_restart as stop_and_restart
+# import utils.stop_and_restart as stop_and_restart
 import peripherals.four_digit.display as display
 import peripherals.monitor as monitor
-
-from telegram.error import TelegramError, Unauthorized, BadRequest, TimedOut, ChatMigrated, NetworkError
+import peripherals.temperature as core
+import utils
 from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove, ParseMode, InlineKeyboardButton, InlineKeyboardMarkup
+from telegram.error import TelegramError, Unauthorized, BadRequest, TimedOut, ChatMigrated, NetworkError
 from telegram.ext import Updater, CommandHandler, RegexHandler, ConversationHandler, CallbackQueryHandler
 from telegram.ext.dispatcher import run_async
 
@@ -362,7 +364,7 @@ def __stop_standby_timer(bot, update):
 # job to stop and restart application
 def __job_stop_and_restart(bot, job):
     logger.info("Job: Stop and restart called!")
-    stop_and_restart.stop_and_restart(job.context)
+    utils.stop_and_restart(job.context)
     return
 
 
