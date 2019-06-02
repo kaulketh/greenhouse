@@ -34,7 +34,7 @@ standby_timeout = 30
 # keyboard configs
 kb1 = [[lib.channel_1, lib.channel_2, lib.channel_3, lib.channel_4],
        [lib.channel_5, lib.channel_6, lib.channel_7, lib.channel_8],
-       [lib.grouping],
+       #[lib.grouping],
        [lib.stop_bot, lib.live_stream, lib.reload]
        ]
 kb2 = [[lib.cancel, lib.stop_bot]]
@@ -82,7 +82,7 @@ run_gpio_check = 'sudo python /home/pi/scripts/TelegramBot/gpio_check.py '
 # heat dissipation, temperature monitoring, fan control
 temperature_warn = 75
 temperature_min = 40
-temperature_max = 60
+temperature_max = 50
 fan_pin = 12
 check_interval = 10
 
