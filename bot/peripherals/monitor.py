@@ -10,7 +10,7 @@ import time
 import sys
 from conf import temperature_warn, temperature_min, temperature_max, fan_pin, check_interval, mainId, token
 import logger
-import utils.utils as utils
+import utils
 
 
 logger = logger.get_logger()

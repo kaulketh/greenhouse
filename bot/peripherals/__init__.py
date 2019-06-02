@@ -4,6 +4,6 @@ author: Thomas Kaulke, kaulketh@gmail.com
 """
 from .four_digit import display
 from .dht import dht
-from .oled import display as oled
+from .oled import *
 from .temperature import *
 from .four_digit import four_digits

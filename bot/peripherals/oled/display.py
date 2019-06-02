@@ -6,11 +6,9 @@ author: Thomas Kaulke, kaulketh@gmail.com
 """
 
 from __future__ import absolute_import
-
+from conf import application_name, space, bot_dir
 import subprocess
 from time import sleep
-
-import conf
 import logger
 import utils
 from PIL import Image, ImageFont
@@ -27,7 +25,7 @@ c = '\''
 left = 5
 top = 7
 switch_time = 15
-bot_dir = conf.bot_dir
+
 
 # Fonts
 font = ImageFont.truetype(str(bot_dir) + 'peripherals/oled/fonts/arial.ttf', 12)
@@ -47,7 +45,7 @@ def __animate(time):
     oled.cls()
     oled.display()
     # header
-    draw.text((left, top), conf.application_name + conf.space + utils.get_release(), font=font, fill=1)
+    draw.text((left, top), application_name + space + utils.get_release(), font=font, fill=1)
     # build
     draw.text((left, top + 18), "Build: " + utils.get_last_commit(), font=font2, fill=1)
     # line
