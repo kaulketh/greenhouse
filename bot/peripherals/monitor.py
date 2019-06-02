@@ -24,6 +24,7 @@ def __calc_core_temp():
     temp2 = open('/sys/class/thermal/thermal_zone0/temp').read()
     temp2 = round((int(temp2))/1000, 4)
     temp = (temp1 + temp2) / 2
+    logger.info('Raspberry core temperature: {0}°C (observed over {1}°C)'.format(str(temp), str(temperature_min)))
     return int(temp)
 
 
@@ -41,6 +42,7 @@ def __fan_control(temp):
     if temp <= temperature_min:
         if int(utils.get_pin_state(fan_pin)) == 1:
             logger.info('Core temperature: {0}°C {1}'.format(str(temp), "Heat dissipation: Fan off"))
+            utils.switch_out_low(fan_pin)
     return
 
 
@@ -52,6 +54,7 @@ def main():
         __fan_control(current_temp)
         if current_temp > temperature_warn:
             __send_msg(message.format(str(temperature_warn), str(current_temp)), token, mainId)
+            logger.warning('Current core temperature: {0}°C {1}'.format(str(current_temp), "Warning message send!"))
         time.sleep(check_interval)
 
 
