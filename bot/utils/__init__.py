@@ -3,4 +3,4 @@
 author: Thomas Kaulke, kaulketh@gmail.com
 """
 from .utils import *
-from .stop_and_restart import *
+from .stop_and_restart import stop_and_restart

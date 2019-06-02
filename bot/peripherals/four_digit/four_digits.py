@@ -14,7 +14,7 @@ minor adaptions: Thomas Kaulke, kaulketh@gmail.com
 
 from __future__ import absolute_import
 import math
-import utils.utils as utils
+import utils
 from time import sleep
 import logger as logger
 logger = logger.get_logger()

@@ -7,13 +7,14 @@ author: Thomas Kaulke, kaulketh@gmail.com
 """
 
 from __future__ import absolute_import
-from telegram import (ReplyKeyboardRemove, ParseMode)
+
 import time
-import conf.lib_ext_greenhouse as lib
+import peripherals.display as display
 import conf.greenhouse_config as conf
-import peripherals.four_digit.display as display
+import conf.lib_ext_greenhouse as lib
 import logger.logger as log
-import utils.utils as utils
+import utils
+from telegram import (ReplyKeyboardRemove, ParseMode)
 
 logging = log.get_logger()
 
