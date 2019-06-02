@@ -6,6 +6,9 @@ author: Thomas Kaulke, kaulketh@gmail.com
 """
 
 from __future__ import absolute_import
+
+from distutils.command.config import config
+
 import utils.utils as utils
 import conf
 import subprocess
@@ -24,6 +27,7 @@ c = '\''
 left = 5
 top = 7
 switch_time = 15
+bot_dir = conf.bot_dir
 
 # Fonts
 font = ImageFont.truetype(str(bot_dir) + 'peripherals/oled/fonts/arial.ttf', 12)
