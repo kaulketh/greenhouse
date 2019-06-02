@@ -27,7 +27,7 @@ c = '\''
 left = 5
 top = 7
 switch_time = 15
-bot_dir = conf.bot_dir
+#bot_dir = conf.bot_dir
 
 # Fonts
 font = ImageFont.truetype(str(bot_dir) + 'peripherals/oled/fonts/arial.ttf', 12)
