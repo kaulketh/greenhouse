@@ -24,7 +24,8 @@ def __calc_core_temp():
     temp2 = open('/sys/class/thermal/thermal_zone0/temp').read()
     temp2 = round((int(temp2))/1000, 4)
     temp = (temp1 + temp2) / 2
-    logger.info("Raspberry core temperature: {0}°C (observed over {1}°C)".format(str(temp), str(temperature_min)))
+    if temp >= temperature_min:
+        logger.info("Raspberry core temperature: {0}°C (observed over {1}°C)".format(str(temp), str(temperature_min)))
     return int(temp)
 
 
