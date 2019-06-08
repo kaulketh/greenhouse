@@ -31,6 +31,8 @@ switch_time = 15
 font = ImageFont.truetype(str(bot_dir) + 'peripherals/oled/fonts/arial.ttf', 12)
 font2 = ImageFont.truetype(str(bot_dir) + 'peripherals/oled/fonts/FreeSans.ttf', 12)
 
+pi_logo = 'peripherals/oled/pi_logo.png'
+
 
 def __get_core_temp():
     temp = int(open('/sys/class/thermal/thermal_zone0/temp').read())
@@ -40,7 +42,7 @@ def __get_core_temp():
     return temp_str
 
 
-def __animate(time):
+def __show_info(time):
     # Display clear
     oled.cls()
     oled.display()
@@ -56,11 +58,11 @@ def __animate(time):
     sleep(time)
 
 
-def __show_pi(time):
+def __show_image(time, path_to_image):
     oled.cls()
     # image inverted
     draw.rectangle((32, top - 3, 95, 63), outline=1, fill=1)
-    draw.bitmap((32, top - 3), Image.open(str(bot_dir) + 'peripherals/oled/pi_logo.png'), fill=0)
+    draw.bitmap((32, top - 3), Image.open(str(bot_dir) + path_to_image), fill=0)
     oled.display()
     sleep(time)
 
@@ -96,8 +98,8 @@ if __name__ == '__main__':
     while True:
 
         try:
-            __animate(switch_time)
-            __show_pi(switch_time/5)
+            __show_info(switch_time)
+            __show_image(switch_time / 5, pi_logo)
             __show_state(switch_time)
 
         except KeyboardInterrupt:

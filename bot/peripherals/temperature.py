@@ -24,7 +24,11 @@ def __get_digit(integer, digit):
 
 
 def __read_temperature():
-    return int(open('/sys/class/thermal/thermal_zone0/temp').read())
+    data = '/sys/class/thermal/thermal_zone0/temp'
+    read = open(data, "r")
+    temp = read.readline(5)
+    read.close()
+    return int(temp)
 
 
 def get_temperature():
