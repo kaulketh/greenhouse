@@ -6,7 +6,7 @@
 
 ---
 
-![release](https://img.shields.io/github/release/kaulketh/greenhouse.svg?color=darkblue) ![size](https://img.shields.io/github/repo-size/kaulketh/greenhouse.svg?color=blue) ![commit](https://img.shields.io/github/last-commit/kaulketh/greenhouse.svg?color=darkviolet) ![platform](https://img.shields.io/badge/platform-linux-blue.svg?color=yellow) ![languages](https://img.shields.io/github/languages/count/kaulketh/greenhouse.svg?color=yellowgreen) ![coverage](https://img.shields.io/github/languages/top/kaulketh/greenhouse.svg?color=darkgreen&style=flat) ![python](https://img.shields.io/pypi/pyversions/telepot.svg?color=darkgreen&style=flat) [![license](https://img.shields.io/github/license/kaulketh/greenhouse.svg?color=darkred)](https://unlicense.org/)
+![release](https://img.shields.io/github/release/kaulketh/greenhouse.svg?color=darkblue) ![size](https://img.shields.io/github/repo-size/kaulketh/greenhouse.svg?color=blue) ![commit](https://img.shields.io/github/last-commit/kaulketh/greenhouse.svg?color=darkviolet) ![platform](https://img.shields.io/badge/platform-linux-blue.svg?color=yellow) ![languages](https://img.shields.io/github/languages/count/kaulketh/greenhouse.svg?color=yellowgreen) ![coverage](https://img.shields.io/github/languages/top/kaulketh/greenhouse.svg?color=darkgreen&style=flat) [![license](https://img.shields.io/github/license/kaulketh/greenhouse.svg?color=darkred)](https://unlicense.org/)
 
 
 > This repository is used to gather and show information and experiences during the building of a smart control possibility.
